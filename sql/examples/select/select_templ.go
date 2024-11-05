@@ -57,7 +57,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.</div><div class=\"block\"><p>You can specify individual columns to retrieve, or <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.</div><div class=\"block\">You can specify individual columns to retrieve, or <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -65,7 +65,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> to retrieve all columns.</p></div><div class=\"block\"><p>The keyword <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> to retrieve all columns.</div><div class=\"block\">The keyword <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -81,7 +81,15 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is used.</p></div><div class=\"block\"><p>Some database engines allow a <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is used.</div><div class=\"block\"><span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(highlight.Inline("SELECT DISTINCT")).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be used when you want to return only unique values. Notice how in the example we only return one last name, where previous examples included both people with the same last name.</div><div class=\"block\">Some database engines allow a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -89,7 +97,15 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause without a table to allow you to perform arbitrary computations.</p></div></div><div class=\"column\"><div class=\"block\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query, or when using a <a href=\"case\"><span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(highlight.Inline("CASE")).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a> statement.</div></div><div class=\"column\"><div class=\"block\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -117,6 +133,15 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>|    name_full     |<br>|------------------|<br>| Michael Soikkeli |<br>| Alana Lyons      |<br>| Bort Simpson     |<br></pre></div></div><div class=\"block\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
+				"sql/select_distinct.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>| name_last |<br>|-----------|<br>| Soikkeli  |<br>| Lyons     |<br>| Simpson   |<br></pre></div></div><div class=\"block\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -21,15 +21,19 @@ templ Example() {
                     </div>
 
                     <div class="block">
-                        <p>You can specify individual columns to retrieve, or <span>@templ.Raw(highlight.Inline("*"))</span> to retrieve all columns.</p>
+                        You can specify individual columns to retrieve, or <span>@templ.Raw(highlight.Inline("*"))</span> to retrieve all columns.
                     </div>
 
                     <div class="block">
-                        <p>The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias columns with a custom name. This example also shows that some database engines allow you to concatenate multiple columns into one using an operator. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used.</p>
+                        The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias columns with a custom name. This example also shows that some database engines allow you to concatenate multiple columns into one using an operator. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used.
                     </div>
 
                     <div class="block">
-                        <p>Some database engines allow a <span>@templ.Raw(highlight.Inline("SELECT"))</span> clause without a table to allow you to perform arbitrary computations.</p>
+                        <span>@templ.Raw(highlight.Inline("SELECT DISTINCT"))</span> can be used when you want to return only unique values. Notice how in the example we only return one last name, where previous examples included both people with the same last name.
+                    </div>
+
+                    <div class="block">
+                        Some database engines allow a <span>@templ.Raw(highlight.Inline("SELECT"))</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query, or when using a <a href="case"><span>@templ.Raw(highlight.Inline("CASE"))</span></a> statement.
                     </div>
                 </div>
                 <div class="column">
@@ -69,6 +73,19 @@ templ Example() {
                                 | Michael Soikkeli |<br>
                                 | Alana Lyons      |<br>
                                 | Bort Simpson     |<br>
+                            </pre>
+                        </div>
+                    </div>
+                    <div class="block">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/select_distinct.sql"))
+                        <div>
+                            <pre>
+                            | name_last |<br>
+                            |-----------|<br>
+                            | Soikkeli  |<br>
+                            | Lyons     |<br>
+                            | Simpson   |<br>
                             </pre>
                         </div>
                     </div>

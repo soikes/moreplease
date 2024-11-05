@@ -16,6 +16,9 @@ echo
 cat sql/select_as.sql
 sqlite3 -markdown $tempdir/select.db < sql/select_as.sql
 echo
+cat sql/select_distinct.sql
+sqlite3 -markdown $tempdir/select.db < sql/select_distinct.sql
+echo
 cat sql/select_computation.sql
 sqlite3 -markdown $tempdir/select.db < sql/select_computation.sql
 
