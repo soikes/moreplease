@@ -18,6 +18,10 @@ h1 {
     font-size: 2rem;
 }
 
+.footer {
+    color: gray;
+}
+
 .action {
     text-decoration: underline;
     cursor: pointer;

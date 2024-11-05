@@ -11,8 +11,10 @@ templ index() {
 templ inner() {
     <div class="content narrow">
         <h1>SQL by Example</h1>
-        <p>Structured Query Language (SQL) is commonly used to manage and retrieve data, particularly suited to relational data models.</p>
-        <p><em>SQL by Example</em> uses example queries against a real database and can be used as an introduction to the language or as reference material to return to later.</p>
+
+        <p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to <a href="https://en.wikipedia.org/wiki/Relational_database">relational data</a> where the data has well-defined relationships.</p>
+
+        <p><em>SQL by Example</em> is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses statements that have been run against <a href="https://www.sqlite.org">SQLite</a> databases. Each section utilizes a particular set of database tables which can be shown or hidden at the top of the page anytime.</p>
         <ul>
             <li>
                 <a href="select">SELECT</a>
@@ -132,5 +134,6 @@ templ inner() {
                 <a href="select">Dynamic SQL</a>
             </li>
         </ul>
+        <small class="footer">by <a href="http://soikke.li">Mike Soikkeli</a> | <a href="source">source</a> | <a href="license">license</a> | inspired by <a href="https://gobyexample.com">Go by Example</a></small>
     </div>
 }

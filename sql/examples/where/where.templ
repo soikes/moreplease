@@ -15,57 +15,45 @@ templ Example() {
                 <h1>SQL By Example: WHERE</h1>
             </div>
             <div class="container">
-                <div class="column">
-                    <div class="block">
-                        A <span>@templ.Raw(highlight.Inline("WHERE"))</span> clause can be added to statements to filter the target of the statement using a condition. In the case of a <span>@templ.Raw(highlight.Inline("SELECT"))</span>, this means the result set is filtered to only include results that match the condition. <span>@templ.Raw(highlight.Inline("WHERE"))</span> can also be applied to <span>@templ.Raw(highlight.Inline("UPDATE"))</span> and <span>@templ.Raw(highlight.Inline("DELETE"))</span> statements to limit the rows they impact.
-                    </div>
-
-                    <div class="block">
-                        <span>@templ.Raw(highlight.Inline("WHERE"))</span> clauses can use operators besides <span>@templ.Raw(highlight.Inline("="))</span> :<br>
-                        <span>@templ.Raw(highlight.Inline(">"))</span> Greater than<br>
-                        <span>@templ.Raw(highlight.Inline("<"))</span> Less than<br>
-                        <span>@templ.Raw(highlight.Inline(">="))</span> Greater than or equal to<br>
-                        <span>@templ.Raw(highlight.Inline("<="))</span> Less than or equal to<br>
-                        <span>@templ.Raw(highlight.Inline("<>"))</span>, <span>@templ.Raw(highlight.Inline("!="))</span> Not Equal<br>
-                        <span>@templ.Raw(highlight.Inline("BETWEEN x AND y"))</span> Between two values <br>
-                        <span>@templ.Raw(highlight.Inline("LIKE \"Mike%\""))</span> Match based on pattern <br>
-                        <span>@templ.Raw(highlight.Inline("IN (1,2,3)"))</span> Match based on any value in a list of values or a subquery <br>
-                    </div>
-
-                    <div class="block">
-                        <span>@templ.Raw(highlight.Inline("WHERE"))</span> clauses can have multiple predicates separated by logical operators such as <span>@templ.Raw(highlight.Inline("AND"))</span> and <span>@templ.Raw(highlight.Inline("OR"))</span>. See <a href="logical_operators">Logical Operators</a> for more examples.
-                    </div>
-
-                    <div class="block">
-
-                    </div>
-
-                    <div class="block">
-
+                <div class="block">
+                    A <span>@templ.Raw(highlight.Inline("WHERE"))</span> clause can be added to statements to filter the target of the statement using a condition. In the case of a <span>@templ.Raw(highlight.Inline("SELECT"))</span>, this means the result set is filtered to only include results that match the condition. <span>@templ.Raw(highlight.Inline("WHERE"))</span> can also be applied to <span>@templ.Raw(highlight.Inline("UPDATE"))</span> and <span>@templ.Raw(highlight.Inline("DELETE"))</span> statements to limit the rows they impact.
+                </div>
+                <div class="block">
+                    @templ.Raw(highlight.Block(sources,
+                        "sql/where.sql"))
+                    <div>
+                        <pre>
+                            | name_first | name_last |<br>
+                            |------------|-----------|<br>
+                            | Michael    | Soikkeli  |<br>
+                        </pre>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="block">
-                        @templ.Raw(highlight.Block(sources,
-                            "sql/where.sql"))
-                        <div>
-                            <pre>
-                                | name_first | name_last |<br>
-                                |------------|-----------|<br>
-                                | Michael    | Soikkeli  |<br>
-                            </pre>
-                        </div>
-                    </div>
-                    <div class="block">
-                        @templ.Raw(highlight.Block(sources,
-                            "sql/where_and.sql"))
-                        <div>
-                            <pre>
-                                | email_address  |<br>
-                                |----------------|<br>
-                                | mike@soikke.li |<br>
-                            </pre>
-                        </div>
+
+                <div class="block">
+                    <span>@templ.Raw(highlight.Inline("WHERE"))</span> clauses can use operators besides <span>@templ.Raw(highlight.Inline("="))</span> :<br>
+                    <span>@templ.Raw(highlight.Inline(">"))</span> Greater than<br>
+                    <span>@templ.Raw(highlight.Inline("<"))</span> Less than<br>
+                    <span>@templ.Raw(highlight.Inline(">="))</span> Greater than or equal to<br>
+                    <span>@templ.Raw(highlight.Inline("<="))</span> Less than or equal to<br>
+                    <span>@templ.Raw(highlight.Inline("<>"))</span>, <span>@templ.Raw(highlight.Inline("!="))</span> Not Equal<br>
+                    <span>@templ.Raw(highlight.Inline("BETWEEN x AND y"))</span> Between two values <br>
+                    <span>@templ.Raw(highlight.Inline("LIKE \"Mike%\""))</span> Match based on pattern <br>
+                    <span>@templ.Raw(highlight.Inline("IN (1,2,3)"))</span> Match based on any value in a list of values or a subquery <br>
+                </div>
+
+                <div class="block">
+                    <span>@templ.Raw(highlight.Inline("WHERE"))</span> clauses can have multiple predicates separated by logical operators such as <span>@templ.Raw(highlight.Inline("AND"))</span> and <span>@templ.Raw(highlight.Inline("OR"))</span>. See <a href="logical_operators">Logical Operators</a> for more examples.
+                </div>
+                <div class="block">
+                    @templ.Raw(highlight.Block(sources,
+                        "sql/where_and.sql"))
+                    <div>
+                        <pre>
+                            | email_address  |<br>
+                            |----------------|<br>
+                            | mike@soikke.li |<br>
+                        </pre>
                     </div>
                 </div>
             </div>
