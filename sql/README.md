@@ -20,4 +20,4 @@ Each set of examples can be found in the `examples` directory. The schema used t
 
 Each example in `examples` has a `run.sh` script which will setup SQLite databases for each example in a temporary directory, run the associated SQL statement(s), and clean up after itself.
 
-To build and run the website locally, run: `bin/web.sh`.
+To build and run the website locally, run: `bin/web.sh`
