@@ -14,100 +14,102 @@ templ Example() {
             <div class="title">
                 <h1>SQL By Example: SELECT</h1>
             </div>
-            <div class="container">
-                <div class="column">
-                    <div class="block">
-                        A <span>@templ.Raw(highlight.Inline("SELECT"))</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.
-                    </div>
-
-                    <div class="block">
-                        You can specify individual columns to retrieve, or <span>@templ.Raw(highlight.Inline("*"))</span> to retrieve all columns.
-                    </div>
-
-                    <div class="block">
-                        The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias columns with a custom name. This example also shows that some database engines allow you to concatenate multiple columns into one using an operator. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used.
-                    </div>
-
-                    <div class="block">
-                        <span>@templ.Raw(highlight.Inline("SELECT DISTINCT"))</span> can be used when you want to return only unique values. Notice how in the example we only return one last name, where previous examples included both people with the same last name.
-                    </div>
-
-                    <div class="block">
-                        Some database engines allow a <span>@templ.Raw(highlight.Inline("SELECT"))</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query, or when using a <a href="case"><span>@templ.Raw(highlight.Inline("CASE"))</span></a> statement.
+            <details class="toggle">
+                <summary class="action" data-open="hide tables" data-close="show tables"></summary>
+                <div class="container">
+                    <div>
+                        <pre>
+                        users<br><br>
+                        | id | name_first | name_last |    email_address     |<br>
+                        |----|------------|-----------|----------------------|<br>
+                        | 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>
+                        | 2  | Pichael    | Soikkeli  | pike@soikke.li       |<br>
+                        | 3  | Alana      | Lyons     | alana@lyons.ca       |<br>
+                        | 4  | Bort       | Simpson   | bort@springfield.gov |<br>
+                        </pre>
                     </div>
                 </div>
-                <div class="column">
-                    <div class="block">
-                        @templ.Raw(highlight.Block(sources,
-                            "sql/select.sql"))
-                        <div>
-                            <pre>
-                            | id |    email_address     |<br>
-                            |----|----------------------|<br>
-                            | 1  | mike@soikke.li       |<br>
-                            | 2  | alana@lyons.ca       |<br>
-                            | 3  | bort@springfield.gov |<br>
-                            </pre>
-                        </div>
+            </details>
+            <div class="container">
+                <div class="block">
+                    A <span>@templ.Raw(highlight.Inline("SELECT"))</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.
+                </div>
+                <div class="block">
+                    @templ.Raw(highlight.Block(sources,
+                        "sql/select.sql"))
+                    <div>
+                        <pre>
+                        | id |    email_address     |<br>
+                        |----|----------------------|<br>
+                        | 1  | mike@soikke.li       |<br>
+                        | 2  | alana@lyons.ca       |<br>
+                        | 3  | bort@springfield.gov |<br>
+                        </pre>
                     </div>
-                    <div class="block">
-                        @templ.Raw(highlight.Block(sources,
-                            "sql/select_all.sql"))
-                        <div>
-                            <pre>
-                                | id | name_first | name_last |    email_address     |<br>
-                                |----|------------|-----------|----------------------|<br>
-                                | 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>
-                                | 2  | Alana      | Lyons     | alana@lyons.ca       |<br>
-                                | 3  | Bort       | Simpson   | bort@springfield.gov |<br>
-                            </pre>
-                        </div>
+                </div>
+                <div class="block">
+                    You can specify individual columns to retrieve, or <span>@templ.Raw(highlight.Inline("*"))</span> to retrieve all columns.
+                </div>
+                <div class="block">
+                    @templ.Raw(highlight.Block(sources,
+                        "sql/select_all.sql"))
+                    <div>
+                        <pre>
+                            | id | name_first | name_last |    email_address     |<br>
+                            |----|------------|-----------|----------------------|<br>
+                            | 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>
+                            | 2  | Alana      | Lyons     | alana@lyons.ca       |<br>
+                            | 3  | Bort       | Simpson   | bort@springfield.gov |<br>
+                        </pre>
                     </div>
-                    <div class="block">
-                        @templ.Raw(highlight.Block(sources,
-                            "sql/select_as.sql"))
-                        <div>
-                            <pre>
-                                |    name_full     |<br>
-                                |------------------|<br>
-                                | Michael Soikkeli |<br>
-                                | Alana Lyons      |<br>
-                                | Bort Simpson     |<br>
-                            </pre>
-                        </div>
+                </div>
+                <div class="block">
+                    The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias columns with a custom name. Some database engines allow you to concatenate multiple columns into one. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used.
+                </div>
+                <div class="block">
+                    @templ.Raw(highlight.Block(sources,
+                        "sql/select_as.sql"))
+                    <div>
+                        <pre>
+                            |    name_full     |<br>
+                            |------------------|<br>
+                            | Michael Soikkeli |<br>
+                            | Alana Lyons      |<br>
+                            | Bort Simpson     |<br>
+                        </pre>
                     </div>
-                    <div class="block">
-                        @templ.Raw(highlight.Block(sources,
-                            "sql/select_distinct.sql"))
-                        <div>
-                            <pre>
-                            | name_last |<br>
-                            |-----------|<br>
-                            | Soikkeli  |<br>
-                            | Lyons     |<br>
-                            | Simpson   |<br>
-                            </pre>
-                        </div>
+                </div>
+                <div class="block">
+                    <span>@templ.Raw(highlight.Inline("SELECT DISTINCT"))</span> can be used when you want to return only unique values. Notice how in the example we only return one last name, where previous examples included both people with the same last name.
+                </div>
+                <div class="block">
+                    @templ.Raw(highlight.Block(sources,
+                        "sql/select_distinct.sql"))
+                    <div>
+                        <pre>
+                        | name_last |<br>
+                        |-----------|<br>
+                        | Soikkeli  |<br>
+                        | Lyons     |<br>
+                        | Simpson   |<br>
+                        </pre>
                     </div>
-                    <div class="block">
-                        @templ.Raw(highlight.Block(sources,
-                            "sql/select_computation.sql"))
-                        <div>
-                            <pre>
-                                | 1 | 2+2 | result | 'Mike' |<br>
-                                |---|-----|--------|--------|<br>
-                                | 1 | 4   | 35     | Mike   |<br>
-                            </pre>
-                        </div>
+                </div>
+                <div class="block">
+                    Some database engines allow a <span>@templ.Raw(highlight.Inline("SELECT"))</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query, or when using a <a href="case"><span>@templ.Raw(highlight.Inline("CASE"))</span></a> statement.
+                </div>
+                <div class="block">
+                    @templ.Raw(highlight.Block(sources,
+                        "sql/select_computation.sql"))
+                    <div>
+                        <pre>
+                            | 1 | 2+2 | result | 'Mike' |<br>
+                            |---|-----|--------|--------|<br>
+                            | 1 | 4   | 35     | Mike   |<br>
+                        </pre>
                     </div>
                 </div>
             </div>
         </div>
     }
 }
-
-/*
-"sql/select_all_columns.sql",
-"sql/select_alias.sql",
-"sql/select_computation.sql",
-*/
