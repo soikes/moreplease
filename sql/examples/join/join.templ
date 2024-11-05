@@ -1,0 +1,72 @@
+package join_query
+
+import "soikke.li/byexample/templates"
+import "soikke.li/byexample/sql/highlight"
+import "embed"
+
+//go:embed sql/*.sql
+var sources embed.FS
+
+//TODO: Change rendering to use classes so we don't flood the page with inline styles.
+templ Select() {
+    @templates.Base("SQL By Example: JOIN") {
+        <div class="content wide">
+            <div class="title">
+                <h1>SQL By Example: JOIN</h1>
+            </div>
+            <div class="container">
+                <div class="column">
+                    <div class="block">
+                        A <span>@templ.Raw(highlight.Inline("JOIN"))</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.
+                    </div>
+
+                    <div class="block">
+                        <p>You can specify individual columns to retrieve, or <span>@templ.Raw(highlight.Inline("*"))</span> to retrieve all columns.</p>
+                    </div>
+
+                    <div class="block">
+                        <p>The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias results with a custom name. This example also shows that some database engines allow you to concatenate multiple columns into one using an operator. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used.</p>
+                    </div>
+
+                    <div class="block">
+                        <p>Some database engines allow a <span>@templ.Raw(highlight.Inline("SELECT"))</span> clause without a table to allow you to perform arbitrary computations.</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="block">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/select.sql"))
+                        <div>
+                            <pre>
+                            | id |    email_address     |<br>
+                            |----|----------------------|<br>
+                            | 1  | mike@soikke.li       |<br>
+                            | 2  | alana@lyons.ca       |<br>
+                            | 3  | bort@springfield.gov |<br>
+                            </pre>
+                        </div>
+                    </div>
+                    <div class="block">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/select_all_columns.sql"))
+                        <div>
+                            <pre>
+                                | id | name_first | name_last |    email_address     |<br>
+                                |----|------------|-----------|----------------------|<br>
+                                | 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>
+                                | 2  | Alana      | Lyons     | alana@lyons.ca       |<br>
+                                | 3  | Bort       | Simpson   | bort@springfield.gov |<br>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+/*
+"sql/select_all_columns.sql",
+"sql/select_alias.sql",
+"sql/select_computation.sql",
+*/
