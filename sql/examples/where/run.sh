@@ -5,11 +5,14 @@ function cleanup {
   rm -rf "$tempdir"
 }
 
-sqlite3 $tempdir/select.db < sql/schema.sql
+sqlite3 $tempdir/where.db < sql/schema.sql
 
-cat sql/where.sql
-sqlite3 -markdown $tempdir/select.db < sql/where.sql
-echo
+for s in $(ls sql | grep -v "schema.sql")
+do
+    cat sql/$s
+    sqlite3 -markdown $tempdir/where.db < sql/$s
+    echo
+done
 
 trap cleanup EXIT
 trap cleanup SIGINT

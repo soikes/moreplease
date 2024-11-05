@@ -1,4 +1,4 @@
-package select_query
+package where_query
 
 import "soikke.li/byexample/templates"
 import "soikke.li/byexample/sql/highlight"
@@ -8,7 +8,7 @@ import "embed"
 var sources embed.FS
 
 //TODO: Change rendering to use classes so we don't flood the page with inline styles.
-templ Select() {
+templ Example() {
     @templates.Base("SQL By Example: WHERE") {
         <div class="content wide">
             <div class="title">
@@ -17,45 +17,53 @@ templ Select() {
             <div class="container">
                 <div class="column">
                     <div class="block">
-                        A <span>@templ.Raw(highlight.Inline("WHERE"))</span> clause is added to SQL statements to filter the target of the statement using a predicate. In the case of a @templ.Raw(highlight.Inline("SELECT")) this means the result set is filtered to results where the predicate is true. See other statements (@templ.Raw(highlight.Inline("UPDATE")), @templ.Raw(highlight.Inline("DELETE"))) to see the effect of @templ.Raw(highlight.Inline("WHERE")) on those statements.
+                        A <span>@templ.Raw(highlight.Inline("WHERE"))</span> clause can be added to statements to filter the target of the statement using a condition. In the case of a <span>@templ.Raw(highlight.Inline("SELECT"))</span>, this means the result set is filtered to only include results that match the condition. <span>@templ.Raw(highlight.Inline("WHERE"))</span> can also be applied to <span>@templ.Raw(highlight.Inline("UPDATE"))</span> and <span>@templ.Raw(highlight.Inline("DELETE"))</span> statements to limit the rows they impact.
                     </div>
 
                     <div class="block">
-                        <p>You can specify individual columns to retrieve, or <span>@templ.Raw(highlight.Inline("*"))</span> to retrieve all columns.</p>
+                        <span>@templ.Raw(highlight.Inline("WHERE"))</span> clauses can use operators besides <span>@templ.Raw(highlight.Inline("="))</span> :<br>
+                        <span>@templ.Raw(highlight.Inline(">"))</span> Greater than<br>
+                        <span>@templ.Raw(highlight.Inline("<"))</span> Less than<br>
+                        <span>@templ.Raw(highlight.Inline(">="))</span> Greater than or equal to<br>
+                        <span>@templ.Raw(highlight.Inline("<="))</span> Less than or equal to<br>
+                        <span>@templ.Raw(highlight.Inline("<>"))</span>, <span>@templ.Raw(highlight.Inline("!="))</span> Not Equal<br>
+                        <span>@templ.Raw(highlight.Inline("BETWEEN x AND y"))</span> Between two values <br>
+                        <span>@templ.Raw(highlight.Inline("LIKE \"Mike%\""))</span> Match based on pattern <br>
+                        <span>@templ.Raw(highlight.Inline("IN (1,2,3)"))</span> Match based on any value in a list of values or a subquery <br>
                     </div>
 
                     <div class="block">
-                        <p>The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias results with a custom name. This example also shows that some database engines allow you to concatenate multiple columns into one using an operator. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used.</p>
+                        <span>@templ.Raw(highlight.Inline("WHERE"))</span> clauses can have multiple predicates separated by logical operators such as <span>@templ.Raw(highlight.Inline("AND"))</span> and <span>@templ.Raw(highlight.Inline("OR"))</span>. See <a href="logical_operators">Logical Operators</a> for more examples.
                     </div>
 
                     <div class="block">
-                        <p>Some database engines allow a <span>@templ.Raw(highlight.Inline("SELECT"))</span> clause without a table to allow you to perform arbitrary computations.</p>
+
+                    </div>
+
+                    <div class="block">
+
                     </div>
                 </div>
                 <div class="column">
                     <div class="block">
                         @templ.Raw(highlight.Block(sources,
-                            "sql/select.sql"))
+                            "sql/where.sql"))
                         <div>
                             <pre>
-                            | id |    email_address     |<br>
-                            |----|----------------------|<br>
-                            | 1  | mike@soikke.li       |<br>
-                            | 2  | alana@lyons.ca       |<br>
-                            | 3  | bort@springfield.gov |<br>
+                                | name_first | name_last |<br>
+                                |------------|-----------|<br>
+                                | Michael    | Soikkeli  |<br>
                             </pre>
                         </div>
                     </div>
                     <div class="block">
                         @templ.Raw(highlight.Block(sources,
-                            "sql/select_all_columns.sql"))
+                            "sql/where_and.sql"))
                         <div>
                             <pre>
-                                | id | name_first | name_last |    email_address     |<br>
-                                |----|------------|-----------|----------------------|<br>
-                                | 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>
-                                | 2  | Alana      | Lyons     | alana@lyons.ca       |<br>
-                                | 3  | Bort       | Simpson   | bort@springfield.gov |<br>
+                                | email_address  |<br>
+                                |----------------|<br>
+                                | mike@soikke.li |<br>
                             </pre>
                         </div>
                     </div>

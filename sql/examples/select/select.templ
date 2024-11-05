@@ -8,7 +8,7 @@ import "embed"
 var sources embed.FS
 
 //TODO: Change rendering to use classes so we don't flood the page with inline styles.
-templ Select() {
+templ Example() {
     @templates.Base("SQL By Example: SELECT") {
         <div class="content wide">
             <div class="title">
@@ -25,7 +25,7 @@ templ Select() {
                     </div>
 
                     <div class="block">
-                        <p>The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias results with a custom name. This example also shows that some database engines allow you to concatenate multiple columns into one using an operator. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used.</p>
+                        <p>The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias columns with a custom name. This example also shows that some database engines allow you to concatenate multiple columns into one using an operator. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used.</p>
                     </div>
 
                     <div class="block">
@@ -48,7 +48,7 @@ templ Select() {
                     </div>
                     <div class="block">
                         @templ.Raw(highlight.Block(sources,
-                            "sql/select_all_columns.sql"))
+                            "sql/select_all.sql"))
                         <div>
                             <pre>
                                 | id | name_first | name_last |    email_address     |<br>
@@ -56,6 +56,30 @@ templ Select() {
                                 | 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>
                                 | 2  | Alana      | Lyons     | alana@lyons.ca       |<br>
                                 | 3  | Bort       | Simpson   | bort@springfield.gov |<br>
+                            </pre>
+                        </div>
+                    </div>
+                    <div class="block">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/select_as.sql"))
+                        <div>
+                            <pre>
+                                |    name_full     |<br>
+                                |------------------|<br>
+                                | Michael Soikkeli |<br>
+                                | Alana Lyons      |<br>
+                                | Bort Simpson     |<br>
+                            </pre>
+                        </div>
+                    </div>
+                    <div class="block">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/select_computation.sql"))
+                        <div>
+                            <pre>
+                                | 1 | 2+2 | result | 'Mike' |<br>
+                                |---|-----|--------|--------|<br>
+                                | 1 | 4   | 35     | Mike   |<br>
                             </pre>
                         </div>
                     </div>

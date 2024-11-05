@@ -16,7 +16,7 @@ import "embed"
 var sources embed.FS
 
 // TODO: Change rendering to use classes so we don't flood the page with inline styles.
-func Select() templ.Component {
+func Example() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -73,7 +73,7 @@ func Select() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be used to alias results with a custom name. This example also shows that some database engines allow you to concatenate multiple columns into one using an operator. In the case of SQLite, <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be used to alias columns with a custom name. This example also shows that some database engines allow you to concatenate multiple columns into one using an operator. In the case of SQLite, <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -103,11 +103,29 @@ func Select() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/select_all_columns.sql")).Render(ctx, templ_7745c5c3_Buffer)
+				"sql/select_all.sql")).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>| id | name_first | name_last |    email_address     |<br>|----|------------|-----------|----------------------|<br>| 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>| 2  | Alana      | Lyons     | alana@lyons.ca       |<br>| 3  | Bort       | Simpson   | bort@springfield.gov |<br></pre></div></div></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>| id | name_first | name_last |    email_address     |<br>|----|------------|-----------|----------------------|<br>| 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>| 2  | Alana      | Lyons     | alana@lyons.ca       |<br>| 3  | Bort       | Simpson   | bort@springfield.gov |<br></pre></div></div><div class=\"block\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
+				"sql/select_as.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>|    name_full     |<br>|------------------|<br>| Michael Soikkeli |<br>| Alana Lyons      |<br>| Bort Simpson     |<br></pre></div></div><div class=\"block\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
+				"sql/select_computation.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>| 1 | 2+2 | result | 'Mike' |<br>|---|-----|--------|--------|<br>| 1 | 4   | 35     | Mike   |<br></pre></div></div></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
