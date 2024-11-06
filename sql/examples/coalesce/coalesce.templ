@@ -1,0 +1,70 @@
+package coalesce_query
+
+import "embed"
+import "fmt"
+import "soikke.li/moreplease/templates"
+// import "soikke.li/moreplease/sql/highlight"
+import "soikke.li/moreplease/sql/db"
+
+//go:embed sql/*.sql
+var sources embed.FS
+
+//TODO: Change rendering to use classes so we don't flood the page with inline styles.
+templ Example() {
+    @templates.Base("More SQL Please: COALESCE") {
+        <div class="content wide">
+            <div class="title">
+                <h1>More SQL Please: COALESCE</h1>
+            </div>
+            <details class="toggle">
+                <summary class="action" data-open="hide tables" data-close="show tables"></summary>
+                <div class="container tables">
+                    <div>
+                        <div class="tablename">doctors</div>
+                        <pre>
+                            { execute("sql/dump_doctors.sql") }
+                        </pre>
+                    </div>
+                    <div>
+                        <div class="tablename">services</div>
+                        <pre>
+                            { execute("sql/dump_services.sql") }
+                        </pre>
+                    </div>
+                    <div>
+                        <div class="tablename">claims</div>
+                        <pre>
+                            { execute("sql/dump_claims.sql") }
+                        </pre>
+                    </div>
+                </div>
+            </details>
+        </div>
+    }
+}
+
+func read(path string) string {
+    src, err := sources.ReadFile(path)
+	if err != nil {
+		return ""
+	}
+	return string(src)
+}
+
+func execute(path string) string {
+    cols, rows, err := db.RunExample(read("sql/schema.sql"), read(path))
+    if err != nil {
+        panic(err)
+    }
+    f := db.MarkdownFormatter{Columns: cols, Rows: rows}
+    return fmt.Sprintf("%s", f)
+}
+
+func executeRaw(sql string) string {
+    cols, rows, err := db.RunExample(read("sql/schema.sql"), sql)
+    if err != nil {
+        panic(err)
+    }
+    f := db.MarkdownFormatter{Columns: cols, Rows: rows}
+    return fmt.Sprintf("%s", f)
+}

@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
+	coalesce_query "soikke.li/moreplease/sql/examples/coalesce"
 	select_query "soikke.li/moreplease/sql/examples/select"
 	where_query "soikke.li/moreplease/sql/examples/where"
 )
@@ -15,6 +16,7 @@ var assets embed.FS
 
 func main() {
 	index := index()
+	http.Handle("/coalesce", templ.Handler(coalesce_query.Example()))
 	http.Handle("/select", templ.Handler(select_query.Example()))
 	http.Handle("/where", templ.Handler(where_query.Example()))
 	http.Handle("/assets/", http.FileServer(http.FS(assets)))
