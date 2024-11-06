@@ -8,8 +8,8 @@ package where_query
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "soikke.li/byexample/templates"
-import "soikke.li/byexample/sql/highlight"
+import "soikke.li/moreplease/templates"
+import "soikke.li/moreplease/sql/highlight"
 import "embed"
 
 //go:embed sql/*.sql
@@ -49,7 +49,7 @@ func Example() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1>SQL By Example: WHERE</h1></div><details class=\"toggle\"><summary class=\"action\" data-open=\"hide tables\" data-close=\"show tables\"></summary><div class=\"container\"><div><pre>users<br><br>| id | name_first | name_last | age |    email_address     |<br>|----|------------|-----------|-----|----------------------|<br>| 1  | Michael    | Soikkeli  | 34  | mike@soikke.li       |<br>| 2  | Pichael    | Soikkeli  | 30  | pike@soikke.li       |<br>| 3  | Michael    | Smith     | 70  | mike@smith.ca        |<br>| 4  | Alana      | Lyons     | 29  | alana@lyons.ca       |<br>| 5  | Bort       | Simpson   | 10  | bort@springfield.gov |<br></pre></div></div></details><div class=\"container\"><div class=\"block\">A <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1>More SQL Please: WHERE</h1></div><details class=\"toggle\"><summary class=\"action\" data-open=\"hide tables\" data-close=\"show tables\"></summary><div class=\"container\"><div><pre>users<br><br>| id | name_first | name_last | age |    email_address     |<br>|----|------------|-----------|-----|----------------------|<br>| 1  | Michael    | Soikkeli  | 34  | mike@soikke.li       |<br>| 2  | Pichael    | Soikkeli  | 30  | pike@soikke.li       |<br>| 3  | Michael    | Smith     | 70  | mike@smith.ca        |<br>| 4  | Alana      | Lyons     | 29  | alana@lyons.ca       |<br>| 5  | Bort       | Simpson   | 10  | bort@springfield.gov |<br></pre></div></div></details><div class=\"container\"><div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -234,7 +234,7 @@ func Example() templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = templates.Base("SQL By Example: WHERE").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templates.Base("More SQL Please: WHERE").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

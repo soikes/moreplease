@@ -8,8 +8,8 @@ package join_query
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "soikke.li/byexample/templates"
-import "soikke.li/byexample/sql/highlight"
+import "soikke.li/moreplease/templates"
+import "soikke.li/moreplease/sql/highlight"
 import "embed"
 
 //go:embed sql/*.sql
@@ -49,7 +49,7 @@ func Select() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1>SQL By Example: JOIN</h1></div><div class=\"container\"><div class=\"column\"><div class=\"block\">A <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1>More SQL Please: JOIN</h1></div><div class=\"container\"><div class=\"column\"><div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -113,7 +113,7 @@ func Select() templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = templates.Base("SQL By Example: JOIN").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templates.Base("More SQL Please: JOIN").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

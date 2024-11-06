@@ -10,9 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "embed"
 import "fmt"
-import "soikke.li/byexample/templates"
-import "soikke.li/byexample/sql/highlight"
-import "soikke.li/byexample/sql/db"
+import "soikke.li/moreplease/templates"
+import "soikke.li/moreplease/sql/highlight"
+import "soikke.li/moreplease/sql/db"
 
 //go:embed sql/*.sql
 var sources embed.FS
@@ -51,7 +51,7 @@ func Example() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1>SQL By Example: SELECT</h1></div><details class=\"toggle\"><summary class=\"action\" data-open=\"hide tables\" data-close=\"show tables\"></summary><div class=\"container\"><div><div class=\"tablename\">users</div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1>More SQL Please: SELECT</h1></div><details class=\"toggle\"><summary class=\"action\" data-open=\"hide tables\" data-close=\"show tables\"></summary><div class=\"container\"><div><div class=\"tablename\">users</div><pre>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -296,7 +296,7 @@ func Example() templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = templates.Base("SQL By Example: SELECT").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templates.Base("More SQL Please: SELECT").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

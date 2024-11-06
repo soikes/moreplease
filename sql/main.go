@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
-	select_query "soikke.li/byexample/sql/examples/select"
-	where_query "soikke.li/byexample/sql/examples/where"
+	select_query "soikke.li/moreplease/sql/examples/select"
+	where_query "soikke.li/moreplease/sql/examples/where"
 )
 
 //go:embed assets/*

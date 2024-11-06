@@ -1,7 +1,7 @@
 package join_query
 
-import "soikke.li/byexample/templates"
-import "soikke.li/byexample/sql/highlight"
+import "soikke.li/moreplease/templates"
+import "soikke.li/moreplease/sql/highlight"
 import "embed"
 
 //go:embed sql/*.sql
@@ -9,10 +9,10 @@ var sources embed.FS
 
 //TODO: Change rendering to use classes so we don't flood the page with inline styles.
 templ Select() {
-    @templates.Base("SQL By Example: JOIN") {
+    @templates.Base("More SQL Please: JOIN") {
         <div class="content wide">
             <div class="title">
-                <h1>SQL By Example: JOIN</h1>
+                <h1>More SQL Please: JOIN</h1>
             </div>
             <div class="container">
                 <div class="column">

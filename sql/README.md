@@ -1,6 +1,6 @@
-# SQL By Example
+# More SQL Please
 
-_SQL by Example_ is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses statements that have been run against <a href="https://www.sqlite.org">SQLite</a> databases.
+_More SQL Please_ is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses statements that have been run against <a href="https://www.sqlite.org">SQLite</a> databases.
 
 ## Prerequisites
 

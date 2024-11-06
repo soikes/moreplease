@@ -1,20 +1,20 @@
 package main
 
-import "soikke.li/byexample/templates"
+import "soikke.li/moreplease/templates"
 
 templ index() {
-    @templates.Base("SQL By Example") {
+    @templates.Base("More SQL Please") {
         @inner()
     }
 }
 
 templ inner() {
     <div class="content narrow">
-        <h1>SQL by Example</h1>
+        <h1>More SQL Please</h1>
 
         <p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to <a href="https://en.wikipedia.org/wiki/Relational_database">relational data</a> where the data has well-defined relationships.</p>
 
-        <p><em>SQL by Example</em> is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses statements that have been run against <a href="https://www.sqlite.org">SQLite</a> databases. Each section utilizes a particular set of database tables which can be shown or hidden at the top of the page anytime.</p>
+        <p><em>More SQL Please</em> is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses statements that have been run against <a href="https://www.sqlite.org">SQLite</a> databases. Each section utilizes a particular set of database tables which can be shown or hidden at the top of the page anytime.</p>
 
         <p>If you want to run the examples yourself, <a href="https://sqlite.org/download.html">download SQLite</a> and run the scripts contained within each example in this website's <a href="https://github.com/soikes/byexample/tree/main/sql">source code</a>.</p>
         <ul>
@@ -137,6 +137,9 @@ templ inner() {
             </li>
             <li>
                 <a href="select">Comments</a>
+            </li>
+            <li>
+                <a href="select">Operators</a>
             </li>
         </ul>
         <small class="footer">by <a href="http://soikke.li">Mike Soikkeli</a> | <a href="https://github.com/soikes/byexample/tree/main/sql">source</a> | <a href="https://github.com/soikes/byexample/blob/main/LICENSE">license</a> | inspired by <a href="https://gobyexample.com">Go by Example</a></small>
