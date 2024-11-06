@@ -36,6 +36,7 @@ func Inline(line string) string {
 	return sql(line, true)
 }
 
+// TODO: Do we still need to ever concat multiple different files in one block? Consider doing the fs read outside this function and remove it.
 func Block(fs fs.ReadFileFS, paths ...string) string {
 	var source bytes.Buffer
 	for _, path := range paths {

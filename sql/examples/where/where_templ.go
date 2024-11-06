@@ -49,7 +49,7 @@ func Example() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1>SQL By Example: WHERE</h1></div><div class=\"container\"><div class=\"block\">A <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1>SQL By Example: WHERE</h1></div><details class=\"toggle\"><summary class=\"action\" data-open=\"hide tables\" data-close=\"show tables\"></summary><div class=\"container\"><div><pre>users<br><br>| id | name_first | name_last | age |    email_address     |<br>|----|------------|-----------|-----|----------------------|<br>| 1  | Michael    | Soikkeli  | 34  | mike@soikke.li       |<br>| 2  | Pichael    | Soikkeli  | 30  | pike@soikke.li       |<br>| 3  | Michael    | Smith     | 70  | mike@smith.ca        |<br>| 4  | Alana      | Lyons     | 29  | alana@lyons.ca       |<br>| 5  | Bort       | Simpson   | 10  | bort@springfield.gov |<br></pre></div></div></details><div class=\"container\"><div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -186,7 +186,16 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Match based on any value in a list of values or a subquery <br></div><div class=\"block\"><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Match based on any value in a list of values or a subquery <br></div><div class=\"block\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
+				"sql/where_operators.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>| id | name_first | name_last | age | email_address  |<br>|----|------------|-----------|-----|----------------|<br>| 1  | Michael    | Soikkeli  | 34  | mike@soikke.li |<br>| 3  | Michael    | Smith     | 70  | mike@smith.ca  |<br></pre></div></div><div class=\"block\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

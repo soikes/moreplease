@@ -1,8 +1,10 @@
 package select_query
 
+import "embed"
+import "fmt"
 import "soikke.li/byexample/templates"
 import "soikke.li/byexample/sql/highlight"
-import "embed"
+import "soikke.li/byexample/sql/db"
 
 //go:embed sql/*.sql
 var sources embed.FS
@@ -18,14 +20,9 @@ templ Example() {
                 <summary class="action" data-open="hide tables" data-close="show tables"></summary>
                 <div class="container">
                     <div>
+                        <div class="tablename">users</div>
                         <pre>
-                        users<br><br>
-                        | id | name_first | name_last |    email_address     |<br>
-                        |----|------------|-----------|----------------------|<br>
-                        | 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>
-                        | 2  | Pichael    | Soikkeli  | pike@soikke.li       |<br>
-                        | 3  | Alana      | Lyons     | alana@lyons.ca       |<br>
-                        | 4  | Bort       | Simpson   | bort@springfield.gov |<br>
+                            { execute("sql/dump.sql") }
                         </pre>
                     </div>
                 </div>
@@ -39,11 +36,7 @@ templ Example() {
                         "sql/select.sql"))
                     <div>
                         <pre>
-                        | id |    email_address     |<br>
-                        |----|----------------------|<br>
-                        | 1  | mike@soikke.li       |<br>
-                        | 2  | alana@lyons.ca       |<br>
-                        | 3  | bort@springfield.gov |<br>
+                            { execute("sql/select.sql") }
                         </pre>
                     </div>
                 </div>
@@ -55,27 +48,43 @@ templ Example() {
                         "sql/select_all.sql"))
                     <div>
                         <pre>
-                            | id | name_first | name_last |    email_address     |<br>
-                            |----|------------|-----------|----------------------|<br>
-                            | 1  | Michael    | Soikkeli  | mike@soikke.li       |<br>
-                            | 2  | Alana      | Lyons     | alana@lyons.ca       |<br>
-                            | 3  | Bort       | Simpson   | bort@springfield.gov |<br>
+                            { execute("sql/select_all.sql") }
                         </pre>
                     </div>
                 </div>
                 <div class="block">
-                    The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias columns with a custom name. Some database engines allow you to concatenate multiple columns into one. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used.
+                    Some database engines allow you to concatenate multiple columns into one. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used. Other engines may use <span>@templ.Raw(highlight.Inline("+"))</span>, and most engines include a <span>@templ.Raw(highlight.Inline("CONCAT()"))</span> function which serves the same purpose.
+                </div>
+                <div class="block">
+                    @templ.Raw(highlight.Block(sources,
+                        "sql/select_concat.sql"))
+                    <div>
+                        <pre>
+                            { execute("sql/select_concat.sql") }
+                        </pre>
+                    </div>
+                </div>
+                <div class="block">
+                    The column name returned above is difficult to read. The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias columns with any custom name.
                 </div>
                 <div class="block">
                     @templ.Raw(highlight.Block(sources,
                         "sql/select_as.sql"))
                     <div>
                         <pre>
-                            |    name_full     |<br>
-                            |------------------|<br>
-                            | Michael Soikkeli |<br>
-                            | Alana Lyons      |<br>
-                            | Bort Simpson     |<br>
+                            { execute("sql/select_as.sql") }
+                        </pre>
+                    </div>
+                </div>
+                <div class="block">
+                    If you want to alias a column with a name with spaces, surround the name with double quotation marks.
+                </div>
+                <div class="block">
+                    @templ.Raw(highlight.Block(sources,
+                        "sql/select_as_pretty.sql"))
+                    <div>
+                        <pre>
+                            { execute("sql/select_as_pretty.sql") }
                         </pre>
                     </div>
                 </div>
@@ -87,11 +96,7 @@ templ Example() {
                         "sql/select_distinct.sql"))
                     <div>
                         <pre>
-                        | name_last |<br>
-                        |-----------|<br>
-                        | Soikkeli  |<br>
-                        | Lyons     |<br>
-                        | Simpson   |<br>
+                            { execute("sql/select_distinct.sql") }
                         </pre>
                     </div>
                 </div>
@@ -103,13 +108,37 @@ templ Example() {
                         "sql/select_computation.sql"))
                     <div>
                         <pre>
-                            | 1 | 2+2 | result | 'Mike' |<br>
-                            |---|-----|--------|--------|<br>
-                            | 1 | 4   | 35     | Mike   |<br>
+                            { execute("sql/select_computation.sql") }
                         </pre>
                     </div>
                 </div>
             </div>
         </div>
     }
+}
+
+func read(path string) string {
+    src, err := sources.ReadFile(path)
+	if err != nil {
+		return ""
+	}
+	return string(src)
+}
+
+func execute(path string) string {
+    cols, rows, err := db.RunExample(read("sql/schema.sql"), read(path))
+    if err != nil {
+        panic(err)
+    }
+    f := db.MarkdownFormatter{Columns: cols, Rows: rows}
+    return fmt.Sprintf("%s", f)
+}
+
+func executeRaw(sql string) string {
+    cols, rows, err := db.RunExample(read("sql/schema.sql"), sql)
+    if err != nil {
+        panic(err)
+    }
+    f := db.MarkdownFormatter{Columns: cols, Rows: rows}
+    return fmt.Sprintf("%s", f)
 }

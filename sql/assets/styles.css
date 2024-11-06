@@ -6,7 +6,6 @@ body {
 
 pre {
     margin-top: 0;
-    margin-bottom: 1rem;
 }
 
 a {
@@ -49,7 +48,7 @@ h1 {
     display: grid;
     grid-template-columns: 2fr 3fr;
     column-gap: 4rem;
-    row-gap: 2rem;
+    row-gap: 4rem;
     margin-bottom: 2rem;
 }
 
@@ -67,6 +66,10 @@ h1 {
 
 .toggle .container {
     margin: 1rem 0;
+}
+
+.tablename {
+    margin-bottom: 1rem;
 }
 
 /* .code { */

@@ -1,2 +1,2 @@
-SELECT id, email_address
+SELECT id, email
 FROM users;
