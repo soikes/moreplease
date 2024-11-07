@@ -1,7 +1,6 @@
 package select_query
 
 import "embed"
-import "fmt"
 import "soikke.li/moreplease/templates"
 import "soikke.li/moreplease/sql/highlight"
 import "soikke.li/moreplease/sql/db"
@@ -11,6 +10,7 @@ var sources embed.FS
 
 //TODO: Change rendering to use classes so we don't flood the page with inline styles.
 templ Example() {
+    {{ s := db.Statements{Sources: sources} }}
     @templates.Base("More SQL Please: SELECT") {
         <div class="content wide">
             <div class="title">
@@ -23,7 +23,7 @@ templ Example() {
                     <div class="tile">
                         <div class="tablename"><span>@templ.Raw(highlight.Inline("users"))</span></div>
                         <pre>
-                            { execute("sql/dump.sql") }
+                            { s.Exec("sql/dump.sql") }
                         </pre>
                     </div>
                 </div>
@@ -37,7 +37,7 @@ templ Example() {
                         "sql/select.sql"))
                     <div>
                         <pre>
-                            { execute("sql/select.sql") }
+                            { s.Exec("sql/select.sql") }
                         </pre>
                     </div>
                 </div>
@@ -49,7 +49,7 @@ templ Example() {
                         "sql/select_all.sql"))
                     <div>
                         <pre>
-                            { execute("sql/select_all.sql") }
+                            { s.Exec("sql/select_all.sql") }
                         </pre>
                     </div>
                 </div>
@@ -61,7 +61,7 @@ templ Example() {
                         "sql/select_concat.sql"))
                     <div>
                         <pre>
-                            { execute("sql/select_concat.sql") }
+                            { s.Exec("sql/select_concat.sql") }
                         </pre>
                     </div>
                 </div>
@@ -73,7 +73,7 @@ templ Example() {
                         "sql/select_as.sql"))
                     <div>
                         <pre>
-                            { execute("sql/select_as.sql") }
+                            { s.Exec("sql/select_as.sql") }
                         </pre>
                     </div>
                 </div>
@@ -85,7 +85,7 @@ templ Example() {
                         "sql/select_as_pretty.sql"))
                     <div>
                         <pre>
-                            { execute("sql/select_as_pretty.sql") }
+                            { s.Exec("sql/select_as_pretty.sql") }
                         </pre>
                     </div>
                 </div>
@@ -97,7 +97,7 @@ templ Example() {
                         "sql/select_distinct.sql"))
                     <div>
                         <pre>
-                            { execute("sql/select_distinct.sql") }
+                            { s.Exec("sql/select_distinct.sql") }
                         </pre>
                     </div>
                 </div>
@@ -109,37 +109,11 @@ templ Example() {
                         "sql/select_computation.sql"))
                     <div>
                         <pre>
-                            { execute("sql/select_computation.sql") }
+                            { s.Exec("sql/select_computation.sql") }
                         </pre>
                     </div>
                 </div>
             </div>
         </div>
     }
-}
-
-func read(path string) string {
-    src, err := sources.ReadFile(path)
-	if err != nil {
-		return ""
-	}
-	return string(src)
-}
-
-func execute(path string) string {
-    cols, rows, err := db.RunExample(read("sql/schema.sql"), read(path))
-    if err != nil {
-        panic(err)
-    }
-    f := db.MarkdownFormatter{Columns: cols, Rows: rows}
-    return fmt.Sprintf("%s", f)
-}
-
-func executeRaw(sql string) string {
-    cols, rows, err := db.RunExample(read("sql/schema.sql"), sql)
-    if err != nil {
-        panic(err)
-    }
-    f := db.MarkdownFormatter{Columns: cols, Rows: rows}
-    return fmt.Sprintf("%s", f)
 }

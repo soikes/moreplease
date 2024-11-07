@@ -2,6 +2,7 @@ package where_query
 
 import "soikke.li/moreplease/templates"
 import "soikke.li/moreplease/sql/highlight"
+import "soikke.li/moreplease/sql/db"
 import "embed"
 
 //go:embed sql/*.sql
@@ -9,78 +10,66 @@ var sources embed.FS
 
 //TODO: Change rendering to use classes so we don't flood the page with inline styles.
 templ Example() {
+    {{ s := db.Statements{Sources: sources} }}
     @templates.Base("More SQL Please: WHERE") {
         <div class="content wide">
             <div class="title">
-                <h1>More SQL Please: WHERE</h1>
+                <h1 class="example-title"><a href="/" class="home">More SQL Please</a>: <span class="title-em">WHERE</span></h1>
             </div>
             <details class="toggle">
                 <summary class="action" data-open="hide tables" data-close="show tables"></summary>
                 <div class="container">
-                    <div>
+                    <div></div>
+                    <div class="tile">
+                        <div class="tablename"><span>@templ.Raw(highlight.Inline("users"))</span></div>
                         <pre>
-                        users<br><br>
-                        | id | name_first | name_last | age |    email_address     |<br>
-                        |----|------------|-----------|-----|----------------------|<br>
-                        | 1  | Michael    | Soikkeli  | 34  | mike@soikke.li       |<br>
-                        | 2  | Pichael    | Soikkeli  | 30  | pike@soikke.li       |<br>
-                        | 3  | Michael    | Smith     | 70  | mike@smith.ca        |<br>
-                        | 4  | Alana      | Lyons     | 29  | alana@lyons.ca       |<br>
-                        | 5  | Bort       | Simpson   | 10  | bort@springfield.gov |<br>
+                            { s.Exec("sql/dump.sql") }
                         </pre>
                     </div>
                 </div>
             </details>
             <div class="container">
                 <div class="block">
-                    A <span>@templ.Raw(highlight.Inline("WHERE"))</span> clause can be added to statements to filter the target of the statement using a condition. In the case of a <span>@templ.Raw(highlight.Inline("SELECT"))</span>, this means the result set is filtered to only include results that match the condition. <span>@templ.Raw(highlight.Inline("WHERE"))</span> can also be applied to <span>@templ.Raw(highlight.Inline("UPDATE"))</span> and <span>@templ.Raw(highlight.Inline("DELETE"))</span> statements to limit the rows they impact.
+                    A <span class="inline-code">@templ.Raw(highlight.Inline("WHERE"))</span> clause can be added to statements to filter the outcome of the statement based on a condition. In the case of a <span class="inline-code">@templ.Raw(highlight.Inline("SELECT"))</span>, this means the result set is filtered to only include results that match the condition. <span class="inline-code">@templ.Raw(highlight.Inline("WHERE"))</span> can also be applied to <span class="inline-code">@templ.Raw(highlight.Inline("UPDATE"))</span> and <span class="inline-code">@templ.Raw(highlight.Inline("DELETE"))</span> statements to limit the rows they affect.
                 </div>
-                <div class="block">
+                <div class="block tile">
                     @templ.Raw(highlight.Block(sources,
                         "sql/where.sql"))
                     <div>
                         <pre>
-                            | name_first | name_last |<br>
-                            |------------|-----------|<br>
-                            | Michael    | Soikkeli  |<br>
+                            { s.Exec("sql/where.sql") }
                         </pre>
                     </div>
                 </div>
-
                 <div class="block">
-                    <span>@templ.Raw(highlight.Inline("WHERE"))</span> clauses can use operators besides <span>@templ.Raw(highlight.Inline("="))</span> :<br>
-                    <span>@templ.Raw(highlight.Inline(">"))</span> Greater than<br>
-                    <span>@templ.Raw(highlight.Inline("<"))</span> Less than<br>
-                    <span>@templ.Raw(highlight.Inline(">="))</span> Greater than or equal to<br>
-                    <span>@templ.Raw(highlight.Inline("<="))</span> Less than or equal to<br>
-                    <span>@templ.Raw(highlight.Inline("<>"))</span>, <span>@templ.Raw(highlight.Inline("!="))</span> Not Equal<br>
-                    <span>@templ.Raw(highlight.Inline("BETWEEN x AND y"))</span> Between two values <br>
-                    <span>@templ.Raw(highlight.Inline("LIKE \"Mike%\""))</span> Match based on pattern <br>
-                    <span>@templ.Raw(highlight.Inline("IN (1,2,3)"))</span> Match based on any value in a list of values or a subquery <br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("WHERE"))</span> clauses can use operators besides <span class="inline-code">@templ.Raw(highlight.Inline("="))</span> :<br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline(">"))</span> Greater than<br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("<"))</span> Less than<br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline(">="))</span> Greater than or equal to<br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("<="))</span> Less than or equal to<br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("<>"))</span>, <span class="inline-code">@templ.Raw(highlight.Inline("!="))</span> Not Equal<br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("BETWEEN x AND y"))</span> Between two values <br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("LIKE \"Mike%\""))</span> Match based on a pattern <br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("IN (1,2,3)"))</span> Match based on any value in a list of values or a subquery<br>
                 </div>
-                <div class="block">
+                <div class="block tile">
                     @templ.Raw(highlight.Block(sources,
                         "sql/where_operators.sql"))
                     <div>
                         <pre>
-                            | id | name_first | name_last | age | email_address  |<br>
-                            |----|------------|-----------|-----|----------------|<br>
-                            | 1  | Michael    | Soikkeli  | 34  | mike@soikke.li |<br>
-                            | 3  | Michael    | Smith     | 70  | mike@smith.ca  |<br>
+                            { s.Exec("sql/where_operators.sql") }
                         </pre>
                     </div>
                 </div>
                 <div class="block">
-                    <span>@templ.Raw(highlight.Inline("WHERE"))</span> clauses can have multiple predicates separated by logical operators such as <span>@templ.Raw(highlight.Inline("AND"))</span> and <span>@templ.Raw(highlight.Inline("OR"))</span>. See <a href="logical_operators">Logical Operators</a> for more examples.
+                    <span class="inline-code">@templ.Raw(highlight.Inline("WHERE"))</span> clauses can have multiple predicates separated by logical operators such as <span class="inline-code">@templ.Raw(highlight.Inline("AND"))</span> and <span class="inline-code">@templ.Raw(highlight.Inline("OR"))</span>. See <a href="logical_operators">Logical Operators</a> for more examples.
                 </div>
-                <div class="block">
+                <div class="block tile">
                     @templ.Raw(highlight.Block(sources,
                         "sql/where_and.sql"))
                     <div>
                         <pre>
-                            | email_address  |<br>
-                            |----------------|<br>
-                            | mike@soikke.li |<br>
+                            { s.Exec("sql/where_and.sql") }
                         </pre>
                     </div>
                 </div>

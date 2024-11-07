@@ -9,7 +9,6 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "embed"
-import "fmt"
 import "soikke.li/moreplease/templates"
 import "soikke.li/moreplease/sql/highlight"
 import "soikke.li/moreplease/sql/db"
@@ -39,6 +38,7 @@ func Example() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		s := db.Statements{Sources: sources}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -64,9 +64,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/dump.sql"))
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/dump.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 26, Col: 53}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 26, Col: 52}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -94,9 +94,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/select.sql"))
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 40, Col: 55}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 40, Col: 54}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -124,9 +124,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/select_all.sql"))
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_all.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 52, Col: 59}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 52, Col: 58}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -170,9 +170,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/select_concat.sql"))
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_concat.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 64, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 64, Col: 61}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -200,9 +200,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/select_as.sql"))
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_as.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 76, Col: 58}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 76, Col: 57}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -222,9 +222,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 string
-			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/select_as_pretty.sql"))
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_as_pretty.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 88, Col: 65}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 88, Col: 64}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -252,9 +252,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/select_distinct.sql"))
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_distinct.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 100, Col: 64}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 100, Col: 63}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -290,9 +290,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var10 string
-			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/select_computation.sql"))
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_computation.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 112, Col: 67}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 112, Col: 66}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -310,32 +310,6 @@ func Example() templ.Component {
 		}
 		return templ_7745c5c3_Err
 	})
-}
-
-func read(path string) string {
-	src, err := sources.ReadFile(path)
-	if err != nil {
-		return ""
-	}
-	return string(src)
-}
-
-func execute(path string) string {
-	cols, rows, err := db.RunExample(read("sql/schema.sql"), read(path))
-	if err != nil {
-		panic(err)
-	}
-	f := db.MarkdownFormatter{Columns: cols, Rows: rows}
-	return fmt.Sprintf("%s", f)
-}
-
-func executeRaw(sql string) string {
-	cols, rows, err := db.RunExample(read("sql/schema.sql"), sql)
-	if err != nil {
-		panic(err)
-	}
-	f := db.MarkdownFormatter{Columns: cols, Rows: rows}
-	return fmt.Sprintf("%s", f)
 }
 
 var _ = templruntime.GeneratedTemplate

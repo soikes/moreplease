@@ -9,7 +9,6 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "embed"
-import "fmt"
 import "soikke.li/moreplease/templates"
 
 // import "soikke.li/moreplease/sql/highlight"
@@ -40,6 +39,7 @@ func Example() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		s := db.Statements{Sources: sources}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -57,9 +57,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/dump_doctors.sql"))
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/dump_doctors.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/coalesce/coalesce.templ`, Line: 25, Col: 61}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/coalesce/coalesce.templ`, Line: 25, Col: 60}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -70,9 +70,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/dump_services.sql"))
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/dump_services.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/coalesce/coalesce.templ`, Line: 31, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/coalesce/coalesce.templ`, Line: 31, Col: 61}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -83,9 +83,9 @@ func Example() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(execute("sql/dump_claims.sql"))
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/dump_claims.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/coalesce/coalesce.templ`, Line: 37, Col: 60}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/coalesce/coalesce.templ`, Line: 37, Col: 59}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -103,32 +103,6 @@ func Example() templ.Component {
 		}
 		return templ_7745c5c3_Err
 	})
-}
-
-func read(path string) string {
-	src, err := sources.ReadFile(path)
-	if err != nil {
-		return ""
-	}
-	return string(src)
-}
-
-func execute(path string) string {
-	cols, rows, err := db.RunExample(read("sql/schema.sql"), read(path))
-	if err != nil {
-		panic(err)
-	}
-	f := db.MarkdownFormatter{Columns: cols, Rows: rows}
-	return fmt.Sprintf("%s", f)
-}
-
-func executeRaw(sql string) string {
-	cols, rows, err := db.RunExample(read("sql/schema.sql"), sql)
-	if err != nil {
-		panic(err)
-	}
-	f := db.MarkdownFormatter{Columns: cols, Rows: rows}
-	return fmt.Sprintf("%s", f)
 }
 
 var _ = templruntime.GeneratedTemplate

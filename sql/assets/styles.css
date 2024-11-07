@@ -1,44 +1,6 @@
 @font-face {
-    font-family: "Authentic Sans";
-    src: url("authentic-sans-90.woff2");
-    font-weight: 90;
-}
-
-@font-face {
     font-family: "Merriweather";
     src: url("Merriweather-Regular.ttf");
-}
-
-@font-face {
-    font-family: "Anton";
-    src: url("Anton-Regular.ttf");
-}
-
-@font-face {
-    font-family: "Sour Gummy";
-    font-style: italic;
-    src: url("SourGummy-Italic-VariableFont_wdth\,wght.ttf");
-}
-
-@font-face {
-    font-family: "Sour Gummy";
-    src: url("SourGummy-VariableFont_wdth\,wght.ttf");
-}
-
-@font-face {
-    font-family: "Playwrite Italia";
-    src: url("PlaywriteITTrad-ExtraLight.ttf");
-}
-
-@font-face {
-    font-family: "Mona Sans";
-    src: url("MonaSans-VariableFont_wdth\,wght.ttf");
-}
-
-@font-face {
-    font-family: "Mona Sans";
-    font-style: italic;
-    src: url("MonaSans-Italic-VariableFont_wdth\,wght.ttf");
 }
 
 @font-face {
@@ -140,13 +102,6 @@ p {
     margin-bottom: 0.5rem;
 }
 
-.logo-please {
-    font-family: "Playwrite Italia";
-    font-size: 1.5rem;
-    font-style: italic;
-    margin: 0.2rem 0.1rem;
-}
-
 .title {
     margin: 2rem 0;
 }
@@ -195,7 +150,7 @@ p {
 }
 
 .tables {
-    row-gap: 0;
+    margin-top: 2rem;
 }
 
 .toggle {
@@ -226,4 +181,15 @@ p {
     padding: 1rem;
     justify-self: start;
     box-shadow: 0.5rem 0.5rem 0 #353535;
+}
+
+.inline-code {
+    font-size: 1rem;
+}
+
+.inline-tile {
+    border: 1px solid black;
+    border-radius: 0.2rem;
+    line-height: 1;
+    padding: 0.1rem 0.3rem;
 }
