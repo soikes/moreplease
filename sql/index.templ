@@ -10,7 +10,13 @@ templ index() {
 
 templ inner() {
     <div class="content narrow">
-        <h1>More SQL Please</h1>
+        <div class="logo">
+            // <div class="logo-line">MORE</div>
+            // <div class="logo-line"><span class="logo-coloured">SQL</span><span class="logo-please">Please.</span></div>
+            <div class="logo-line">More</div>
+            <div class="logo-line logo-coloured tile">SQL</div>
+            <div class="logo-line">Please.</div>
+        </div>
 
         <p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to <a href="https://en.wikipedia.org/wiki/Relational_database">relational data</a> where the data has well-defined relationships.</p>
 
@@ -145,6 +151,7 @@ templ inner() {
                 <a href="select">Choosing IDs</a>
             </li>
         </ul>
-        <small class="footer">by <a href="http://soikke.li">Mike Soikkeli</a> | <a href="https://github.com/soikes/byexample/tree/main/sql">source</a> | <a href="https://github.com/soikes/byexample/blob/main/LICENSE">license</a> | inspired by <a href="https://gobyexample.com">Go by Example</a></small>
+        <small class="footer">by <a href="http://soikke.li">Mike Soikkeli</a> | <a href="https://github.com/soikes/byexample/tree/main/sql">source</a> | <a href="https://github.com/soikes/byexample/blob/main/LICENSE">license</a>
+        </small>
     </div>
 }

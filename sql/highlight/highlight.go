@@ -2,17 +2,23 @@ package highlight
 
 import (
 	"bytes"
+	_ "embed"
 	"io/fs"
 
+	"github.com/alecthomas/chroma/v2"
 	"github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/alecthomas/chroma/v2/lexers"
-	"github.com/alecthomas/chroma/v2/styles"
 )
+
+//go:embed style.xml
+var rawStyle []byte
 
 func sql(sql string, inline bool) string {
 	var buf bytes.Buffer
 	lexer := lexers.Get("sql")
-	style := styles.Get("gruvbox")
+	// style := styles.Get("gruvbox") // "evergarden"
+	// style := styles.Get("onesenterprise")
+	style := chroma.MustNewXMLStyle(bytes.NewBuffer(rawStyle))
 	var opts []html.Option
 	opts = append(opts, html.Standalone(false))
 	if inline {

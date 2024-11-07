@@ -1,8 +1,104 @@
-body {
-    background-color: #202124;
-    color: #e8eaed;
-    font-family: Georgia, serif;
+@font-face {
+    font-family: "Authentic Sans";
+    src: url("authentic-sans-90.woff2");
+    font-weight: 90;
 }
+
+@font-face {
+    font-family: "Merriweather";
+    src: url("Merriweather-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Anton";
+    src: url("Anton-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Sour Gummy";
+    font-style: italic;
+    src: url("SourGummy-Italic-VariableFont_wdth\,wght.ttf");
+}
+
+@font-face {
+    font-family: "Sour Gummy";
+    src: url("SourGummy-VariableFont_wdth\,wght.ttf");
+}
+
+@font-face {
+    font-family: "Playwrite Italia";
+    src: url("PlaywriteITTrad-ExtraLight.ttf");
+}
+
+@font-face {
+    font-family: "Mona Sans";
+    src: url("MonaSans-VariableFont_wdth\,wght.ttf");
+}
+
+@font-face {
+    font-family: "Mona Sans";
+    font-style: italic;
+    src: url("MonaSans-Italic-VariableFont_wdth\,wght.ttf");
+}
+
+@font-face {
+    font-family: "DM Mono";
+    src: url("DMMono-Regular.ttf");
+}
+
+@font-face {
+    font-family: "DM Mono";
+    src: url("DMMono-Italic.ttf");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "DM Mono";
+    src: url("DMMono-MediumItalic.ttf");
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* TODO: How to toggle this manually using the toggle button I made? */
+:root {
+    /* color-scheme: light dark; */
+}
+
+body {
+    /* color: light-dark(#000000, #e8eaed); */
+    /* background-color: light-dark(#ffffff, #202124); */
+    font-family: Merriweather, serif;
+    margin: 0;
+}
+
+/* body.has(#dark-light input:checked) { */
+/* body { */
+/* color-scheme: dark; */
+/* } */
+
+#dark-light {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2rem;
+    font-family: "SF Pro", serif;
+}
+
+#dark-light input {
+    display: none;
+}
+
+#dark-light label {
+    cursor: pointer;
+}
+
+/* #dark-light input:checked + label::after {
+    content: attr(data-dark);
+}
+
+#dark-light input + label::after {
+    content: attr(data-light);
+} */
 
 pre {
     margin-top: 0;
@@ -15,6 +111,53 @@ a {
 h1 {
     font-weight: normal;
     font-size: 2rem;
+}
+
+p {
+    margin: 1rem 0;
+}
+
+.logo {
+    display: grid;
+    align-items: center;
+    font-family: "DM Mono";
+    font-size: 6rem;
+    font-style: italic;
+    margin: 2rem 0;
+    row-gap: 1rem;
+}
+
+.logo-line {
+    margin: -0.5rem 0;
+}
+
+.logo-coloured {
+    color: #ffa62b;
+    font-style: italic;
+    font-weight: 500;
+    padding: 0;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.logo-please {
+    font-family: "Playwrite Italia";
+    font-size: 1.5rem;
+    font-style: italic;
+    margin: 0.2rem 0.1rem;
+}
+
+.title {
+    margin: 2rem 0;
+}
+
+.example-title {
+    font-family: "DM Mono";
+    font-style: italic;
+}
+
+.title-em {
+    font-weight: 600;
 }
 
 .footer {
@@ -36,7 +179,6 @@ h1 {
 
 .content {
     margin: 0 auto;
-    padding: clamp(1rem, 1vh, 3rem) 1rem;
 }
 
 .content ul {
@@ -60,6 +202,10 @@ h1 {
     margin: 2rem 0;
 }
 
+.toggle[open] {
+    margin: 2rem 0 4rem 0;
+}
+
 .toggle summary::after {
     content: attr(data-close);
 }
@@ -68,15 +214,16 @@ h1 {
     content: attr(data-open);
 }
 
-.toggle .container {
-    margin: 1rem 0;
-}
-
 .tablename {
+    /* font-weight: bold; */
+    font-size: 1.2rem;
     margin-bottom: 1rem;
 }
 
-/* .code { */
-/* background-color: #2d2f34; */
-/* font-family: "Courier New", Courier, monospace; */
-/* } */
+.tile {
+    border: 1px solid black;
+    border-radius: 0.7rem;
+    padding: 1rem;
+    justify-self: start;
+    box-shadow: 0.5rem 0.5rem 0 #353535;
+}
