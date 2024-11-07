@@ -53,7 +53,7 @@ func run(schema string, statement string) (cols []string, rows [][]string, err e
 	}
 	rows = [][]string{}
 	for r.Next() {
-		vals := make([]string, len(cols))
+		vals := make([]sql.NullString, len(cols))
 		ptrs := make([]interface{}, len(cols))
 		for i := range vals {
 			ptrs[i] = &vals[i]
@@ -62,7 +62,15 @@ func run(schema string, statement string) (cols []string, rows [][]string, err e
 		if err != nil {
 			return nil, nil, err
 		}
-		rows = append(rows, vals)
+		var stringed []string
+		for _, val := range vals {
+			if val.Valid {
+				stringed = append(stringed, val.String)
+			} else {
+				stringed = append(stringed, "NULL")
+			}
+		}
+		rows = append(rows, stringed)
 	}
 	return
 }

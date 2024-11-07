@@ -180,6 +180,7 @@ p {
     border-radius: 0.7rem;
     padding: 1rem;
     justify-self: start;
+    align-self: start;
     box-shadow: 0.5rem 0.5rem 0 #353535;
 }
 
