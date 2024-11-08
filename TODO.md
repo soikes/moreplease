@@ -4,9 +4,8 @@
 
 - [] Add tags for each example and make the site searchable
 
-- [] Get the code block to follow the window as the reader scrolls until they hit the next block (?)
+- [x] Get the code block to follow the window as the reader scrolls until they hit the next block (?)
 
-  - Allow the user to toggle "follow" mode on or off
   - Highlight the relevant line being discussed as the user scrolls as well? or add a `>` to the left of the line number to show that.
 
 - [] Allow the user to toggle showing the tables as a static overlay at the top of the screen. it may be helpful when they are scrolled far down the page.
