@@ -42,23 +42,26 @@ templ Example() {
                     </div>
                 </div>
                 <div class="block">
-                    <span class="inline-code">@templ.Raw(highlight.Inline("WHERE"))</span> clauses can use operators besides <span class="inline-code">@templ.Raw(highlight.Inline("="))</span> :<br>
-                    <span class="inline-code">@templ.Raw(highlight.Inline(">"))</span> Greater than<br>
-                    <span class="inline-code">@templ.Raw(highlight.Inline("<"))</span> Less than<br>
-                    <span class="inline-code">@templ.Raw(highlight.Inline(">="))</span> Greater than or equal to<br>
-                    <span class="inline-code">@templ.Raw(highlight.Inline("<="))</span> Less than or equal to<br>
-                    <span class="inline-code">@templ.Raw(highlight.Inline("<>"))</span>, <span class="inline-code">@templ.Raw(highlight.Inline("!="))</span> Not Equal<br>
-                    <span class="inline-code">@templ.Raw(highlight.Inline("BETWEEN x AND y"))</span> Between two values <br>
-                    <span class="inline-code">@templ.Raw(highlight.Inline("LIKE \"Mike%\""))</span> Match based on a pattern <br>
-                    <span class="inline-code">@templ.Raw(highlight.Inline("IN (1,2,3)"))</span> Match based on any value in a list of values or a subquery<br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("WHERE"))</span> clauses can use operators besides <span class="inline-code">@templ.Raw(highlight.Inline("="))</span> :<br><br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline(">"))</span>&ensp;Greater than.<br><br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("<"))</span>&ensp;Less than.<br><br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline(">="))</span>&ensp;Greater than or equal to.<br><br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("<="))</span>&ensp;Less than or equal to.<br><br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("<>"))</span>, <span class="inline-code">@templ.Raw(highlight.Inline("!="))</span>&ensp;Not Equal.<br><br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("BETWEEN 30 AND 40"))</span>&ensp;Between two values.<br><br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("LIKE \"Marcus%\""))</span>&ensp;Match based on a pattern. <span class="inline-code">@templ.Raw(highlight.Inline("%"))</span> is typically the character used to mean "wildcard" or match anything. See <a href="/operators">Operators</a> for more examples.<br><br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("IN (1,2,3)"))</span>&ensp;Match based on any value in a list of values or a subquery.<br><br>
+                    <span class="inline-code">@templ.Raw(highlight.Inline("IS NULL"))</span>&ensp;or&ensp;<span class="inline-code">@templ.Raw(highlight.Inline("IS NOT NULL"))</span>&ensp;Check for NULL.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/where_operators.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/where_operators.sql") }
-                        </pre>
+                <div class="sticky-container">
+                    <div class="block tile sticky">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/where_operators.sql"))
+                        <div>
+                            <pre>
+                                { s.Exec("sql/where_operators.sql") }
+                            </pre>
+                        </div>
                     </div>
                 </div>
                 <div class="block">

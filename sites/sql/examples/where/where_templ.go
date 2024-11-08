@@ -150,7 +150,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> :<br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> :<br><br><span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -158,7 +158,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Greater than<br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Greater than.<br><br><span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -166,7 +166,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Less than<br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Less than.<br><br><span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -174,7 +174,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Greater than or equal to<br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Greater than or equal to.<br><br><span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -182,7 +182,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Less than or equal to<br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Less than or equal to.<br><br><span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -198,23 +198,31 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Not Equal<br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Not Equal.<br><br><span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("BETWEEN x AND y")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = templ.Raw(highlight.Inline("BETWEEN 30 AND 40")).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Between two values <br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Between two values.<br><br><span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("LIKE \"Mike%\"")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = templ.Raw(highlight.Inline("LIKE \"Marcus%\"")).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Match based on a pattern <br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Match based on a pattern. <span class=\"inline-code\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(highlight.Inline("%")).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is typically the character used to mean \"wildcard\" or match anything. See <a href=\"/operators\">Operators</a> for more examples.<br><br><span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -222,7 +230,23 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> Match based on any value in a list of values or a subquery<br></div><div class=\"block tile\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Match based on any value in a list of values or a subquery.<br><br><span class=\"inline-code\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(highlight.Inline("IS NULL")).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;or&ensp;<span class=\"inline-code\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templ.Raw(highlight.Inline("IS NOT NULL")).Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Check for NULL.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -238,13 +262,13 @@ func Example() templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/where_operators.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/where/where.templ`, Line: 60, Col: 63}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/where/where.templ`, Line: 62, Col: 67}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div><div class=\"block\"><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\"><span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -284,7 +308,7 @@ func Example() templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/where_and.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/where/where.templ`, Line: 72, Col: 57}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/where/where.templ`, Line: 75, Col: 57}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {

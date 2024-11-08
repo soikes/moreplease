@@ -38,11 +38,9 @@ templ Example() {
                     A <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>
                     In this example there are two tables: <span class="inline-code">@templ.Raw(highlight.Inline("users"))</span> and <span class="inline-code">@templ.Raw(highlight.Inline("donations"))</span>. Notice the donations table has a <span class="inline-code">@templ.Raw(highlight.Inline("user_id"))</span> column to indicate which user made that donation.<br><br>
                     In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>
-                    Next, specify the first table to query like a regular <span class="inline-code">@templ.Raw(highlight.Inline("SELECT"))</span>.<br><br>
-                    Then you specify which type of <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> to use on the other table. In this case, the type is an <span class="inline-code">@templ.Raw(highlight.Inline("INNER JOIN"))</span> which means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>
+                    An <span class="inline-code">@templ.Raw(highlight.Inline("INNER JOIN"))</span> means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>
                     There is no functional difference between a <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> and an <span class="inline-code">@templ.Raw(highlight.Inline("INNER JOIN"))</span>, it's just <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar.</a><br><br>
-                    The <span class="inline-code">@templ.Raw(highlight.Inline("ON"))</span> clause is where you specify the relationship between the tables that you want the tables to be joined on. The types of these columns need to match.<br><br>
-                    As an aside, designing tables and data models with relationships that make sense is a valuable skill and can become challenging with many tables.
+                    The <span class="inline-code">@templ.Raw(highlight.Inline("ON"))</span> clause is where you specify the relationship between the tables that you want them to be joined on. The types of these columns need to match.<br><br>
                 </div>
                 <div class="sticky-container">
                     <div class="block tile sticky">
@@ -56,7 +54,8 @@ templ Example() {
                     </div>
                 </div>
                 <div class="block">
-                    You can alias both tables and column names to make your statements easier to read. This example shows a mix of both methods: using the <span class="inline-code">@templ.Raw(highlight.Inline("AS"))</span> statement followed by the chosen alias, or just the alias. Either version is valid but choosing one and being consistent makes queries easier to read. Aliasing is especially useful when you have long table names or two tables have the same column name. A column name you will encounter very often is <span class="inline-code">@templ.Raw(highlight.Inline("id"))</span>.
+                    You can alias both tables and column names to make your statements easier to read. This example shows a mix of both methods: using the <span class="inline-code">@templ.Raw(highlight.Inline("AS"))</span> statement followed by the chosen alias, or just the alias. Either version is valid but choosing one and being consistent makes queries easier to read.<br><br>
+                    Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span class="inline-code">@templ.Raw(highlight.Inline("id"))</span>.
                 </div>
                 <div class="sticky-container">
                     <div class="block tile sticky">

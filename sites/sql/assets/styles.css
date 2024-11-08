@@ -148,7 +148,7 @@ p {
     display: grid;
     grid-template-columns: 2fr 3fr;
     column-gap: 4rem;
-    row-gap: 4rem;
+    row-gap: 6rem;
     margin-bottom: 2rem;
     position: relative;
 }

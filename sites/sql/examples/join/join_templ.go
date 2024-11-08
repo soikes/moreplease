@@ -125,23 +125,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> column to indicate which user made that donation.<br><br>In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>Next, specify the first table to query like a regular <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("SELECT")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>Then you specify which type of <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("JOIN")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> to use on the other table. In this case, the type is an <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> column to indicate which user made that donation.<br><br>In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>An <span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -149,7 +133,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> which means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>There is no functional difference between a <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>There is no functional difference between a <span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -173,7 +157,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is where you specify the relationship between the tables that you want the tables to be joined on. The types of these columns need to match.<br><br>As an aside, designing tables and data models with relationships that make sense is a valuable skill and can become challenging with many tables.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is where you specify the relationship between the tables that you want them to be joined on. The types of these columns need to match.<br><br></div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -189,7 +173,7 @@ func Example() templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/join.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 53, Col: 56}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 51, Col: 56}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -203,7 +187,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement followed by the chosen alias, or just the alias. Either version is valid but choosing one and being consistent makes queries easier to read. Aliasing is especially useful when you have long table names or two tables have the same column name. A column name you will encounter very often is <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement followed by the chosen alias, or just the alias. Either version is valid but choosing one and being consistent makes queries easier to read.<br><br>Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span class=\"inline-code\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -227,7 +211,7 @@ func Example() templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/join_alias.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 67, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 66, Col: 62}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -265,7 +249,7 @@ func Example() templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/inner_join_where.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 81, Col: 68}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 80, Col: 68}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -327,7 +311,7 @@ func Example() templ.Component {
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/left_join.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 98, Col: 61}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 97, Col: 61}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -373,7 +357,7 @@ func Example() templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/left_join_where_null.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 112, Col: 72}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 111, Col: 72}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -419,7 +403,7 @@ func Example() templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/full_join.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 127, Col: 61}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 126, Col: 61}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -457,7 +441,7 @@ func Example() templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/cross_join.sql"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 143, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 142, Col: 62}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
