@@ -40,6 +40,7 @@ templ Example() {
                     In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>
                     Next, specify the first table to query like a regular <span class="inline-code">@templ.Raw(highlight.Inline("SELECT"))</span>.<br><br>
                     Then you specify which type of <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> to use on the other table. In this case, the type is an <span class="inline-code">@templ.Raw(highlight.Inline("INNER JOIN"))</span> which means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>
+                    There is no functional difference between a <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> and an <span class="inline-code">@templ.Raw(highlight.Inline("INNER JOIN"))</span>, it's just <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar.</a><br><br>
                     The <span class="inline-code">@templ.Raw(highlight.Inline("ON"))</span> clause is where you specify the relationship between the tables that you want the tables to be joined on. The types of these columns need to match.<br><br>
                     As an aside, designing tables and data models with relationships that make sense is a valuable skill and can become challenging with many tables.
                 </div>
@@ -124,6 +125,22 @@ templ Example() {
                         <div>
                             <pre>
                                 { s.Exec("sql/full_join.sql") }
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    A <span class="inline-code">@templ.Raw(highlight.Inline("CROSS JOIN"))</span> returns the Cartesian product of rows from both tables. This means each row from the first table A is combined with each row from the second table B, returning all possible combinations of rows.<br><br>
+                    This can generate very large amounts of data depending on the size of the input tables so caution is advised when deciding to use a <span class="inline-code">@templ.Raw(highlight.Inline("CROSS JOIN"))</span>.<br><br>
+                    They can sometimes be used to generate test data since they allow you to generate every possible scenario between two sets of data.
+                </div>
+                <div class="sticky-container">
+                    <div class="block tile sticky">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/cross_join.sql"))
+                        <div>
+                            <pre>
+                                { s.Exec("sql/cross_join.sql") }
                             </pre>
                         </div>
                     </div>
