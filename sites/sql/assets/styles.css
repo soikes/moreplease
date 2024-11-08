@@ -147,6 +147,7 @@ p {
     column-gap: 4rem;
     row-gap: 4rem;
     margin-bottom: 2rem;
+    position: relative;
 }
 
 .tables {
@@ -182,6 +183,11 @@ p {
     justify-self: start;
     align-self: start;
     box-shadow: 0.5rem 0.5rem 0 #353535;
+}
+
+.sticky {
+    position: sticky;
+    top: 2rem;
 }
 
 .inline-code {

@@ -6,10 +6,10 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
-	coalesce_stmt "soikke.li/moreplease/sql/examples/coalesce"
-	join_stmt "soikke.li/moreplease/sql/examples/join"
-	select_stmt "soikke.li/moreplease/sql/examples/select"
-	where_stmt "soikke.li/moreplease/sql/examples/where"
+	coalesce_stmt "soikke.li/moreplease/sites/sql/examples/coalesce"
+	join_stmt "soikke.li/moreplease/sites/sql/examples/join"
+	select_stmt "soikke.li/moreplease/sites/sql/examples/select"
+	where_stmt "soikke.li/moreplease/sites/sql/examples/where"
 )
 
 //go:embed assets/*

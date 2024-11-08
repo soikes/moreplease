@@ -3,9 +3,12 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
+pre_cmd = [
+    "templ generate",
+    # "GOARCH=wasm GOOS=js go build web/sticky.go -o main.wasm"
+]
 args_bin = []
 bin = "./tmp/main"
-pre_cmd = ["templ generate"]
 cmd = "go build -o ./tmp/main ."
 delay = 1000
 exclude_dir = ["tmp", "vendor", "testdata"]

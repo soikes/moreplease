@@ -10,8 +10,8 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "embed"
 import "soikke.li/moreplease/templates"
-import "soikke.li/moreplease/sql/highlight"
-import "soikke.li/moreplease/sql/db"
+import "soikke.li/moreplease/sites/sql/highlight"
+import "soikke.li/moreplease/sites/sql/db"
 
 //go:embed sql/*.sql
 var sources embed.FS

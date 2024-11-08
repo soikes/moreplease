@@ -1,8 +1,8 @@
 package where_query
 
 import "soikke.li/moreplease/templates"
-import "soikke.li/moreplease/sql/highlight"
-import "soikke.li/moreplease/sql/db"
+import "soikke.li/moreplease/sites/sql/highlight"
+import "soikke.li/moreplease/sites/sql/db"
 import "embed"
 
 //go:embed sql/*.sql
@@ -43,13 +43,15 @@ templ Example() {
                     The <span class="inline-code">@templ.Raw(highlight.Inline("ON"))</span> clause is where you specify the relationship between the tables that you want the tables to be joined on. The types of these columns need to match.<br><br>
                     As an aside, designing tables and data models with relationships that make sense is a valuable skill and can become challenging with many tables.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/join.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/join.sql") }
-                        </pre>
+                <div class="sticky-container">
+                    <div class="block tile sticky">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/join.sql"))
+                        <div>
+                            <pre>
+                                { s.Exec("sql/join.sql") }
+                            </pre>
+                        </div>
                     </div>
                 </div>
                 <div class="block">
@@ -57,14 +59,20 @@ templ Example() {
                     This type of <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> is useful when you are not sure if there will be a match for all the rows in your first table but you want to include them in your result.<br><br>
                     In this example we can now see in the results who has and who has not donated.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/left_join.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/left_join.sql") }
-                        </pre>
+                <div class="sticky-container">
+                    <div class="block tile sticky">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/left_join.sql"))
+                        <div>
+                            <pre>
+                                { s.Exec("sql/left_join.sql") }
+                            </pre>
+                        </div>
                     </div>
+                </div>
+                <div class="block">
+                    But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?
+                    But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some great pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?
                 </div>
             </div>
         </div>
