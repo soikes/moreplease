@@ -1,120 +1,61 @@
 package select_query
 
-import "embed"
-import "soikke.li/moreplease/templates"
-import "soikke.li/moreplease/sites/sql/highlight"
-import "soikke.li/moreplease/sites/sql/db"
+import (
+    "embed"
 
-//go:embed sql/*.sql
-var sources embed.FS
+    "soikke.li/moreplease/templates"
+    "soikke.li/moreplease/sites/sql/db"
+    st "soikke.li/moreplease/sites/sql/templates"
+)
 
-//TODO: Change rendering to use classes so we don't flood the page with inline styles.
+//go:embed sql
+var sqlFiles embed.FS
+
 templ Example() {
-    {{ s := db.Statements{Sources: sources} }}
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        e := st.Example{
+            Statements: s,
+        }
+    }}
     @templates.Base("More SQL Please: SELECT") {
         <div class="content wide">
             <div class="title">
                 <h1 class="example-title"><a href="/" class="home">More SQL Please</a>: <span class="title-em">SELECT</span></h1>
             </div>
-            <details class="toggle">
-                <summary class="action" data-open="hide tables" data-close="show tables"></summary>
-                <div class="container">
-                    <div></div>
-                    <div class="tile">
-                        <div class="tablename"><span>@templ.Raw(highlight.Inline("users"))</span></div>
-                        <pre>
-                            { s.Exec("sql/dump.sql") }
-                        </pre>
-                    </div>
-                </div>
-            </details>
+            @st.Schema(s, "users")
             <div class="container">
                 <div class="block">
-                    A <span>@templ.Raw(highlight.Inline("SELECT"))</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.
+                    A <span>@st.Inline("SELECT")</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.
                 </div>
-                <div class="sticky-container">
-                    <div class="block tile sticky">
-                        @templ.Raw(highlight.Block(sources,
-                            "sql/select.sql"))
-                        <div>
-                            <pre>
-                                { s.Exec("sql/select.sql") }
-                            </pre>
-                        </div>
-                    </div>
-                </div>
+                @e.Run("sql/select.sql")
                 <div class="block">
-                    You can specify individual columns to retrieve, or <span>@templ.Raw(highlight.Inline("*"))</span> to retrieve all columns.
+                    You can specify individual columns to retrieve, or <span>@st.Inline("*")</span> to retrieve all columns.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/select_all.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/select_all.sql") }
-                        </pre>
-                    </div>
-                </div>
+                @e.Run("sql/select_all.sql")
                 <div class="block">
-                    Some database engines allow you to concatenate multiple columns into one. In the case of SQLite, <span>@templ.Raw(highlight.Inline("||"))</span> is used. Other engines may use <span>@templ.Raw(highlight.Inline("+"))</span>, and most engines include a <span>@templ.Raw(highlight.Inline("CONCAT()"))</span> function which serves the same purpose. Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.
+                    Some database engines allow you to concatenate multiple columns into one. In the case of SQLite, <span>@st.Inline("||")</span> is used. Other engines may use <span>@st.Inline("+")</span>, and most engines include a <span>@st.Inline("CONCAT()")</span> function which serves the same purpose. Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/select_concat.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/select_concat.sql") }
-                        </pre>
-                    </div>
-                </div>
+                @e.Run("sql/select_concat.sql")
                 <div class="block">
-                    The column name returned above is difficult to read. The keyword <span>@templ.Raw(highlight.Inline("AS"))</span> can be used to alias columns with any custom name.
+                    The column name returned above is difficult to read. The keyword <span>@st.Inline("AS")</span> can be used to alias columns with any custom name.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/select_as.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/select_as.sql") }
-                        </pre>
-                    </div>
-                </div>
+                @e.Run("sql/select_as.sql")
                 <div class="block">
                     If you want to alias a column with a name that includes spaces, surround the name with double quotation marks.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/select_as_pretty.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/select_as_pretty.sql") }
-                        </pre>
-                    </div>
-                </div>
+                @e.Run("sql/select_as_pretty.sql")
                 <div class="block">
-                    <span>@templ.Raw(highlight.Inline("SELECT DISTINCT"))</span> can be used when you want to return only unique values. Notice how in the example the last name "Amini" appears once where previous examples included both people with the same last name.
+                    <span>@st.Inline("SELECT DISTINCT")</span> can be used when you want to return only unique values. Notice how in the example the last name "Amini" appears once where previous examples included both people with the same last name.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/select_distinct.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/select_distinct.sql") }
-                        </pre>
-                    </div>
-                </div>
+                @e.Run("sql/select_distinct.sql")
                 <div class="block">
-                    Some database engines allow a <span>@templ.Raw(highlight.Inline("SELECT"))</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query, or when using a <a href="case"><span>@templ.Raw(highlight.Inline("CASE"))</span></a> statement.
+                    Some database engines allow a <span>@st.Inline("SELECT")</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query, or when using a <a href="case"><span>@st.Inline("CASE")</span></a> statement.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/select_computation.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/select_computation.sql") }
-                        </pre>
-                    </div>
-                </div>
+                @e.Run("sql/select_computation.sql")
             </div>
         </div>
     }

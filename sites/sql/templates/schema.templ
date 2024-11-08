@@ -1,0 +1,31 @@
+package templates
+
+import (
+    "fmt"
+    "soikke.li/moreplease/sites/sql/db"
+)
+
+templ Schema(s db.Statements, tables ...string) {
+    <details class="toggle">
+        <summary
+            class="action"
+            data-open="hide tables"
+            data-close="show tables"
+        ></summary>
+        <div class="container">
+            if len(tables) == 1 {
+                <div class="spacer"></div>
+            }
+            for _, table := range tables {
+                <div class="tile">
+                    <div class="tablename">
+                        <span>@Inline(table)</span>
+                    </div>
+                    <pre>
+                        { s.ExecFile(fmt.Sprintf("sql/schema/dump_%s.sql", table)) }
+                    </pre>
+                </div>
+            }
+        </div>
+    </details>
+}

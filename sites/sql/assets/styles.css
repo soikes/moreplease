@@ -173,6 +173,10 @@ p {
     content: attr(data-open);
 }
 
+.toggle .container {
+    margin-top: 2rem;
+}
+
 .tablename {
     /* font-weight: bold; */
     font-size: 1.2rem;

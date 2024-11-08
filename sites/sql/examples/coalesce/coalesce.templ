@@ -6,11 +6,16 @@ import "soikke.li/moreplease/templates"
 import "soikke.li/moreplease/sites/sql/db"
 
 //go:embed sql/*.sql
-var sources embed.FS
+var sqlFiles embed.FS
 
 //TODO: Change rendering to use classes so we don't flood the page with inline styles.
 templ Example() {
-    {{ s := db.Statements{Sources: sources} }}
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+    }}
     @templates.Base("More SQL Please: COALESCE") {
         <div class="content wide">
             <div class="title">

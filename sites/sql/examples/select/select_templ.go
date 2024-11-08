@@ -8,15 +8,17 @@ package select_query
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "embed"
-import "soikke.li/moreplease/templates"
-import "soikke.li/moreplease/sites/sql/highlight"
-import "soikke.li/moreplease/sites/sql/db"
+import (
+	"embed"
 
-//go:embed sql/*.sql
-var sources embed.FS
+	"soikke.li/moreplease/sites/sql/db"
+	st "soikke.li/moreplease/sites/sql/templates"
+	"soikke.li/moreplease/templates"
+)
 
-// TODO: Change rendering to use classes so we don't flood the page with inline styles.
+//go:embed sql
+var sqlFiles embed.FS
+
 func Example() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -38,7 +40,14 @@ func Example() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		s := db.Statements{Sources: sources}
+
+		s := db.Statements{
+			Files:      sqlFiles,
+			SchemaPath: "sql/schema/schema.sql",
+		}
+		e := st.Example{
+			Statements: s,
+		}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -51,92 +60,51 @@ func Example() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1 class=\"example-title\"><a href=\"/\" class=\"home\">More SQL Please</a>: <span class=\"title-em\">SELECT</span></h1></div><details class=\"toggle\"><summary class=\"action\" data-open=\"hide tables\" data-close=\"show tables\"></summary><div class=\"container\"><div></div><div class=\"tile\"><div class=\"tablename\"><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1 class=\"example-title\"><a href=\"/\" class=\"home\">More SQL Please</a>: <span class=\"title-em\">SELECT</span></h1></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("users")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Schema(s, "users").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container\"><div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/dump.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 26, Col: 52}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			templ_7745c5c3_Err = st.Inline("SELECT").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></details><div class=\"container\"><div class=\"block\">A <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("SELECT")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/select.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">You can specify individual columns to retrieve, or <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/select.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("*").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> to retrieve all columns.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 41, Col: 58}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			templ_7745c5c3_Err = e.Run("sql/select_all.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\">You can specify individual columns to retrieve, or <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">Some database engines allow you to concatenate multiple columns into one. In the case of SQLite, <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("*")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> to retrieve all columns.</div><div class=\"block tile\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/select_all.sql")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_all.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 54, Col: 58}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div><div class=\"block\">Some database engines allow you to concatenate multiple columns into one. In the case of SQLite, <span>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("||")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("||").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -144,7 +112,7 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("+")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("+").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -152,119 +120,63 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("CONCAT()")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("CONCAT()").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function which serves the same purpose. Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.</div><div class=\"block tile\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function which serves the same purpose. Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/select_concat.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/select_concat.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">The column name returned above is difficult to read. The keyword <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_concat.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 66, Col: 61}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			templ_7745c5c3_Err = st.Inline("AS").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div><div class=\"block\">The column name returned above is difficult to read. The keyword <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be used to alias columns with any custom name.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("AS")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/select_as.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be used to alias columns with any custom name.</div><div class=\"block tile\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">If you want to alias a column with a name that includes spaces, surround the name with double quotation marks.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/select_as.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/select_as_pretty.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_as.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 78, Col: 57}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			templ_7745c5c3_Err = st.Inline("SELECT DISTINCT").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div><div class=\"block\">If you want to alias a column with a name that includes spaces, surround the name with double quotation marks.</div><div class=\"block tile\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be used when you want to return only unique values. Notice how in the example the last name \"Amini\" appears once where previous examples included both people with the same last name.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/select_as_pretty.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/select_distinct.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">Some database engines allow a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var8 string
-			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_as_pretty.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 90, Col: 64}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div><div class=\"block\"><span>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("SELECT DISTINCT")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be used when you want to return only unique values. Notice how in the example the last name \"Amini\" appears once where previous examples included both people with the same last name.</div><div class=\"block tile\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/select_distinct.sql")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_distinct.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 102, Col: 63}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div><div class=\"block\">Some database engines allow a <span>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("SELECT")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("SELECT").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -272,33 +184,19 @@ func Example() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("CASE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("CASE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a> statement.</div><div class=\"block tile\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a> statement.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/select_computation.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/select_computation.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var10 string
-			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/select_computation.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/select/select.templ`, Line: 114, Col: 66}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -3,7 +3,6 @@ package highlight
 import (
 	"bytes"
 	_ "embed"
-	"io/fs"
 
 	"github.com/alecthomas/chroma/v2"
 	"github.com/alecthomas/chroma/v2/formatters/html"
@@ -13,7 +12,17 @@ import (
 //go:embed style.xml
 var rawStyle []byte
 
-func sql(sql string, inline bool) string {
+// Inline returns a highlighted SQL statement suitable for embedding inline with text.
+func Inline(stmt string) string {
+	return sql(stmt, true)
+}
+
+// Block returns a highlighted SQL statement suitable for multiline display with line numbers.
+func Block(stmt string) string {
+	return sql(stmt, false)
+}
+
+func sql(stmt string, inline bool) string {
 	var buf bytes.Buffer
 	lexer := lexers.Get("sql")
 	// style := styles.Get("gruvbox") // "evergarden"
@@ -27,7 +36,7 @@ func sql(sql string, inline bool) string {
 		opts = append(opts, html.WithLineNumbers(true))
 	}
 	formatter := html.New(opts...)
-	iterator, err := lexer.Tokenise(nil, sql)
+	iterator, err := lexer.Tokenise(nil, stmt)
 	if err != nil {
 		panic(err)
 	}
@@ -36,24 +45,4 @@ func sql(sql string, inline bool) string {
 		panic(err)
 	}
 	return buf.String()
-}
-
-func Inline(line string) string {
-	return sql(line, true)
-}
-
-// TODO: Do we still need to ever concat multiple different files in one block? Consider doing the fs read outside this function and remove it.
-func Block(fs fs.ReadFileFS, paths ...string) string {
-	var source bytes.Buffer
-	for _, path := range paths {
-		src, err := fs.ReadFile(path)
-		if err != nil {
-			panic(err)
-		}
-		_, err = source.Write(src)
-		if err != nil {
-			panic(err)
-		}
-	}
-	return sql(source.String(), false)
 }

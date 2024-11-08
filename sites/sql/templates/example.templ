@@ -1,0 +1,24 @@
+package templates
+
+import (
+    "soikke.li/moreplease/sites/sql/db"
+    "soikke.li/moreplease/sites/sql/highlight"
+)
+
+type Example struct {
+    Statements  db.Statements
+}
+
+templ (e *Example) Run(path string) {
+    <div class="sticky-container">
+        <div class="block tile sticky">
+            {{ table := highlight.Block(e.Statements.From(path)) }}
+            @templ.Raw(table)
+            <div>
+                <pre>
+                    { e.Statements.ExecFile(path) }
+                </pre>
+            </div>
+        </div>
+    </div>
+}

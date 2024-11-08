@@ -8,13 +8,15 @@ package where_query
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "soikke.li/moreplease/templates"
-import "soikke.li/moreplease/sites/sql/highlight"
-import "soikke.li/moreplease/sites/sql/db"
-import "embed"
+import (
+	"embed"
+	"soikke.li/moreplease/sites/sql/db"
+	st "soikke.li/moreplease/sites/sql/templates"
+	"soikke.li/moreplease/templates"
+)
 
-//go:embed sql/*.sql
-var sources embed.FS
+//go:embed sql
+var sqlFiles embed.FS
 
 // TODO: Change rendering to use classes so we don't flood the page with inline styles.
 func Example() templ.Component {
@@ -38,7 +40,14 @@ func Example() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		s := db.Statements{Sources: sources}
+
+		s := db.Statements{
+			Files:      sqlFiles,
+			SchemaPath: "sql/schema/schema.sql",
+		}
+		e := st.Example{
+			Statements: s,
+		}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -51,449 +60,303 @@ func Example() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1 class=\"example-title\"><a href=\"/\" class=\"home\">More SQL Please</a>: <span class=\"title-em\">JOIN</span></h1></div><details class=\"toggle\"><summary class=\"action\" data-open=\"hide tables\" data-close=\"show tables\"></summary><div class=\"container tables\"><div class=\"tile\"><div class=\"tablename\"><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1 class=\"example-title\"><a href=\"/\" class=\"home\">More SQL Please</a>: <span class=\"title-em\">JOIN</span></h1></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("users")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Schema(s, "users", "donations").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container\"><div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/dump_users.sql"))
+			templ_7745c5c3_Err = st.Inline("JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 25, Col: 58}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div><div class=\"tile\"><div class=\"tablename\"><span>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("donations")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><pre>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/dump_donations.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 31, Col: 62}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></details><div class=\"container\"><div class=\"block\">A <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("JOIN")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>In this example there are two tables: <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("users")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("donations")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. Notice the donations table has a <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("user_id")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> column to indicate which user made that donation.<br><br>In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>An <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("INNER JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>In this example there are two tables: <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>There is no functional difference between a <span class=\"inline-code\">")
+			templ_7745c5c3_Err = st.Inline("users").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and an <span class=\"inline-code\">")
+			templ_7745c5c3_Err = st.Inline("donations").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("INNER JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. Notice the donations table has a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, it's just <a href=\"https://en.wikipedia.org/wiki/Syntactic_sugar\">syntactic sugar.</a><br><br>The <span class=\"inline-code\">")
+			templ_7745c5c3_Err = st.Inline("user_id").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("ON")).Render(ctx, templ_7745c5c3_Buffer)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> column to indicate which user made that donation.<br><br>In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>An <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is where you specify the relationship between the tables that you want them to be joined on. The data type of these columns needs to match.<br><br><span class=\"inline-code\">")
+			templ_7745c5c3_Err = st.Inline("INNER JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("INNER JOIN ... ON")).Render(ctx, templ_7745c5c3_Buffer)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>There is no functional difference between a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be repeated multiple times to join several different tables together.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			templ_7745c5c3_Err = st.Inline("JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/join.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and an <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			templ_7745c5c3_Err = st.Inline("INNER JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/join.sql"))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, it's just <a href=\"https://en.wikipedia.org/wiki/Syntactic_sugar\">syntactic sugar.</a><br><br>The <span>")
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 52, Col: 56}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\">You can alias the tables and column names to make your statements easier to read. Either use an <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("AS")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement followed by the alias, or just the alias. Either version is valid but choosing one and being consistent makes queries easier to read.<br><br>Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("id")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/join_alias.sql")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/join_alias.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 67, Col: 62}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\">A <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("ON").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be combined with a <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is where you specify the relationship between the tables that you want them to be joined on. The data type of these columns needs to match.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("WHERE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("INNER JOIN ... ON").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause to further narrow down the set of rows returned.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be repeated multiple times to join several different tables together.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/inner_join_where.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/join.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">You can alias the tables and column names to make your statements easier to read. Either use an <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/inner_join_where.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 81, Col: 68}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			templ_7745c5c3_Err = st.Inline("AS").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\">A <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement followed by the alias, or just the alias. Either version is valid but choosing one and being consistent makes queries easier to read.<br><br>Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("LEFT JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("id").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> (sometimes called <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("LEFT OUTER JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/join_alias.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>) can be used when you want to retrieve all of the rows from the first (\"left\") table combined with only rows that match from the second (\"right\") table. Rows from the left table that do not match anything in the right table will return <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("NULL")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> in place of a donation amount.<br><br>This type of <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be combined with a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("WHERE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is useful when you are not sure if there will be a match for all the rows in your first table but you want to include them in your result.<br><br>In this example we can now see in the results who has and who has not donated.<br><br>A <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause to further narrow down the set of rows returned.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("RIGHT JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/join_where.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is similar but it returns all of the rows from the second (\"right\") table and only rows that match from the first (\"left\") table. It is rarely used in practice but may be useful when experimenting with queries.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/left_join.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("LEFT JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> (sometimes called <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var8 string
-			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/left_join.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 98, Col: 61}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+			templ_7745c5c3_Err = st.Inline("LEFT OUTER JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\">If we wanted to find only the people who have not donated, we can use a <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>) can be used when you want to retrieve all of the rows from the first (\"left\") table combined with only rows that match from the second (\"right\") table. Rows from the left table that do not match anything in the right table will return <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("WHERE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("NULL").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause to find the <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> in place of a donation amount.<br><br>This type of <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("NULL")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values from our <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is useful when you are not sure if there will be a match for all the rows in your first table but you want to include them in your result.<br><br>In this example we can now see in the results who has and who has not donated.<br><br>A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("LEFT JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("RIGHT JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is similar but it returns all of the rows from the second (\"right\") table and only rows that match from the first (\"left\") table. It is rarely used in practice but may be useful when experimenting with queries.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/left_join_where_null.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/left_join.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">If we wanted to find only the people who have not donated, we can use a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/left_join_where_null.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 112, Col: 72}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+			templ_7745c5c3_Err = st.Inline("WHERE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\">A <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause to find the <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("FULL JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("NULL").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> (sometimes called <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values from our <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("FULL OUTER JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("LEFT JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>) is used when you want to return all rows from both tables whether they match or not.<br><br>This query returns users that have donated, users that have not donated, and donations that are not currently associated with a user. The last case is commonly referred to as an \"orphaned record\", meaning the associated user was deleted at some point without also deleting their donation records. This is generally considered bad practice in database design. Examples of how to prevent this can be found in <a href=\"foreign_key\"><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("CASCADE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/left_join_where_null.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a>.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/full_join.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("FULL JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> (sometimes called <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var10 string
-			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/full_join.sql"))
+			templ_7745c5c3_Err = st.Inline("FULL OUTER JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 127, Col: 61}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
-			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\">A table can be referred to itself with a <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>) is used when you want to return all rows from both tables whether they match or not.<br><br>This query returns users that have donated, users that have not donated, and donations that are not currently associated with a user. The last case is commonly referred to as an \"orphaned record\", meaning the associated user was deleted at some point without also deleting their donation records. This is generally considered bad practice in database design. Examples of how to prevent this can be found in <a href=\"foreign_key\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("CASCADE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, also known as a \"SELF\" <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a>.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/full_join.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>They are useful when a table has data that has a relationship with other data in the same table. In this example, users of the donation platform can refer other users and get a free credit.<br><br>This technique requires you to alias the table with two different names.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">A table can be referred to itself with a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/self_join.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, also known as a \"SELF\" <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var11 string
-			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/self_join.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 143, Col: 61}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+			templ_7745c5c3_Err = st.Inline("JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\">A <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>They are useful when a table has data that has a relationship with other data in the same table. In this example, users of the donation platform can refer other users and get a free credit.<br><br>This technique requires you to alias the table with two different names.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("CROSS JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/self_join.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> returns the Cartesian product of rows from both tables. This means each row from the first table A is combined with each row from the second table B, returning all possible combinations of rows.<br><br>This can generate very large amounts of data depending on the size of the input tables so caution is advised when deciding to use a <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("CROSS JOIN")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("CROSS JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>This can be used to generate test data since it allows you to generate every possible scenario between two sets of data.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> returns the Cartesian product of rows from both tables. This means each row from the first table A is combined with each row from the second table B, returning all possible combinations of rows.<br><br>This can generate very large amounts of data depending on the size of the input tables so caution is advised when deciding to use a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/cross_join.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("CROSS JOIN").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>This can be used to generate test data since it allows you to generate every possible scenario between two sets of data.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var12 string
-			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/cross_join.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/join/join.templ`, Line: 159, Col: 62}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
+			templ_7745c5c3_Err = e.Run("sql/cross_join.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\"><small class=\"footer\"><span><a href=\"/where\">previous: WHERE</a> |</span> <span><a href=\"/\">home</a> |</span> <span><a href=\"/order_by\">next: ORDER BY</a></span></small></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\"><small class=\"footer\"><span><a href=\"/where\">previous: WHERE</a> |</span> <span><a href=\"/\">home</a> |</span> <span><a href=\"/order_by\">next: ORDER BY</a></span></small></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

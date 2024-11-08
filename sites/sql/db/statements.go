@@ -8,12 +8,14 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
+// Statements is a collection of SQL statements that are executable with a given schema.
 type Statements struct {
-	Sources fs.ReadFileFS
+	Files      fs.ReadFileFS
+	SchemaPath string
 }
 
-func (s *Statements) Exec(path string) string {
-	cols, rows, err := run(s.read("sql/schema.sql"), s.read(path))
+func (s *Statements) ExecFile(path string) string {
+	cols, rows, err := s.run(s.read(path))
 	if err != nil {
 		panic(err)
 	}
@@ -21,8 +23,8 @@ func (s *Statements) Exec(path string) string {
 	return fmt.Sprintf("%s", f)
 }
 
-func (s *Statements) ExecString(sql string) string {
-	cols, rows, err := run(s.read("sql/schema.sql"), sql)
+func (s *Statements) Exec(stmt string) string {
+	cols, rows, err := s.run(stmt)
 	if err != nil {
 		panic(err)
 	}
@@ -30,13 +32,19 @@ func (s *Statements) ExecString(sql string) string {
 	return fmt.Sprintf("%s", f)
 }
 
-func run(schema string, statement string) (cols []string, rows [][]string, err error) {
+// From returns the contents of a single SQL file.
+func (s *Statements) From(path string) string {
+	return s.read(path)
+}
+
+func (s *Statements) run(statement string) (cols []string, rows [][]string, err error) {
 	db, err := sql.Open("sqlite3", "")
 	if err != nil {
 		return nil, nil, err
 	}
 	defer db.Close()
 
+	schema := s.read(s.SchemaPath)
 	_, err = db.Exec(schema)
 	if err != nil {
 		return nil, nil, err
@@ -76,7 +84,7 @@ func run(schema string, statement string) (cols []string, rows [][]string, err e
 }
 
 func (s *Statements) read(path string) string {
-	src, err := s.Sources.ReadFile(path)
+	src, err := s.Files.ReadFile(path)
 	if err != nil {
 		panic(err)
 	}

@@ -8,13 +8,16 @@ package where_query
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "soikke.li/moreplease/templates"
-import "soikke.li/moreplease/sites/sql/highlight"
-import "soikke.li/moreplease/sites/sql/db"
-import "embed"
+import (
+	"embed"
 
-//go:embed sql/*.sql
-var sources embed.FS
+	"soikke.li/moreplease/sites/sql/db"
+	st "soikke.li/moreplease/sites/sql/templates"
+	"soikke.li/moreplease/templates"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
 
 // TODO: Change rendering to use classes so we don't flood the page with inline styles.
 func Example() templ.Component {
@@ -38,7 +41,14 @@ func Example() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		s := db.Statements{Sources: sources}
+
+		s := db.Statements{
+			Files:      sqlFiles,
+			SchemaPath: "sql/schema/schema.sql",
+		}
+		e := st.Example{
+			Statements: s,
+		}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -51,270 +61,215 @@ func Example() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1 class=\"example-title\"><a href=\"/\" class=\"home\">More SQL Please</a>: <span class=\"title-em\">WHERE</span></h1></div><details class=\"toggle\"><summary class=\"action\" data-open=\"hide tables\" data-close=\"show tables\"></summary><div class=\"container\"><div></div><div class=\"tile\"><div class=\"tablename\"><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\"><div class=\"title\"><h1 class=\"example-title\"><a href=\"/\" class=\"home\">More SQL Please</a>: <span class=\"title-em\">WHERE</span></h1></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("users")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Schema(s, "users").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container\"><div class=\"block\">A <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/dump.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/where/where.templ`, Line: 26, Col: 52}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			templ_7745c5c3_Err = st.Inline("WHERE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></details><div class=\"container\"><div class=\"block\">A <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause can be added to statements to filter the outcome of the statement based on a condition. In the case of a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("WHERE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("SELECT").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause can be added to statements to filter the outcome of the statement based on a condition. In the case of a <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, this means the result set is filtered to only include results that match the condition. <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("SELECT")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("WHERE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, this means the result set is filtered to only include results that match the condition. <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can also be applied to <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("WHERE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("UPDATE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can also be applied to <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("UPDATE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("DELETE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statements to limit the rows they affect.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("DELETE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/where.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statements to limit the rows they affect.</div><div class=\"block tile\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/where.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("WHERE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clauses can use operators besides <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/where.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/where/where.templ`, Line: 40, Col: 53}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			templ_7745c5c3_Err = st.Inline("=").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div><div class=\"block\"><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> :<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("WHERE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline(">").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clauses can use operators besides <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Greater than.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("=")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("<").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> :<br><br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Less than.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline(">")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline(">=").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Greater than.<br><br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Greater than or equal to.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("<")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("<=").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Less than.<br><br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Less than or equal to.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline(">=")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("<>").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Greater than or equal to.<br><br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("<=")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("!=").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Less than or equal to.<br><br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Not Equal.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("<>")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("BETWEEN 30 AND 40").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Between two values.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("!=")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("LIKE \"Marcus%\"").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Not Equal.<br><br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Match based on a pattern. <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("BETWEEN 30 AND 40")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("%").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Between two values.<br><br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is typically the character used to mean \"wildcard\" or match anything. See <a href=\"/operators\">Operators</a> for more examples.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("LIKE \"Marcus%\"")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("IN (1,2,3)").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Match based on a pattern. <span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Match based on any value in a list of values or a subquery.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("%")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("IS NULL").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is typically the character used to mean \"wildcard\" or match anything. See <a href=\"/operators\">Operators</a> for more examples.<br><br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;or&ensp;<span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("IN (1,2,3)")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("IS NOT NULL").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Match based on any value in a list of values or a subquery.<br><br><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Check for NULL.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("IS NULL")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/where_operators.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;or&ensp;<span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"block\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("IS NOT NULL")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("WHERE").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>&ensp;Check for NULL.</div><div class=\"sticky-container\"><div class=\"block tile sticky\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clauses can have multiple predicates separated by logical operators such as <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/where_operators.sql")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("AND").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/where_operators.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/where/where.templ`, Line: 62, Col: 67}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			templ_7745c5c3_Err = st.Inline("OR").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div><div class=\"block\"><span class=\"inline-code\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. See <a href=\"logical_operators\">Logical Operators</a> for more examples.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("WHERE")).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = e.Run("sql/where_and.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clauses can have multiple predicates separated by logical operators such as <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("AND")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and <span class=\"inline-code\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Inline("OR")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. See <a href=\"logical_operators\">Logical Operators</a> for more examples.</div><div class=\"block tile\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templ.Raw(highlight.Block(sources,
-				"sql/where_and.sql")).Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(s.Exec("sql/where_and.sql"))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `examples/where/where.templ`, Line: 75, Col: 57}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
