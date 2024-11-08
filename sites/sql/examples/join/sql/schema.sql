@@ -1,12 +1,12 @@
-CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
 CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
 
 INSERT INTO users VALUES
-    (1, 'Marcus', 'Crawford', 'marcus@mcrawford.ca'),
-    (2, 'Elena', 'Moreno', 'elena@hellocorp.com'),
-    (3, 'Simon', 'Chen', 'simon@sqlanalytics.io'),
-    (4, 'Priya', 'Amini', 'priya@aminiconsulting.com'),
-    (5, 'Zara', 'Amini', 'zara@aminiconsulting.com');
+    (1, 2, 'Marcus', 'Crawford', 'marcus@mcrawford.ca'),
+    (2, NULL, 'Elena', 'Moreno', 'elena@hellocorp.com'),
+    (3, NULL, 'Simon', 'Chen', 'simon@sqlanalytics.io'),
+    (4, 5, 'Priya', 'Amini', 'priya@aminiconsulting.com'),
+    (5, NULL, 'Zara', 'Amini', 'zara@aminiconsulting.com');
 
 INSERT INTO donations VALUES
     (1, 1, '2024-04-12 09:10:01', 20.0),

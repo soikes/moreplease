@@ -1,4 +1,4 @@
-SELECT users.name_first, users.email_address, donations.amount
-FROM users
-INNER JOIN donations
-ON users.id = donations.user_id;
+SELECT u.name_first name, u.email_address email, d.amount
+FROM users u
+INNER JOIN donations d
+ON u.id = d.user_id;
