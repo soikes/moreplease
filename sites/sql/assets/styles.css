@@ -117,6 +117,9 @@ p {
 
 .footer {
     color: gray;
+    /* display: inline-grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center; */
 }
 
 .action {
@@ -188,6 +191,10 @@ p {
 .sticky {
     position: sticky;
     top: 2rem;
+}
+
+.sticky-container {
+    justify-self: start;
 }
 
 .inline-code {

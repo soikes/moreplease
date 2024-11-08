@@ -32,13 +32,15 @@ templ Example() {
                 <div class="block">
                     A <span>@templ.Raw(highlight.Inline("SELECT"))</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.
                 </div>
-                <div class="block tile">
-                    @templ.Raw(highlight.Block(sources,
-                        "sql/select.sql"))
-                    <div>
-                        <pre>
-                            { s.Exec("sql/select.sql") }
-                        </pre>
+                <div class="sticky-container">
+                    <div class="block tile sticky">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/select.sql"))
+                        <div>
+                            <pre>
+                                { s.Exec("sql/select.sql") }
+                            </pre>
+                        </div>
                     </div>
                 </div>
                 <div class="block">

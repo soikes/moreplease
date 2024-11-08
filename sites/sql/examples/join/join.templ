@@ -37,7 +37,7 @@ templ Example() {
                 <div class="block">
                     A <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>
                     In this example there are two tables: <span class="inline-code">@templ.Raw(highlight.Inline("users"))</span> and <span class="inline-code">@templ.Raw(highlight.Inline("donations"))</span>. Notice the donations table has a <span class="inline-code">@templ.Raw(highlight.Inline("user_id"))</span> column to indicate which user made that donation.<br><br>
-                    In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required unless two tables have the same column name but it's good practice to be able to easily see which columns come from which table.<br><br>
+                    In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>
                     Next, specify the first table to query like a regular <span class="inline-code">@templ.Raw(highlight.Inline("SELECT"))</span>.<br><br>
                     Then you specify which type of <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> to use on the other table. In this case, the type is an <span class="inline-code">@templ.Raw(highlight.Inline("INNER JOIN"))</span> which means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>
                     The <span class="inline-code">@templ.Raw(highlight.Inline("ON"))</span> clause is where you specify the relationship between the tables that you want the tables to be joined on. The types of these columns need to match.<br><br>
@@ -55,9 +55,38 @@ templ Example() {
                     </div>
                 </div>
                 <div class="block">
-                    A <span class="inline-code">@templ.Raw(highlight.Inline("LEFT JOIN"))</span> (sometimes called <span class="inline-code">@templ.Raw(highlight.Inline("LEFT OUTER JOIN"))</span>) can be used when you want to retrieve all of the rows from the first (left) table combined with only rows that match from the second (right) table. Rows from the left table that do not match anything in the right table will return <span class="inline-code">@templ.Raw(highlight.Inline("NULL"))</span> in place of a donation amount.<br><br>
+                    You can alias both tables and column names to make your statements easier to read. This example shows a mix of both methods: using the <span class="inline-code">@templ.Raw(highlight.Inline("AS"))</span> statement followed by the chosen alias, or just the alias. Either version is valid but choosing one and being consistent makes queries easier to read. Aliasing is especially useful when you have long table names or two tables have the same column name. A column name you will encounter very often is <span class="inline-code">@templ.Raw(highlight.Inline("id"))</span>.
+                </div>
+                <div class="sticky-container">
+                    <div class="block tile sticky">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/join_alias.sql"))
+                        <div>
+                            <pre>
+                                { s.Exec("sql/join_alias.sql") }
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    A <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> can be combined with a <span class="inline-code">@templ.Raw(highlight.Inline("WHERE"))</span> clause to further narrow down the set of rows returned.
+                </div>
+                <div class="sticky-container">
+                    <div class="block tile sticky">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/inner_join_where.sql"))
+                        <div>
+                            <pre>
+                                { s.Exec("sql/inner_join_where.sql") }
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    A <span class="inline-code">@templ.Raw(highlight.Inline("LEFT JOIN"))</span> (sometimes called <span class="inline-code">@templ.Raw(highlight.Inline("LEFT OUTER JOIN"))</span>) can be used when you want to retrieve all of the rows from the first ("left") table combined with only rows that match from the second ("right") table. Rows from the left table that do not match anything in the right table will return <span class="inline-code">@templ.Raw(highlight.Inline("NULL"))</span> in place of a donation amount.<br><br>
                     This type of <span class="inline-code">@templ.Raw(highlight.Inline("JOIN"))</span> is useful when you are not sure if there will be a match for all the rows in your first table but you want to include them in your result.<br><br>
-                    In this example we can now see in the results who has and who has not donated.
+                    In this example we can now see in the results who has and who has not donated.<br><br>
+                    A <span class="inline-code">@templ.Raw(highlight.Inline("RIGHT JOIN"))</span> is similar but it returns all of the rows from the second ("right") table and only rows that match from the first ("left") table. It is rarely used in practice but may be useful when experimenting with queries.
                 </div>
                 <div class="sticky-container">
                     <div class="block tile sticky">
@@ -69,6 +98,42 @@ templ Example() {
                             </pre>
                         </div>
                     </div>
+                </div>
+                <div class="block">
+                    If we wanted to find only the people who have not donated, we can use a <span class="inline-code">@templ.Raw(highlight.Inline("WHERE"))</span> clause to find the <span class="inline-code">@templ.Raw(highlight.Inline("NULL"))</span> values from our <span class="inline-code">@templ.Raw(highlight.Inline("LEFT JOIN"))</span>.
+                </div>
+                <div class="sticky-container">
+                    <div class="block tile sticky">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/left_join_where_null.sql"))
+                        <div>
+                            <pre>
+                                { s.Exec("sql/left_join_where_null.sql") }
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    A <span class="inline-code">@templ.Raw(highlight.Inline("FULL JOIN"))</span> (sometimes called <span class="inline-code">@templ.Raw(highlight.Inline("FULL OUTER JOIN"))</span>) is used when you want to return all rows from both tables whether they match or not.<br><br>
+                    This query returns users that have donated, users that have not donated, and donations that are not currently associated with a user. The last case is commonly referred to as an "orphaned record", meaning the associated user was deleted at some point without also deleting their donation records. This is generally considered bad practice in database design. Examples of how to prevent this can be found in <a href="foreign_key"><span class="inline-code">@templ.Raw(highlight.Inline("CASCADE"))</span></a>.
+                </div>
+                <div class="sticky-container">
+                    <div class="block tile sticky">
+                        @templ.Raw(highlight.Block(sources,
+                            "sql/full_join.sql"))
+                        <div>
+                            <pre>
+                                { s.Exec("sql/full_join.sql") }
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                <div class="block">
+                    <small class="footer">
+                        <span><a href="/where">previous: WHERE</a> |</span>
+                        <span><a href="/">home</a> |</span>
+                        <span><a href="/order_by">next: ORDER BY</a></span>
+                    </small>
                 </div>
             </div>
         </div>
