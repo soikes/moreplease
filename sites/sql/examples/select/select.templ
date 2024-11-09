@@ -35,7 +35,8 @@ templ Topic() {
                 </div>
                 @e.Run("sql/select_all.sql")
                 <div>
-                    Some database engines allow you to concatenate multiple columns into one. In the case of SQLite, <span>@st.Inline("||")</span> is used. Other engines may use <span>@st.Inline("+")</span>, and most engines include a <span>@st.Inline("CONCAT()")</span> function which serves the same purpose. Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.
+                    Most database engines allow you to perform computations on the columns you retrieve.<br><br> Sometimes, combining columns can be useful. In the case of SQLite, <span>@st.Inline("||")</span> is used to concatenate. Other engines may use <span>@st.Inline("+")</span>, and most engines include a <span>@st.Inline("CONCAT()")</span> <a href="/functions">function</a> which serves the same purpose.<br><br>
+                    Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.
                 </div>
                 @e.Run("sql/select_concat.sql")
                 <div>
@@ -47,11 +48,12 @@ templ Topic() {
                 </div>
                 @e.Run("sql/select_as_pretty.sql")
                 <div>
-                    <span>@st.Inline("SELECT DISTINCT")</span> can be used when you want to return only unique values. Notice how in the example the last name "Amini" appears once where previous examples included both people with the same last name.
+                    <span>@st.Inline("SELECT DISTINCT")</span> can be used when you want to return only unique values.<br><br>
+                    Notice how in the example the last name "Amini" appears once where previous examples included both people with the same last name.
                 </div>
                 @e.Run("sql/select_distinct.sql")
                 <div>
-                    Some database engines allow a <span>@st.Inline("SELECT")</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query, or when using a <a href="case"><span>@st.Inline("CASE")</span></a> statement.
+                    Some database engines allow a <span>@st.Inline("SELECT")</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query or when using a <a href="case"><span>@st.Inline("CASE")</span></a> statement.
                 </div>
                 @e.Run("sql/select_computation.sql")
             </div>

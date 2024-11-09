@@ -1,4 +1,4 @@
-SELECT email_address
+SELECT name_first, age, email_address
 FROM users
-WHERE name_last = 'Amini'
-AND age > 30;
+WHERE email_address LIKE '%.com'
+AND age NOT IN (40, 31);

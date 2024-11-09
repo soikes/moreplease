@@ -27,7 +27,8 @@ templ Topic() {
             @st.Schema(s, "users")
             <div class="container">
                 <div>
-                    A <span>@st.Inline("WHERE")</span> clause can be added to statements to filter the outcome of the statement based on a condition. In the case of a <span>@st.Inline("SELECT")</span>, this means the result set is filtered to only include results that match the condition. <span>@st.Inline("WHERE")</span> can also be applied to <span>@st.Inline("UPDATE")</span> and <span>@st.Inline("DELETE")</span> statements to limit the rows they affect.<br><br>
+                    A <span>@st.Inline("WHERE")</span> clause can be added to statements to filter the outcome of the statement based on a condition.<br><br>
+                    In the case of a <span>@st.Inline("SELECT")</span>, this means the result set is filtered to only include results that match the condition. <span>@st.Inline("WHERE")</span> can also be applied to <span>@st.Inline("UPDATE")</span> and <span>@st.Inline("DELETE")</span> statements to limit the rows they affect.<br><br>
                     Note that a column does not need to be included as a <span>@st.Inline("SELECT")</span>ed column to be used in a <span>@st.Inline("WHERE")</span> clause.
                 </div>
                 @e.Run("sql/where.sql")
@@ -38,14 +39,16 @@ templ Topic() {
                     <span>@st.Inline(">=")</span>&ensp;Greater than or equal to.<br><br>
                     <span>@st.Inline("<=")</span>&ensp;Less than or equal to.<br><br>
                     <span>@st.Inline("<>")</span>, <span>@st.Inline("!=")</span>&ensp;Not Equal.<br><br>
-                    <span>@st.Inline("BETWEEN 30 AND 40")</span>&ensp;Between two values.<br><br>
-                    <span>@st.Inline("LIKE \"Marcus%\"")</span>&ensp;Match based on a pattern. <span>@st.Inline("%")</span> is typically the character used to mean "wildcard" or match anything. See <a href="/operators">Operators</a> for more examples.<br><br>
-                    <span>@st.Inline("IN (1,2,3)")</span>&ensp;Match based on any value in a list of values or a subquery.<br><br>
-                    <span>@st.Inline("IS NULL")</span>&ensp;or&ensp;<span>@st.Inline("IS NOT NULL")</span>&ensp;Check for NULL.
+                    <span>@st.Inline("WHERE age BETWEEN 30 AND 40")</span>&ensp;Match when between two values.<br><br>
+                    <span>@st.Inline("WHERE email_address LIKE \"%mail.com\"")</span>&ensp;Match based on a pattern. <span>@st.Inline("%")</span> is typically the wildcard character used to match 0 or more of any character.<br><br>
+                    <span>@st.Inline("WHERE id IN (1,2,3)")</span>&ensp;Match based on any value in a list of values or a subquery.<br><br>
+                    <span>@st.Inline("WHERE age IS NULL")</span>&ensp;or&ensp;<span>@st.Inline("IS NOT NULL")</span>&ensp;Check for NULL.<br><br>
+                    See <a href="/operators">Operators</a> for more examples.
                 </div>
                 @e.Run("sql/where_operators.sql")
                 <div>
-                    <span>@st.Inline("WHERE")</span> clauses can have multiple predicates separated by logical operators such as <span>@st.Inline("AND")</span> and <span>@st.Inline("OR")</span>. See <a href="logical_operators">Logical Operators</a> for more examples.
+                    <span>@st.Inline("WHERE")</span> clauses can have multiple predicates separated by logical operators such as <span>@st.Inline("AND")</span> and <span>@st.Inline("OR")</span>. The <span>@st.Inline("NOT")</span> operator can be applied before any of the above operators to negate them.<br><br>
+                    See <a href="logical_operators">Logical Operators</a> for more examples.
                 </div>
                 @e.Run("sql/where_and.sql")
             </div>
