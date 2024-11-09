@@ -1,4 +1,4 @@
-package where_query
+package where_stmt
 
 import (
     "embed"
@@ -10,8 +10,7 @@ import (
 //go:embed sql
 var sqlFiles embed.FS
 
-//TODO: Change rendering to use classes so we don't flood the page with inline styles.
-templ Example() {
+templ Topic() {
     {{
         s := db.Statements{
             Files: sqlFiles,

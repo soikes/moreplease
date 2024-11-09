@@ -1,4 +1,4 @@
-package select_query
+package select_stmt
 
 import (
     "embed"
@@ -11,7 +11,7 @@ import (
 //go:embed sql
 var sqlFiles embed.FS
 
-templ Example() {
+templ Topic() {
     {{
         s := db.Statements{
             Files: sqlFiles,

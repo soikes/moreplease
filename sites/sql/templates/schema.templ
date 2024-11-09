@@ -13,9 +13,6 @@ templ Schema(s db.Statements, tables ...string) {
             data-close="show tables"
         ></summary>
         <div class="container">
-            if len(tables) == 1 {
-                <div class="spacer"></div>
-            }
             for _, table := range tables {
                 <div class="tile">
                     <div class="tablename">

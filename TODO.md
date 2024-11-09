@@ -6,7 +6,7 @@
 
 - [x] Get the code block to follow the window as the reader scrolls until they hit the next block (?)
 
-  - Highlight the relevant line being discussed as the user scrolls as well? or add a `>` to the left of the line number to show that.
+  - [ ] Highlight the relevant line being discussed as the user scrolls as well? or add a `>` to the left of the line number to show that.
 
 - [ ] Allow the user to toggle showing the tables as a static overlay at the top of the screen. it may be helpful when they are scrolled far down the page.
 
@@ -22,6 +22,8 @@
 - [ ] Change syntax highlight rendering to use classes so we don't flood the page with inline styles.
 
 - [ ] Write a Zed syntax highlighting module for .templ files: the one I am using seems to break a lot.
+
+- [ ] Figure out how to style the grid so that by default we have a 2fr 3fr split but when tables are too long, they wrap to the next row.
 
 # BUGS
 

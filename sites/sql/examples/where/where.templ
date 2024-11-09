@@ -1,4 +1,4 @@
-package where_query
+package where_stmt
 
 import (
     "embed"
@@ -11,8 +11,7 @@ import (
 //go:embed sql
 var sqlFiles embed.FS
 
-//TODO: Change rendering to use classes so we don't flood the page with inline styles.
-templ Example() {
+templ Topic() {
     {{
         s := db.Statements{
             Files: sqlFiles,
@@ -28,7 +27,8 @@ templ Example() {
             @st.Schema(s, "users")
             <div class="container">
                 <div>
-                    A <span>@st.Inline("WHERE")</span> clause can be added to statements to filter the outcome of the statement based on a condition. In the case of a <span>@st.Inline("SELECT")</span>, this means the result set is filtered to only include results that match the condition. <span>@st.Inline("WHERE")</span> can also be applied to <span>@st.Inline("UPDATE")</span> and <span>@st.Inline("DELETE")</span> statements to limit the rows they affect.
+                    A <span>@st.Inline("WHERE")</span> clause can be added to statements to filter the outcome of the statement based on a condition. In the case of a <span>@st.Inline("SELECT")</span>, this means the result set is filtered to only include results that match the condition. <span>@st.Inline("WHERE")</span> can also be applied to <span>@st.Inline("UPDATE")</span> and <span>@st.Inline("DELETE")</span> statements to limit the rows they affect.<br><br>
+                    Note that a column does not need to be included as a <span>@st.Inline("SELECT")</span>ed column to be used in a <span>@st.Inline("WHERE")</span> clause.
                 </div>
                 @e.Run("sql/where.sql")
                 <div>

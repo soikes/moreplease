@@ -31,6 +31,7 @@ body {
     /* background-color: light-dark(#ffffff, #202124); */
     font-family: Merriweather, serif;
     margin: 0;
+    padding: 0 4rem;
 }
 
 /* body.has(#dark-light input:checked) { */
@@ -138,6 +139,7 @@ p {
 
 .content {
     margin: 0 auto;
+    container-type: inline-size;
 }
 
 .content ul {
@@ -147,11 +149,23 @@ p {
 
 .container {
     display: grid;
-    grid-template-columns: 2fr 3fr;
+    grid-template-columns: 1fr;
     column-gap: 4rem;
-    row-gap: 6rem;
+    row-gap: 2rem;
     margin-bottom: 2rem;
     position: relative;
+}
+
+@container (min-width: 60rem) {
+    .container {
+        grid-template-columns: 2fr 3fr;
+        row-gap: 6rem;
+    }
+
+    /* If we have one item e.g. a schema with one table, place it in the 2nd column with the code examples */
+    .container:has(> :only-child) > :only-child {
+        grid-column: 2;
+    }
 }
 
 .tables {
