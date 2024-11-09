@@ -6,11 +6,12 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
-	coalesce_stmt "soikke.li/moreplease/sites/sql/examples/coalesce"
-	join_stmt "soikke.li/moreplease/sites/sql/examples/join"
-	order_by_stmt "soikke.li/moreplease/sites/sql/examples/order_by"
-	select_stmt "soikke.li/moreplease/sites/sql/examples/select"
-	where_stmt "soikke.li/moreplease/sites/sql/examples/where"
+	coalesce_stmt "soikke.li/moreplease/sites/sql/topics/coalesce"
+	functions_topic "soikke.li/moreplease/sites/sql/topics/functions"
+	join_stmt "soikke.li/moreplease/sites/sql/topics/join"
+	order_by_stmt "soikke.li/moreplease/sites/sql/topics/order_by"
+	select_stmt "soikke.li/moreplease/sites/sql/topics/select"
+	where_stmt "soikke.li/moreplease/sites/sql/topics/where"
 )
 
 //go:embed assets/*
@@ -18,6 +19,7 @@ var assets embed.FS
 
 func main() {
 	index := index()
+	http.Handle("/functions", templ.Handler(functions_topic.Topic()))
 	http.Handle("/order_by", templ.Handler(order_by_stmt.Topic()))
 	http.Handle("/join", templ.Handler(join_stmt.Topic()))
 	http.Handle("/coalesce", templ.Handler(coalesce_stmt.Topic()))

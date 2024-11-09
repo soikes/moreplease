@@ -1,0 +1,41 @@
+package aggregate_functions
+
+import (
+    "embed"
+    "soikke.li/moreplease/sites/sql/db"
+    st "soikke.li/moreplease/sites/sql/templates"
+    "soikke.li/moreplease/templates"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        e := st.Example{
+            Statements: s,
+        }
+    }}
+    @templates.Base("More SQL Please: Aggregate Functions") {
+        <div class="content wide">
+            @st.TopicTitle("Aggregate Functions")
+            @st.Schema(s, "users", "donations")
+            <div class="container">
+                <div>
+                    <span>@st.Inline("COUNT()")</span>
+                </div>
+                @e.Run("sql/join.sql")
+            </div>
+        </div>
+    }
+}
+
+/*
+"sql/select_all_columns.sql",
+"sql/select_alias.sql",
+"sql/select_computation.sql",
+*/

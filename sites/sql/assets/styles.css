@@ -226,3 +226,9 @@ p {
     line-height: 1;
     padding: 0.1rem 0.3rem;
 }
+
+#coffee {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}

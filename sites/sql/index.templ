@@ -5,6 +5,7 @@ import "soikke.li/moreplease/templates"
 templ index() {
     @templates.Base("More SQL Please") {
         @inner()
+        @coffee()
     }
 }
 
@@ -25,25 +26,34 @@ templ inner() {
         <p>If you want to run the examples yourself, <a href="https://sqlite.org/download.html">download SQLite</a> and run the scripts contained within each example in this website's <a href="https://github.com/soikes/byexample/tree/main/sql">source code</a>.</p>
         <ul>
             <li>
-                <a href="select">SELECT</a>
+                <a href="/select">SELECT</a>
             </li>
             <li>
-                <a href="where">WHERE</a>
+                <a href="/where">WHERE</a>
             </li>
             <li>
-                <a href="join">JOIN</a>
+                <a href="/join">JOIN</a>
             </li>
             <li>
-                <a href="order_by">ORDER BY</a>
+                <a href="/order_by">ORDER BY</a>
             </li>
             <li>
-                <a href="select">Aggregate Functions (COUNT, SUM, AVG, MIN, MAX)</a>
+                <a href="/functions">Functions</a>
+            </li>
+            <li>
+                <a href="/aggregate_functions">Aggregate Functions (COUNT, SUM, AVG, MIN, MAX)</a>
             </li>
             <li>
                 <a href="select">GROUP BY</a>
             </li>
             <li>
-                <a href="select">UNION</a>
+                <a href="select">LIMIT</a>
+            </li>
+            <li>
+                <a href="select">CASE</a>
+            </li>
+            <li>
+                <a href="select">UNION and INTERSECT</a>
             </li>
             <li>
                 <a href="select">INSERT</a>
@@ -53,12 +63,6 @@ templ inner() {
             </li>
             <li>
                 <a href="select">DELETE</a>
-            </li>
-            <li>
-                <a href="select">LIMIT</a>
-            </li>
-            <li>
-                <a href="select">CASE</a>
             </li>
             <li>
                 <a href="select">CREATE TABLE</a>
@@ -79,16 +83,13 @@ templ inner() {
                 <a href="select">Transactions</a>
             </li>
             <li>
-                <a href="select">Functions</a>
+                <a href="select">CREATE INDEX</a>
             </li>
             <li>
-                <a href="select">Indexes</a>
+                <a href="select">PRIMARY KEY</a>
             </li>
             <li>
-                <a href="select">Primary Keys</a>
-            </li>
-            <li>
-                <a href="select">Foreign Keys</a>
+                <a href="select">FOREIGN KEY</a>
             </li>
             <li>
                 <a href="select">CASCADE</a>
@@ -151,10 +152,19 @@ templ inner() {
                 <a href="select">Operators</a>
             </li>
             <li>
-                <a href="select">Choosing IDs</a>
+                <a href="select">RDBMSs</a>
+            </li>
+            <li>
+                <a href="select">Schema Design</a>
             </li>
         </ul>
         <small class="footer">by <a href="http://soikke.li">Mike Soikkeli</a> | <a href="https://github.com/soikes/byexample/tree/main/sql">source</a> | <a href="https://github.com/soikes/byexample/blob/main/LICENSE">license</a>
         </small>
+    </div>
+}
+
+templ coffee() {
+    <div id="coffee">
+        <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="mikesoikkeli" data-description="Support me on Buy me a coffee!" data-message="Your support helps keep More SQL Please a peaceful place to learn SQL. Thank you for making that possible! ✨" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
     </div>
 }
