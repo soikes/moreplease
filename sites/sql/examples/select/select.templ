@@ -23,36 +23,34 @@ templ Example() {
     }}
     @templates.Base("More SQL Please: SELECT") {
         <div class="content wide">
-            <div class="title">
-                <h1 class="example-title"><a href="/" class="home">More SQL Please</a>: <span class="title-em">SELECT</span></h1>
-            </div>
+            @st.TopicTitle("SELECT")
             @st.Schema(s, "users")
             <div class="container">
-                <div class="block">
+                <div>
                     A <span>@st.Inline("SELECT")</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.
                 </div>
                 @e.Run("sql/select.sql")
-                <div class="block">
+                <div>
                     You can specify individual columns to retrieve, or <span>@st.Inline("*")</span> to retrieve all columns.
                 </div>
                 @e.Run("sql/select_all.sql")
-                <div class="block">
+                <div>
                     Some database engines allow you to concatenate multiple columns into one. In the case of SQLite, <span>@st.Inline("||")</span> is used. Other engines may use <span>@st.Inline("+")</span>, and most engines include a <span>@st.Inline("CONCAT()")</span> function which serves the same purpose. Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.
                 </div>
                 @e.Run("sql/select_concat.sql")
-                <div class="block">
+                <div>
                     The column name returned above is difficult to read. The keyword <span>@st.Inline("AS")</span> can be used to alias columns with any custom name.
                 </div>
                 @e.Run("sql/select_as.sql")
-                <div class="block">
+                <div>
                     If you want to alias a column with a name that includes spaces, surround the name with double quotation marks.
                 </div>
                 @e.Run("sql/select_as_pretty.sql")
-                <div class="block">
+                <div>
                     <span>@st.Inline("SELECT DISTINCT")</span> can be used when you want to return only unique values. Notice how in the example the last name "Amini" appears once where previous examples included both people with the same last name.
                 </div>
                 @e.Run("sql/select_distinct.sql")
-                <div class="block">
+                <div>
                     Some database engines allow a <span>@st.Inline("SELECT")</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query, or when using a <a href="case"><span>@st.Inline("CASE")</span></a> statement.
                 </div>
                 @e.Run("sql/select_computation.sql")

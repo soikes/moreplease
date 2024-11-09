@@ -24,16 +24,14 @@ templ Example() {
     }}
     @templates.Base("More SQL Please: WHERE") {
         <div class="content wide">
-            <div class="title">
-                <h1 class="example-title"><a href="/" class="home">More SQL Please</a>: <span class="title-em">WHERE</span></h1>
-            </div>
+            @st.TopicTitle("WHERE")
             @st.Schema(s, "users")
             <div class="container">
-                <div class="block">
+                <div>
                     A <span>@st.Inline("WHERE")</span> clause can be added to statements to filter the outcome of the statement based on a condition. In the case of a <span>@st.Inline("SELECT")</span>, this means the result set is filtered to only include results that match the condition. <span>@st.Inline("WHERE")</span> can also be applied to <span>@st.Inline("UPDATE")</span> and <span>@st.Inline("DELETE")</span> statements to limit the rows they affect.
                 </div>
                 @e.Run("sql/where.sql")
-                <div class="block">
+                <div>
                     <span>@st.Inline("WHERE")</span> clauses can use operators besides <span>@st.Inline("=")</span> :<br><br>
                     <span>@st.Inline(">")</span>&ensp;Greater than.<br><br>
                     <span>@st.Inline("<")</span>&ensp;Less than.<br><br>
@@ -46,7 +44,7 @@ templ Example() {
                     <span>@st.Inline("IS NULL")</span>&ensp;or&ensp;<span>@st.Inline("IS NOT NULL")</span>&ensp;Check for NULL.
                 </div>
                 @e.Run("sql/where_operators.sql")
-                <div class="block">
+                <div>
                     <span>@st.Inline("WHERE")</span> clauses can have multiple predicates separated by logical operators such as <span>@st.Inline("AND")</span> and <span>@st.Inline("OR")</span>. See <a href="logical_operators">Logical Operators</a> for more examples.
                 </div>
                 @e.Run("sql/where_and.sql")

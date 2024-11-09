@@ -62,6 +62,7 @@ body {
     content: attr(data-light);
 } */
 
+/* TODO: Needed because the code syntax highlighter renders <pre> tags with no class by default. */
 pre {
     margin-top: 0;
 }
@@ -106,7 +107,7 @@ p {
     margin: 2rem 0;
 }
 
-.example-title {
+.topic-title {
     font-family: "DM Mono";
     font-style: italic;
 }

@@ -1,9 +1,11 @@
 package coalesce_query
 
-import "embed"
-import "soikke.li/moreplease/templates"
-// import "soikke.li/moreplease/sites/sql/highlight"
-import "soikke.li/moreplease/sites/sql/db"
+import (
+    "embed"
+    "soikke.li/moreplease/sites/sql/db"
+    st "soikke.li/moreplease/sites/sql/templates"
+    "soikke.li/moreplease/templates"
+)
 
 //go:embed sql/*.sql
 var sqlFiles embed.FS
@@ -18,9 +20,7 @@ templ Example() {
     }}
     @templates.Base("More SQL Please: COALESCE") {
         <div class="content wide">
-            <div class="title">
-                <h1>More SQL Please: COALESCE</h1>
-            </div>
+            @st.TopicTitle("COALESCE")
             <details class="toggle">
                 <summary class="action" data-open="hide tables" data-close="show tables"></summary>
                 <div class="container tables">
