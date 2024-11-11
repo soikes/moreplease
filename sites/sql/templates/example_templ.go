@@ -42,8 +42,8 @@ func (e *Example) Run(path string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		table := highlight.Block(e.Statements.From(path))
-		templ_7745c5c3_Err = templ.Raw(table).Render(ctx, templ_7745c5c3_Buffer)
+		stmt := highlight.Block(e.Statements.From(path))
+		templ_7745c5c3_Err = templ.Raw(stmt).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

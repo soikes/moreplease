@@ -1,0 +1,47 @@
+package client_side_test
+
+import (
+    "embed"
+
+    "soikke.li/moreplease/sites/sql/db"
+    st "soikke.li/moreplease/sites/sql/templates"
+    "soikke.li/moreplease/templates"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        schema := s.From(s.SchemaPath)
+    }}
+    @templ.JSONScript("schema", schema)
+    @templates.Base("More SQL Please: Highlight Client Side Test") {
+        <div class="content wide">
+            @st.TopicTitle("Client Side Test")
+            <div class="container">
+                <div>
+                    This is a test of running and rendering SQLite queries client-side instead of server side. This will allow users to edit and re-run queries live!
+                </div>
+                <div class="tile sticky">
+                    {{
+                        stmt := s.From("sql/functions_nested.sql")
+                    }}
+                    { stmt }
+                    <div>
+                        <sql-example stmt={stmt}></sql-example>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="assets/db/stmt.js">
+            const schema = JSON.parse(document.getElementById("schema").textContent);
+            window.db = Stmt.load(schema)
+        </script>
+        <script src="assets/components/example.js"></script>
+    }
+}

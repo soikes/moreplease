@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
+	client_side_test "soikke.li/moreplease/sites/sql/topics/client_side_test"
 	coalesce_stmt "soikke.li/moreplease/sites/sql/topics/coalesce"
 	functions_topic "soikke.li/moreplease/sites/sql/topics/functions"
 	join_stmt "soikke.li/moreplease/sites/sql/topics/join"
@@ -19,6 +20,7 @@ var assets embed.FS
 
 func main() {
 	index := index()
+	http.Handle("/client_side_test", templ.Handler(client_side_test.Topic()))
 	http.Handle("/functions", templ.Handler(functions_topic.Topic()))
 	http.Handle("/order_by", templ.Handler(order_by_stmt.Topic()))
 	http.Handle("/join", templ.Handler(join_stmt.Topic()))

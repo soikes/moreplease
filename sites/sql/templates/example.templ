@@ -12,8 +12,8 @@ type Example struct {
 templ (e *Example) Run(path string) {
     <div class="sticky-container">
         <div class="tile sticky">
-            {{ table := highlight.Block(e.Statements.From(path)) }}
-            @templ.Raw(table)
+            {{ stmt := highlight.Block(e.Statements.From(path)) }}
+            @templ.Raw(stmt)
             <div>
                 <pre>
                     { e.Statements.ExecFile(path) }

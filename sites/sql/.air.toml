@@ -5,6 +5,7 @@ tmp_dir = "tmp"
 [build]
 pre_cmd = [
     "templ generate",
+    "www/node_modules/.bin/esbuild ./www/db/stmt.ts ./www/components/example.ts --external:fs --external:path --bundle --outdir=assets",
     # "GOARCH=wasm GOOS=js go build web/sticky.go -o main.wasm"
 ]
 args_bin = []
@@ -18,7 +19,7 @@ exclude_unchanged = false
 follow_symlink = false
 full_bin = ""
 include_dir = []
-include_ext = ["sh", "go", "templ", "html", "css", "sql", "xml"]
+include_ext = ["sh", "go", "templ", "html", "css", "sql", "xml", "ts"]
 include_file = []
 kill_delay = "0s"
 log = "build-errors.log"
