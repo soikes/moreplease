@@ -2134,12 +2134,16 @@
     static async load(schema) {
       const s = new _Stmt();
       await s.init();
-      s.exec(schema);
+      s.execAll(schema);
       return s;
     }
+    // Executes a single SQL query against the loaded database.
     exec(stmt) {
-      const rows = this.db?.exec(stmt);
+      const rows = this.db.exec(stmt)[0];
       return rows;
+    }
+    execAll(stmts) {
+      return this.db.exec(stmts);
     }
     async fetchStmt(path) {
       const rsp = await fetch(path);
@@ -2149,18 +2153,9 @@
       return rsp.text();
     }
     async init() {
-      if (this.db != void 0) {
-        return;
-      }
       const cfg = { locateFile: (file) => "assets/sql-wasm.wasm" };
-      try {
-        const SQL = await (0, import_sql_wasm.default)(cfg);
-        this.db = new SQL.Database();
-      } catch (error) {
-        console.error(
-          "failed to initialize sqlite: ${error}; sql examples will be read-only."
-        );
-      }
+      const SQL = await (0, import_sql_wasm.default)(cfg);
+      this.db = new SQL.Database();
     }
   };
   window.Stmt = Stmt;

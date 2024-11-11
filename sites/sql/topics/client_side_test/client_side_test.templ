@@ -33,15 +33,11 @@ templ Topic() {
                     }}
                     { stmt }
                     <div>
-                        <sql-example stmt={stmt}></sql-example>
+                        <sql-example schema={schema} stmt={stmt}></sql-example>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="assets/db/stmt.js">
-            const schema = JSON.parse(document.getElementById("schema").textContent);
-            window.db = Stmt.load(schema)
-        </script>
         <script src="assets/components/example.js"></script>
     }
 }

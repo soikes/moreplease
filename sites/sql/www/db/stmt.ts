@@ -1,7 +1,7 @@
 import initSqlJs, { Database, QueryExecResult } from "sql.js/dist/sql-wasm.js";
 
 export class Stmt {
-  db: Database | undefined;
+  db: Database;
 
   private constructor() {}
 
@@ -18,14 +18,19 @@ export class Stmt {
   static async load(schema: string): Promise<Stmt> {
     const s = new Stmt();
     await s.init();
-    s.exec(schema);
+    s.execAll(schema);
     return s;
   }
 
-  exec(stmt: string): QueryExecResult[] | undefined {
-    const rows = this.db?.exec(stmt);
+  // Executes a single SQL query against the loaded database.
+  exec(stmt: string): QueryExecResult {
+    const rows = this.db.exec(stmt)[0];
     // this.db?.handleError(); // Don't know how this works.
     return rows;
+  }
+
+  execAll(stmts: string): QueryExecResult[] {
+    return this.db.exec(stmts);
   }
 
   private async fetchStmt(path: string): Promise<string> {
@@ -37,18 +42,9 @@ export class Stmt {
   }
 
   private async init() {
-    if (this.db != undefined) {
-      return;
-    }
     const cfg = { locateFile: (file) => "assets/sql-wasm.wasm" };
-    try {
-      const SQL = await initSqlJs(cfg);
-      this.db = new SQL.Database();
-    } catch (error) {
-      console.error(
-        "failed to initialize sqlite: ${error}; sql examples will be read-only.",
-      );
-    }
+    const SQL = await initSqlJs(cfg);
+    this.db = new SQL.Database();
   }
 }
 

@@ -1,25 +1,43 @@
 import { LitElement, html } from "lit";
+import { Task } from "@lit/task";
 import { customElement, property } from "lit/decorators.js";
 import { Stmt } from "../db/stmt.js";
-import { Database } from "sql.js";
+import { MarkdownFormatter } from "../db/formatter.js";
 
 @customElement("sql-example")
 class SQLExample extends LitElement {
+  private _stmt: Stmt;
+
+  private _initTask = new Task(this, {
+    task: async () => {
+      try {
+        this._stmt = await Stmt.load(this.schema);
+      } catch (error) {
+        console.log(
+          `failed to initialize SQLite database with schema ${this.schema}: ${error}`,
+        );
+      }
+    },
+  });
+
+  constructor() {
+    super();
+    this._initTask.run();
+  }
+
   @property()
-  db: Database;
+  schema: string;
 
   @property()
   stmt: string;
 
-  @property()
+  @property({ attribute: false })
   result: string;
 
-  protected firstUpdated(): void {
-    if (!this.stmt) {
-      return;
-    }
-    const res = this.db.exec(this.stmt);
-    this.result = res.toString();
+  willUpdate() {
+    const res = this._stmt.exec(this.stmt);
+    const fmt = MarkdownFormatter.fromResult(res);
+    this.result = fmt.toString();
   }
 
   render() {
