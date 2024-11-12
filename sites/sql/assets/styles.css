@@ -124,6 +124,8 @@ p {
 
 .footer {
     color: gray;
+    font-family: "DM Mono";
+    font-style: italic;
     /* display: inline-grid;
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center; */
@@ -143,7 +145,7 @@ p {
 }
 
 .content {
-    margin: 0 auto;
+    margin: 0 auto 4rem auto;
     container-type: inline-size;
 }
 
