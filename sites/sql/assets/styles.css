@@ -21,6 +21,11 @@
     font-style: italic;
 }
 
+@font-face {
+    font-family: "Space Grotesk";
+    src: url("SpaceGrotesk-VariableFont_wght.ttf");
+}
+
 /* TODO: How to toggle this manually using the toggle button I made? */
 :root {
     /* color-scheme: light dark; */
@@ -81,7 +86,7 @@ p {
     margin: 1rem 0;
 }
 
-.logo {
+/* .logo {
     display: grid;
     align-items: center;
     font-family: "DM Mono";
@@ -89,7 +94,7 @@ p {
     font-style: italic;
     margin: 2rem 0;
     row-gap: 1rem;
-}
+} */
 
 .logo-line {
     margin: -0.5rem 0;
@@ -231,4 +236,32 @@ p {
     position: fixed;
     bottom: 0;
     right: 0;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    margin-top: 4rem;
+    margin-bottom: 3rem;
+}
+
+.logo-color {
+    color: #3d41ff;
+}
+
+.logo-img {
+    height: 4rem;
+    width: auto;
+    margin-right: 0.5em;
+}
+
+.logo-text {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    font-family: "DM Mono";
+    font-weight: 500;
+    font-style: italic;
+    text-decoration: underline;
+    font-size: 2.75rem;
 }
