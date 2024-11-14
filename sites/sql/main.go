@@ -6,13 +6,15 @@ import (
 	"net/http"
 
 	"github.com/a-h/templ"
+
 	aggregate_functions_topic "soikke.li/moreplease/sites/sql/topics/aggregate_functions"
-	coalesce_stmt "soikke.li/moreplease/sites/sql/topics/coalesce"
+	coalesce_topic "soikke.li/moreplease/sites/sql/topics/coalesce"
 	functions_topic "soikke.li/moreplease/sites/sql/topics/functions"
-	join_stmt "soikke.li/moreplease/sites/sql/topics/join"
-	order_by_stmt "soikke.li/moreplease/sites/sql/topics/order_by"
-	select_stmt "soikke.li/moreplease/sites/sql/topics/select"
-	where_stmt "soikke.li/moreplease/sites/sql/topics/where"
+	group_by_topic "soikke.li/moreplease/sites/sql/topics/group_by"
+	join_topic "soikke.li/moreplease/sites/sql/topics/join"
+	order_by_topic "soikke.li/moreplease/sites/sql/topics/order_by"
+	select_topic "soikke.li/moreplease/sites/sql/topics/select"
+	where_topic "soikke.li/moreplease/sites/sql/topics/where"
 )
 
 //go:embed assets/*
@@ -20,13 +22,14 @@ var assets embed.FS
 
 func main() {
 	index := index()
+	http.Handle("/group_by", templ.Handler(group_by_topic.Topic()))
 	http.Handle("/aggregate_functions", templ.Handler(aggregate_functions_topic.Topic()))
 	http.Handle("/functions", templ.Handler(functions_topic.Topic()))
-	http.Handle("/order_by", templ.Handler(order_by_stmt.Topic()))
-	http.Handle("/join", templ.Handler(join_stmt.Topic()))
-	http.Handle("/coalesce", templ.Handler(coalesce_stmt.Topic()))
-	http.Handle("/select", templ.Handler(select_stmt.Topic()))
-	http.Handle("/where", templ.Handler(where_stmt.Topic()))
+	http.Handle("/order_by", templ.Handler(order_by_topic.Topic()))
+	http.Handle("/join", templ.Handler(join_topic.Topic()))
+	http.Handle("/coalesce", templ.Handler(coalesce_topic.Topic()))
+	http.Handle("/select", templ.Handler(select_topic.Topic()))
+	http.Handle("/where", templ.Handler(where_topic.Topic()))
 	http.Handle("/assets/", http.FileServer(http.FS(assets)))
 	http.Handle("/", templ.Handler(index))
 	fmt.Println("listening on 127.0.0.1:9000")

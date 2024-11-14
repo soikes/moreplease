@@ -29,6 +29,34 @@
 
 - [ ] Include the -> and ->> operators for extracting JSON. These are useful to know.
 
+- [ ] for CASE statement, use ```sql
+      SELECT
+      CASE CAST(strftime('%m', date_column) AS INTEGER)
+      WHEN 1 THEN 'January'
+      WHEN 2 THEN 'February'
+      WHEN 3 THEN 'March'
+      WHEN 4 THEN 'April'
+      WHEN 5 THEN 'May'
+      WHEN 6 THEN 'June'
+      WHEN 7 THEN 'July'
+      WHEN 8 THEN 'August'
+      WHEN 9 THEN 'September'
+      WHEN 10 THEN 'October'
+      WHEN 11 THEN 'November'
+      WHEN 12 THEN 'December'
+      END AS month
+      FROM table;
+
+````
+
+```sql
+SELECT
+    substr('JanFebMarAprMayJunJulAugSepOctNovDec',
+           3 * (strftime('%m', date_column) - 1) + 1,
+           3) AS month
+FROM table;
+````
+
 # BUGS
 
 - [x] (FIXED: Just add jusify-self: start to the container too.) To make the sticky thing work I had to use divs as sticky containers in the css grid rows. This seems to have broken the "justify-self: start" that makes each bubble fit only the content. Now on the JOIN page all the bubbles are the same width. it makes it a bit visually overwhelming. Fix that and make them all their own unique size again based on the content.

@@ -104,7 +104,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Most database engines allow you to perform computations on the columns you retrieve.<br><br>Sometimes, combining columns can be useful. In the case of SQLite, <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Most database engines allow you to perform computations on the columns you retrieve.<br><br>Sometimes combining columns can be useful. In the case of SQLite, <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -152,7 +152,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>If you want to alias a column with a name that includes spaces, surround the name with double quotation marks.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>If you want to alias a column with a value that includes spaces, surround the name with double quotation marks.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

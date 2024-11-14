@@ -1,0 +1,86 @@
+package group_by
+
+import (
+    "embed"
+    "soikke.li/moreplease/sites/sql/db"
+    st "soikke.li/moreplease/sites/sql/templates"
+    "soikke.li/moreplease/templates"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        e := st.Example{
+            Statements: s,
+        }
+    }}
+    @templates.Base("More SQL Please: GROUP BY") {
+        <div class="content wide">
+            @st.TopicTitle("GROUP BY")
+            @st.Schema(s, "products", "suppliers", "orders")
+            <div class="container">
+                <div>
+                    The <span>@st.Inline("GROUP BY")</span> statement is used when you want to group results together so you can find things out about each group. <span>@st.Inline("GROUP BY")</span> is most useful when paired with an aggregate function, which in this case will operate once for each group instead of all the rows together.
+                </div>
+                @e.Run("sql/group_by.sql")
+                <div>
+                    You can use multiple aggregate functions with a <span>@st.Inline("GROUP BY")</span> to find more information about each group side by side.
+                </div>
+                @e.Run("sql/group_by_multiple_functions.sql")
+                <div>
+                    The <span>@st.Inline("HAVING")</span> clause can be applied to a <span>@st.Inline("GROUP BY")</span>, which will only include rows in the group that match the clause. It is similar to a <span>@st.Inline("WHERE")</span> clause but with key differences:<br><br>
+                    <span>@st.Inline("WHERE")</span> filters rows before they are grouped and <span>@st.Inline("HAVING")</span> filters rows after groups are formed. Because of this, only the <span>@st.Inline("HAVING")</span> clause can accept aggeregated values.
+                </div>
+                @e.Run("sql/group_by_having.sql")
+                <div>
+                    <span>@st.Inline("GROUP BY")</span> can be used alongside other clauses like <span>@st.Inline("JOIN")</span>.<br><br>
+                    In this example we can use the <span>@st.Inline("avg()")</span> function with the lead time of each order to find the average lead time for each supplier.<br><br>
+                    <span>@st.Inline("julianday()")</span> is a built-in function that helps us perform arithmetic on <a href="date_and_time">dates</a> in SQLite.
+                </div>
+                @e.Run("sql/group_by_join.sql")
+                <div>
+                    If you supply multiple columns to a <span>@st.Inline("GROUP BY")</span>, groups are formed based on all the unique combinations of data from those columns.<br><br>
+                    Here we group by both the product category and the month we made an order for that category. <span>@st.Inline("count(*)")</span> will then count how many rows are in each group, telling us how many orders there are in each group.<br><br>
+                </div>
+                @e.Run("sql/group_by_multicolumn.sql")
+                <div>
+                    It would be more useful if we could see the data sorted by month. <span>@st.Inline("ORDER BY")</span> can be applied at the end to sort the months in ascending order.
+                </div>
+                @e.Run("sql/group_by_order_by.sql")
+                <div>
+                    The <span>@st.Inline("DISTINCT")</span> clause can be added to an aggregate function like <span>@st.Inline("count()")</span>. In this case we want to see how many different suppliers we have for each product category to make sure we can negotiate the best prices.<br><br>
+                    If we didn't include the <span>@st.Inline("DISTINCT")</span> clause in this query we would get a count of all the product rows in each category where the supplier is not <span>@st.Inline("NULL")</span> but that isn't very useful to us right now.
+                </div>
+                @e.Run("sql/group_by_distinct.sql")
+                <div>
+                    <span>@st.Inline("NULL")</span> values form their own group when they are found by a <span>@st.Inline("GROUP BY")</span>.<br><br>
+                    In this schema an order has a <span>@st.Inline("NULL")</span> arrival date if it hasn't arrived yet. This query will show us unfulfilled orders alongside fulfilled orders.
+                </div>
+                @e.Run("sql/group_by_null.sql")
+                <div>
+                    As usual, a <span>@st.Inline("WHERE")</span> clause can be applied to any of these queries. This time, we filter out unfulfilled orders before they are grouped by month.<br><br>
+                    This example also shows <span>@st.Inline("WHERE")</span> and <span>@st.Inline("HAVING")</span> being used together.
+                </div>
+                @e.Run("sql/group_by_where.sql")
+                <div>
+                    Any selected columns that are not part of an aggregate function or included in the <span>@st.Inline("GROUP BY")</span> clause are called "bare" columns. Many databases will treat bare columns as an error because there is ambiguity in which value to return.<br><br>
+
+                    SQLite does allow them and has a particular set of rules to decide which value is selected from each group but it's generally recommended not to include them in your queries.
+                </div>
+                @e.Run("sql/group_by_invalid.sql")
+            </div>
+        </div>
+    }
+}
+
+/*
+"sql/select_all_columns.sql",
+"sql/select_alias.sql",
+"sql/select_computation.sql",
+*/

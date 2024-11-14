@@ -173,7 +173,7 @@ p {
 @container (min-width: 60rem) {
     .container {
         grid-template-columns: 2fr 3fr;
-        row-gap: 6rem;
+        row-gap: 8rem;
     }
 
     /* If we have one item e.g. a schema with one table, place it in the 2nd column with the code examples */
