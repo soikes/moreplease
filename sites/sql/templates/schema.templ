@@ -5,24 +5,37 @@ import (
     "soikke.li/moreplease/sites/sql/db"
 )
 
+var schemaHandle = templ.NewOnceHandle()
+
 templ Schema(s db.Statements, tables ...string) {
-    <details class="toggle">
-        <summary
-            class="action"
-            data-open="hide tables"
-            data-close="show tables"
-        ></summary>
-        <div class="container">
-            for _, table := range tables {
-                <div class="tile">
-                    <div class="tablename">
-                        <span>@Inline(table)</span>
-                    </div>
-                    <pre>
-                        { s.ExecFile(fmt.Sprintf("sql/schema/dump_%s.sql", table)) }
-                    </pre>
-                </div>
+    <div id="schema">
+        <details class="toggle">
+            <summary
+                class="action heading"
+                data-open="hide tables"
+                data-close="show tables"
+            ></summary>
+            <input type="checkbox" id="schema_follow">
+            <label class="heading" for="schema_follow">follow</label>
+            @schemaHandle.Once() {
+                <script>
+                    me("#schema_follow").on("click", function() {
+                      me("#schema").classToggle("follow");
+                    });
+                </script>
             }
-        </div>
-    </details>
+            <div class="container">
+                for _, table := range tables {
+                    <div class="tile">
+                        <div class="tablename">
+                            <span>@Inline(table)</span>
+                        </div>
+                        <pre>
+                            { s.ExecFile(fmt.Sprintf("sql/schema/dump_%s.sql", table)) }
+                        </pre>
+                    </div>
+                }
+            </div>
+        </details>
+    </div>
 }

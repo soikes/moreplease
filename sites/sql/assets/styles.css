@@ -31,6 +31,8 @@
     /* color-scheme: light dark; */
 }
 
+/* BASIC ELEMENTS */
+
 body {
     /* color: light-dark(#000000, #e8eaed); */
     /* background-color: light-dark(#ffffff, #202124); */
@@ -113,7 +115,7 @@ p {
     margin: 2rem 0;
 }
 
-.topic-title {
+.heading {
     font-family: "DM Mono";
     font-style: italic;
 }
@@ -126,6 +128,7 @@ p {
     color: gray;
     font-family: "DM Mono";
     font-style: italic;
+    margin-top: 4rem;
     /* display: inline-grid;
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center; */
@@ -161,6 +164,8 @@ p {
     font-size: 1.1rem;
 }
 
+/* TOPIC PAGE ELEMENTS */
+
 .container {
     display: grid;
     grid-template-columns: 1fr;
@@ -180,11 +185,22 @@ p {
     .container:has(> :only-child) > :only-child {
         grid-column: 2;
     }
+
+    /* Make the schema have equal v/h whitespace between tables*/
+    #schema > .container {
+        row-gap: 4rem;
+    }
 }
 
-.tables {
-    margin-top: 2rem;
-}
+/* #schema {
+    background-color: white;
+} */
+
+/* .follow {
+    position: fixed;
+    top: 2rem;
+    z-index: 1;
+} */
 
 .toggle {
     margin: 2rem 0;
@@ -248,10 +264,13 @@ p {
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    margin-top: 4rem;
-    margin-bottom: 3rem;
+    /* display: flex;
+    align-items: center; */
+    margin: 4rem auto 3rem auto;
+}
+
+.logo img {
+    width: 100%;
 }
 
 .logo-color {
