@@ -5,6 +5,8 @@ import (
     "soikke.li/moreplease/sites/sql/db"
 )
 
+var schemaHandle = templ.NewOnceHandle()
+
 templ Schema(s db.Statements, tables ...string) {
     <details id="schema" class="toggle">
         <summary
@@ -12,6 +14,7 @@ templ Schema(s db.Statements, tables ...string) {
             data-open="hide tables"
             data-close="show tables">
         </summary>
+        <a class="heading" id="pop-schema" style="cursor: pointer; text-decoration: underline;">pop out tables</a>
         <div class="container">
             for _, table := range tables {
                 <div class="tile">
@@ -25,4 +28,30 @@ templ Schema(s db.Statements, tables ...string) {
             }
         </div>
     </details>
+    @schemaHandle.Once() {
+        <script>
+            document.getElementById("pop-schema").addEventListener("click", function (e) {
+                const schema = document.getElementById("schema");
+                const clonedSchema = schema.cloneNode(true);
+                const styleSheets = Array.from(document.styleSheets)
+                  .map(sheet => sheet.href)
+                  .filter(Boolean)
+                  .map(href => `<link rel="stylesheet" href="${href}">`)
+                  .join('');
+                const popup = window.open('', 'Popup', 'width=600,height=400');
+                popup.document.write(`
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Schema</title>
+                        ${styleSheets}
+                    </head>
+                    <body>
+                    </body>
+                    </html>
+                `);
+                popup.document.body.appendChild(clonedSchema);
+            });
+        </script>
+    }
 }
