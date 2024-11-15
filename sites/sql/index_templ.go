@@ -83,7 +83,7 @@ func inner() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content narrow\"><div class=\"logo\"><span class=\"logo-text\"><img class=\"logo-img\" src=\"assets/hands.svg\">More&nbsp;<span class=\"logo-color\">SQL</span>&nbsp;Please!</span></div><p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to <a href=\"https://en.wikipedia.org/wiki/Relational_database\">relational data<span>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content narrow\"><div class=\"logo\"><img src=\"assets/logo.svg\"></div><p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to <a href=\"https://en.wikipedia.org/wiki/Relational_database\">relational data<span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -91,7 +91,7 @@ func inner() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a> where the data has well-defined relationships.</p><p><em>More SQL Please!</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses SQL statements that have been run against <a href=\"https://www.sqlite.org\">SQLite<span>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a> where the data has well-defined relationships.</p><p><em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses SQL statements that have been run against <a href=\"https://www.sqlite.org\">SQLite<span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
