@@ -1,6 +1,6 @@
-CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, supplier_id INTEGER);
-CREATE TABLE suppliers(id INTEGER PRIMARY KEY, name TEXT);
-CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, supplier_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE vendors(id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, vendor_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
 
 INSERT INTO products VALUES
     (1, "Cool Splash Cologne", "Toiletries", 49.99, 25, 2),
@@ -11,7 +11,7 @@ INSERT INTO products VALUES
     (6, "Big Bark Dog Food", "Pet Care", 30.00, 2, 2),
     (7, "Soft Purr Cat Food", "Pet Care", 30.00, 2, 2);
 
-INSERT INTO suppliers VALUES
+INSERT INTO vendors VALUES
     (1, "Quicky Express Food Co"),
     (2, "Good Times Distributors"),
     (3, "Natural Goodness"),

@@ -23,7 +23,7 @@ templ Topic() {
     @templates.Base("More SQL Please: GROUP BY") {
         <div class="content wide">
             @st.TopicTitle("GROUP BY")
-            @st.Schema(s, "products", "suppliers", "orders")
+            @st.Schema(s, "products", "vendors", "orders")
             <div class="container">
                 <div>
                     The <span>@st.Inline("GROUP BY")</span> statement is used when you want to group results together so you can find things out about each group. <span>@st.Inline("GROUP BY")</span> is most useful when paired with an aggregate function, which in this case will operate once for each group instead of all the rows together.
