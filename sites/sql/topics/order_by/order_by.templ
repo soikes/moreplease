@@ -40,14 +40,16 @@ templ Topic() {
                 </div>
                 @e.Run("sql/order_by_where.sql")
                 <div>
-                    <span>@st.Inline("NULL")</span> values are sorted differently depending on the database enigne used. SQLite treats <span>@st.Inline("NULL")</span> as "smaller" than non-<span>@st.Inline("NULL")</span> values, meaning they will appear first if you <span>@st.Inline("ORDER BY ASC")</span>.<br><br>
-                    Some database engines, including SQLite, support a <span>@st.Inline("NULLS LAST")</span> or <span>@st.Inline("NULLS FIRST")</span> clause which alters the ordering of <span>@st.Inline("NULL")</span> in the results.
+                    <span>@st.Inline("NULL")</span> values are sorted differently depending on the database engine used. SQLite treats <span>@st.Inline("NULL")</span> as "smaller" than non-<span>@st.Inline("NULL")</span> values, meaning they will appear first if you <span>@st.Inline("ORDER BY ... ASC")</span>.<br><br>
+                    Some database engines, including SQLite, support <span>@st.Inline("ASC NULLS LAST")</span> or <span>@st.Inline("DESC NULLS FIRST")</span> clauses which alter the default ordering of <span>@st.Inline("NULL")</span> in the results.
                 </div>
                 @e.Run("sql/order_by_null.sql")
-                <div>
+                <div class="linkable" id="collation">
                     Capitalized letters, special characters, whitespace and numbers inside strings have a particular sort order depending on the database engine. Be sure to find out the default ordering and comparison rules, or "collation", for the database you are using.<br><br>
                     The default collation for text in SQLite is called <span>@st.Inline("BINARY")</span> which means text characters are compared based on their binary (ASCII/Unicode) representation.
-                    See <a href="https://en.wikipedia.org/wiki/ASCII#Character_order">ASCII Character Order<span>@st.Outlink()</span></a>.<br><br>
+                    See 
+                    @st.Outlink("https://en.wikipedia.org/wiki/ASCII#Character_order", "ASCII Character Order")
+                    .<br><br>
                     This is why "james" appears at the bottom of the <span>@st.Inline("ASC")</span> ordered query.
                 </div>
                 @e.Run("sql/order_by_special_characters.sql")

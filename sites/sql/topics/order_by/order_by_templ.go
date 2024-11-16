@@ -192,7 +192,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values are sorted differently depending on the database enigne used. SQLite treats <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values are sorted differently depending on the database engine used. SQLite treats <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -212,15 +212,15 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = st.Inline("ORDER BY ASC").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("ORDER BY ... ASC").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>Some database engines, including SQLite, support a <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>Some database engines, including SQLite, support <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = st.Inline("NULLS LAST").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("ASC NULLS LAST").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -228,11 +228,11 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = st.Inline("NULLS FIRST").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("DESC NULLS FIRST").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause which alters the ordering of <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clauses which alter the default ordering of <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -248,7 +248,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Capitalized letters, special characters, whitespace and numbers inside strings have a particular sort order depending on the database engine. Be sure to find out the default ordering and comparison rules, or \"collation\", for the database you are using.<br><br>The default collation for text in SQLite is called <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"linkable\" id=\"collation\">Capitalized letters, special characters, whitespace and numbers inside strings have a particular sort order depending on the database engine. Be sure to find out the default ordering and comparison rules, or \"collation\", for the database you are using.<br><br>The default collation for text in SQLite is called <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -256,15 +256,15 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> which means text characters are compared based on their binary (ASCII/Unicode) representation. See <a href=\"https://en.wikipedia.org/wiki/ASCII#Character_order\">ASCII Character Order<span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> which means text characters are compared based on their binary (ASCII/Unicode) representation. See ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = st.Outlink().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Outlink("https://en.wikipedia.org/wiki/ASCII#Character_order", "ASCII Character Order").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a>.<br><br>This is why \"james\" appears at the bottom of the <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(".<br><br>This is why \"james\" appears at the bottom of the <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

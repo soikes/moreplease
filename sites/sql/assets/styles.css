@@ -93,7 +93,7 @@ p {
 }
 
 .logo img {
-    width: 75%;
+    width: 100%;
 }
 
 .logo-color {
@@ -140,6 +140,11 @@ p {
 .content ul {
     list-style: none;
     padding-left: 0;
+}
+
+.linkable {
+    scroll-margin-top: 2rem;
+    scroll-snap-margin-top: 2rem; /* iOS 11 and older */
 }
 
 .index {

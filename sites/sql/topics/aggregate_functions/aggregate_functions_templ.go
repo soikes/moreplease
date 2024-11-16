@@ -151,7 +151,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a>: by following the current collation for that data type.<br><br>To instead find the minimum value the <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a>: by following the current <a href=\"/order_by#collation\">collation</a> for that data type.<br><br>To instead find the minimum value the <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

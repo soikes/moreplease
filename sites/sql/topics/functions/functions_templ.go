@@ -79,15 +79,15 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is a scalar function in SQLite that returns the current date and time.<br><br>SQLite and most other database engines will publish <a href=\"https://www.sqlite.org/lang_corefunc.html\">documentation<span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is a scalar function in SQLite that returns the current date and time.<br><br>SQLite and most other database engines will publish")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = st.Outlink().Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Outlink("https://www.sqlite.org/lang_corefunc.html", "documentation").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a> on built-in functions available to use.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("on built-in functions available to use.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -143,7 +143,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"linkable\" id=\"coalesce\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -183,7 +183,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>In this example we can use the <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>In logistics, lead time is how long it takes to receive something after ordering it. In this example we group by vendor then use the <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -191,7 +191,23 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function with the lead time of each order to find the average lead time for each supplier.<br><br><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function with the lead time of each order to find the average lead time for each vendor.<br><br>We group by a vendor's <span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = st.Inline("id").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> instead of <span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = st.Inline("name").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> because vendors might have the same name as one another but they always have a unique id. This ensures that our groups contain the correct order data for each unique vendor.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -231,7 +247,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>It would be more useful if we could see the data sorted by month. <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Now lets say we want to see the most recent order totals first. <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -239,7 +255,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be applied at the end to sort the months in ascending order.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be applied at the end of the query to sort the months in descending order.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -263,7 +279,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. In this case we want to see how many different suppliers we have for each product category to make sure we can negotiate the best prices.<br><br>If we didn't include the <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. In this case we want to see how many different vendors we have for each product category to make sure we can negotiate the best prices.<br><br>Without the <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -271,15 +287,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause in this query we would get a count of all the product rows in each category where the supplier is not <span>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = st.Inline("NULL").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> but that isn't very useful to us right now.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause in this query it would return a row count of all the products in each category even if the same vendor appears multiple times. We would have thought we had two Pet Care vendors when really we only have one.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -311,7 +319,23 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> arrival date if it hasn't arrived yet. This query will show us unfulfilled orders alongside fulfilled orders.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> arrival date if it hasn't arrived yet. This query will show us unfulfilled orders as a <span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = st.Inline("NULL").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> arrival month alongside fulfilled orders.<br><br>If we wanted something more informative to display like \"Not Arrived\" or \"Pending\", we could use the ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = st.Link("/functions#coalesce", "coalesce() function").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(".</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -359,7 +383,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause are called \"bare\" columns. Many databases will treat bare columns as an error because there is ambiguity in which value to return.<br><br>SQLite does allow them and has a particular set of rules to decide which value is selected from each group but it's generally recommended not to include them in your queries.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause are called \"bare\" columns. Many databases will treat bare columns as an error because they create ambiguity in which value to return.<br><br>SQLite does allow bare columns but it's generally recommended not to include them in your queries. In this case we returned an arbitrary product name belonging to each category which is not very useful.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

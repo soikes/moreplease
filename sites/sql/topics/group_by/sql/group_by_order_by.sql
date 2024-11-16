@@ -1,8 +1,8 @@
-SELECT count(*) AS total_orders,
+SELECT strftime("%m", o.date_ordered) AS month,
     p.category,
-    strftime("%m", o.date_ordered) AS month
+    count(*) AS total_orders
 FROM orders o
 INNER JOIN products p
     ON o.product_id = p.id
-GROUP BY p.category, month
-ORDER BY month ASC;
+GROUP BY month, p.category
+ORDER BY month DESC;

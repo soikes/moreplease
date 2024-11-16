@@ -1,5 +1,5 @@
-SELECT count(*) AS fulfilled_orders,
-    strftime("%m", date_arrived) AS month
+SELECT strftime("%m", date_arrived) AS month_arrived,
+    count(*) AS orders
 FROM orders
-GROUP BY month
-ORDER BY month ASC;
+GROUP BY month_arrived
+ORDER BY month_arrived ASC;

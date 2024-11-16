@@ -40,7 +40,7 @@ templ Topic() {
                 </div>
                 @e.Run("sql/count_distinct.sql")
                 <div>
-                    Another commonly used aggregate function is <span>@st.Inline("max()")</span>. It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an <a href="/order_by"><span>@st.Inline("ORDER BY")</span></a>: by following the current collation for that data type.<br><br>
+                    Another commonly used aggregate function is <span>@st.Inline("max()")</span>. It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an <a href="/order_by"><span>@st.Inline("ORDER BY")</span></a>: by following the current <a href="/order_by#collation">collation</a> for that data type.<br><br>
                     To instead find the minimum value the <span>@st.Inline("min()")</span> function is used.<br><br>
                     Keep in mind that in SQLite and other databases, <span>@st.Inline("max()")</span> and <span>@st.Inline("min()")</span> have versions that accept multiple arguments which are actually scalar functions that perform a different task.
                 </div>
