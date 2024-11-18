@@ -80,11 +80,19 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is used to sort rows returned by a query. To sort rows in ascending order use <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause allows you to sort the results of a query based on a particular column.<br><br>Rows have no defined sort order in most databases by default. If no <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = st.Inline("ASC").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("ORDER BY").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is specified, rows are returned based on speed and efficiency and should not be relied on to return rows in the same order every time.<br><br>To sort rows in ascending order use <span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = st.Inline("ORDER BY ... ASC").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -92,7 +100,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = st.Inline("DESC").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Inline("ORDER BY ... DESC").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -128,7 +136,23 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and similar types chronologically from oldest to newest. Refer to the particular database engine you use to see how other types are sorted.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and similar types chronologically from oldest to newest. Refer to the particular database engine you use to see how other types are sorted.<br><br>It is best practice to <i>always</i> be explicit and include an <span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = st.Inline("ORDER BY").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> in your queries. For brevity, the rest of the examples on this website will not include <span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = st.Inline("ORDER BY").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> unless it's relevant to the example.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

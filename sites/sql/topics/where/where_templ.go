@@ -288,7 +288,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> operator can be applied before any of the above operators to negate them.<br><br>See <a href=\"logical_operators\">Logical Operators</a> for more examples.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> operator can be applied before any of the above operators to negate them.<br><br>See <a href=\"operators\">Operators</a> for more examples.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

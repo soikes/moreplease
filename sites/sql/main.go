@@ -12,6 +12,7 @@ import (
 	functions_topic "soikke.li/moreplease/sites/sql/topics/functions"
 	group_by_topic "soikke.li/moreplease/sites/sql/topics/group_by"
 	join_topic "soikke.li/moreplease/sites/sql/topics/join"
+	limit_topic "soikke.li/moreplease/sites/sql/topics/limit"
 	order_by_topic "soikke.li/moreplease/sites/sql/topics/order_by"
 	select_topic "soikke.li/moreplease/sites/sql/topics/select"
 	where_topic "soikke.li/moreplease/sites/sql/topics/where"
@@ -22,6 +23,7 @@ var assets embed.FS
 
 func main() {
 	index := index()
+	http.Handle("/limit", templ.Handler(limit_topic.Topic()))
 	http.Handle("/group_by", templ.Handler(group_by_topic.Topic()))
 	http.Handle("/aggregate_functions", templ.Handler(aggregate_functions_topic.Topic()))
 	http.Handle("/functions", templ.Handler(functions_topic.Topic()))

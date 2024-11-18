@@ -1,0 +1,62 @@
+package limit_topic
+
+import (
+    "embed"
+
+    "soikke.li/moreplease/templates"
+    "soikke.li/moreplease/sites/sql/db"
+    st "soikke.li/moreplease/sites/sql/templates"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        e := st.Example{
+            Statements: s,
+        }
+    }}
+    @templates.Base("More SQL Please: LIMIT") {
+        <div class="content wide">
+            @st.TopicTitle("LIMIT")
+            @st.Schema(s, "users")
+            <div class="container">
+                <div>
+                    The <span>@st.Inline("LIMIT")</span> clause limits the maximum number of rows returned by a <span>@st.Inline("SELECT")</span> statement.<br><br>
+                    Other databases can have different syntaxes such as <span>@st.Inline("SELECT TOP")</span>, <span>@st.Inline("FETCH FIRST")</span> and <span>@st.Inline("WHERE ROWNUM")</span>.<br><br>
+                    Some databases also allow a <span>@st.Inline("LIMIT")</span> clause on <span>@st.Inline("INSERT")</span> and <span>@st.Inline("DELETE")</span> statements which limits the effect of those statements to the specified maximum amount of rows.
+                </div>
+                @e.Run("sql/limit.sql")
+                <div>
+                    Without an <a href="/order_by"><span>@st.Inline("ORDER BY")</span></a> clause, rows have no default sorting order in most databases. This means that using a <span>@st.Inline("LIMIT")</span> clause without <span>@st.Inline("ORDER BY")</span> can produce inconsistent result sets. It is best practice to always specify <span>@st.Inline("ORDER BY")</span> in your queries, especially when you are limiting the result set.
+                </div>
+                @e.Run("sql/limit_order_by.sql")
+                <div>
+                    <span>@st.Inline("OFFSET")</span> can be applied to a <span>@st.Inline("LIMIT")</span> to offset the results returned. This helps in scenarios where you need to return your results in smaller paginated batches instead of all the data at once.
+                </div>
+                @e.Run("sql/limit_offset.sql")
+                <div>
+                    If your <span>@st.Inline("LIMIT")</span> reaches past the total amount of data to return, the query will just return the total amount of data as if a <span>@st.Inline("LIMIT")</span> was not applied.
+                </div>
+                @e.Run("sql/limit_end.sql")
+                <div>
+                    If an <span>@st.Inline("OFFSET")</span> reaches past the total amount of data to return, the query will return no data.
+                </div>
+                @e.Run("sql/offset_end.sql")
+                <div>
+                    You can compute the number you supply to a <span>@st.Inline("LIMIT")</span> clause using arithmetic, <span>@st.Link("/functions", "functions")</span>, <span>@st.Link("/subqueries", "subqueries")</span> and other computations as long as the result is a valid numeric type. See your database's documentation for types compatible with <span>@st.Inline("LIMIT")</span>.
+                </div>
+                @e.Run("sql/limit_computation.sql")
+                <div>
+                    Sometimes but not always, adding a <span>@st.Inline("LIMIT")</span> clause to your query can improve performance. There are a number of factors that influence this including: how complex your query is, how many tables are queried, what <span>@st.Link("/indexes", "indexes")</span> are present on the table, and whether any rows actually match your query or if the query needs to scan the entire table anyways. Fewer results also means the size of the data returned over a network connection is less.<br><br>
+                    See <span>@st.Link("/performance_and_explain", "Performance and EXPLAIN")</span> for more information.
+                </div>
+            </div>
+        </div>
+    }
+}

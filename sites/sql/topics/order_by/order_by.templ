@@ -27,8 +27,11 @@ templ Topic() {
             @st.Schema(s, "users")
             <div class="container">
                 <div>
-                    The <span>@st.Inline("ORDER BY")</span> clause is used to sort rows returned by a query. To sort rows in ascending order use <span>@st.Inline("ASC")</span> and to sort in descending order use <span>@st.Inline("DESC")</span>.<br><br>
-                    The method by which a column is sorted depends on the data type of the column. By default in most database engines <span>@st.Inline("ASC")</span> will sort <span>@st.Inline("INTEGER")</span> types numerically from lowest to highest, <span>@st.Inline("TEXT")</span> types alphabetically, and <span>@st.Inline("DATE")</span> and similar types chronologically from oldest to newest. Refer to the particular database engine you use to see how other types are sorted.
+                    The <span>@st.Inline("ORDER BY")</span> clause allows you to sort the results of a query based on a particular column.<br><br>
+                    Rows have no defined sort order in most databases by default. If no <span>@st.Inline("ORDER BY")</span> clause is specified, rows are returned based on speed and efficiency and should not be relied on to return rows in the same order every time.<br><br>
+                    To sort rows in ascending order use <span>@st.Inline("ORDER BY ... ASC")</span> and to sort in descending order use <span>@st.Inline("ORDER BY ... DESC")</span>.<br><br>
+                    The method by which a column is sorted depends on the data type of the column. By default in most database engines <span>@st.Inline("ASC")</span> will sort <span>@st.Inline("INTEGER")</span> types numerically from lowest to highest, <span>@st.Inline("TEXT")</span> types alphabetically, and <span>@st.Inline("DATE")</span> and similar types chronologically from oldest to newest. Refer to the particular database engine you use to see how other types are sorted.<br><br>
+                    It is best practice to <i>always</i> be explicit and include an <span>@st.Inline("ORDER BY")</span> in your queries. For brevity, the rest of the examples on this website will not include <span>@st.Inline("ORDER BY")</span> unless it's relevant to the example.
                 </div>
                 @e.Run("sql/order_by.sql")
                 <div>
