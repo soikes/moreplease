@@ -1,0 +1,2 @@
+SELECT friends
+FROM profiles;

@@ -79,7 +79,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is a scalar function in SQLite that returns the current date and time.<br><br>SQLite and most other database engines will publish")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is a scalar function in SQLite that returns the current date and time.<br><br>SQLite and most other database engines will publish <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -87,7 +87,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("on built-in functions available to use.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> on built-in functions available to use.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

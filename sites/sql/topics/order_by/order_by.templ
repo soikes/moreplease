@@ -50,9 +50,7 @@ templ Topic() {
                 <div class="linkable" id="collation">
                     Capitalized letters, special characters, whitespace and numbers inside strings have a particular sort order depending on the database engine. Be sure to find out the default ordering and comparison rules, or "collation", for the database you are using.<br><br>
                     The default collation for text in SQLite is called <span>@st.Inline("BINARY")</span> which means text characters are compared based on their binary (ASCII/Unicode) representation.
-                    See 
-                    @st.Outlink("https://en.wikipedia.org/wiki/ASCII#Character_order", "ASCII Character Order")
-                    .<br><br>
+                    See <span>@st.Outlink("https://en.wikipedia.org/wiki/ASCII#Character_order", "ASCII Character Order")</span>.<br><br>
                     This is why "james" appears at the bottom of the <span>@st.Inline("ASC")</span> ordered query.
                 </div>
                 @e.Run("sql/order_by_special_characters.sql")

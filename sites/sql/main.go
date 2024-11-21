@@ -9,6 +9,7 @@ import (
 
 	aggregate_functions_topic "soikke.li/moreplease/sites/sql/topics/aggregate_functions"
 	coalesce_topic "soikke.li/moreplease/sites/sql/topics/coalesce"
+	data_types_topic "soikke.li/moreplease/sites/sql/topics/data_types"
 	functions_topic "soikke.li/moreplease/sites/sql/topics/functions"
 	group_by_topic "soikke.li/moreplease/sites/sql/topics/group_by"
 	join_topic "soikke.li/moreplease/sites/sql/topics/join"
@@ -23,6 +24,7 @@ var assets embed.FS
 
 func main() {
 	index := index()
+	http.Handle("/data_types", templ.Handler(data_types_topic.Topic()))
 	http.Handle("/limit", templ.Handler(limit_topic.Topic()))
 	http.Handle("/group_by", templ.Handler(group_by_topic.Topic()))
 	http.Handle("/aggregate_functions", templ.Handler(aggregate_functions_topic.Topic()))

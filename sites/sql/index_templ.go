@@ -83,7 +83,7 @@ func inner() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content narrow\"><div class=\"logo\"><img src=\"assets/logo.svg\"></div><p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content narrow\"><div class=\"logo\"><img src=\"assets/logo.svg\"></div><p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to <span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -91,7 +91,7 @@ func inner() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("where the data has well-defined relationships.</p><p><em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses SQL statements that have been run against ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> where the data has well-defined relationships.</p><p><em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses SQL statements that have been run against <span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -99,7 +99,7 @@ func inner() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("databases. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p><p>If you want to run the examples on your own device, ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> databases. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p><p>If you want to run the examples on your own device, <span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -107,7 +107,7 @@ func inner() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("and run the scripts contained within each example in this website's ")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and run the scripts contained within each example in this website's <span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -115,7 +115,7 @@ func inner() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(".</p><input type=\"search\" class=\"search search-tile\"><ul class=\"index\"><li><a href=\"/select\">SELECT</a></li><li><a href=\"/where\">WHERE</a></li><li><a href=\"/join\">JOIN</a></li><li><a href=\"/order_by\">ORDER BY</a></li><li><a href=\"/limit\">LIMIT</a></li><li><a href=\"/data_types\">Data Types</a></li><li><a href=\"/functions\">Functions</a></li><li><a href=\"/aggregate_functions\">Aggregate Functions</a></li><li><a href=\"/group_by\">GROUP BY</a></li><li><a href=\"select\">CASE</a></li><li><a href=\"select\">UNION and INTERSECT</a></li><li><a href=\"/window_functions\">Window Functions</a></li><li><a href=\"/rank_functions\">Rank Functions</a></li><li><a href=\"select\">INSERT</a></li><li><a href=\"select\">UPDATE</a></li><li><a href=\"select\">DELETE</a></li><li><a href=\"select\">CREATE TABLE</a></li><li><a href=\"select\">ALTER TABLE</a></li><li><a href=\"select\">DROP TABLE</a></li><li><a href=\"select\">Constraints</a></li><li><a href=\"select\">PRIMARY KEY</a></li><li><a href=\"select\">FOREIGN KEY</a></li><li><a href=\"select\">CASCADE</a></li><li><a href=\"select\">Indexes</a></li><li><a href=\"select\">Transactions</a></li><li><a href=\"select\">Subqueries</a></li><li><a href=\"select\">Temporary Tables</a></li><li><a href=\"select\">Common Table Expressions</a></li><li><a href=\"select\">Stored Procedures</a></li><li><a href=\"select\">Triggers</a></li><li><a href=\"select\">Views</a></li><li><a href=\"select\">Materialized Views</a></li><li><a href=\"select\">PIVOT</a></li><li><a href=\"select\">COLLATE</a></li><li><a href=\"select\">Recursive Queries</a></li><li><a href=\"select\">SQL Injection</a></li><li><a href=\"select\">Users and Permissions</a></li><li><a href=\"select\">String Manipulation</a></li><li><a href=\"select\">Date and Time</a></li><li><a href=\"select\">JSON Operations</a></li><li><a href=\"select\">Performance and EXPLAIN</a></li><li><a href=\"select\">Database Engines</a></li><li><a href=\"select\">Replicas</a></li><li><a href=\"select\">Backup and Recovery</a></li><li><a href=\"select\">Database Migrations</a></li><li><a href=\"select\">Dynamic SQL</a></li><li><a href=\"select\">Comments</a></li><li><a href=\"select\">Operators</a></li><li><a href=\"select\">RDBMS Applications</a></li><li><a href=\"select\">Schema Design</a></li></ul><small class=\"footer\">by <a href=\"http://soikke.li\">Mike Soikkeli</a> | <a href=\"https://github.com/soikes/byexample/tree/main/sql\">source</a> | <a href=\"https://github.com/soikes/byexample/blob/main/LICENSE\">license</a></small></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.</p><input type=\"search\" class=\"search search-tile\"><ul class=\"index\"><li><a href=\"/select\">SELECT</a></li><li><a href=\"/where\">WHERE</a></li><li><a href=\"/join\">JOIN</a></li><li><a href=\"/order_by\">ORDER BY</a></li><li><a href=\"/limit\">LIMIT</a></li><li><a href=\"/data_types\">Data Types</a></li><li><a href=\"/functions\">Functions</a></li><li><a href=\"/aggregate_functions\">Aggregate Functions</a></li><li><a href=\"/group_by\">GROUP BY</a></li><li><a href=\"select\">CASE</a></li><li><a href=\"select\">UNION and INTERSECT</a></li><li><a href=\"/window_functions\">Window Functions</a></li><li><a href=\"/rank_functions\">Rank Functions</a></li><li><a href=\"select\">INSERT</a></li><li><a href=\"select\">UPDATE</a></li><li><a href=\"select\">DELETE</a></li><li><a href=\"select\">CREATE TABLE</a></li><li><a href=\"select\">ALTER TABLE</a></li><li><a href=\"select\">DROP TABLE</a></li><li><a href=\"select\">Constraints</a></li><li><a href=\"select\">PRIMARY KEY</a></li><li><a href=\"select\">FOREIGN KEY</a></li><li><a href=\"select\">CASCADE</a></li><li><a href=\"select\">Indexes</a></li><li><a href=\"select\">Transactions</a></li><li><a href=\"select\">Subqueries</a></li><li><a href=\"select\">Temporary Tables</a></li><li><a href=\"select\">Common Table Expressions</a></li><li><a href=\"select\">Stored Procedures</a></li><li><a href=\"select\">Triggers</a></li><li><a href=\"select\">Views</a></li><li><a href=\"select\">Materialized Views</a></li><li><a href=\"select\">PIVOT</a></li><li><a href=\"select\">COLLATE</a></li><li><a href=\"select\">Recursive Queries</a></li><li><a href=\"select\">SQL Injection</a></li><li><a href=\"select\">Users and Permissions</a></li><li><a href=\"select\">String Manipulation</a></li><li><a href=\"select\">Date and Time</a></li><li><a href=\"select\">JSON Operations</a></li><li><a href=\"select\">Performance and EXPLAIN</a></li><li><a href=\"select\">Database Engines</a></li><li><a href=\"select\">Replicas</a></li><li><a href=\"select\">Backup and Recovery</a></li><li><a href=\"select\">Database Migrations</a></li><li><a href=\"select\">Dynamic SQL</a></li><li><a href=\"select\">Comments</a></li><li><a href=\"select\">Operators</a></li><li><a href=\"select\">RDBMS Applications</a></li><li><a href=\"select\">Schema Design</a></li></ul><small class=\"footer\">by <a href=\"http://soikke.li\">Mike Soikkeli</a> | <a href=\"https://github.com/soikes/byexample/tree/main/sql\">source</a> | <a href=\"https://github.com/soikes/byexample/blob/main/LICENSE\">license</a></small></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

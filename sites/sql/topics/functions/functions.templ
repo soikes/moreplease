@@ -29,9 +29,7 @@ templ Topic() {
                     Most relational database engines support the ability to create and call functions as part of a SQL statement. Most also have commonly used utility functions already built-in.<br><br>
                     Functions that accept zero or more input values and produce a single output value per row are called "simple" or "scalar" functions. There are other types of functions that work with more than one row at a time and they are generally grouped into <a href="aggregate_functions">Aggregate Functions</a> and <a href="window_functions">Window Functions</a>.<br><br>
                     <span>@st.Inline("datetime()")</span> is a scalar function in SQLite that returns the current date and time.<br><br>
-                    SQLite and most other database engines will publish
-                    @st.Outlink("https://www.sqlite.org/lang_corefunc.html", "documentation")
-                    on built-in functions available to use.
+                    SQLite and most other database engines will publish <span>@st.Outlink("https://www.sqlite.org/lang_corefunc.html", "documentation")</span> on built-in functions available to use.
                 </div>
                 @e.Run("sql/functions_date.sql")
                 <div>

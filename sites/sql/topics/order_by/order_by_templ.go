@@ -280,7 +280,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> which means text characters are compared based on their binary (ASCII/Unicode) representation. See ")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> which means text characters are compared based on their binary (ASCII/Unicode) representation. See <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -288,7 +288,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(".<br><br>This is why \"james\" appears at the bottom of the <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>This is why \"james\" appears at the bottom of the <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
