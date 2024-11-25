@@ -327,7 +327,15 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can also be used as arguments to aggregate functions. This technique is useful when you need to create \"buckets\" of data as above but group the data using another separate data point.<br><br>This example shows us how many of each class of product each vendor has for sale.<br><br>Notice how in this example we use a <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can also be used as an input for aggregate functions. This technique is useful when you need to create \"buckets\" of data as above but group the data using another separate category. If you are familiar with spreadsheets, this technique is similar to that of a <span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = st.Outlink("https://en.wikipedia.org/wiki/Pivot_table", "pivot table").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>This example shows us how many of each price class of product each vendor has for sale.<br><br>Notice how in this example we use a <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -399,7 +407,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.<br><br>When you need to re-use the same statements in multiple places in your query consider techniques like this that limit the amount of duplicate code you need to write.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

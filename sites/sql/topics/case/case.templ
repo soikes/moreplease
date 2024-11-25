@@ -58,14 +58,15 @@ templ Topic() {
                 </div>
                 @e.Run("sql/case_group_by.sql")
                 <div>
-                    <span>@st.Inline("CASE")</span> can also be used as arguments to aggregate functions. This technique is useful when you need to create "buckets" of data as above but group the data using another separate data point.<br><br>
-                    This example shows us how many of each class of product each vendor has for sale.<br><br>
+                    <span>@st.Inline("CASE")</span> can also be used as an input for aggregate functions. This technique is useful when you need to create "buckets" of data as above but group the data using another separate category. If you are familiar with spreadsheets, this technique is similar to that of a <span>@st.Outlink("https://en.wikipedia.org/wiki/Pivot_table", "pivot table")</span>.<br><br>
+                    This example shows us how many of each price class of product each vendor has for sale.<br><br>
                     Notice how in this example we use a <span>@st.Inline("LEFT JOIN")</span> which will include vendors that have no products for sale. The vendor "Vend-tertainment" will return a <span>@st.Inline("NULL")</span> value for <span>@st.Inline("p.price")</span>.<br><br>
                     This causes our <span>@st.Inline("CASE")</span> expressions to fall back to their <span>@st.Inline("ELSE")</span> return value of <span>@st.Inline("0")</span>.
                 </div>
                 @e.Run("sql/case_aggregate_functions.sql")
                 <div class="linkable" id="case_restructured">
-                    Here is the example <a href="#case_and_or">above</a> that is restructured using <a href="/common_table_expressions">Common Table Expressions</a> and <span><a href="/union_and_intersect">@st.Inline("UNION")</a></span> to be easier to maintain and understand. Instead of using the order status labels as our column names to match on, we use the integer <span>@st.Inline("id")</span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.
+                    Here is the example <a href="#case_and_or">above</a> that is restructured using <a href="/common_table_expressions">Common Table Expressions</a> and <span><a href="/union_and_intersect">@st.Inline("UNION")</a></span> to be easier to maintain and understand. Instead of using the order status labels as our column names to match on, we use the integer <span>@st.Inline("id")</span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.<br><br>
+                    When you need to re-use the same statements in multiple places in your query consider techniques like this that limit the amount of duplicate code you need to write.
                 </div>
                 @e.Run("sql/case_restructured.sql")
             </div>
