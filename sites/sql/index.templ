@@ -19,10 +19,12 @@ templ inner() {
         <p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to <span>@st.Outlink("https://en.wikipedia.org/wiki/Relational_database", "relational data")</span> where the data has well-defined relationships.</p>
 
         <p><em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses SQL statements that have been run against <span>@st.Outlink("https://www.sqlite.org", "SQLite")</span> databases. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p>
-
+        
+        <p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but they may draw upon previously covered concepts. This is because each one is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p>
+        
         /* <p>Every SQL statement shown is editable and runnable fully in your own browser using <a href="https://github.com/sql-js/sql.js/">sql.js<span>@st.Outlink()</span></a>! You can revert and re-run the original statements anytime.</p> */
 
-        <p>If you want to run the examples on your own device, <span>@st.Outlink("https://sqlite.org/download.html", "download SQLite")</span> and run the scripts contained within each example in this website's <span>@st.Outlink("https://github.com/soikes/byexample/tree/main/sql", "source code")</span>.</p>
+        /* <p>If you want to run the examples on your own device, <span>@st.Outlink("https://sqlite.org/download.html", "download SQLite")</span> and run the scripts contained within each example in this website's <span>@st.Outlink("https://github.com/soikes/byexample/tree/main/sql", "source code")</span>.</p> */
 
         <input type="search" class="search search-tile"/>
 
@@ -58,7 +60,7 @@ templ inner() {
                 <a href="/case">CASE</a>
             </li>
             <li>
-                <a href="/union_and_intersect">UNION and INTERSECT</a>
+                <a href="/union_and_set_operators">UNION and Set Operators</a>
             </li>
             <li>
                 <a href="/window_functions">Window Functions</a>
@@ -176,6 +178,9 @@ templ inner() {
             </li>
             <li>
                 <a href="select">Schema Design</a>
+            </li>
+            <li>
+                <a href="select">Glossary</a>
             </li>
         </ul>
         <small class="footer">by <a href="http://soikke.li">Mike Soikkeli</a> | <a href="https://github.com/soikes/byexample/tree/main/sql">source</a> | <a href="https://github.com/soikes/byexample/blob/main/LICENSE">license</a>

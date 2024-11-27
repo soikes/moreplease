@@ -23,23 +23,26 @@ templ Topic() {
     @templates.Base("More SQL Please: JOIN") {
         <div class="content wide">
             @st.TopicTitle("JOIN")
-            @st.Schema(s, "users", "donations")
+            @st.Schema(s, "users", "donations", "charities")
             <div class="container">
                 <div>
                     A <span>@st.Inline("JOIN")</span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>
-                    In this example there are two tables: <span>@st.Inline("users")</span> and <span>@st.Inline("donations")</span>. Notice the donations table has a <span>@st.Inline("user_id")</span> column to indicate which user made that donation.<br><br>
+                    This example uses two tables: <span>@st.Inline("users")</span> and <span>@st.Inline("donations")</span>. Notice the donations table has a <span>@st.Inline("user_id")</span> column to indicate which user made that donation.<br><br>
                     In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>
                     An <span>@st.Inline("INNER JOIN")</span> means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>
                     There is no functional difference between a <span>@st.Inline("JOIN")</span> and an <span>@st.Inline("INNER JOIN")</span>, it's just <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar.</a><br><br>
-                    The <span>@st.Inline("ON")</span> clause is where you specify the relationship between the tables that you want them to be joined on. The data type of these columns needs to match.<br><br>
-                    <span>@st.Inline("INNER JOIN ... ON")</span> can be repeated multiple times to join several different tables together.
+                    The <span>@st.Inline("ON")</span> clause is where you specify the relationship between the tables that you want them to be joined on. The data type of these columns needs to match.
                 </div>
                 @e.Run("sql/join.sql")
                 <div>
-                    You can alias the tables and column names to make your statements easier to read. Either use an <span>@st.Inline("AS")</span> statement followed by the alias, or just the alias. Either version is valid but choosing one and being consistent makes queries easier to read.<br><br>
+                    You can alias the tables and column names to make your statements easier to read. Either use an <span>@st.Inline("AS")</span> statement followed by the alias, or just the alias. Both versions are valid but choosing one and being consistent makes queries easier to read.<br><br>
                     Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span>@st.Inline("id")</span>.
                 </div>
                 @e.Run("sql/join_alias.sql")
+                <div>
+                    <span>@st.Inline("INNER JOIN ... ON")</span> can be repeated multiple times to join more than two tables together.
+                </div>
+                @e.Run("sql/join_all_tables.sql")
                 <div>
                     A <span>@st.Inline("JOIN")</span> can be combined with a <span>@st.Inline("WHERE")</span> clause to further narrow down the set of rows returned.
                 </div>

@@ -67,7 +67,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = st.Schema(s, "users", "donations").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = st.Schema(s, "users", "donations", "charities").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -79,7 +79,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>In this example there are two tables: <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>This example uses two tables: <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -135,15 +135,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is where you specify the relationship between the tables that you want them to be joined on. The data type of these columns needs to match.<br><br><span>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = st.Inline("INNER JOIN ... ON").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be repeated multiple times to join several different tables together.</div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is where you specify the relationship between the tables that you want them to be joined on. The data type of these columns needs to match.</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -159,7 +151,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement followed by the alias, or just the alias. Either version is valid but choosing one and being consistent makes queries easier to read.<br><br>Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> statement followed by the alias, or just the alias. Both versions are valid but choosing one and being consistent makes queries easier to read.<br><br>Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -172,6 +164,22 @@ func Topic() templ.Component {
 				return templ_7745c5c3_Err
 			}
 			templ_7745c5c3_Err = e.Run("sql/join_alias.sql").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = st.Inline("INNER JOIN ... ON").Render(ctx, templ_7745c5c3_Buffer)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> can be repeated multiple times to join more than two tables together.</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = e.Run("sql/join_all_tables.sql").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

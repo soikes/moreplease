@@ -17,6 +17,7 @@ import (
 	limit_topic "soikke.li/moreplease/sites/sql/topics/limit"
 	order_by_topic "soikke.li/moreplease/sites/sql/topics/order_by"
 	select_topic "soikke.li/moreplease/sites/sql/topics/select"
+	union_and_set_operators_topic "soikke.li/moreplease/sites/sql/topics/union_and_set_operators"
 	where_topic "soikke.li/moreplease/sites/sql/topics/where"
 )
 
@@ -35,6 +36,7 @@ func main() {
 	http.Handle("/limit", templ.Handler(limit_topic.Topic()))
 	http.Handle("/order_by", templ.Handler(order_by_topic.Topic()))
 	http.Handle("/select", templ.Handler(select_topic.Topic()))
+	http.Handle("/union_and_set_operators", templ.Handler(union_and_set_operators_topic.Topic()))
 	http.Handle("/where", templ.Handler(where_topic.Topic()))
 
 	http.Handle("/assets/", http.FileServer(http.FS(assets)))
