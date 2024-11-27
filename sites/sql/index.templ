@@ -20,7 +20,7 @@ templ inner() {
 
         <p><em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses SQL statements that have been run against <span>@st.Outlink("https://www.sqlite.org", "SQLite")</span> databases. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p>
         
-        <p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but they may draw upon previously covered concepts. This is because each one is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p>
+        <p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p>
         
         /* <p>Every SQL statement shown is editable and runnable fully in your own browser using <a href="https://github.com/sql-js/sql.js/">sql.js<span>@st.Outlink()</span></a>! You can revert and re-run the original statements anytime.</p> */
 
@@ -36,16 +36,32 @@ templ inner() {
                 <a href="/where">WHERE</a>
             </li>
             <li>
-                <a href="/join">JOIN</a>
-            </li>
-            <li>
                 <a href="/order_by">ORDER BY</a>
             </li>
             <li>
                 <a href="/limit">LIMIT</a>
             </li>
             <li>
+                <a href="select">Operators</a>
+            </li>
+            <li>
+                <a href="select">Comments</a>
+            </li>
+            <li>
+                <a href="select">INSERT</a>
+            </li>
+            <li>
+                <a href="select">UPDATE</a>
+            </li>
+            <li>
+                <a href="select">DELETE</a>
+            </li>
+            <li>
                 <a href="/data_types">Data Types</a>
+            </li>
+            <br>
+            <li>
+                <a href="/join">JOIN</a>
             </li>
             <li>
                 <a href="/functions">Functions</a>
@@ -63,20 +79,15 @@ templ inner() {
                 <a href="/union_and_set_operators">UNION and Set Operators</a>
             </li>
             <li>
-                <a href="/window_functions">Window Functions</a>
+                <a href="select">PIVOT</a>
             </li>
             <li>
-                <a href="/rank_functions">Rank Functions</a>
+                <a href="select">String Manipulation</a>
             </li>
             <li>
-                <a href="select">INSERT</a>
+                <a href="select">Date and Time</a>
             </li>
-            <li>
-                <a href="select">UPDATE</a>
-            </li>
-            <li>
-                <a href="select">DELETE</a>
-            </li>
+            <br>
             <li>
                 <a href="select">CREATE TABLE</a>
             </li>
@@ -101,23 +112,15 @@ templ inner() {
             <li>
                 <a href="select">Indexes</a>
             </li>
-            <li>
-                <a href="select">Transactions</a>
-            </li>
+            <br>
             <li>
                 <a href="select">Subqueries</a>
-            </li>
-            <li>
-                <a href="select">Temporary Tables</a>
             </li>
             <li>
                 <a href="select">Common Table Expressions</a>
             </li>
             <li>
-                <a href="select">Stored Procedures</a>
-            </li>
-            <li>
-                <a href="select">Triggers</a>
+                <a href="select">Temporary Tables</a>
             </li>
             <li>
                 <a href="select">Views</a>
@@ -126,31 +129,36 @@ templ inner() {
                 <a href="select">Materialized Views</a>
             </li>
             <li>
-                <a href="select">PIVOT</a>
+                <a href="select">Transactions</a>
+            </li>
+            <br>
+            <li>
+                <a href="/window_functions">Window Functions</a>
             </li>
             <li>
-                <a href="select">COLLATE</a>
+                <a href="/rank_functions">Rank Functions</a>
+            </li>
+            <li>
+                <a href="select">Stored Procedures</a>
+            </li>
+            <li>
+                <a href="select">Triggers</a>
             </li>
             <li>
                 <a href="select">Recursive Queries</a>
             </li>
             <li>
-                <a href="select">SQL Injection</a>
-            </li>
-            <li>
-                <a href="select">Users and Permissions</a>
-            </li>
-            <li>
-                <a href="select">String Manipulation</a>
-            </li>
-            <li>
-                <a href="select">Date and Time</a>
+                <a href="select">Performance and EXPLAIN</a>
             </li>
             <li>
                 <a href="select">JSON Operations</a>
             </li>
+            <br>
             <li>
-                <a href="select">Performance and EXPLAIN</a>
+                <a href="select">Users and Permissions</a>
+            </li>
+            <li>
+                <a href="select">SQL Injection</a>
             </li>
             <li>
                 <a href="select">Database Engines</a>
@@ -168,22 +176,27 @@ templ inner() {
                 <a href="select">Dynamic SQL</a>
             </li>
             <li>
-                <a href="select">Comments</a>
-            </li>
-            <li>
-                <a href="select">Operators</a>
-            </li>
-            <li>
                 <a href="select">RDBMS Applications</a>
             </li>
             <li>
                 <a href="select">Schema Design</a>
             </li>
             <li>
+                <a href="select">Expert Cookbook</a>
+            </li>
+            <li>
+                <a href="select">Tips and Tricks</a>
+            </li>
+            <br>
+            <li>
                 <a href="select">Glossary</a>
             </li>
         </ul>
-        <small class="footer">by <a href="http://soikke.li">Mike Soikkeli</a> | <a href="https://github.com/soikes/byexample/tree/main/sql">source</a> | <a href="https://github.com/soikes/byexample/blob/main/LICENSE">license</a>
+        <small class="footer">by 
+            <a href="http://soikke.li">Mike Soikkeli</a> |
+            <a href="https://github.com/soikes/byexample/tree/main/sql">source</a> | 
+            <a href="https://github.com/soikes/byexample/blob/main/LICENSE">license</a> | 
+            <a href="https://buymeacoffee.com/mikesoikkeli">☕️ Buy me a Coffee!</a>
         </small>
     </div>
 }
