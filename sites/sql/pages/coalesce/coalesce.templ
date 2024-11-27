@@ -1,0 +1,47 @@
+package coalesce_stmt
+
+import (
+    "embed"
+    "soikke.li/moreplease/sites/sql/db"
+    t "soikke.li/moreplease/templates"
+)
+
+//go:embed sql/*.sql
+var sqlFiles embed.FS
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+    }}
+    @t.Base("More SQL Please: COALESCE") {
+        <div class="content wide">
+            @t.TopicTitle("COALESCE")
+            <details class="toggle">
+                <summary class="action" data-open="hide tables" data-close="show tables"></summary>
+                <div class="container tables">
+                    <div>
+                        <div class="tablename">doctors</div>
+                        <pre>
+                            { s.Exec("sql/dump_doctors.sql") }
+                        </pre>
+                    </div>
+                    <div>
+                        <div class="tablename">services</div>
+                        <pre>
+                            { s.Exec("sql/dump_services.sql") }
+                        </pre>
+                    </div>
+                    <div>
+                        <div class="tablename">claims</div>
+                        <pre>
+                            { s.Exec("sql/dump_claims.sql") }
+                        </pre>
+                    </div>
+                </div>
+            </details>
+        </div>
+    }
+}

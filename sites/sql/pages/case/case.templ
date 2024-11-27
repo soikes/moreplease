@@ -1,0 +1,80 @@
+package case_topic
+
+import (
+    "embed"
+    "soikke.li/moreplease/sites/sql/db"
+    t "soikke.li/moreplease/templates"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        e := t.Example{
+            Statements: s,
+        }
+    }}
+    @t.Base("More SQL Please: CASE") {
+        <div class="content wide">
+            @t.TopicTitle("CASE")
+            @t.Schema(s, "products", "vendors", "orders")
+            <div class="container">
+                <div>
+                    The <span>@t.Inline("CASE")</span> expression allows you to add conditional logic to your queries. It is similar to the <span>@t.Inline("if ... else")</span> or <span>@t.Inline("switch")</span> expressions in other programming languages.<br><br>
+                    Most database engines allow a <span>@t.Inline("CASE")</span> expression to return any data type but each <span>@t.Inline("WHEN")</span> "branch" of the statement must return the same type. In SQLite any type can be returned but these examples will return the same type from all branches.<br><br>
+                    This example shows a common use case where we want to create custom groups or "buckets" for the data that are not part of the database schema.
+                </div>
+                @e.Run("sql/case.sql")
+                <div>
+                    The conditions inside a <span>@t.Inline("CASE")</span> statement can be compounded using logical operators like <span>@t.Inline("AND")</span> and <span>@t.Inline("OR")</span>.<br><br>
+                    
+                    Another thing to note about the <span>@t.Inline("CASE")</span> statement is that it is evaluated in order from top to bottom, left to right. For each row it will return a result for only the first match it encounters. If there are no matches and you supply an <span>@t.Inline("ELSE")</span> expression, that value will be the result.
+                    If you don't supply an <span>@t.Inline("ELSE")</span>, <span>@t.Inline("NULL")</span> is returned.<br><br>
+                    
+                    Notice how the "Night Shift Coffee" product could technically match all of the "Critical Restock", "Urgent Restock" and "Restock Soon" categories. However once it matches "Critical Restock" the rest of the <span>@t.Inline("CASE")</span> is not evaluated and we move on to the next product. You can utilize this behaviour or you can design your queries such that none of the branches in your <span>@t.Inline("CASE")</span> overlap.
+                </div>
+                @e.Run("sql/case_and_or.sql")
+                <div class="linkable" id="case_and_or">
+                    The previous query is ordered alphabetically because our newly computed column <span>@t.Inline("needs_restock")</span> has a text data type. If we wanted to apply a custom order to the query we can also apply a <span>@t.Inline("CASE")</span> statement to our <span>@t.Inline("ORDER BY")</span> clause.<br><br>
+                    
+                    Notice that this example also shows that you can add an expression directly after the <span>@t.Inline("CASE")</span> keyword; this is called a "base" expression. In this case it is <span>@t.Inline("needs_restock")</span>. When a base expression is present it is evaluated once at the beginning. For each row, the value of <span>@t.Inline("needs_restock")</span> determines which integer is returned.<br><br>
+                    
+                    As an aside, a better way to structure this query would be to use <a href="/common_table_expressions">Common Table Expressions</a> to set up our results and ordering rules. An example of this can be seen at the <a href="#case_restructured">bottom</a> of the page.
+                </div>
+                @e.Run("sql/case_order_by.sql")
+                <div>
+                    <span>@t.Inline("CASE")</span> can be used to check for <span>@t.Inline("NULL")</span> and display a more human-readable value.<br><br>
+                    In simple cases like this, <span>@t.Inline("COALESCE()")</span> performs the same function.
+                </div>
+                @e.Run("sql/case_null.sql")
+                <div>
+                    <span>@t.Inline("CASE")</span> expressions can be used as part of aggregate queries using <span>@t.Inline("GROUP BY")</span> and aggregate functions like <span>@t.Inline("avg()")</span>.
+                </div>
+                @e.Run("sql/case_group_by.sql")
+                <div>
+                    <span>@t.Inline("CASE")</span> can also be used as an input for aggregate functions. This technique is useful when you need to create "buckets" of data as above but group the data using another separate category. If you are familiar with spreadsheets, this technique is similar to that of a <span>@t.Outlink("https://en.wikipedia.org/wiki/Pivot_table", "pivot table")</span>.<br><br>
+                    This example shows us how many of each price class of product each vendor has for sale.<br><br>
+                    Notice how in this example we use a <span>@t.Inline("LEFT JOIN")</span> which will include vendors that have no products for sale. The vendor "Vend-tertainment" will return a <span>@t.Inline("NULL")</span> value for <span>@t.Inline("p.price")</span>.<br><br>
+                    This causes our <span>@t.Inline("CASE")</span> expressions to fall back to their <span>@t.Inline("ELSE")</span> return value of <span>@t.Inline("0")</span>.
+                </div>
+                @e.Run("sql/case_aggregate_functions.sql")
+                <div class="linkable" id="case_restructured">
+                    Here is the example <a href="#case_and_or">above</a> that is restructured using <a href="/common_table_expressions">Common Table Expressions</a> and <span><a href="/union_and_intersect">@t.Inline("UNION")</a></span> to be easier to maintain and understand. Instead of using the order status labels as our column names to match on, we use the integer <span>@t.Inline("id")</span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.<br><br>
+                    When you need to re-use the same statements in multiple places in your query consider techniques like this that limit the amount of duplicate code you need to write.
+                </div>
+                @e.Run("sql/case_restructured.sql")
+            </div>
+        </div>
+    }
+}
+
+/*
+"sql/select_all_columns.sql",
+"sql/select_alias.sql",
+"sql/select_computation.sql",
+*/
