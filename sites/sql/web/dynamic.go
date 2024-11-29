@@ -9,7 +9,6 @@ import (
 
 	aggregate_functions_topic "soikke.li/moreplease/sites/sql/pages/aggregate_functions"
 	case_topic "soikke.li/moreplease/sites/sql/pages/case"
-	coalesce_topic "soikke.li/moreplease/sites/sql/pages/coalesce"
 	data_types_topic "soikke.li/moreplease/sites/sql/pages/data_types"
 	functions_topic "soikke.li/moreplease/sites/sql/pages/functions"
 	group_by_topic "soikke.li/moreplease/sites/sql/pages/group_by"
@@ -26,7 +25,6 @@ func NewDynamicMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.Handle("/aggregate_functions", templ.Handler(aggregate_functions_topic.Topic()))
 	mux.Handle("/case", templ.Handler(case_topic.Topic()))
-	mux.Handle("/coalesce", templ.Handler(coalesce_topic.Topic()))
 	mux.Handle("/data_types", templ.Handler(data_types_topic.Topic()))
 	mux.Handle("/functions", templ.Handler(functions_topic.Topic()))
 	mux.Handle("/group_by", templ.Handler(group_by_topic.Topic()))

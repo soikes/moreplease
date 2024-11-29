@@ -2,6 +2,7 @@ package web
 
 import (
 	"io/fs"
+	"log"
 	"path/filepath"
 )
 
@@ -24,6 +25,7 @@ func (f AssetsFS) Open(name string) (fs.File, error) {
 	}
 	file, err := f.FS.Open(name)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	return AssetsFile{file}, nil

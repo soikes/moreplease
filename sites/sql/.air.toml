@@ -5,8 +5,8 @@ tmp_dir = "tmp"
 [build]
 pre_cmd = [
     "templ generate",
-    "go generate soikke.li/moreplease/sites/sql/...",
-    # "GOARCH=wasm GOOS=js go build web/sticky.go -o main.wasm"
+    # "go generate soikke.li/moreplease/sites/sql/...",
+    "go run soikke.li/moreplease/sites/sql/bin/render",
 ]
 args_bin = []
 bin = "./tmp/main"

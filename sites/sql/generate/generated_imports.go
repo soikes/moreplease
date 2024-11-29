@@ -8,8 +8,6 @@ import (
 
 	_ "soikke.li/moreplease/sites/sql/pages/case"
 
-	_ "soikke.li/moreplease/sites/sql/pages/coalesce"
-
 	_ "soikke.li/moreplease/sites/sql/pages/data_types"
 
 	_ "soikke.li/moreplease/sites/sql/pages/functions"

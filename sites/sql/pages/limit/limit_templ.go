@@ -12,11 +12,17 @@ import (
 	"embed"
 
 	"soikke.li/moreplease/sites/sql/db"
+	"soikke.li/moreplease/sites/sql/render"
 	t "soikke.li/moreplease/templates"
 )
 
 //go:embed sql
 var sqlFiles embed.FS
+
+func init() {
+	c := Topic()
+	render.RegisterComponent("limit", c)
+}
 
 func Topic() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
