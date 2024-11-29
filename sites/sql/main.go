@@ -1,35 +1,28 @@
 package main
 
 import (
-	"embed"
+	"flag"
 	"fmt"
 	"net/http"
 
-	"github.com/a-h/templ"
-	client_side_test "soikke.li/moreplease/sites/sql/topics/client_side_test"
-	coalesce_stmt "soikke.li/moreplease/sites/sql/topics/coalesce"
-	functions_topic "soikke.li/moreplease/sites/sql/topics/functions"
-	join_stmt "soikke.li/moreplease/sites/sql/topics/join"
-	order_by_stmt "soikke.li/moreplease/sites/sql/topics/order_by"
-	select_stmt "soikke.li/moreplease/sites/sql/topics/select"
-	where_stmt "soikke.li/moreplease/sites/sql/topics/where"
+	"soikke.li/moreplease/sites/sql/web"
 )
 
-//go:embed assets/*
-var assets embed.FS
+var dynamicFlag = flag.Bool("d", false, "dynamically render SQL examples per-request")
 
 func main() {
-	index := index()
-	http.Handle("/client_side_test", templ.Handler(client_side_test.Topic()))
-	http.Handle("/functions", templ.Handler(functions_topic.Topic()))
-	http.Handle("/order_by", templ.Handler(order_by_stmt.Topic()))
-	http.Handle("/join", templ.Handler(join_stmt.Topic()))
-	http.Handle("/coalesce", templ.Handler(coalesce_stmt.Topic()))
-	http.Handle("/select", templ.Handler(select_stmt.Topic()))
-	http.Handle("/where", templ.Handler(where_stmt.Topic()))
-	http.Handle("/assets/", http.FileServer(http.FS(assets)))
-	http.Handle("/", templ.Handler(index))
-	fmt.Println("listening on 127.0.0.1:9000")
-	err := http.ListenAndServe("127.0.0.1:9000", nil)
+	flag.Parse()
+	var mux *http.ServeMux
+	var desc string
+	if *dynamicFlag {
+		desc = "dynamic"
+		mux = web.NewDynamicMux()
+	} else {
+		desc = "static"
+		mux = web.NewStaticMux()
+	}
+	addr := "127.0.0.1:9000"
+	fmt.Printf("%s site listening at %s\n", desc, addr)
+	err := http.ListenAndServe(addr, mux)
 	panic(err)
 }

@@ -1,0 +1,2 @@
+SELECT active
+FROM profiles;

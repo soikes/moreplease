@@ -21,6 +21,11 @@
     font-style: italic;
 }
 
+@font-face {
+    font-family: "Space Grotesk";
+    src: url("SpaceGrotesk-VariableFont_wght.ttf");
+}
+
 /* TODO: How to toggle this manually using the toggle button I made? */
 :root {
     /* color-scheme: light dark; */
@@ -82,33 +87,24 @@ p {
 }
 
 .logo {
-    display: grid;
-    align-items: center;
-    font-family: "DM Mono";
-    font-size: 6rem;
-    font-style: italic;
-    margin: 2rem 0;
-    row-gap: 1rem;
+    display: flex;
+    justify-content: center;
+    margin: 4rem auto 3rem auto;
 }
 
-.logo-line {
-    margin: -0.5rem 0;
+.logo img {
+    width: 100%;
 }
 
-.logo-coloured {
-    color: #ffa62b;
-    font-style: italic;
-    font-weight: 500;
-    padding: 0;
-    line-height: 1;
-    margin-bottom: 0.5rem;
+.logo-color {
+    color: #3d41ff;
 }
 
 .title {
     margin: 2rem 0;
 }
 
-.topic-title {
+.heading {
     font-family: "DM Mono";
     font-style: italic;
 }
@@ -119,9 +115,8 @@ p {
 
 .footer {
     color: gray;
-    /* display: inline-grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    justify-items: center; */
+    font-family: "DM Mono";
+    font-style: italic;
 }
 
 .action {
@@ -130,7 +125,7 @@ p {
 }
 
 .narrow {
-    max-width: 27rem;
+    max-width: 30rem;
 }
 
 .wide {
@@ -138,13 +133,25 @@ p {
 }
 
 .content {
-    margin: 0 auto;
+    margin: 0 auto 4rem auto;
     container-type: inline-size;
 }
 
 .content ul {
     list-style: none;
     padding-left: 0;
+}
+
+.linkable {
+    scroll-margin-top: 2rem;
+    scroll-snap-margin-top: 2rem; /* iOS 11 and older */
+}
+
+.index {
+    font-family: "DM Mono";
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.1rem;
 }
 
 .container {
@@ -156,20 +163,21 @@ p {
     position: relative;
 }
 
+#schema > .container {
+    column-gap: 2rem;
+    row-gap: 2rem;
+}
+
 @container (min-width: 60rem) {
     .container {
-        grid-template-columns: 2fr 3fr;
-        row-gap: 6rem;
+        grid-template-columns: 1fr 1fr;
+        row-gap: 8rem;
     }
 
     /* If we have one item e.g. a schema with one table, place it in the 2nd column with the code examples */
     .container:has(> :only-child) > :only-child {
         grid-column: 2;
     }
-}
-
-.tables {
-    margin-top: 2rem;
 }
 
 .toggle {
@@ -231,4 +239,29 @@ p {
     position: fixed;
     bottom: 0;
     right: 0;
+}
+
+.search {
+    width: 100%;
+    height: 2rem;
+    font-family: "DM Mono";
+    font-style: italic;
+    font-size: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+
+    background-image: url("search.svg");
+    background-position: left 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    padding-left: 4rem;
+}
+
+.search-tile {
+    border: 1px solid black;
+    border-radius: 0.7rem;
+    padding: 0 0 0 2rem;
+    justify-self: start;
+    align-self: start;
+    box-shadow: 0.2rem 0.2rem 0 #353535;
 }

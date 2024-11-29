@@ -1,0 +1,99 @@
+package where_stmt
+
+import (
+    "embed"
+    "soikke.li/moreplease/sites/sql/db"
+    "soikke.li/moreplease/sites/sql/render"
+    t "soikke.li/moreplease/templates"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
+
+func init() {
+    c := Topic()
+    render.RegisterComponent("join", c)
+}
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        e := t.Example{
+            Statements: s,
+        }
+    }}
+    @t.Base("More SQL Please: JOIN") {
+        <div class="content wide">
+            @t.TopicTitle("JOIN")
+            @t.Schema(s, "users", "donations", "charities")
+            <div class="container">
+                <div>
+                    A <span>@t.Inline("JOIN")</span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>
+                    This example uses two tables: <span>@t.Inline("users")</span> and <span>@t.Inline("donations")</span>. Notice the donations table has a <span>@t.Inline("user_id")</span> column to indicate which user made that donation.<br><br>
+                    In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>
+                    An <span>@t.Inline("INNER JOIN")</span> means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>
+                    There is no functional difference between a <span>@t.Inline("JOIN")</span> and an <span>@t.Inline("INNER JOIN")</span>, it's just <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar.</a><br><br>
+                    The <span>@t.Inline("ON")</span> clause is where you specify the relationship between the tables that you want them to be joined on. The data type of these columns needs to match.
+                </div>
+                @e.Run("sql/join.sql")
+                <div>
+                    You can alias the tables and column names to make your statements easier to read. Either use an <span>@t.Inline("AS")</span> statement followed by the alias, or just the alias. Both versions are valid but choosing one and being consistent makes queries easier to read.<br><br>
+                    Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span>@t.Inline("id")</span>.
+                </div>
+                @e.Run("sql/join_alias.sql")
+                <div>
+                    <span>@t.Inline("INNER JOIN ... ON")</span> can be repeated multiple times to join more than two tables together.
+                </div>
+                @e.Run("sql/join_all_tables.sql")
+                <div>
+                    A <span>@t.Inline("JOIN")</span> can be combined with a <span>@t.Inline("WHERE")</span> clause to further narrow down the set of rows returned.
+                </div>
+                @e.Run("sql/join_where.sql")
+                <div>
+                    A <span>@t.Inline("LEFT JOIN")</span> (sometimes called <span>@t.Inline("LEFT OUTER JOIN")</span>) can be used when you want to retrieve all of the rows from the first ("left") table combined with only rows that match from the second ("right") table. Rows from the left table that do not match anything in the right table will return <span>@t.Inline("NULL")</span> in place of a donation amount.<br><br>
+                    This type of <span>@t.Inline("JOIN")</span> is useful when you are not sure if there will be a match for all the rows in your first table but you want to include them in your result.<br><br>
+                    In this example we can now see in the results who has and who has not donated.<br><br>
+                    A <span>@t.Inline("RIGHT JOIN")</span> is similar but it returns all of the rows from the second ("right") table and only rows that match from the first ("left") table. It is rarely used in practice but may be useful when experimenting with queries.
+                </div>
+                @e.Run("sql/left_join.sql")
+                <div>
+                    If we wanted to find only the people who have not donated, we can use a <span>@t.Inline("WHERE")</span> clause to find the <span>@t.Inline("NULL")</span> values from our <span>@t.Inline("LEFT JOIN")</span>.
+                </div>
+                @e.Run("sql/left_join_where_null.sql")
+                <div>
+                    A <span>@t.Inline("FULL JOIN")</span> (sometimes called <span>@t.Inline("FULL OUTER JOIN")</span>) is used when you want to return all rows from both tables whether they match or not.<br><br>
+                    This query returns users that have donated, users that have not donated, and donations that are not currently associated with a user. The last case is commonly referred to as an "orphaned record", meaning the associated user was deleted at some point without also deleting their donation records. This is generally considered bad practice in database design. Examples of how to prevent this can be found in <a href="foreign_key"><span>@t.Inline("CASCADE")</span></a>.
+                </div>
+                @e.Run("sql/full_join.sql")
+                <div>
+                    A table can be referred to itself with a <span>@t.Inline("JOIN")</span>, also known as a "SELF" <span>@t.Inline("JOIN")</span>.<br><br>
+                    They are useful when a table has data that has a relationship with other data in the same table. In this example, users of the donation platform can refer other users and get a free credit.<br><br>
+                    This technique requires you to alias the table with two different names.
+                </div>
+                @e.Run("sql/self_join.sql")
+                <div>
+                    A <span>@t.Inline("CROSS JOIN")</span> returns the Cartesian product of rows from both tables. This means each row from the first table A is combined with each row from the second table B, returning all possible combinations of rows.<br><br>
+                    This can generate very large amounts of data depending on the size of the input tables so caution is advised when deciding to use a <span>@t.Inline("CROSS JOIN")</span>.<br><br>
+                    This can be used to generate test data since it allows you to generate every possible scenario between two sets of data.
+                </div>
+                @e.Run("sql/cross_join.sql")
+                <div>
+                    <small class="footer">
+                        <span><a href="/where">previous: WHERE</a> |</span>
+                        <span><a href="/">home</a> |</span>
+                        <span><a href="/order_by">next: ORDER BY</a></span>
+                    </small>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+/*
+"sql/select_all_columns.sql",
+"sql/select_alias.sql",
+"sql/select_computation.sql",
+*/

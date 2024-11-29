@@ -1,0 +1,2 @@
+SELECT rating
+FROM profiles;
