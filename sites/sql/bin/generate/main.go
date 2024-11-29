@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"text/template"
 
@@ -21,7 +20,6 @@ import (
 
 func main() {
 	pattern := os.Args[1]
-	fmt.Println(pattern)
 	config := &packages.Config{
 		Mode: packages.NeedName | packages.NeedFiles | packages.NeedCompiledGoFiles,
 	}
