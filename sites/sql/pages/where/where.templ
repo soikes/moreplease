@@ -1,0 +1,68 @@
+package where_stmt
+
+import (
+    "embed"
+
+    t "soikke.li/moreplease/templates"
+    "soikke.li/moreplease/sites/sql/db"
+    "soikke.li/moreplease/sites/sql/render"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
+
+func init() {
+    c := Topic()
+    render.RegisterComponent("where", c)
+}
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        e := t.Example{
+            Statements: s,
+        }
+    }}
+    @t.Base("More SQL Please: WHERE") {
+        <div class="content wide">
+            @t.TopicTitle("WHERE")
+            @t.Schema(s, "users")
+            <div class="container">
+                <div>
+                    A <span>@t.Inline("WHERE")</span> clause can be added to statements to filter the outcome of the statement based on a condition.<br><br>
+                    In the case of a <span>@t.Inline("SELECT")</span>, this means the result set is filtered to only include results that match the condition. <span>@t.Inline("WHERE")</span> can also be applied to <span>@t.Inline("UPDATE")</span> and <span>@t.Inline("DELETE")</span> statements to limit the rows they affect.<br><br>
+                    Note that a column does not need to be included as a <span>@t.Inline("SELECT")</span>ed column to be used in a <span>@t.Inline("WHERE")</span> clause.
+                </div>
+                @e.Run("sql/where.sql")
+                <div>
+                    <span>@t.Inline("WHERE")</span> clauses can use operators besides <span>@t.Inline("=")</span> :<br><br>
+                    <span>@t.Inline(">")</span>&ensp;Greater than.<br><br>
+                    <span>@t.Inline("<")</span>&ensp;Less than.<br><br>
+                    <span>@t.Inline(">=")</span>&ensp;Greater than or equal to.<br><br>
+                    <span>@t.Inline("<=")</span>&ensp;Less than or equal to.<br><br>
+                    <span>@t.Inline("<>")</span>, <span>@t.Inline("!=")</span>&ensp;Not Equal.<br><br>
+                    <span>@t.Inline("WHERE age BETWEEN 30 AND 40")</span>&ensp;Match when between two values.<br><br>
+                    <span>@t.Inline("WHERE email_address LIKE \"%mail.com\"")</span>&ensp;Match based on a pattern. <span>@t.Inline("%")</span> is typically the wildcard character used to match 0 or more of any character.<br><br>
+                    <span>@t.Inline("WHERE id IN (1,2,3)")</span>&ensp;Match based on any value in a list of values or a subquery.<br><br>
+                    <span>@t.Inline("WHERE age IS NULL")</span>&ensp;or&ensp;<span>@t.Inline("IS NOT NULL")</span>&ensp;Check for NULL.<br><br>
+                    See <a href="/operators">Operators</a> for more examples.
+                </div>
+                @e.Run("sql/where_operators.sql")
+                <div>
+                    <span>@t.Inline("WHERE")</span> clauses can have multiple predicates separated by logical operators such as <span>@t.Inline("AND")</span> and <span>@t.Inline("OR")</span>. The <span>@t.Inline("NOT")</span> operator can be applied before any of the above operators to negate them.<br><br>
+                    See <a href="operators">Operators</a> for more examples.
+                </div>
+                @e.Run("sql/where_and.sql")
+            </div>
+        </div>
+    }
+}
+
+/*
+"sql/select_all_columns.sql",
+"sql/select_alias.sql",
+"sql/select_computation.sql",
+*/
