@@ -1,6 +1,14 @@
-package templates
+package index
 
-import t "soikke.li/moreplease/templates"
+import (
+    "soikke.li/moreplease/sites/sql/render"
+    t "soikke.li/moreplease/templates"
+)
+
+func init() {
+    c := Index()
+    render.RegisterComponent("index", c)
+}
 
 templ Index() {
     @t.Base("More SQL Please") {

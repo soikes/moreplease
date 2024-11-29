@@ -10,6 +10,9 @@ import (
 
 // htmlAssetPath converts a web url path into a file path suitable for use with an AssetsFileSystem.
 func htmlAssetPath(path string) string {
+	if path == "/" {
+		path += "index"
+	}
 	return strings.ReplaceAll(path, "/", "") + ".html"
 }
 
