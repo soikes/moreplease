@@ -1,5 +1,5 @@
 package client_side_test
-
+/*
 import (
     "embed"
 
@@ -43,6 +43,7 @@ templ Topic() {
                 </div>
             </div>
         </div>
-        <script src="assets/components/example.js"></script>
+        <script src="assets/app.js"></script>
     }
 }
+ */

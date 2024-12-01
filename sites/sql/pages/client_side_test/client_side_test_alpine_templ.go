@@ -10,6 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"embed"
+	"fmt"
 
 	"soikke.li/moreplease/sites/sql/db"
 	"soikke.li/moreplease/sites/sql/render"
@@ -21,7 +22,7 @@ var sqlFiles embed.FS
 
 func init() {
 	c := Topic()
-	render.RegisterComponent("client_side_test", c)
+	render.RegisterComponent("client_side_test_alpine", c)
 }
 
 func Topic() templ.Component {
@@ -81,42 +82,49 @@ func Topic() templ.Component {
 			}
 
 			stmt := s.From("sql/functions_nested.sql")
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(stmt)
+			data := fmt.Sprintf("{ stmt: `%s`, result: 'running...' }", stmt)
+			init := fmt.Sprintf("db = await Db.load(`%s`);", schema)
+			run := fmt.Sprintf("result = JSON.stringify(db.exec(`${stmt}`));")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-init=\"")
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/client_side_test/client_side_test.templ`, Line: 39, Col: 26}
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(init)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/client_side_test/client_side_test_alpine.templ`, Line: 43, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><sql-example schema=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-data=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(schema)
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(data)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/client_side_test/client_side_test.templ`, Line: 41, Col: 51}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/client_side_test/client_side_test_alpine.templ`, Line: 43, Col: 54}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" stmt=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"stmt\"><textarea spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" onInput=\"this.parentNode.dataset.replicatedValue = this.value\" @input=\"$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))\" x-init=\"$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))\" x-model=\"stmt\"></textarea><pre><code class=\"language-sql\" x-text=\"stmt\" x-ref=\"codeBlock\"></code></pre></div><button class=\"run\" x-on:click=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(stmt)
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(run)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/client_side_test/client_side_test.templ`, Line: 41, Col: 63}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/client_side_test/client_side_test_alpine.templ`, Line: 59, Col: 60}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"></sql-example></div></div></div></div><script src=\"assets/components/example.js\"></script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">&#9654; run</button><p x-text=\"result\"></p></div></div></div></div><script src=\"assets/app.js\"></script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -265,3 +265,83 @@ p {
     align-self: start;
     box-shadow: 0.2rem 0.2rem 0 #353535;
 }
+
+.stmt > textarea {
+    color: transparent;
+    caret-color: black; /* Makes the caret visible */
+    resize: none;
+    overflow: hidden;
+    outline: none;
+    background: transparent;
+    z-index: 2;
+
+    font-family: "DM Mono", monospace;
+    font-size: 1rem;
+    text-align: left;
+    white-space: pre;
+    word-spacing: -0.1rem;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.4rem;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+.stmt > textarea,
+.stmt > pre,
+.stmt::after {
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.stmt {
+    display: grid;
+    margin-bottom: 1rem;
+}
+
+.stmt::after {
+    content: attr(data-replicated-value) " ";
+    white-space: pre-wrap;
+    visibility: hidden;
+}
+
+.stmt > pre {
+    z-index: 1;
+    margin: 0;
+}
+
+.stmt > pre,
+.stmt > code {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+button.run {
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: black;
+    padding: 0.5rem;
+    font-family: "DM Mono", monospace;
+    font-size: 1rem;
+    box-shadow: 0.2rem 0.2rem 0 #353535;
+}
+
+button.run:active {
+    box-shadow: 0.1rem 0.1rem 0 #353535;
+    transform: translate(0.1rem, 0.1rem);
+}

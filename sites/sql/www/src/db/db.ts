@@ -1,6 +1,6 @@
 import initSqlJs, { Database, QueryExecResult } from "sql.js/dist/sql-wasm.js";
 
-export class Stmt {
+export class Db {
   db: Database;
 
   private constructor() {}
@@ -15,8 +15,8 @@ export class Stmt {
   //   return s;
   // }
 
-  static async load(schema: string): Promise<Stmt> {
-    const s = new Stmt();
+  static async load(schema: string): Promise<Db> {
+    const s = new Db();
     await s.init();
     s.execAll(schema);
     return s;
@@ -50,8 +50,8 @@ export class Stmt {
 
 declare global {
   interface Window {
-    Stmt: typeof Stmt;
+    Db: typeof Db;
   }
 }
 
-window.Stmt = Stmt;
+window.Db = Db;

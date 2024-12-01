@@ -3,9 +3,12 @@ package templates
 templ Base(title string) {
     <html>
     <head>
-    <link rel="stylesheet" href="assets/styles.css">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <title>{ title }</title>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+        <script src="assets/prism.js" data-manual></script>
+        <link rel="stylesheet" href="assets/styles.css">
+        <link rel="stylesheet" href="assets/prism.css">
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+        <title>{ title }</title>
     </head>
     <body>
         /* <div id="dark-light">

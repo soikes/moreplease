@@ -7,7 +7,7 @@ pre_cmd = [
     # "go generate soikke.li/moreplease/sites/sql/...",
     "templ generate",
     "go run soikke.li/moreplease/sites/sql/bin/render",
-    "www/node_modules/.bin/esbuild ./www/db/stmt.ts ./www/components/example.ts --external:fs --external:path --bundle --outdir=assets",
+    "pnpm -C www build",
 ]
 args_bin = []
 bin = "./tmp/main"
@@ -15,7 +15,7 @@ cmd = "go build -o ./tmp/main ."
 delay = 1000
 exclude_dir = ["tmp", "vendor", "testdata"]
 exclude_file = []
-exclude_regex = ["_test.go", "_templ.go"]
+exclude_regex = ["_test.go", "_templ.go", ".html"]
 exclude_unchanged = false
 follow_symlink = false
 full_bin = ""
@@ -28,7 +28,7 @@ poll = false
 poll_interval = 0
 post_cmd = []
 rerun = true
-rerun_delay = 500
+rerun_delay = 1000
 send_interrupt = false
 stop_on_error = false
 
