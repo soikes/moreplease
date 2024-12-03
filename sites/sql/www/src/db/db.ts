@@ -22,6 +22,12 @@ export class Db {
     return s;
   }
 
+  private async init() {
+    const cfg = { locateFile: (file) => "assets/sql-wasm.wasm" };
+    const SQL = await initSqlJs(cfg);
+    this.db = new SQL.Database();
+  }
+
   // Executes a single SQL query against the loaded database.
   exec(stmt: string): QueryExecResult {
     const rows = this.db.exec(stmt)[0];
@@ -40,18 +46,4 @@ export class Db {
     }
     return rsp.text();
   }
-
-  private async init() {
-    const cfg = { locateFile: (file) => "assets/sql-wasm.wasm" };
-    const SQL = await initSqlJs(cfg);
-    this.db = new SQL.Database();
-  }
 }
-
-declare global {
-  interface Window {
-    Db: typeof Db;
-  }
-}
-
-window.Db = Db;

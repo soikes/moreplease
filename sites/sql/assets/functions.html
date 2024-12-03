@@ -1,4 +1,4 @@
-<html><head><script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script><script src="assets/prism.js" data-manual></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: Functions</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">Functions</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">users</span></code></span></span></div><pre>| id | name_first | name_last |       email_address       |
+<html><head><script type="text/javascript" src="assets/prism.js" data-manual></script> <script type="text/javascript" src="assets/app.js"></script> <script defer type="text/javascript" src="assets/alpine.js"></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: Functions</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">Functions</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">users</span></code></span></span></div><pre>| id | name_first | name_last |       email_address       |
 |----|------------|-----------|---------------------------|
 | 1  | NULL       | Crawford  | marcus@mcrawford.ca       |
 | 2  | Elena      | Moreno    | elena@hellocorp.com       |
@@ -12,66 +12,130 @@
 | 3  | 5       | 2024-05-01 19:51:45 | -40    |
 | 4  | 2       | 2024-05-03 14:09:11 | 75     |
 | 5  | 99      | 2024-06-01 01:11:44 | -100   |
-</pre></div></div></details><div class="container"><div>Most relational database engines support the ability to create and call functions as part of a SQL statement. Most also have commonly used utility functions already built-in.<br><br>Functions that accept zero or more input values and produce a single output value per row are called "simple" or "scalar" functions. There are other types of functions that work with more than one row at a time and they are generally grouped into <a href="aggregate_functions">Aggregate Functions</a> and <a href="window_functions">Window Functions</a>.<br><br><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">datetime</span>()</code></span></span> is a scalar function in SQLite that returns the current date and time.<br><br>SQLite and most other database engines will publish <span><span><a href="https://www.sqlite.org/lang_corefunc.html">documentation</a><svg style="display: inline; width: 0.8rem; height: 0.8rem;" viewbox="0 0 48 48"><path d="M36 24c-1.2 0-2 0.8-2 2v12c0 1.2-0.8 2-2 2h-22c-1.2 0-2-0.8-2-2v-22c0-1.2 0.8-2 2-2h12c1.2 0 2-0.8 2-2s-0.8-2-2-2h-12c-3.4 0-6 2.6-6 6v22c0 3.4 2.6 6 6 6h22c3.4 0 6-2.6 6-6v-12c0-1.2-0.8-2-2-2z"></path> <path d="M43.8 5.2c-0.2-0.4-0.6-0.8-1-1-0.2-0.2-0.6-0.2-0.8-0.2h-12c-1.2 0-2 0.8-2 2s0.8 2 2 2h7.2l-18.6 18.6c-0.8 0.8-0.8 2 0 2.8 0.4 0.4 0.8 0.6 1.4 0.6s1-0.2 1.4-0.6l18.6-18.6v7.2c0 1.2 0.8 2 2 2s2-0.8 2-2v-12c0-0.2 0-0.6-0.2-0.8z"></path></svg></span></span> on built-in functions available to use.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">datetime</span>();
-</span></span></code></pre><div><pre>|     datetime()      |
-|---------------------|
-| 2024-12-01 00:02:39 |
-</pre></div></div></div><div>Functions can operate on row results and be combined and nested as long as the data types of the inputs and outputs are all compatible.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">concat</span>(<span style="color:#ffa62b">upper</span>(<span style="color:#16697a">name_last</span>), <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">, </span><span style="color:#7f8c8d">&#39;</span>, <span style="color:#16697a">substr</span>(<span style="color:#16697a">name_first</span>, <span style="color:#8a7b52">1</span>, <span style="color:#8a7b52">1</span>))
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#ffa62b">AS</span> <span style="color:#16697a">name_full</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span> <span style="color:#16697a">name_full</span> <span style="color:#ffa62b">ASC</span>;
-</span></span></code></pre><div><pre>| name_full  |
-|------------|
-| AMINI, P   |
-| AMINI, Z   |
-| CHEN,      |
-| CRAWFORD,  |
-| MORENO, E  |
-</pre></div></div></div><div>Functions can be called in almost any part of a SQL query.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">upper</span>(<span style="color:#16697a">u</span>.<span style="color:#16697a">name_first</span>) <span style="color:#ffa62b">AS</span> <span style="color:#16697a">first_name</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#16697a">strftime</span>(<span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">%H:%M</span><span style="color:#7f8c8d">&#39;</span>, <span style="color:#16697a">t</span>.<span style="color:#728e00">date</span>) <span style="color:#ffa62b">AS</span> <span style="color:#16697a">transaction_time</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    <span style="color:#ffa62b">abs</span>(<span style="color:#16697a">round</span>(<span style="color:#16697a">t</span>.<span style="color:#16697a">amount</span> <span style="color:#90708c">*</span> <span style="color:#8a7b52">1</span>.<span style="color:#8a7b52">10</span>, <span style="color:#8a7b52">2</span>)) <span style="color:#ffa62b">AS</span> <span style="color:#16697a">amount_incl_fee</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span> <span style="color:#16697a">u</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">transactions</span> <span style="color:#16697a">t</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    <span style="color:#ffa62b">ON</span> <span style="color:#16697a">u</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">t</span>.<span style="color:#16697a">user_id</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span><span style="color:#ffa62b">WHERE</span> <span style="color:#ffa62b">abs</span>(<span style="color:#16697a">amount_incl_fee</span>) <span style="color:#90708c">&gt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">20</span>.<span style="color:#8a7b52">0</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span> <span style="color:#16697a">strftime</span>(<span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">%H</span><span style="color:#7f8c8d">&#39;</span>, <span style="color:#16697a">t</span>.<span style="color:#728e00">date</span>) <span style="color:#ffa62b">DESC</span>;
-</span></span></code></pre><div><pre>| first_name | transaction_time | amount_incl_fee |
-|------------|------------------|-----------------|
-| ZARA       | 19:51            | 44              |
-| ELENA      | 14:09            | 82.5            |
-| NULL       | 09:10            | 22              |
-</pre></div></div></div><div>It is important to consider <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> input values in functions and understand how they are interpreted. For example the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">length</span>()</code></span></span> function in SQLite returns <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span>, not 0.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">name_first</span>, <span style="color:#ffa62b">length</span>(<span style="color:#16697a">name_first</span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>| name_first | length(name_first) |
-|------------|--------------------|
-| NULL       | NULL               |
-| Elena      | 5                  |
-| NULL       | NULL               |
-| Priya      | 5                  |
-| Zara       | 4                  |
-</pre></div></div></div><div class="linkable" id="coalesce"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">coalesce</span>()</code></span></span> is a commonly used function to handle <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> values by returning a "default" value if the input you supply evaluates to <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span>.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">name_first</span>, <span style="color:#16697a">coalesce</span>(<span style="color:#ffa62b">length</span>(<span style="color:#16697a">name_first</span>), <span style="color:#8a7b52">0</span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#ffa62b">AS</span> <span style="color:#ffa62b">length</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>| name_first | length |
-|------------|--------|
-| NULL       | 0      |
-| Elena      | 5      |
-| NULL       | 0      |
-| Priya      | 5      |
-| Zara       | 4      |
-</pre></div></div></div><div>Some functions are capable of accepting a variable amount of arguments. These are called <i>variadic functions</i>.<br><br>A common example are string formatting functions like <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">printf</span>()</code></span></span> (or <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">format</span>()</code></span></span>). They often take in a "template" string that describes how you want the output string to be formatted, then any number of arguments that supply the data to fill it in with.<br><br>In this case, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">%</span><span style="color:#16697a">s</span></code></span></span> means we want a string type to appear in that spot, and <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">%</span>.<span style="color:#8a7b52">2</span><span style="color:#16697a">f</span></code></span></span> means we want a floating-point number rounded to two deicmal places to appear in that spot.<br><br>A fun fact is that this is such a common problem to solve that most programming languages have <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">printf</span>()</code></span></span> or some similar form of it.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">printf</span>(<span style="color:#7f8c8d">&#34;</span><span style="color:#7f8c8d">%s %s withdrew %.2f.</span><span style="color:#7f8c8d">&#34;</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#16697a">u</span>.<span style="color:#16697a">name_first</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    <span style="color:#16697a">u</span>.<span style="color:#16697a">name_last</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    <span style="color:#16697a">t</span>.<span style="color:#16697a">amount</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>) <span style="color:#ffa62b">AS</span> <span style="color:#ffa62b">output</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span> <span style="color:#16697a">u</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">transactions</span> <span style="color:#16697a">t</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">u</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">t</span>.<span style="color:#16697a">user_id</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span><span><span style="color:#ffa62b">WHERE</span> <span style="color:#16697a">t</span>.<span style="color:#16697a">amount</span> <span style="color:#90708c">&lt;</span> <span style="color:#8a7b52">0</span>;
-</span></span></code></pre><div><pre>|           output            |
-|-----------------------------|
-| Zara Amini withdrew -40.00. |
-</pre></div></div></div><div>Some database engines support creating custom functions using the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CREATE</span> <span style="color:#ffa62b">FUNCTION</span></code></span></span>) statement. Others, like SQLite require you to define custom functions outside of the database and load them separately which we will not cover here.<br><br>This example gives an idea of what a user-defined/custom function would typically look like in PostgreSQL, a different database engine, so ignore the syntax differences. This function could then be used anywhere a built-in function can be used by calling <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">format_transaction</span>(...)</code></span></span>.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ffa62b">CREATE</span> <span style="color:#ffa62b">FUNCTION</span> <span style="color:#16697a">format_transaction</span>(
+</pre></div></div></details><div class="container"><div>Most relational database engines support the ability to create and call functions as part of a SQL statement. Most also have commonly used utility functions already built-in.<br><br>Functions that accept zero or more input values and produce a single output value per row are called "simple" or "scalar" functions. There are other types of functions that work with more than one row at a time and they are generally grouped into <a href="aggregate_functions">Aggregate Functions</a> and <a href="window_functions">Window Functions</a>.<br><br><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">datetime</span>()</code></span></span> is a scalar function in SQLite that returns the current date and time.<br><br>SQLite and most other database engines will publish <span><span><a href="https://www.sqlite.org/lang_corefunc.html">documentation</a><svg style="display: inline; width: 0.8rem; height: 0.8rem;" viewbox="0 0 48 48"><path d="M36 24c-1.2 0-2 0.8-2 2v12c0 1.2-0.8 2-2 2h-22c-1.2 0-2-0.8-2-2v-22c0-1.2 0.8-2 2-2h12c1.2 0 2-0.8 2-2s-0.8-2-2-2h-12c-3.4 0-6 2.6-6 6v22c0 3.4 2.6 6 6 6h22c3.4 0 6-2.6 6-6v-12c0-1.2-0.8-2-2-2z"></path> <path d="M43.8 5.2c-0.2-0.4-0.6-0.8-1-1-0.2-0.2-0.6-0.2-0.8-0.2h-12c-1.2 0-2 0.8-2 2s0.8 2 2 2h7.2l-18.6 18.6c-0.8 0.8-0.8 2 0 2.8 0.4 0.4 0.8 0.6 1.4 0.6s1-0.2 1.4-0.6l18.6-18.6v7.2c0 1.2 0.8 2 2 2s2-0.8 2-2v-12c0-0.2 0-0.6-0.2-0.8z"></path></svg></span></span> on built-in functions available to use.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE transactions(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, NULL, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO transactions VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, -40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, -100.0);
+`, `SELECT datetime();
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>Functions can operate on row results and be combined and nested as long as the data types of the inputs and outputs are all compatible.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE transactions(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, NULL, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO transactions VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, -40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, -100.0);
+`, `SELECT concat(upper(name_last), &#39;, &#39;, substr(name_first, 1, 1))
+    AS name_full
+FROM users
+ORDER BY name_full ASC;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>Functions can be called in almost any part of a SQL query.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE transactions(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, NULL, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO transactions VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, -40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, -100.0);
+`, `SELECT upper(u.name_first) AS first_name,
+    strftime(&#39;%H:%M&#39;, t.date) AS transaction_time,
+    abs(round(t.amount * 1.10, 2)) AS amount_incl_fee
+FROM users u
+INNER JOIN transactions t
+    ON u.id = t.user_id
+WHERE abs(amount_incl_fee) &gt;= 20.0
+ORDER BY strftime(&#39;%H&#39;, t.date) DESC;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>It is important to consider <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> input values in functions and understand how they are interpreted. For example the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">length</span>()</code></span></span> function in SQLite returns <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span>, not 0.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE transactions(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, NULL, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO transactions VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, -40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, -100.0);
+`, `SELECT name_first, length(name_first)
+FROM users;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div class="linkable" id="coalesce"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">coalesce</span>()</code></span></span> is a commonly used function to handle <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> values by returning a "default" value if the input you supply evaluates to <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span>.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE transactions(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, NULL, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO transactions VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, -40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, -100.0);
+`, `SELECT name_first, coalesce(length(name_first), 0)
+    AS length
+FROM users;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>Some functions are capable of accepting a variable amount of arguments. These are called <i>variadic functions</i>.<br><br>A common example are string formatting functions like <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">printf</span>()</code></span></span> (or <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">format</span>()</code></span></span>). They often take in a "template" string that describes how you want the output string to be formatted, then any number of arguments that supply the data to fill it in with.<br><br>In this case, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">%</span><span style="color:#16697a">s</span></code></span></span> means we want a string type to appear in that spot, and <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">%</span>.<span style="color:#8a7b52">2</span><span style="color:#16697a">f</span></code></span></span> means we want a floating-point number rounded to two deicmal places to appear in that spot.<br><br>A fun fact is that this is such a common problem to solve that most programming languages have <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">printf</span>()</code></span></span> or some similar form of it.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE transactions(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, NULL, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO transactions VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, -40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, -100.0);
+`, `SELECT printf(&#34;%s %s withdrew %.2f.&#34;,
+    u.name_first,
+    u.name_last,
+    t.amount
+) AS output
+FROM users u
+INNER JOIN transactions t
+ON u.id = t.user_id
+WHERE t.amount &lt; 0;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>Some database engines support creating custom functions using the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CREATE</span> <span style="color:#ffa62b">FUNCTION</span></code></span></span>) statement. Others, like SQLite require you to define custom functions outside of the database and load them separately which we will not cover here.<br><br>This example gives an idea of what a user-defined/custom function would typically look like in PostgreSQL, a different database engine, so ignore the syntax differences. This function could then be used anywhere a built-in function can be used by calling <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">format_transaction</span>(...)</code></span></span>.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ffa62b">CREATE</span> <span style="color:#ffa62b">FUNCTION</span> <span style="color:#16697a">format_transaction</span>(
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#16697a">name_first</span> <span style="color:#728e00">TEXT</span>,
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#16697a">name_last</span>  <span style="color:#728e00">TEXT</span>,
 </span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#16697a">amount</span>     <span style="color:#728e00">NUMERIC</span>

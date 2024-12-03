@@ -52,10 +52,6 @@ func Topic() templ.Component {
 			SchemaPath: "sql/schema/schema.sql",
 		}
 		schema := s.From(s.SchemaPath)
-		templ_7745c5c3_Err = templ.JSONScript("schema", schema).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -82,9 +78,9 @@ func Topic() templ.Component {
 			}
 
 			stmt := s.From("sql/functions_nested.sql")
-			data := fmt.Sprintf("{ stmt: `%s`, result: 'running...' }", stmt)
-			init := fmt.Sprintf("db = await Db.load(`%s`);", schema)
-			run := fmt.Sprintf("result = JSON.stringify(db.exec(`${stmt}`));")
+			data := fmt.Sprintf("{ loading: true, stmt: `%s`, result: '' }", stmt)
+			run := fmt.Sprintf("result = JSON.stringify(db.exec(stmt))")
+			init := fmt.Sprintf("db = await Db.load(`%s`); %s; loading = false;", schema, run)
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-init=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -92,7 +88,7 @@ func Topic() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(init)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/client_side_test/client_side_test_alpine.templ`, Line: 43, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/client_side_test/client_side_test_alpine.templ`, Line: 43, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -105,7 +101,7 @@ func Topic() templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(data)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/client_side_test/client_side_test_alpine.templ`, Line: 43, Col: 54}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/client_side_test/client_side_test_alpine.templ`, Line: 43, Col: 54}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -118,13 +114,13 @@ func Topic() templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(run)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pages/client_side_test/client_side_test_alpine.templ`, Line: 59, Col: 60}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/client_side_test/client_side_test_alpine.templ`, Line: 59, Col: 60}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">&#9654; run</button><p x-text=\"result\"></p></div></div></div></div><script src=\"assets/app.js\"></script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">&#9654; run</button><p class=\"result\" x-text=\"loading ? &#39;running...&#39; : result\"></p></div></div></div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

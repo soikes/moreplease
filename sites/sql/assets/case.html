@@ -1,4 +1,4 @@
-<html><head><script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script><script src="assets/prism.js" data-manual></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: CASE</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">CASE</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">products</span></code></span></span></div><pre>| id |           name           |  category  | price | remaining_stock | vendor_id |
+<html><head><script type="text/javascript" src="assets/prism.js" data-manual></script> <script type="text/javascript" src="assets/app.js"></script> <script defer type="text/javascript" src="assets/alpine.js"></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: CASE</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">CASE</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">products</span></code></span></span></div><pre>| id |           name           |  category  | price | remaining_stock | vendor_id |
 |----|--------------------------|------------|-------|-----------------|-----------|
 | 1  | Cool Splash Cologne      | Toiletries | 49.99 | 25              | 2         |
 | 2  | More Spice Please Chips  | Food       | 3.99  | 60              | 1         |
@@ -25,174 +25,322 @@
 | 6  | 3          | 60       | 2024-08-15 16:40:07 | 2024-08-19 07:05:00 |
 | 7  | 6          | 10       | 2024-09-01 08:01:01 | NULL                |
 | 8  | 7          | 10       | 2024-09-01 08:05:09 | NULL                |
-</pre></div></div></details><div class="container"><div>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> expression allows you to add conditional logic to your queries. It is similar to the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">if</span> ... <span style="color:#ffa62b">else</span></code></span></span> or <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">switch</span></code></span></span> expressions in other programming languages.<br><br>Most database engines allow a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> expression to return any data type but each <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">WHEN</span></code></span></span> "branch" of the statement must return the same type. In SQLite any type can be returned but these examples will return the same type from all branches.<br><br>This example shows a common use case where we want to create custom groups or "buckets" for the data that are not part of the database schema.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">name</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#ffa62b">CASE</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">price</span> <span style="color:#90708c">&lt;</span> <span style="color:#8a7b52">5</span>.<span style="color:#8a7b52">00</span> <span style="color:#ffa62b">THEN</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>            <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Budget</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">price</span> <span style="color:#90708c">&lt;</span> <span style="color:#8a7b52">40</span>.<span style="color:#8a7b52">00</span> <span style="color:#ffa62b">THEN</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>            <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Standard</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span>        <span style="color:#ffa62b">ELSE</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Luxury</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>    <span style="color:#ffa62b">END</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">category</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">products</span>;
-</span></span></code></pre><div><pre>|           name           | category |
-|--------------------------|----------|
-| Cool Splash Cologne      | Luxury   |
-| More Spice Please Chips  | Budget   |
-| Night Shift Coffee       | Standard |
-| Crunchy Munchy Trail Mix | Standard |
-| Super Glide Floss        | Budget   |
-| Big Bark Dog Food        | Standard |
-| Soft Purr Cat Food       | Standard |
-| Tiny Fresh Scent Tree    | Budget   |
-</pre></div></div></div><div>The conditions inside a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> statement can be compounded using logical operators like <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">AND</span></code></span></span> and <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">OR</span></code></span></span>.<br><br>Another thing to note about the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> statement is that it is evaluated in order from top to bottom, left to right. For each row it will return a result for only the first match it encounters. If there are no matches and you supply an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ELSE</span></code></span></span> expression, that value will be the result. If you don't supply an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ELSE</span></code></span></span>, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> is returned.<br><br>Notice how the "Night Shift Coffee" product could technically match all of the "Critical Restock", "Urgent Restock" and "Restock Soon" categories. However once it matches "Critical Restock" the rest of the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> is not evaluated and we move on to the next product. You can utilize this behaviour or you can design your queries such that none of the branches in your <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> overlap.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">name</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#16697a">remaining_stock</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#ffa62b">CASE</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">remaining_stock</span> <span style="color:#90708c">&lt;</span> <span style="color:#8a7b52">5</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>            <span style="color:#ffa62b">THEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Critical Restock</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">remaining_stock</span> <span style="color:#90708c">&lt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">10</span> <span style="color:#ffa62b">AND</span> <span style="color:#16697a">category</span> <span style="color:#90708c">=</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Food</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>            <span style="color:#ffa62b">THEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Urgent Restock</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">remaining_stock</span> <span style="color:#90708c">&lt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">20</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>            <span style="color:#ffa62b">THEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Restock Soon</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>        <span style="color:#ffa62b">ELSE</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">No Restock Needed</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    <span style="color:#ffa62b">END</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span><span style="color:#ffa62b">AS</span> <span style="color:#16697a">needs_restock</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">products</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span> <span style="color:#16697a">needs_restock</span>;
-</span></span></code></pre><div><pre>|           name           | remaining_stock |   needs_restock   |
-|--------------------------|-----------------|-------------------|
-| Night Shift Coffee       | 1               | Critical Restock  |
-| Big Bark Dog Food        | 2               | Critical Restock  |
-| Soft Purr Cat Food       | 2               | Critical Restock  |
-| Cool Splash Cologne      | 25              | No Restock Needed |
-| More Spice Please Chips  | 60              | No Restock Needed |
-| Super Glide Floss        | 19              | Restock Soon      |
-| Tiny Fresh Scent Tree    | 7               | Restock Soon      |
-| Crunchy Munchy Trail Mix | 5               | Urgent Restock    |
-</pre></div></div></div><div class="linkable" id="case_and_or">The previous query is ordered alphabetically because our newly computed column <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">needs_restock</span></code></span></span> has a text data type. If we wanted to apply a custom order to the query we can also apply a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> statement to our <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span></code></span></span> clause.<br><br>Notice that this example also shows that you can add an expression directly after the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> keyword; this is called a "base" expression. In this case it is <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">needs_restock</span></code></span></span>. When a base expression is present it is evaluated once at the beginning. For each row, the value of <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">needs_restock</span></code></span></span> determines which integer is returned.<br><br>As an aside, a better way to structure this query would be to use <a href="/common_table_expressions">Common Table Expressions</a> to set up our results and ordering rules. An example of this can be seen at the <a href="#case_restructured">bottom</a> of the page.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">name</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#16697a">remaining_stock</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#ffa62b">CASE</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">remaining_stock</span> <span style="color:#90708c">&lt;</span> <span style="color:#8a7b52">5</span> 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>            <span style="color:#ffa62b">THEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Critical Restock</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">remaining_stock</span> <span style="color:#90708c">&lt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">10</span> <span style="color:#ffa62b">AND</span> <span style="color:#16697a">category</span> <span style="color:#90708c">=</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Food</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>            <span style="color:#ffa62b">THEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Urgent Restock</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">remaining_stock</span> <span style="color:#90708c">&lt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">20</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>            <span style="color:#ffa62b">THEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Restock Soon</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>        <span style="color:#ffa62b">ELSE</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">No Restock Needed</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    <span style="color:#ffa62b">END</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span><span style="color:#ffa62b">AS</span> <span style="color:#16697a">needs_restock</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">products</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span> 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>    <span style="color:#ffa62b">CASE</span> <span style="color:#16697a">needs_restock</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Critical Restock</span><span style="color:#7f8c8d">&#39;</span> <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">1</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Urgent Restock</span><span style="color:#7f8c8d">&#39;</span> <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">2</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Restock Soon</span><span style="color:#7f8c8d">&#39;</span> <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">3</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">No Restock Needed</span><span style="color:#7f8c8d">&#39;</span> <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">4</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>    <span style="color:#ffa62b">END</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    <span style="color:#ffa62b">ASC</span>;
-</span></span></code></pre><div><pre>|           name           | remaining_stock |   needs_restock   |
-|--------------------------|-----------------|-------------------|
-| Night Shift Coffee       | 1               | Critical Restock  |
-| Big Bark Dog Food        | 2               | Critical Restock  |
-| Soft Purr Cat Food       | 2               | Critical Restock  |
-| Crunchy Munchy Trail Mix | 5               | Urgent Restock    |
-| Super Glide Floss        | 19              | Restock Soon      |
-| Tiny Fresh Scent Tree    | 7               | Restock Soon      |
-| Cool Splash Cologne      | 25              | No Restock Needed |
-| More Spice Please Chips  | 60              | No Restock Needed |
-</pre></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> can be used to check for <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> and display a more human-readable value.<br><br>In simple cases like this, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">COALESCE</span>()</code></span></span> performs the same function.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">CASE</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">date_arrived</span> <span style="color:#ffa62b">IS</span> <span style="color:#ffa62b">NULL</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>        <span style="color:#ffa62b">THEN</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Pending</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span>    <span style="color:#ffa62b">ELSE</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Arrived: </span><span style="color:#7f8c8d">&#39;</span> <span style="color:#90708c">|</span><span style="color:#90708c">|</span> <span style="color:#16697a">date_arrived</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">END</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">arrival_status</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">orders</span>;
-</span></span></code></pre><div><pre>|        arrival_status        |
-|------------------------------|
-| Arrived: 2024-06-03 09:04:05 |
-| Arrived: 2024-06-26 14:20:10 |
-| Arrived: 2024-07-13 09:01:05 |
-| Arrived: 2024-07-09 12:50:12 |
-| Arrived: 2024-07-30 15:05:00 |
-| Arrived: 2024-08-19 07:05:00 |
-| Pending                      |
-| Pending                      |
-</pre></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> expressions can be used as part of aggregate queries using <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">GROUP</span> <span style="color:#ffa62b">BY</span></code></span></span> and aggregate functions like <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">avg</span>()</code></span></span>.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">avg</span>(<span style="color:#16697a">quantity</span>),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#ffa62b">CASE</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">quantity</span> <span style="color:#90708c">&lt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">10</span> <span style="color:#ffa62b">THEN</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>            <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Small</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">quantity</span> <span style="color:#90708c">&lt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">50</span> <span style="color:#ffa62b">THEN</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>            <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Medium</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">quantity</span> <span style="color:#90708c">&gt;</span> <span style="color:#8a7b52">50</span> <span style="color:#ffa62b">THEN</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>            <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Large</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>    <span style="color:#ffa62b">END</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">order_size</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">orders</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="color:#ffa62b">GROUP</span> <span style="color:#ffa62b">BY</span> <span style="color:#16697a">order_size</span>;
-</span></span></code></pre><div><pre>| avg(quantity) | order_size |
-|---------------|------------|
-| 60            | Large      |
-| 37.5          | Medium     |
-| 10            | Small      |
-</pre></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> can also be used as an input for aggregate functions. This technique is useful when you need to create "buckets" of data as above but group the data using another separate category. If you are familiar with spreadsheets, this technique is similar to that of a <span><span><a href="https://en.wikipedia.org/wiki/Pivot_table">pivot table</a><svg style="display: inline; width: 0.8rem; height: 0.8rem;" viewbox="0 0 48 48"><path d="M36 24c-1.2 0-2 0.8-2 2v12c0 1.2-0.8 2-2 2h-22c-1.2 0-2-0.8-2-2v-22c0-1.2 0.8-2 2-2h12c1.2 0 2-0.8 2-2s-0.8-2-2-2h-12c-3.4 0-6 2.6-6 6v22c0 3.4 2.6 6 6 6h22c3.4 0 6-2.6 6-6v-12c0-1.2-0.8-2-2-2z"></path> <path d="M43.8 5.2c-0.2-0.4-0.6-0.8-1-1-0.2-0.2-0.6-0.2-0.8-0.2h-12c-1.2 0-2 0.8-2 2s0.8 2 2 2h7.2l-18.6 18.6c-0.8 0.8-0.8 2 0 2.8 0.4 0.4 0.8 0.6 1.4 0.6s1-0.2 1.4-0.6l18.6-18.6v7.2c0 1.2 0.8 2 2 2s2-0.8 2-2v-12c0-0.2 0-0.6-0.2-0.8z"></path></svg></span></span>.<br><br>This example shows us how many of each price class of product each vendor has for sale.<br><br>Notice how in this example we use a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">JOIN</span></code></span></span> which will include vendors that have no products for sale. The vendor "Vend-tertainment" will return a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> value for <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">p</span>.<span style="color:#16697a">price</span></code></span></span>.<br><br>This causes our <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> expressions to fall back to their <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ELSE</span></code></span></span> return value of <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#8a7b52">0</span></code></span></span>.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ffa62b">SELECT</span> 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#16697a">v</span>.<span style="color:#16697a">name</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">vendor</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#ffa62b">SUM</span>(<span style="color:#ffa62b">CASE</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">p</span>.<span style="color:#16697a">price</span> <span style="color:#90708c">&lt;</span> <span style="color:#8a7b52">5</span>.<span style="color:#8a7b52">00</span> <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">1</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>        <span style="color:#ffa62b">ELSE</span> <span style="color:#8a7b52">0</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#ffa62b">END</span>) <span style="color:#ffa62b">AS</span> <span style="color:#16697a">budget</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    <span style="color:#ffa62b">SUM</span>(<span style="color:#ffa62b">CASE</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">p</span>.<span style="color:#16697a">price</span> <span style="color:#90708c">&lt;</span> <span style="color:#8a7b52">40</span>.<span style="color:#8a7b52">00</span> <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">1</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>        <span style="color:#ffa62b">ELSE</span> <span style="color:#8a7b52">0</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>    <span style="color:#ffa62b">END</span>) <span style="color:#ffa62b">AS</span> <span style="color:#16697a">standard</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>    <span style="color:#ffa62b">SUM</span>(<span style="color:#ffa62b">CASE</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">p</span>.<span style="color:#16697a">price</span> <span style="color:#90708c">&gt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">40</span>.<span style="color:#8a7b52">00</span> <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">1</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>        <span style="color:#ffa62b">ELSE</span> <span style="color:#8a7b52">0</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="color:#ffa62b">END</span>) <span style="color:#ffa62b">AS</span> <span style="color:#16697a">luxury</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">vendors</span> <span style="color:#16697a">v</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">products</span> <span style="color:#16697a">p</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">v</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">p</span>.<span style="color:#16697a">vendor_id</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span><span style="color:#ffa62b">GROUP</span> <span style="color:#ffa62b">BY</span> <span style="color:#16697a">v</span>.<span style="color:#16697a">id</span>;
-</span></span></code></pre><div><pre>|         vendor          | budget | standard | luxury |
-|-------------------------|--------|----------|--------|
-| Quicky Express Food Co  | 1      | 2        | 0      |
-| Good Times Distributors | 0      | 2        | 1      |
-| Natural Goodness        | 0      | 1        | 0      |
-| Hyper Logistics         | 2      | 2        | 0      |
-| Vend-tertainment        | 0      | 0        | 0      |
-</pre></div></div></div><div class="linkable" id="case_restructured">Here is the example <a href="#case_and_or">above</a> that is restructured using <a href="/common_table_expressions">Common Table Expressions</a> and <span><a href="/union_and_intersect"><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></a></span> to be easier to maintain and understand. Instead of using the order status labels as our column names to match on, we use the integer <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">id</span></code></span></span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.<br><br>When you need to re-use the same statements in multiple places in your query consider techniques like this that limit the amount of duplicate code you need to write.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ffa62b">WITH</span> <span style="color:#16697a">stock_statuses</span> <span style="color:#ffa62b">AS</span> (
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">name</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>        <span style="color:#16697a">remaining_stock</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>        <span style="color:#ffa62b">CASE</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>            <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">remaining_stock</span> <span style="color:#90708c">&lt;</span> <span style="color:#8a7b52">5</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>                <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">1</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>            <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">remaining_stock</span> <span style="color:#90708c">&lt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">10</span> <span style="color:#ffa62b">AND</span> <span style="color:#16697a">category</span> <span style="color:#90708c">=</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Food</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>                <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">2</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>            <span style="color:#ffa62b">WHEN</span> <span style="color:#16697a">remaining_stock</span> <span style="color:#90708c">&lt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">20</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span>                <span style="color:#ffa62b">THEN</span> <span style="color:#8a7b52">3</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span>            <span style="color:#ffa62b">ELSE</span> <span style="color:#8a7b52">4</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span>        <span style="color:#ffa62b">END</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span>    <span style="color:#ffa62b">AS</span> <span style="color:#16697a">id</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14</span><span>    <span style="color:#ffa62b">FROM</span> <span style="color:#16697a">products</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15</span><span>),
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16</span><span><span style="color:#16697a">status_labels</span> <span style="color:#ffa62b">AS</span> (
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17</span><span>    <span style="color:#ffa62b">SELECT</span> <span style="color:#8a7b52">1</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">status_id</span>, 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18</span><span>    <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Critical Restock</span><span style="color:#7f8c8d">&#39;</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">label</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19</span><span>    <span style="color:#ffa62b">UNION</span> <span style="color:#ffa62b">SELECT</span> <span style="color:#8a7b52">2</span>, <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Urgent Restock</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20</span><span>    <span style="color:#ffa62b">UNION</span> <span style="color:#ffa62b">SELECT</span> <span style="color:#8a7b52">3</span>, <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Restock Soon</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21</span><span>    <span style="color:#ffa62b">UNION</span> <span style="color:#ffa62b">SELECT</span> <span style="color:#8a7b52">4</span>, <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">No Restock Needed</span><span style="color:#7f8c8d">&#39;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22</span><span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">ss</span>.<span style="color:#16697a">name</span>, 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24</span><span>    <span style="color:#16697a">ss</span>.<span style="color:#16697a">remaining_stock</span>, 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25</span><span>    <span style="color:#16697a">sl</span>.<span style="color:#16697a">label</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">needs_restock</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">stock_statuses</span> <span style="color:#16697a">ss</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">status_labels</span> <span style="color:#16697a">sl</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28</span><span>    <span style="color:#ffa62b">ON</span> <span style="color:#16697a">ss</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">sl</span>.<span style="color:#16697a">status_id</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29</span><span><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span> <span style="color:#16697a">ss</span>.<span style="color:#16697a">id</span>;
-</span></span></code></pre><div><pre>|           name           | remaining_stock |   needs_restock   |
-|--------------------------|-----------------|-------------------|
-| Night Shift Coffee       | 1               | Critical Restock  |
-| Big Bark Dog Food        | 2               | Critical Restock  |
-| Soft Purr Cat Food       | 2               | Critical Restock  |
-| Crunchy Munchy Trail Mix | 5               | Urgent Restock    |
-| Super Glide Floss        | 19              | Restock Soon      |
-| Tiny Fresh Scent Tree    | 7               | Restock Soon      |
-| Cool Splash Cologne      | 25              | No Restock Needed |
-| More Spice Please Chips  | 60              | No Restock Needed |
-</pre></div></div></div></div></div></body></html>
+</pre></div></div></details><div class="container"><div>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> expression allows you to add conditional logic to your queries. It is similar to the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">if</span> ... <span style="color:#ffa62b">else</span></code></span></span> or <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">switch</span></code></span></span> expressions in other programming languages.<br><br>Most database engines allow a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> expression to return any data type but each <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">WHEN</span></code></span></span> "branch" of the statement must return the same type. In SQLite any type can be returned but these examples will return the same type from all branches.<br><br>This example shows a common use case where we want to create custom groups or "buckets" for the data that are not part of the database schema.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE vendors(id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#34;Cool Splash Cologne&#34;, &#34;Toiletries&#34;, 49.99, 25, 2),
+    (2, &#34;More Spice Please Chips&#34;, &#34;Food&#34;, 3.99, 60, 1),
+    (3, &#34;Night Shift Coffee&#34;, &#34;Food&#34;, 6.99, 1, 1),
+    (4, &#34;Crunchy Munchy Trail Mix&#34;, &#34;Food&#34;, 8.99, 5, 3),
+    (5, &#34;Super Glide Floss&#34;, &#34;Toiletries&#34;, 1.99, 19, 4),
+    (6, &#34;Big Bark Dog Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (7, &#34;Soft Purr Cat Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (8, &#34;Tiny Fresh Scent Tree&#34;, &#34;Automotive&#34;, 2.00, 7, 4);
+
+INSERT INTO vendors VALUES
+    (1, &#34;Quicky Express Food Co&#34;),
+    (2, &#34;Good Times Distributors&#34;),
+    (3, &#34;Natural Goodness&#34;),
+    (4, &#34;Hyper Logistics&#34;),
+    (5, &#34;Vend-tertainment&#34;);
+
+INSERT INTO orders VALUES
+    (1, 4, 40, &#34;2024-06-01 07:58:05&#34;, &#34;2024-06-03 09:04:05&#34;),
+    (2, 1, 20, &#34;2024-06-14 19:30:10&#34;, &#34;2024-06-26 14:20:10&#34;),
+    (3, 4, 40, &#34;2024-07-01 09:01:05&#34;, &#34;2024-07-13 09:01:05&#34;),
+    (4, 5, 50, &#34;2024-07-03 01:00:07&#34;, &#34;2024-07-09 12:50:12&#34;),
+    (5, 2, 60, &#34;2024-07-24 06:06:03&#34;, &#34;2024-07-30 15:05:00&#34;),
+    (6, 3, 60, &#34;2024-08-15 16:40:07&#34;, &#34;2024-08-19 07:05:00&#34;),
+    (7, 6, 10, &#34;2024-09-01 08:01:01&#34;, NULL),
+    (8, 7, 10, &#34;2024-09-01 08:05:09&#34;, NULL);
+`, `SELECT name,
+    CASE
+        WHEN price &lt; 5.00 THEN
+            &#39;Budget&#39;
+        WHEN price &lt; 40.00 THEN
+            &#39;Standard&#39;
+        ELSE &#39;Luxury&#39;
+    END AS category
+FROM products;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>The conditions inside a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> statement can be compounded using logical operators like <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">AND</span></code></span></span> and <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">OR</span></code></span></span>.<br><br>Another thing to note about the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> statement is that it is evaluated in order from top to bottom, left to right. For each row it will return a result for only the first match it encounters. If there are no matches and you supply an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ELSE</span></code></span></span> expression, that value will be the result. If you don't supply an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ELSE</span></code></span></span>, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> is returned.<br><br>Notice how the "Night Shift Coffee" product could technically match all of the "Critical Restock", "Urgent Restock" and "Restock Soon" categories. However once it matches "Critical Restock" the rest of the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> is not evaluated and we move on to the next product. You can utilize this behaviour or you can design your queries such that none of the branches in your <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> overlap.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE vendors(id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#34;Cool Splash Cologne&#34;, &#34;Toiletries&#34;, 49.99, 25, 2),
+    (2, &#34;More Spice Please Chips&#34;, &#34;Food&#34;, 3.99, 60, 1),
+    (3, &#34;Night Shift Coffee&#34;, &#34;Food&#34;, 6.99, 1, 1),
+    (4, &#34;Crunchy Munchy Trail Mix&#34;, &#34;Food&#34;, 8.99, 5, 3),
+    (5, &#34;Super Glide Floss&#34;, &#34;Toiletries&#34;, 1.99, 19, 4),
+    (6, &#34;Big Bark Dog Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (7, &#34;Soft Purr Cat Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (8, &#34;Tiny Fresh Scent Tree&#34;, &#34;Automotive&#34;, 2.00, 7, 4);
+
+INSERT INTO vendors VALUES
+    (1, &#34;Quicky Express Food Co&#34;),
+    (2, &#34;Good Times Distributors&#34;),
+    (3, &#34;Natural Goodness&#34;),
+    (4, &#34;Hyper Logistics&#34;),
+    (5, &#34;Vend-tertainment&#34;);
+
+INSERT INTO orders VALUES
+    (1, 4, 40, &#34;2024-06-01 07:58:05&#34;, &#34;2024-06-03 09:04:05&#34;),
+    (2, 1, 20, &#34;2024-06-14 19:30:10&#34;, &#34;2024-06-26 14:20:10&#34;),
+    (3, 4, 40, &#34;2024-07-01 09:01:05&#34;, &#34;2024-07-13 09:01:05&#34;),
+    (4, 5, 50, &#34;2024-07-03 01:00:07&#34;, &#34;2024-07-09 12:50:12&#34;),
+    (5, 2, 60, &#34;2024-07-24 06:06:03&#34;, &#34;2024-07-30 15:05:00&#34;),
+    (6, 3, 60, &#34;2024-08-15 16:40:07&#34;, &#34;2024-08-19 07:05:00&#34;),
+    (7, 6, 10, &#34;2024-09-01 08:01:01&#34;, NULL),
+    (8, 7, 10, &#34;2024-09-01 08:05:09&#34;, NULL);
+`, `SELECT name,
+    remaining_stock,
+    CASE
+        WHEN remaining_stock &lt; 5
+            THEN &#39;Critical Restock&#39;
+        WHEN remaining_stock &lt;= 10 AND category = &#39;Food&#39;
+            THEN &#39;Urgent Restock&#39;
+        WHEN remaining_stock &lt;= 20
+            THEN &#39;Restock Soon&#39;
+        ELSE &#39;No Restock Needed&#39;
+    END
+AS needs_restock
+FROM products
+ORDER BY needs_restock;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div class="linkable" id="case_and_or">The previous query is ordered alphabetically because our newly computed column <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">needs_restock</span></code></span></span> has a text data type. If we wanted to apply a custom order to the query we can also apply a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> statement to our <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span></code></span></span> clause.<br><br>Notice that this example also shows that you can add an expression directly after the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> keyword; this is called a "base" expression. In this case it is <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">needs_restock</span></code></span></span>. When a base expression is present it is evaluated once at the beginning. For each row, the value of <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">needs_restock</span></code></span></span> determines which integer is returned.<br><br>As an aside, a better way to structure this query would be to use <a href="/common_table_expressions">Common Table Expressions</a> to set up our results and ordering rules. An example of this can be seen at the <a href="#case_restructured">bottom</a> of the page.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE vendors(id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#34;Cool Splash Cologne&#34;, &#34;Toiletries&#34;, 49.99, 25, 2),
+    (2, &#34;More Spice Please Chips&#34;, &#34;Food&#34;, 3.99, 60, 1),
+    (3, &#34;Night Shift Coffee&#34;, &#34;Food&#34;, 6.99, 1, 1),
+    (4, &#34;Crunchy Munchy Trail Mix&#34;, &#34;Food&#34;, 8.99, 5, 3),
+    (5, &#34;Super Glide Floss&#34;, &#34;Toiletries&#34;, 1.99, 19, 4),
+    (6, &#34;Big Bark Dog Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (7, &#34;Soft Purr Cat Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (8, &#34;Tiny Fresh Scent Tree&#34;, &#34;Automotive&#34;, 2.00, 7, 4);
+
+INSERT INTO vendors VALUES
+    (1, &#34;Quicky Express Food Co&#34;),
+    (2, &#34;Good Times Distributors&#34;),
+    (3, &#34;Natural Goodness&#34;),
+    (4, &#34;Hyper Logistics&#34;),
+    (5, &#34;Vend-tertainment&#34;);
+
+INSERT INTO orders VALUES
+    (1, 4, 40, &#34;2024-06-01 07:58:05&#34;, &#34;2024-06-03 09:04:05&#34;),
+    (2, 1, 20, &#34;2024-06-14 19:30:10&#34;, &#34;2024-06-26 14:20:10&#34;),
+    (3, 4, 40, &#34;2024-07-01 09:01:05&#34;, &#34;2024-07-13 09:01:05&#34;),
+    (4, 5, 50, &#34;2024-07-03 01:00:07&#34;, &#34;2024-07-09 12:50:12&#34;),
+    (5, 2, 60, &#34;2024-07-24 06:06:03&#34;, &#34;2024-07-30 15:05:00&#34;),
+    (6, 3, 60, &#34;2024-08-15 16:40:07&#34;, &#34;2024-08-19 07:05:00&#34;),
+    (7, 6, 10, &#34;2024-09-01 08:01:01&#34;, NULL),
+    (8, 7, 10, &#34;2024-09-01 08:05:09&#34;, NULL);
+`, `SELECT name,
+    remaining_stock,
+    CASE
+        WHEN remaining_stock &lt; 5 
+            THEN &#39;Critical Restock&#39;
+        WHEN remaining_stock &lt;= 10 AND category = &#39;Food&#39;
+            THEN &#39;Urgent Restock&#39;
+        WHEN remaining_stock &lt;= 20
+            THEN &#39;Restock Soon&#39;
+        ELSE &#39;No Restock Needed&#39;
+    END
+AS needs_restock
+FROM products
+ORDER BY 
+    CASE needs_restock
+        WHEN &#39;Critical Restock&#39; THEN 1
+        WHEN &#39;Urgent Restock&#39; THEN 2
+        WHEN &#39;Restock Soon&#39; THEN 3
+        WHEN &#39;No Restock Needed&#39; THEN 4
+    END
+    ASC;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> can be used to check for <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> and display a more human-readable value.<br><br>In simple cases like this, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">COALESCE</span>()</code></span></span> performs the same function.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE vendors(id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#34;Cool Splash Cologne&#34;, &#34;Toiletries&#34;, 49.99, 25, 2),
+    (2, &#34;More Spice Please Chips&#34;, &#34;Food&#34;, 3.99, 60, 1),
+    (3, &#34;Night Shift Coffee&#34;, &#34;Food&#34;, 6.99, 1, 1),
+    (4, &#34;Crunchy Munchy Trail Mix&#34;, &#34;Food&#34;, 8.99, 5, 3),
+    (5, &#34;Super Glide Floss&#34;, &#34;Toiletries&#34;, 1.99, 19, 4),
+    (6, &#34;Big Bark Dog Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (7, &#34;Soft Purr Cat Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (8, &#34;Tiny Fresh Scent Tree&#34;, &#34;Automotive&#34;, 2.00, 7, 4);
+
+INSERT INTO vendors VALUES
+    (1, &#34;Quicky Express Food Co&#34;),
+    (2, &#34;Good Times Distributors&#34;),
+    (3, &#34;Natural Goodness&#34;),
+    (4, &#34;Hyper Logistics&#34;),
+    (5, &#34;Vend-tertainment&#34;);
+
+INSERT INTO orders VALUES
+    (1, 4, 40, &#34;2024-06-01 07:58:05&#34;, &#34;2024-06-03 09:04:05&#34;),
+    (2, 1, 20, &#34;2024-06-14 19:30:10&#34;, &#34;2024-06-26 14:20:10&#34;),
+    (3, 4, 40, &#34;2024-07-01 09:01:05&#34;, &#34;2024-07-13 09:01:05&#34;),
+    (4, 5, 50, &#34;2024-07-03 01:00:07&#34;, &#34;2024-07-09 12:50:12&#34;),
+    (5, 2, 60, &#34;2024-07-24 06:06:03&#34;, &#34;2024-07-30 15:05:00&#34;),
+    (6, 3, 60, &#34;2024-08-15 16:40:07&#34;, &#34;2024-08-19 07:05:00&#34;),
+    (7, 6, 10, &#34;2024-09-01 08:01:01&#34;, NULL),
+    (8, 7, 10, &#34;2024-09-01 08:05:09&#34;, NULL);
+`, `SELECT CASE
+    WHEN date_arrived IS NULL
+        THEN &#39;Pending&#39;
+    ELSE &#39;Arrived: &#39; || date_arrived
+END AS arrival_status
+FROM orders;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> expressions can be used as part of aggregate queries using <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">GROUP</span> <span style="color:#ffa62b">BY</span></code></span></span> and aggregate functions like <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">avg</span>()</code></span></span>.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE vendors(id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#34;Cool Splash Cologne&#34;, &#34;Toiletries&#34;, 49.99, 25, 2),
+    (2, &#34;More Spice Please Chips&#34;, &#34;Food&#34;, 3.99, 60, 1),
+    (3, &#34;Night Shift Coffee&#34;, &#34;Food&#34;, 6.99, 1, 1),
+    (4, &#34;Crunchy Munchy Trail Mix&#34;, &#34;Food&#34;, 8.99, 5, 3),
+    (5, &#34;Super Glide Floss&#34;, &#34;Toiletries&#34;, 1.99, 19, 4),
+    (6, &#34;Big Bark Dog Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (7, &#34;Soft Purr Cat Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (8, &#34;Tiny Fresh Scent Tree&#34;, &#34;Automotive&#34;, 2.00, 7, 4);
+
+INSERT INTO vendors VALUES
+    (1, &#34;Quicky Express Food Co&#34;),
+    (2, &#34;Good Times Distributors&#34;),
+    (3, &#34;Natural Goodness&#34;),
+    (4, &#34;Hyper Logistics&#34;),
+    (5, &#34;Vend-tertainment&#34;);
+
+INSERT INTO orders VALUES
+    (1, 4, 40, &#34;2024-06-01 07:58:05&#34;, &#34;2024-06-03 09:04:05&#34;),
+    (2, 1, 20, &#34;2024-06-14 19:30:10&#34;, &#34;2024-06-26 14:20:10&#34;),
+    (3, 4, 40, &#34;2024-07-01 09:01:05&#34;, &#34;2024-07-13 09:01:05&#34;),
+    (4, 5, 50, &#34;2024-07-03 01:00:07&#34;, &#34;2024-07-09 12:50:12&#34;),
+    (5, 2, 60, &#34;2024-07-24 06:06:03&#34;, &#34;2024-07-30 15:05:00&#34;),
+    (6, 3, 60, &#34;2024-08-15 16:40:07&#34;, &#34;2024-08-19 07:05:00&#34;),
+    (7, 6, 10, &#34;2024-09-01 08:01:01&#34;, NULL),
+    (8, 7, 10, &#34;2024-09-01 08:05:09&#34;, NULL);
+`, `SELECT avg(quantity),
+    CASE
+        WHEN quantity &lt;= 10 THEN
+            &#39;Small&#39;
+        WHEN quantity &lt;= 50 THEN
+            &#39;Medium&#39;
+        WHEN quantity &gt; 50 THEN
+            &#39;Large&#39;
+    END AS order_size
+FROM orders
+GROUP BY order_size;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> can also be used as an input for aggregate functions. This technique is useful when you need to create "buckets" of data as above but group the data using another separate category. If you are familiar with spreadsheets, this technique is similar to that of a <span><span><a href="https://en.wikipedia.org/wiki/Pivot_table">pivot table</a><svg style="display: inline; width: 0.8rem; height: 0.8rem;" viewbox="0 0 48 48"><path d="M36 24c-1.2 0-2 0.8-2 2v12c0 1.2-0.8 2-2 2h-22c-1.2 0-2-0.8-2-2v-22c0-1.2 0.8-2 2-2h12c1.2 0 2-0.8 2-2s-0.8-2-2-2h-12c-3.4 0-6 2.6-6 6v22c0 3.4 2.6 6 6 6h22c3.4 0 6-2.6 6-6v-12c0-1.2-0.8-2-2-2z"></path> <path d="M43.8 5.2c-0.2-0.4-0.6-0.8-1-1-0.2-0.2-0.6-0.2-0.8-0.2h-12c-1.2 0-2 0.8-2 2s0.8 2 2 2h7.2l-18.6 18.6c-0.8 0.8-0.8 2 0 2.8 0.4 0.4 0.8 0.6 1.4 0.6s1-0.2 1.4-0.6l18.6-18.6v7.2c0 1.2 0.8 2 2 2s2-0.8 2-2v-12c0-0.2 0-0.6-0.2-0.8z"></path></svg></span></span>.<br><br>This example shows us how many of each price class of product each vendor has for sale.<br><br>Notice how in this example we use a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">JOIN</span></code></span></span> which will include vendors that have no products for sale. The vendor "Vend-tertainment" will return a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> value for <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">p</span>.<span style="color:#16697a">price</span></code></span></span>.<br><br>This causes our <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span> expressions to fall back to their <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ELSE</span></code></span></span> return value of <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#8a7b52">0</span></code></span></span>.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE vendors(id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#34;Cool Splash Cologne&#34;, &#34;Toiletries&#34;, 49.99, 25, 2),
+    (2, &#34;More Spice Please Chips&#34;, &#34;Food&#34;, 3.99, 60, 1),
+    (3, &#34;Night Shift Coffee&#34;, &#34;Food&#34;, 6.99, 1, 1),
+    (4, &#34;Crunchy Munchy Trail Mix&#34;, &#34;Food&#34;, 8.99, 5, 3),
+    (5, &#34;Super Glide Floss&#34;, &#34;Toiletries&#34;, 1.99, 19, 4),
+    (6, &#34;Big Bark Dog Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (7, &#34;Soft Purr Cat Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (8, &#34;Tiny Fresh Scent Tree&#34;, &#34;Automotive&#34;, 2.00, 7, 4);
+
+INSERT INTO vendors VALUES
+    (1, &#34;Quicky Express Food Co&#34;),
+    (2, &#34;Good Times Distributors&#34;),
+    (3, &#34;Natural Goodness&#34;),
+    (4, &#34;Hyper Logistics&#34;),
+    (5, &#34;Vend-tertainment&#34;);
+
+INSERT INTO orders VALUES
+    (1, 4, 40, &#34;2024-06-01 07:58:05&#34;, &#34;2024-06-03 09:04:05&#34;),
+    (2, 1, 20, &#34;2024-06-14 19:30:10&#34;, &#34;2024-06-26 14:20:10&#34;),
+    (3, 4, 40, &#34;2024-07-01 09:01:05&#34;, &#34;2024-07-13 09:01:05&#34;),
+    (4, 5, 50, &#34;2024-07-03 01:00:07&#34;, &#34;2024-07-09 12:50:12&#34;),
+    (5, 2, 60, &#34;2024-07-24 06:06:03&#34;, &#34;2024-07-30 15:05:00&#34;),
+    (6, 3, 60, &#34;2024-08-15 16:40:07&#34;, &#34;2024-08-19 07:05:00&#34;),
+    (7, 6, 10, &#34;2024-09-01 08:01:01&#34;, NULL),
+    (8, 7, 10, &#34;2024-09-01 08:05:09&#34;, NULL);
+`, `SELECT 
+    v.name AS vendor,
+    SUM(CASE
+        WHEN p.price &lt; 5.00 THEN 1
+        ELSE 0
+    END) AS budget,
+    SUM(CASE
+        WHEN p.price &lt; 40.00 THEN 1
+        ELSE 0
+    END) AS standard,
+    SUM(CASE
+        WHEN p.price &gt;= 40.00 THEN 1
+        ELSE 0
+    END) AS luxury
+FROM vendors v
+LEFT JOIN products p
+ON v.id = p.vendor_id
+GROUP BY v.id;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div class="linkable" id="case_restructured">Here is the example <a href="#case_and_or">above</a> that is restructured using <a href="/common_table_expressions">Common Table Expressions</a> and <span><a href="/union_and_intersect"><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></a></span> to be easier to maintain and understand. Instead of using the order status labels as our column names to match on, we use the integer <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">id</span></code></span></span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.<br><br>When you need to re-use the same statements in multiple places in your query consider techniques like this that limit the amount of duplicate code you need to write.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE vendors(id INTEGER PRIMARY KEY, name TEXT);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#34;Cool Splash Cologne&#34;, &#34;Toiletries&#34;, 49.99, 25, 2),
+    (2, &#34;More Spice Please Chips&#34;, &#34;Food&#34;, 3.99, 60, 1),
+    (3, &#34;Night Shift Coffee&#34;, &#34;Food&#34;, 6.99, 1, 1),
+    (4, &#34;Crunchy Munchy Trail Mix&#34;, &#34;Food&#34;, 8.99, 5, 3),
+    (5, &#34;Super Glide Floss&#34;, &#34;Toiletries&#34;, 1.99, 19, 4),
+    (6, &#34;Big Bark Dog Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (7, &#34;Soft Purr Cat Food&#34;, &#34;Pet Care&#34;, 30.00, 2, 2),
+    (8, &#34;Tiny Fresh Scent Tree&#34;, &#34;Automotive&#34;, 2.00, 7, 4);
+
+INSERT INTO vendors VALUES
+    (1, &#34;Quicky Express Food Co&#34;),
+    (2, &#34;Good Times Distributors&#34;),
+    (3, &#34;Natural Goodness&#34;),
+    (4, &#34;Hyper Logistics&#34;),
+    (5, &#34;Vend-tertainment&#34;);
+
+INSERT INTO orders VALUES
+    (1, 4, 40, &#34;2024-06-01 07:58:05&#34;, &#34;2024-06-03 09:04:05&#34;),
+    (2, 1, 20, &#34;2024-06-14 19:30:10&#34;, &#34;2024-06-26 14:20:10&#34;),
+    (3, 4, 40, &#34;2024-07-01 09:01:05&#34;, &#34;2024-07-13 09:01:05&#34;),
+    (4, 5, 50, &#34;2024-07-03 01:00:07&#34;, &#34;2024-07-09 12:50:12&#34;),
+    (5, 2, 60, &#34;2024-07-24 06:06:03&#34;, &#34;2024-07-30 15:05:00&#34;),
+    (6, 3, 60, &#34;2024-08-15 16:40:07&#34;, &#34;2024-08-19 07:05:00&#34;),
+    (7, 6, 10, &#34;2024-09-01 08:01:01&#34;, NULL),
+    (8, 7, 10, &#34;2024-09-01 08:05:09&#34;, NULL);
+`, `WITH stock_statuses AS (
+    SELECT name,
+        remaining_stock,
+        CASE
+            WHEN remaining_stock &lt; 5
+                THEN 1
+            WHEN remaining_stock &lt;= 10 AND category = &#39;Food&#39;
+                THEN 2
+            WHEN remaining_stock &lt;= 20
+                THEN 3
+            ELSE 4
+        END
+    AS id
+    FROM products
+),
+status_labels AS (
+    SELECT 1 AS status_id, 
+    &#39;Critical Restock&#39; AS label
+    UNION SELECT 2, &#39;Urgent Restock&#39;
+    UNION SELECT 3, &#39;Restock Soon&#39;
+    UNION SELECT 4, &#39;No Restock Needed&#39;
+)
+SELECT ss.name, 
+    ss.remaining_stock, 
+    sl.label AS needs_restock
+FROM stock_statuses ss
+INNER JOIN status_labels sl
+    ON ss.id = sl.status_id
+ORDER BY ss.id;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div></div></div></body></html>

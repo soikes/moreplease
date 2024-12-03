@@ -7,18 +7,18 @@ import (
 
 	"soikke.li/moreplease/sites/sql/assets"
 
-	aggregate_functions_topic "soikke.li/moreplease/sites/sql/pages/aggregate_functions"
-	case_topic "soikke.li/moreplease/sites/sql/pages/case"
-	data_types_topic "soikke.li/moreplease/sites/sql/pages/data_types"
-	functions_topic "soikke.li/moreplease/sites/sql/pages/functions"
-	group_by_topic "soikke.li/moreplease/sites/sql/pages/group_by"
-	index "soikke.li/moreplease/sites/sql/pages/index"
-	join_topic "soikke.li/moreplease/sites/sql/pages/join"
-	limit_topic "soikke.li/moreplease/sites/sql/pages/limit"
-	order_by_topic "soikke.li/moreplease/sites/sql/pages/order_by"
-	select_topic "soikke.li/moreplease/sites/sql/pages/select"
-	union_and_set_operators_topic "soikke.li/moreplease/sites/sql/pages/union_and_set_operators"
-	where_topic "soikke.li/moreplease/sites/sql/pages/where"
+	aggregate_functions_topic "soikke.li/moreplease/sites/sql/templates/aggregate_functions"
+	case_topic "soikke.li/moreplease/sites/sql/templates/case"
+	data_types_topic "soikke.li/moreplease/sites/sql/templates/data_types"
+	functions_topic "soikke.li/moreplease/sites/sql/templates/functions"
+	group_by_topic "soikke.li/moreplease/sites/sql/templates/group_by"
+	index "soikke.li/moreplease/sites/sql/templates/index"
+	join_topic "soikke.li/moreplease/sites/sql/templates/join"
+	limit_topic "soikke.li/moreplease/sites/sql/templates/limit"
+	order_by_topic "soikke.li/moreplease/sites/sql/templates/order_by"
+	select_topic "soikke.li/moreplease/sites/sql/templates/select"
+	union_and_set_operators_topic "soikke.li/moreplease/sites/sql/templates/union_and_set_operators"
+	where_topic "soikke.li/moreplease/sites/sql/templates/where"
 )
 
 func NewDynamicMux() *http.ServeMux {

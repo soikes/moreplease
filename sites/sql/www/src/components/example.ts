@@ -1,79 +1,67 @@
-import { LitElement, html } from "lit";
-import { Task } from "@lit/task";
-import { customElement, property, state } from "lit/decorators.js";
-import { Db } from "../db/db.js";
-import { MarkdownFormatter } from "../db/formatter.js";
+// import Alpine from "alpinejs";
+import { Db } from "../db/db";
 
-@customElement("sql-example")
-class SQLExample extends LitElement {
-  private _db: Db;
-
-  @property({ type: String })
-  schema: string;
-
-  @property({ type: String })
-  stmt: string;
-
-  @property({ type: String })
+interface Example {
+  loading: boolean;
+  fatal: boolean;
   result: string;
+  schema: string;
+  initialStmt: string;
+  stmt: string;
+  db: Db | null;
 
-  private _loadTask = new Task(this, {
-    task: async ([schema]) => {
+  init(): Promise<void>;
+  run(): void;
+  reset(): void;
+}
+
+function createExample(schema: string, stmt: string): Example {
+  return {
+    loading: false,
+    fatal: false,
+    result: "",
+    schema: schema,
+    initialStmt: stmt,
+    stmt: stmt,
+    db: null as Db | null,
+
+    // init() is called automatically by alpine.js when this object is supplied into x-data: https://alpinejs.dev/directives/init#auto-evaluate-init-method
+    async init() {
+      this.result = ``;
+      this.loading = false;
       try {
-        this._db = await Db.load(schema);
+        this.db = await Db.load(this.schema);
       } catch (error) {
-        console.error(
-          `failed to initialize SQLite database with schema ${schema}:
-          ${error}`,
-        );
+        console.error(error);
+        this.fatal = true;
         return;
       }
-      this._execTask.run([this.stmt]);
+      this.run();
     },
-    args: () => [this.schema],
-  });
 
-  private _execTask = new Task(this, {
-    task: async ([stmt]) => {
-      const res = this._db.exec(stmt);
-      const fmt = MarkdownFormatter.fromResult(res);
-      this.result = fmt.toString();
+    run() {
+      try {
+        let res = this.db.exec(this.stmt);
+        this.result = JSON.stringify(res);
+      } catch (error) {
+        this.result = error.toString();
+      }
     },
-    autoRun: false,
-    args: () => [this.stmt],
-  });
 
-  private _runSQL() {
-    console.log(`running ${this.stmt}`);
-    this._execTask.run([this.stmt]);
-  }
-
-  render() {
-    return html`
-      <textarea
-        .value=${this.stmt}
-        @input="${(e) => (this.stmt = e.target.value)}"
-      ></textarea>
-      <button class="run" @click=${this._runSQL}>&#9654; run</button>
-      ${this._loadTask.render({
-        initial: () => html`<p>load initial...</p>`,
-        pending: () => html`<p>load pending...</p>`,
-        complete: () => html`
-          ${this._execTask.render({
-            initial: () => html`<p>exec initial...</p>`,
-            pending: () => html`<p>exec running...</p>`,
-            complete: () => html`<pre>${this.result}</pre>`,
-            error: (error) => html`<p>${error}</p>`,
-          })}
-        `,
-        error: (error) => html`<p>${error}</p>`,
-      })}
-    `;
-  }
+    reset() {
+      this.stmt = this.initialStmt;
+    },
+  };
 }
 
 declare global {
-  interface HTMLElementTagNameMap {
-    "sql-example": SQLExample;
+  interface Window {
+    createExample: typeof createExample;
   }
 }
+window.createExample = createExample;
+
+// Alpine.data("example", createExample());
+// document.addEventListener("DOMContentLoaded", function (event) {
+//   Alpine.start();
+// });

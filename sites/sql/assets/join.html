@@ -1,4 +1,4 @@
-<html><head><script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script><script src="assets/prism.js" data-manual></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: JOIN</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">JOIN</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">users</span></code></span></span></div><pre>| id | referrer_id | name_first | name_last |       email_address       |
+<html><head><script type="text/javascript" src="assets/prism.js" data-manual></script> <script type="text/javascript" src="assets/app.js"></script> <script defer type="text/javascript" src="assets/alpine.js"></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: JOIN</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">JOIN</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">users</span></code></span></span></div><pre>| id | referrer_id | name_first | name_last |       email_address       |
 |----|-------------|------------|-----------|---------------------------|
 | 1  | 2           | Marcus     | Crawford  | marcus@mcrawford.ca       |
 | 2  | NULL        | Elena      | Moreno    | elena@hellocorp.com       |
@@ -17,119 +17,245 @@
 | 1  | Homes for Pets  |
 | 2  | Ocean Life      |
 | 3  | Learning Ladder |
-</pre></div></div></details><div class="container"><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>This example uses two tables: <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">users</span></code></span></span> and <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">donations</span></code></span></span>. Notice the donations table has a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">user_id</span></code></span></span> column to indicate which user made that donation.<br><br>In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>An <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span></code></span></span> means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>There is no functional difference between a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> and an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span></code></span></span>, it's just <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar.</a><br><br>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ON</span></code></span></span> clause is where you specify the relationship between the tables that you want them to be joined on. The data type of these columns needs to match.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">name_first</span>, <span style="color:#16697a">users</span>.<span style="color:#16697a">email_address</span>, <span style="color:#16697a">donations</span>.<span style="color:#16697a">amount</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">donations</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">donations</span>.<span style="color:#16697a">user_id</span>;
-</span></span></code></pre><div><pre>| name_first |      email_address       | amount |
-|------------|--------------------------|--------|
-| Marcus     | marcus@mcrawford.ca      | 20     |
-| Simon      | simon@sqlanalytics.io    | 10     |
-| Zara       | zara@aminiconsulting.com | 40     |
-| Elena      | elena@hellocorp.com      | 75     |
-</pre></div></div></div><div>You can alias the tables and column names to make your statements easier to read. Either use an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">AS</span></code></span></span> statement followed by the alias, or just the alias. Both versions are valid but choosing one and being consistent makes queries easier to read.<br><br>Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">id</span></code></span></span>.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">u</span>.<span style="color:#16697a">name_first</span> <span style="color:#16697a">name</span>, <span style="color:#16697a">u</span>.<span style="color:#16697a">email_address</span> <span style="color:#16697a">email</span>, <span style="color:#16697a">d</span>.<span style="color:#16697a">amount</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span> <span style="color:#16697a">u</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">donations</span> <span style="color:#16697a">d</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">u</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">d</span>.<span style="color:#16697a">user_id</span>;
-</span></span></code></pre><div><pre>|  name  |          email           | amount |
-|--------|--------------------------|--------|
-| Marcus | marcus@mcrawford.ca      | 20     |
-| Simon  | simon@sqlanalytics.io    | 10     |
-| Zara   | zara@aminiconsulting.com | 40     |
-| Elena  | elena@hellocorp.com      | 75     |
-</pre></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> ... <span style="color:#ffa62b">ON</span></code></span></span> can be repeated multiple times to join more than two tables together.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">email_address</span> <span style="color:#ffa62b">user</span>, 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#16697a">donations</span>.<span style="color:#16697a">amount</span>, 
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    <span style="color:#16697a">charities</span>.<span style="color:#16697a">name</span> <span style="color:#16697a">charity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">donations</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span>    <span style="color:#ffa62b">ON</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">donations</span>.<span style="color:#16697a">user_id</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">charities</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8</span><span>    <span style="color:#ffa62b">ON</span> <span style="color:#16697a">donations</span>.<span style="color:#16697a">charity_id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">charities</span>.<span style="color:#16697a">id</span>;
-</span></span></code></pre><div><pre>|           user           | amount |     charity     |
-|--------------------------|--------|-----------------|
-| marcus@mcrawford.ca      | 20     | Homes for Pets  |
-| simon@sqlanalytics.io    | 10     | Ocean Life      |
-| zara@aminiconsulting.com | 40     | Learning Ladder |
-| elena@hellocorp.com      | 75     | Learning Ladder |
-</pre></div></div></div><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> can be combined with a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">WHERE</span></code></span></span> clause to further narrow down the set of rows returned.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">name_first</span>, <span style="color:#16697a">users</span>.<span style="color:#16697a">email_address</span>, <span style="color:#16697a">donations</span>.<span style="color:#16697a">amount</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">donations</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">donations</span>.<span style="color:#16697a">user_id</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">WHERE</span> <span style="color:#16697a">donations</span>.<span style="color:#16697a">amount</span> <span style="color:#90708c">&gt;</span><span style="color:#90708c">=</span> <span style="color:#8a7b52">20</span>.<span style="color:#8a7b52">0</span>;
-</span></span></code></pre><div><pre>| name_first |      email_address       | amount |
-|------------|--------------------------|--------|
-| Marcus     | marcus@mcrawford.ca      | 20     |
-| Zara       | zara@aminiconsulting.com | 40     |
-| Elena      | elena@hellocorp.com      | 75     |
-</pre></div></div></div><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">JOIN</span></code></span></span> (sometimes called <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">OUTER</span> <span style="color:#ffa62b">JOIN</span></code></span></span>) can be used when you want to retrieve all of the rows from the first ("left") table combined with only rows that match from the second ("right") table. Rows from the left table that do not match anything in the right table will return <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> in place of a donation amount.<br><br>This type of <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> is useful when you are not sure if there will be a match for all the rows in your first table but you want to include them in your result.<br><br>In this example we can now see in the results who has and who has not donated.<br><br>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">RIGHT</span> <span style="color:#ffa62b">JOIN</span></code></span></span> is similar but it returns all of the rows from the second ("right") table and only rows that match from the first ("left") table. It is rarely used in practice but may be useful when experimenting with queries.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">name_first</span>, <span style="color:#16697a">users</span>.<span style="color:#16697a">email_address</span>, <span style="color:#16697a">donations</span>.<span style="color:#16697a">amount</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">donations</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">donations</span>.<span style="color:#16697a">user_id</span>;
-</span></span></code></pre><div><pre>| name_first |       email_address       | amount |
-|------------|---------------------------|--------|
-| Marcus     | marcus@mcrawford.ca       | 20     |
-| Elena      | elena@hellocorp.com       | 75     |
-| Simon      | simon@sqlanalytics.io     | 10     |
-| Priya      | priya@aminiconsulting.com | NULL   |
-| Zara       | zara@aminiconsulting.com  | 40     |
-</pre></div></div></div><div>If we wanted to find only the people who have not donated, we can use a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">WHERE</span></code></span></span> clause to find the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> values from our <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">JOIN</span></code></span></span>.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">name_first</span>, <span style="color:#16697a">users</span>.<span style="color:#16697a">email_address</span>, <span style="color:#16697a">donations</span>.<span style="color:#16697a">amount</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">donations</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">donations</span>.<span style="color:#16697a">user_id</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">WHERE</span> <span style="color:#16697a">donations</span>.<span style="color:#16697a">user_id</span> <span style="color:#ffa62b">IS</span> <span style="color:#ffa62b">NULL</span>;
-</span></span></code></pre><div><pre>| name_first |       email_address       | amount |
-|------------|---------------------------|--------|
-| Priya      | priya@aminiconsulting.com | NULL   |
-</pre></div></div></div><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">FULL</span> <span style="color:#ffa62b">JOIN</span></code></span></span> (sometimes called <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">FULL</span> <span style="color:#ffa62b">OUTER</span> <span style="color:#ffa62b">JOIN</span></code></span></span>) is used when you want to return all rows from both tables whether they match or not.<br><br>This query returns users that have donated, users that have not donated, and donations that are not currently associated with a user. The last case is commonly referred to as an "orphaned record", meaning the associated user was deleted at some point without also deleting their donation records. This is generally considered bad practice in database design. Examples of how to prevent this can be found in <a href="foreign_key"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASCADE</span></code></span></span></a>.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">name_first</span>, <span style="color:#16697a">users</span>.<span style="color:#16697a">email_address</span>, <span style="color:#16697a">donations</span>.<span style="color:#16697a">amount</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">FULL</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">donations</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">donations</span>.<span style="color:#16697a">user_id</span>;
-</span></span></code></pre><div><pre>| name_first |       email_address       | amount |
-|------------|---------------------------|--------|
-| Marcus     | marcus@mcrawford.ca       | 20     |
-| Elena      | elena@hellocorp.com       | 75     |
-| Simon      | simon@sqlanalytics.io     | 10     |
-| Priya      | priya@aminiconsulting.com | NULL   |
-| Zara       | zara@aminiconsulting.com  | 40     |
-| NULL       | NULL                      | 100    |
-</pre></div></div></div><div>A table can be referred to itself with a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span>, also known as a "SELF" <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span>.<br><br>They are useful when a table has data that has a relationship with other data in the same table. In this example, users of the donation platform can refer other users and get a free credit.<br><br>This technique requires you to alias the table with two different names.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span>    <span style="color:#16697a">u1</span>.<span style="color:#16697a">email_address</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">referrer_email</span>,
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span>    <span style="color:#16697a">u2</span>.<span style="color:#16697a">email_address</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">referred_email</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span> <span style="color:#16697a">u1</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">users</span> <span style="color:#16697a">u2</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">u1</span>.<span style="color:#16697a">id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">u2</span>.<span style="color:#16697a">referrer_id</span>;
-</span></span></code></pre><div><pre>|      referrer_email      |      referred_email       |
-|--------------------------|---------------------------|
-| elena@hellocorp.com      | marcus@mcrawford.ca       |
-| zara@aminiconsulting.com | priya@aminiconsulting.com |
-</pre></div></div></div><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CROSS</span> <span style="color:#ffa62b">JOIN</span></code></span></span> returns the Cartesian product of rows from both tables. This means each row from the first table A is combined with each row from the second table B, returning all possible combinations of rows.<br><br>This can generate very large amounts of data depending on the size of the input tables so caution is advised when deciding to use a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CROSS</span> <span style="color:#ffa62b">JOIN</span></code></span></span>.<br><br>This can be used to generate test data since it allows you to generate every possible scenario between two sets of data.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">users</span>.<span style="color:#16697a">name_first</span>, <span style="color:#16697a">users</span>.<span style="color:#16697a">email_address</span>, <span style="color:#16697a">donations</span>.<span style="color:#16697a">amount</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">CROSS</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">donations</span>;
-</span></span></code></pre><div><pre>| name_first |       email_address       | amount |
-|------------|---------------------------|--------|
-| Marcus     | marcus@mcrawford.ca       | 20     |
-| Marcus     | marcus@mcrawford.ca       | 10     |
-| Marcus     | marcus@mcrawford.ca       | 40     |
-| Marcus     | marcus@mcrawford.ca       | 75     |
-| Marcus     | marcus@mcrawford.ca       | 100    |
-| Elena      | elena@hellocorp.com       | 20     |
-| Elena      | elena@hellocorp.com       | 10     |
-| Elena      | elena@hellocorp.com       | 40     |
-| Elena      | elena@hellocorp.com       | 75     |
-| Elena      | elena@hellocorp.com       | 100    |
-| Simon      | simon@sqlanalytics.io     | 20     |
-| Simon      | simon@sqlanalytics.io     | 10     |
-| Simon      | simon@sqlanalytics.io     | 40     |
-| Simon      | simon@sqlanalytics.io     | 75     |
-| Simon      | simon@sqlanalytics.io     | 100    |
-| Priya      | priya@aminiconsulting.com | 20     |
-| Priya      | priya@aminiconsulting.com | 10     |
-| Priya      | priya@aminiconsulting.com | 40     |
-| Priya      | priya@aminiconsulting.com | 75     |
-| Priya      | priya@aminiconsulting.com | 100    |
-| Zara       | zara@aminiconsulting.com  | 20     |
-| Zara       | zara@aminiconsulting.com  | 10     |
-| Zara       | zara@aminiconsulting.com  | 40     |
-| Zara       | zara@aminiconsulting.com  | 75     |
-| Zara       | zara@aminiconsulting.com  | 100    |
-</pre></div></div></div><div><small class="footer"><span><a href="/where">previous: WHERE</a> |</span> <span><a href="/">home</a> |</span> <span><a href="/order_by">next: ORDER BY</a></span></small></div></div></div></body></html>
+</pre></div></div></details><div class="container"><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> clause can be added to statements to combine results from multiple tables based on a relationship between them.<br><br>This example uses two tables: <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">users</span></code></span></span> and <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">donations</span></code></span></span>. Notice the donations table has a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">user_id</span></code></span></span> column to indicate which user made that donation.<br><br>In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.<br><br>An <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span></code></span></span> means that the query will only return rows that have a match in both tables. Notice how Priya has not made a donation yet so she is not included in the results.<br><br>There is no functional difference between a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> and an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span></code></span></span>, it's just <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">syntactic sugar.</a><br><br>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ON</span></code></span></span> clause is where you specify the relationship between the tables that you want them to be joined on. The data type of these columns needs to match.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, charity_id INTEGER, date TEXT, amount REAL);
+CREATE TABLE charities(id INTEGER PRIMARY KEY, name TEXT);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, 2, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, 3, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, 3, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, 1, &#39;2024-06-01 01:11:44&#39;, 100.0);
+
+INSERT INTO charities VALUES
+    (1, &#39;Homes for Pets&#39;),
+    (2, &#39;Ocean Life&#39;),
+    (3, &#39;Learning Ladder&#39;)
+`, `SELECT users.name_first, users.email_address, donations.amount
+FROM users
+INNER JOIN donations
+ON users.id = donations.user_id;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>You can alias the tables and column names to make your statements easier to read. Either use an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">AS</span></code></span></span> statement followed by the alias, or just the alias. Both versions are valid but choosing one and being consistent makes queries easier to read.<br><br>Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">id</span></code></span></span>.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, charity_id INTEGER, date TEXT, amount REAL);
+CREATE TABLE charities(id INTEGER PRIMARY KEY, name TEXT);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, 2, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, 3, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, 3, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, 1, &#39;2024-06-01 01:11:44&#39;, 100.0);
+
+INSERT INTO charities VALUES
+    (1, &#39;Homes for Pets&#39;),
+    (2, &#39;Ocean Life&#39;),
+    (3, &#39;Learning Ladder&#39;)
+`, `SELECT u.name_first name, u.email_address email, d.amount
+FROM users u
+INNER JOIN donations d
+ON u.id = d.user_id;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> ... <span style="color:#ffa62b">ON</span></code></span></span> can be repeated multiple times to join more than two tables together.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, charity_id INTEGER, date TEXT, amount REAL);
+CREATE TABLE charities(id INTEGER PRIMARY KEY, name TEXT);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, 2, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, 3, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, 3, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, 1, &#39;2024-06-01 01:11:44&#39;, 100.0);
+
+INSERT INTO charities VALUES
+    (1, &#39;Homes for Pets&#39;),
+    (2, &#39;Ocean Life&#39;),
+    (3, &#39;Learning Ladder&#39;)
+`, `SELECT users.email_address user, 
+    donations.amount, 
+    charities.name charity
+FROM users
+INNER JOIN donations
+    ON users.id = donations.user_id
+INNER JOIN charities
+    ON donations.charity_id = charities.id;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> can be combined with a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">WHERE</span></code></span></span> clause to further narrow down the set of rows returned.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, charity_id INTEGER, date TEXT, amount REAL);
+CREATE TABLE charities(id INTEGER PRIMARY KEY, name TEXT);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, 2, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, 3, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, 3, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, 1, &#39;2024-06-01 01:11:44&#39;, 100.0);
+
+INSERT INTO charities VALUES
+    (1, &#39;Homes for Pets&#39;),
+    (2, &#39;Ocean Life&#39;),
+    (3, &#39;Learning Ladder&#39;)
+`, `SELECT users.name_first, users.email_address, donations.amount
+FROM users
+INNER JOIN donations
+ON users.id = donations.user_id
+WHERE donations.amount &gt;= 20.0;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">JOIN</span></code></span></span> (sometimes called <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">OUTER</span> <span style="color:#ffa62b">JOIN</span></code></span></span>) can be used when you want to retrieve all of the rows from the first ("left") table combined with only rows that match from the second ("right") table. Rows from the left table that do not match anything in the right table will return <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> in place of a donation amount.<br><br>This type of <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> is useful when you are not sure if there will be a match for all the rows in your first table but you want to include them in your result.<br><br>In this example we can now see in the results who has and who has not donated.<br><br>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">RIGHT</span> <span style="color:#ffa62b">JOIN</span></code></span></span> is similar but it returns all of the rows from the second ("right") table and only rows that match from the first ("left") table. It is rarely used in practice but may be useful when experimenting with queries.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, charity_id INTEGER, date TEXT, amount REAL);
+CREATE TABLE charities(id INTEGER PRIMARY KEY, name TEXT);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, 2, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, 3, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, 3, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, 1, &#39;2024-06-01 01:11:44&#39;, 100.0);
+
+INSERT INTO charities VALUES
+    (1, &#39;Homes for Pets&#39;),
+    (2, &#39;Ocean Life&#39;),
+    (3, &#39;Learning Ladder&#39;)
+`, `SELECT users.name_first, users.email_address, donations.amount
+FROM users
+LEFT JOIN donations
+ON users.id = donations.user_id;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>If we wanted to find only the people who have not donated, we can use a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">WHERE</span></code></span></span> clause to find the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> values from our <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">LEFT</span> <span style="color:#ffa62b">JOIN</span></code></span></span>.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, charity_id INTEGER, date TEXT, amount REAL);
+CREATE TABLE charities(id INTEGER PRIMARY KEY, name TEXT);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, 2, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, 3, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, 3, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, 1, &#39;2024-06-01 01:11:44&#39;, 100.0);
+
+INSERT INTO charities VALUES
+    (1, &#39;Homes for Pets&#39;),
+    (2, &#39;Ocean Life&#39;),
+    (3, &#39;Learning Ladder&#39;)
+`, `SELECT users.name_first, users.email_address, donations.amount
+FROM users
+LEFT JOIN donations
+ON users.id = donations.user_id
+WHERE donations.user_id IS NULL;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">FULL</span> <span style="color:#ffa62b">JOIN</span></code></span></span> (sometimes called <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">FULL</span> <span style="color:#ffa62b">OUTER</span> <span style="color:#ffa62b">JOIN</span></code></span></span>) is used when you want to return all rows from both tables whether they match or not.<br><br>This query returns users that have donated, users that have not donated, and donations that are not currently associated with a user. The last case is commonly referred to as an "orphaned record", meaning the associated user was deleted at some point without also deleting their donation records. This is generally considered bad practice in database design. Examples of how to prevent this can be found in <a href="foreign_key"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASCADE</span></code></span></span></a>.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, charity_id INTEGER, date TEXT, amount REAL);
+CREATE TABLE charities(id INTEGER PRIMARY KEY, name TEXT);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, 2, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, 3, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, 3, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, 1, &#39;2024-06-01 01:11:44&#39;, 100.0);
+
+INSERT INTO charities VALUES
+    (1, &#39;Homes for Pets&#39;),
+    (2, &#39;Ocean Life&#39;),
+    (3, &#39;Learning Ladder&#39;)
+`, `SELECT users.name_first, users.email_address, donations.amount
+FROM users
+FULL JOIN donations
+ON users.id = donations.user_id;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>A table can be referred to itself with a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span>, also known as a "SELF" <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span>.<br><br>They are useful when a table has data that has a relationship with other data in the same table. In this example, users of the donation platform can refer other users and get a free credit.<br><br>This technique requires you to alias the table with two different names.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, charity_id INTEGER, date TEXT, amount REAL);
+CREATE TABLE charities(id INTEGER PRIMARY KEY, name TEXT);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, 2, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, 3, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, 3, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, 1, &#39;2024-06-01 01:11:44&#39;, 100.0);
+
+INSERT INTO charities VALUES
+    (1, &#39;Homes for Pets&#39;),
+    (2, &#39;Ocean Life&#39;),
+    (3, &#39;Learning Ladder&#39;)
+`, `SELECT
+    u1.email_address AS referrer_email,
+    u2.email_address AS referred_email
+FROM users u1
+INNER JOIN users u2
+ON u1.id = u2.referrer_id;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CROSS</span> <span style="color:#ffa62b">JOIN</span></code></span></span> returns the Cartesian product of rows from both tables. This means each row from the first table A is combined with each row from the second table B, returning all possible combinations of rows.<br><br>This can generate very large amounts of data depending on the size of the input tables so caution is advised when deciding to use a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CROSS</span> <span style="color:#ffa62b">JOIN</span></code></span></span>.<br><br>This can be used to generate test data since it allows you to generate every possible scenario between two sets of data.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, charity_id INTEGER, date TEXT, amount REAL);
+CREATE TABLE charities(id INTEGER PRIMARY KEY, name TEXT);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, 2, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, 3, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, 3, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, 1, &#39;2024-06-01 01:11:44&#39;, 100.0);
+
+INSERT INTO charities VALUES
+    (1, &#39;Homes for Pets&#39;),
+    (2, &#39;Ocean Life&#39;),
+    (3, &#39;Learning Ladder&#39;)
+`, `SELECT users.name_first, users.email_address, donations.amount
+FROM users
+CROSS JOIN donations;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div><small class="footer"><span><a href="/where">previous: WHERE</a> |</span> <span><a href="/">home</a> |</span> <span><a href="/order_by">next: ORDER BY</a></span></small></div></div></div></body></html>

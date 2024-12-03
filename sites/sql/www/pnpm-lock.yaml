@@ -8,9 +8,15 @@ dependencies:
   '@lit/task':
     specifier: ^1.0.1
     version: 1.0.1
+  '@types/alpinejs':
+    specifier: ^3.13.11
+    version: 3.13.11
   '@types/sql.js':
     specifier: ^1.4.9
     version: 1.4.9
+  alpinejs:
+    specifier: ^3.14.6
+    version: 3.14.6
   lit:
     specifier: ^3.2.1
     version: 3.2.1
@@ -260,6 +266,10 @@ packages:
       '@lit/reactive-element': 2.0.4
     dev: false
 
+  /@types/alpinejs@3.13.11:
+    resolution: {integrity: sha512-3KhGkDixCPiLdL3Z/ok1GxHwLxEWqQOKJccgaQL01wc0EVM2tCTaqlC3NIedmxAXkVzt/V6VTM8qPgnOHKJ1MA==}
+    dev: false
+
   /@types/emscripten@1.39.13:
     resolution: {integrity: sha512-cFq+fO/isvhvmuP/+Sl4K4jtU6E23DoivtbO4r50e3odaxAiVdbfSYRDdJ4gCdxx+3aRjhphS5ZMwIH4hFy/Cw==}
     dev: false
@@ -279,6 +289,22 @@ packages:
 
   /@types/trusted-types@2.0.7:
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
+    dev: false
+
+  /@vue/reactivity@3.1.5:
+    resolution: {integrity: sha512-1tdfLmNjWG6t/CsPldh+foumYFo3cpyCHgBYQ34ylaMsJ+SNHQ1kApMIa8jN+i593zQuaw3AdWH0nJTARzCFhg==}
+    dependencies:
+      '@vue/shared': 3.1.5
+    dev: false
+
+  /@vue/shared@3.1.5:
+    resolution: {integrity: sha512-oJ4F3TnvpXaQwZJNF3ZK+kLPHKarDmJjJ6jyzVNDKH9md1dptjC7lWR//jrGuLdek/U6iltWxqAnYOu8gCiOvA==}
+    dev: false
+
+  /alpinejs@3.14.6:
+    resolution: {integrity: sha512-8Abdd6u8oVurOChPqWCHS2Lr3C9g4+zb/kL1vNPykK/2dVkb3giTcpQ1wykzzWmX7wbTvWLnHX3I3CPPnnAMCA==}
+    dependencies:
+      '@vue/reactivity': 3.1.5
     dev: false
 
   /esbuild@0.24.0:

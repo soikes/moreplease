@@ -1,65 +1,77 @@
-<html><head><script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script><script src="assets/prism.js" data-manual></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: SELECT</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">SELECT</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">users</span></code></span></span></div><pre>| id | name_first | name_last |           email           |
+<html><head><script type="text/javascript" src="assets/prism.js" data-manual></script> <script type="text/javascript" src="assets/app.js"></script> <script defer type="text/javascript" src="assets/alpine.js"></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: SELECT</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">SELECT</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">users</span></code></span></span></div><pre>| id | name_first | name_last |           email           |
 |----|------------|-----------|---------------------------|
 | 1  | Marcus     | Crawford  | marcus@mcrawford.ca       |
 | 2  | Elena      | Moreno    | elena@hellocorp.com       |
 | 3  | Simon      | Chen      | simon@chenanalytics.io    |
 | 4  | Priya      | Amini     | priya@aminiconsulting.com |
 | 5  | Zara       | Amini     | zara@aminiconsulting.com  |
-</pre></div></div></details><div class="container"><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span></code></span></span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">id</span>, <span style="color:#16697a">email</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>| id |           email           |
-|----|---------------------------|
-| 1  | marcus@mcrawford.ca       |
-| 2  | elena@hellocorp.com       |
-| 3  | simon@chenanalytics.io    |
-| 4  | priya@aminiconsulting.com |
-| 5  | zara@aminiconsulting.com  |
-</pre></div></div></div><div>You can specify individual columns to retrieve, or <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">*</span></code></span></span> to retrieve all columns.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#90708c">*</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>| id | name_first | name_last |           email           |
-|----|------------|-----------|---------------------------|
-| 1  | Marcus     | Crawford  | marcus@mcrawford.ca       |
-| 2  | Elena      | Moreno    | elena@hellocorp.com       |
-| 3  | Simon      | Chen      | simon@chenanalytics.io    |
-| 4  | Priya      | Amini     | priya@aminiconsulting.com |
-| 5  | Zara       | Amini     | zara@aminiconsulting.com  |
-</pre></div></div></div><div>Most database engines allow you to perform computations on the columns you retrieve.<br><br>Sometimes combining columns can be useful. In the case of SQLite, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">|</span><span style="color:#90708c">|</span></code></span></span> is used to concatenate. Other engines may use <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">+</span></code></span></span>, and most engines include a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">CONCAT</span>()</code></span></span> <a href="/functions">function</a> which serves the same purpose.<br><br>Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">name_first</span> <span style="color:#90708c">|</span><span style="color:#90708c">|</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d"> </span><span style="color:#7f8c8d">&#39;</span> <span style="color:#90708c">|</span><span style="color:#90708c">|</span> <span style="color:#16697a">name_last</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>| name_first || &#39; &#39; || name_last |
-|--------------------------------|
-| Marcus Crawford                |
-| Elena Moreno                   |
-| Simon Chen                     |
-| Priya Amini                    |
-| Zara Amini                     |
-</pre></div></div></div><div>The column name returned above is difficult to read. The keyword <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">AS</span></code></span></span> can be used to alias columns with any custom name.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">name_first</span> <span style="color:#90708c">|</span><span style="color:#90708c">|</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d"> </span><span style="color:#7f8c8d">&#39;</span> <span style="color:#90708c">|</span><span style="color:#90708c">|</span> <span style="color:#16697a">name_last</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">name_full</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>|    name_full    |
-|-----------------|
-| Marcus Crawford |
-| Elena Moreno    |
-| Simon Chen      |
-| Priya Amini     |
-| Zara Amini      |
-</pre></div></div></div><div>If you want to alias a column with a value that includes spaces, surround the name with double quotation marks.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">name_first</span> <span style="color:#90708c">|</span><span style="color:#90708c">|</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d"> </span><span style="color:#7f8c8d">&#39;</span> <span style="color:#90708c">|</span><span style="color:#90708c">|</span> <span style="color:#16697a">name_last</span> <span style="color:#ffa62b">AS</span> <span style="color:#7f8c8d">&#34;</span><span style="color:#7f8c8d">Full Name</span><span style="color:#7f8c8d">&#34;</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>|    Full Name    |
-|-----------------|
-| Marcus Crawford |
-| Elena Moreno    |
-| Simon Chen      |
-| Priya Amini     |
-| Zara Amini      |
-</pre></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">DISTINCT</span></code></span></span> can be used when you want to return only unique values.<br><br>Notice how in the example the last name "Amini" appears once where previous examples included both people with the same last name.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">DISTINCT</span> <span style="color:#16697a">name_last</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>| name_last |
-|-----------|
-| Crawford  |
-| Moreno    |
-| Chen      |
-| Amini     |
-</pre></div></div></div><div>Some database engines allow a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span></code></span></span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query or when using a <a href="case"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span></a> statement.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#8a7b52">1</span>, <span style="color:#8a7b52">2</span><span style="color:#90708c">+</span><span style="color:#8a7b52">2</span>, <span style="color:#8a7b52">60</span> <span style="color:#90708c">*</span> <span style="color:#8a7b52">60</span> <span style="color:#90708c">*</span> <span style="color:#8a7b52">24</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">seconds_per_day</span>, <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Hello!</span><span style="color:#7f8c8d">&#39;</span>;
-</span></span></code></pre><div><pre>| 1 | 2+2 | seconds_per_day | &#39;Hello!&#39; |
-|---|-----|-----------------|----------|
-| 1 | 4   | 86400           | Hello!   |
-</pre></div></div></div></div></div></body></html>
+</pre></div></div></details><div class="container"><div>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span></code></span></span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email TEXT);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@chenanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+`, `SELECT id, email
+FROM users;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>You can specify individual columns to retrieve, or <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">*</span></code></span></span> to retrieve all columns.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email TEXT);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@chenanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+`, `SELECT *
+FROM users;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>Most database engines allow you to perform computations on the columns you retrieve.<br><br>Sometimes combining columns can be useful. In the case of SQLite, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">|</span><span style="color:#90708c">|</span></code></span></span> is used to concatenate. Other engines may use <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">+</span></code></span></span>, and most engines include a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">CONCAT</span>()</code></span></span> <a href="/functions">function</a> which serves the same purpose.<br><br>Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email TEXT);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@chenanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+`, `SELECT name_first || &#39; &#39; || name_last
+FROM users;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>The column name returned above is difficult to read. The keyword <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">AS</span></code></span></span> can be used to alias columns with any custom name.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email TEXT);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@chenanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+`, `SELECT name_first || &#39; &#39; || name_last AS name_full
+FROM users;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>If you want to alias a column with a value that includes spaces, surround the name with double quotation marks.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email TEXT);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@chenanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+`, `SELECT name_first || &#39; &#39; || name_last AS &#34;Full Name&#34;
+FROM users;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">DISTINCT</span></code></span></span> can be used when you want to return only unique values.<br><br>Notice how in the example the last name "Amini" appears once where previous examples included both people with the same last name.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email TEXT);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@chenanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+`, `SELECT DISTINCT name_last
+FROM users;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>Some database engines allow a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span></code></span></span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query or when using a <a href="case"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">CASE</span></code></span></span></a> statement.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email TEXT);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@chenanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+`, `SELECT 1, 2+2, 60 * 60 * 24 AS seconds_per_day, &#39;Hello!&#39;;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div></div></div></body></html>

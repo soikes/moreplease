@@ -1,6 +1,8 @@
 package assets
 
-import "embed"
+import (
+	"embed"
+)
 
 //go:embed *
 var Assets embed.FS

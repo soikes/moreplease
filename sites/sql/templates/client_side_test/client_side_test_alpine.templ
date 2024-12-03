@@ -25,7 +25,7 @@ templ Topic() {
         }
         schema := s.From(s.SchemaPath)
     }}
-    @templ.JSONScript("schema", schema)
+    /* @templ.JSONScript("schema", schema) */
     @t.Base("More SQL Please: Highlight Client Side Test") {
         <div class="content wide">
             @t.TopicTitle("Client Side Test")
@@ -36,9 +36,9 @@ templ Topic() {
                 <div class="tile sticky">
                     {{
                         stmt := s.From("sql/functions_nested.sql")
-                        data := fmt.Sprintf("{ stmt: `%s`, result: 'running...' }", stmt)
-                        init := fmt.Sprintf("db = await Db.load(`%s`);", schema)
-                        run := fmt.Sprintf("result = JSON.stringify(db.exec(`${stmt}`));")
+                        data := fmt.Sprintf("{ loading: true, stmt: `%s`, result: '' }", stmt)
+                        run := fmt.Sprintf("result = JSON.stringify(db.exec(stmt))")
+                        init := fmt.Sprintf("db = await Db.load(`%s`); %s; loading = false;", schema, run)
                     }}
                     <div x-init={ init } x-data={ data }>
                         <div class="stmt">
@@ -57,11 +57,10 @@ templ Topic() {
                             </pre>
                         </div>
                         <button class="run" x-on:click={ run }>&#9654; run</button>
-                        <p x-text="result"></p>
+                        <p class="result" x-text="loading ? 'running...' : result"></p>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="assets/app.js"></script>
     }
 }

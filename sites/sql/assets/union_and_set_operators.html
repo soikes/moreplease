@@ -1,4 +1,4 @@
-<html><head><script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script><script src="assets/prism.js" data-manual></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: UNION and Set Operators</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">UNION and Set Operators</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">products</span></code></span></span></div><pre>| id |           name           |  category  | price | remaining_stock | vendor_id |
+<html><head><script type="text/javascript" src="assets/prism.js" data-manual></script> <script type="text/javascript" src="assets/app.js"></script> <script defer type="text/javascript" src="assets/alpine.js"></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: UNION and Set Operators</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">UNION and Set Operators</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">products</span></code></span></span></div><pre>| id |           name           |  category  | price | remaining_stock | vendor_id |
 |----|--------------------------|------------|-------|-----------------|-----------|
 | 1  | Cool Splash Cologne      | Toiletries | 49.99 | 25              | 2         |
 | 2  | More Spice Please Chips  | Food       | 3.99  | 60              | 1         |
@@ -24,124 +24,287 @@
 | 10 | 8          | 100      | 2023-07-14 09:20:00 | 2023-07-18 10:15:30 |
 | 11 | 6          | 5        | 2023-06-30 14:55:25 | 2023-07-05 16:40:10 |
 | 12 | 7          | 10       | 2023-05-12 07:30:00 | 2023-05-16 13:25:45 |
-</pre></div></div></details><div class="container"><div>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> operator allows you to combine two sets of result rows into one.<br><br>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> is different than a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span>. Think of a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> as a way to combine columns "horizontally" from different tables, whereas a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> is a way to stack rows "vertically" on top of one another.<br><br>In order for a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> to succeed, the queries before and after it must have the same number of columns. Most databases require that the data types of the results match up as well. SQLite's dynamic typing feature allows you to mix data types within the same column. See <a href="/data_types">Data Types</a> for more information.<br><br>The column names from the first query are used in the resulting set.<br><br>This example shows one use case for <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span>. Sometimes you will encounter separate tables that have the same structure. In this scenario, orders from the previous year are moved into another table as an archived copy.<br><br>This technique can improve database performance with large datasets by limiting the amount of rows the database needs to check for queries against this year's orders.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">orders</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">UNION</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">archived_orders_2023</span>;
-</span></span></code></pre><div><pre>| product_id | quantity |
-|------------|----------|
-| 1          | 20       |
-| 2          | 25       |
-| 2          | 60       |
-| 3          | 60       |
-| 4          | 40       |
-| 5          | 50       |
-| 6          | 5        |
-| 6          | 10       |
-| 7          | 10       |
-| 8          | 100      |
-</pre></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span> <span style="color:#ffa62b">ALL</span></code></span></span> is a modifier that preserves duplicates in the resulting set.<br><br><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> ignores duplicate rows by default.<br><br>Both tables contain some orders with the same <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">product_id</span></code></span></span> and <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">quantity</span></code></span></span>, so they are treated as duplicates by <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span>.<br><br>As an aside, notice how the previous example had results ordered by <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">product_id</span></code></span></span> and this example has no meaningful order. This shows us how a database engine will typically return rows in whatever order it decides is most efficient to compute unless we supply an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span></code></span></span> clause.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">orders</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">UNION</span> <span style="color:#ffa62b">ALL</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">archived_orders_2023</span>;
-</span></span></code></pre><div><pre>| product_id | quantity |
-|------------|----------|
-| 4          | 40       |
-| 1          | 20       |
-| 5          | 50       |
-| 2          | 60       |
-| 3          | 60       |
-| 6          | 10       |
-| 1          | 20       |
-| 2          | 25       |
-| 4          | 40       |
-| 8          | 100      |
-| 6          | 5        |
-| 7          | 10       |
-</pre></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> can be chained multiple times to keep appending rows to the result from multiple queries.<br><br>This example also shows how you can <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span></code></span></span> constants or computed columns and use them in a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span>. This can be a useful technique to include ad-hoc data that doesn't exist in a table.<br><br></div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">orders</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">UNION</span> <span style="color:#ffa62b">ALL</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">archived_orders_2023</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span><span style="color:#ffa62b">UNION</span> <span style="color:#ffa62b">ALL</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#8a7b52">10</span>, <span style="color:#8a7b52">100</span>;
-</span></span></code></pre><div><pre>| product_id | quantity |
-|------------|----------|
-| 4          | 40       |
-| 1          | 20       |
-| 5          | 50       |
-| 2          | 60       |
-| 3          | 60       |
-| 6          | 10       |
-| 1          | 20       |
-| 2          | 25       |
-| 4          | 40       |
-| 8          | 100      |
-| 6          | 5        |
-| 7          | 10       |
-| 10         | 100      |
-</pre></div></div></div><div>Ad-hoc data supplied to a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> can be a useful technique to create separate "utility" tables as well.<br><br>Here we construct a table called <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">shelf_life</span></code></span></span> which maps a product category to a number of days of shelf life. Note again that we only need to alias the columns of the first input to the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> because those column names will be used for all the rows in the result.<br><br>Note that this example also demonstrates a <a href="/common_table_expressions">Common Table Expression</a> to construct the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">shelf_life</span></code></span></span> table for later use in the query.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1</span><span><span style="color:#ffa62b">WITH</span> <span style="color:#16697a">shelf_life</span> <span style="color:#ffa62b">AS</span> (
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2</span><span>    <span style="color:#ffa62b">SELECT</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Food</span><span style="color:#7f8c8d">&#39;</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">category</span>, <span style="color:#8a7b52">21</span> <span style="color:#ffa62b">AS</span> <span style="color:#16697a">shelf_life_days</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3</span><span>    <span style="color:#ffa62b">UNION</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4</span><span>    <span style="color:#ffa62b">SELECT</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Toiletries</span><span style="color:#7f8c8d">&#39;</span>, <span style="color:#8a7b52">365</span><span style="color:#90708c">*</span><span style="color:#8a7b52">2</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5</span><span>    <span style="color:#ffa62b">UNION</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6</span><span>    <span style="color:#ffa62b">SELECT</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Pet Care</span><span style="color:#7f8c8d">&#39;</span>, <span style="color:#8a7b52">365</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7</span><span>    <span style="color:#ffa62b">UNION</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8</span><span>    <span style="color:#ffa62b">SELECT</span> <span style="color:#7f8c8d">&#39;</span><span style="color:#7f8c8d">Automotive</span><span style="color:#7f8c8d">&#39;</span>, <span style="color:#8a7b52">365</span><span style="color:#90708c">*</span><span style="color:#8a7b52">5</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9</span><span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">p</span>.<span style="color:#16697a">name</span>, <span style="color:#16697a">p</span>.<span style="color:#16697a">category</span>, <span style="color:#16697a">sl</span>.<span style="color:#16697a">shelf_life_days</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">products</span> <span style="color:#16697a">p</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">shelf_life</span> <span style="color:#16697a">sl</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">p</span>.<span style="color:#16697a">category</span> <span style="color:#90708c">=</span> <span style="color:#16697a">sl</span>.<span style="color:#16697a">category</span>;
-</span></span></code></pre><div><pre>|           name           |  category  | shelf_life_days |
-|--------------------------|------------|-----------------|
-| Tiny Fresh Scent Tree    | Automotive | 1825            |
-| More Spice Please Chips  | Food       | 21              |
-| Night Shift Coffee       | Food       | 21              |
-| Crunchy Munchy Trail Mix | Food       | 21              |
-| Big Bark Dog Food        | Pet Care   | 365             |
-| Soft Purr Cat Food       | Pet Care   | 365             |
-| Cool Splash Cologne      | Toiletries | 730             |
-| Super Glide Floss        | Toiletries | 730             |
-</pre></div></div></div><div>The result of a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> is treated the same as any other <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span></code></span></span> statement, so it can be used with aggregate clauses like <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">GROUP</span> <span style="color:#ffa62b">BY</span></code></span></span>. This example shows how we can calculate the total purchased quantity of items by year.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#8a7b52">2024</span> <span style="color:#ffa62b">AS</span> <span style="color:#ffa62b">year</span>, <span style="color:#ffa62b">sum</span>(<span style="color:#16697a">quantity</span>) <span style="color:#ffa62b">AS</span> <span style="color:#16697a">purchase_volume</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">orders</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">UNION</span> <span style="color:#ffa62b">ALL</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#8a7b52">2023</span> <span style="color:#ffa62b">AS</span> <span style="color:#ffa62b">year</span>, <span style="color:#ffa62b">sum</span>(<span style="color:#16697a">quantity</span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">archived_orders_2023</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6</span><span><span style="color:#ffa62b">GROUP</span> <span style="color:#ffa62b">BY</span> <span style="color:#ffa62b">year</span>;
-</span></span></code></pre><div><pre>| year | purchase_volume |
-|------|-----------------|
-| 2024 | 240             |
-| 2023 | 200             |
-</pre></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> is an operator available in some databases that is used to return only the rows that are shared by both input sets.<br><br>Think of a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> as being inclusive, or as growing the result set, while an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> is exclusive, or shrinking the result set. In terms of a <span><span><a href="https://en.wikipedia.org/wiki/Venn_diagram">Venn Diagram</a><svg style="display: inline; width: 0.8rem; height: 0.8rem;" viewbox="0 0 48 48"><path d="M36 24c-1.2 0-2 0.8-2 2v12c0 1.2-0.8 2-2 2h-22c-1.2 0-2-0.8-2-2v-22c0-1.2 0.8-2 2-2h12c1.2 0 2-0.8 2-2s-0.8-2-2-2h-12c-3.4 0-6 2.6-6 6v22c0 3.4 2.6 6 6 6h22c3.4 0 6-2.6 6-6v-12c0-1.2-0.8-2-2-2z"></path> <path d="M43.8 5.2c-0.2-0.4-0.6-0.8-1-1-0.2-0.2-0.6-0.2-0.8-0.2h-12c-1.2 0-2 0.8-2 2s0.8 2 2 2h7.2l-18.6 18.6c-0.8 0.8-0.8 2 0 2.8 0.4 0.4 0.8 0.6 1.4 0.6s1-0.2 1.4-0.6l18.6-18.6v7.2c0 1.2 0.8 2 2 2s2-0.8 2-2v-12c0-0.2 0-0.6-0.2-0.8z"></path></svg></span></span>, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> is equivalent to the area where the two circles overlap.<br><br>In this example we show how <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> helps us find out which orders we made in 2024 are identical to orders we made in 2023.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">orders</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">INTERSECT</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">archived_orders_2023</span>;
-</span></span></code></pre><div><pre>| product_id | quantity |
-|------------|----------|
-| 1          | 20       |
-| 4          | 40       |
-</pre></div></div></div><div>For reference, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> is functionally equivalent to a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> with a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">DISTINCT</span></code></span></span> clause to eliminate duplicates.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">DISTINCT</span> <span style="color:#16697a">o</span>.<span style="color:#16697a">product_id</span>, <span style="color:#16697a">o</span>.<span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">orders</span> <span style="color:#16697a">o</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">INNER</span> <span style="color:#ffa62b">JOIN</span> <span style="color:#16697a">archived_orders_2023</span> <span style="color:#16697a">ao</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">ON</span> <span style="color:#16697a">o</span>.<span style="color:#16697a">product_id</span> <span style="color:#90708c">=</span> <span style="color:#16697a">ao</span>.<span style="color:#16697a">product_id</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">AND</span> <span style="color:#16697a">o</span>.<span style="color:#16697a">quantity</span> <span style="color:#90708c">=</span> <span style="color:#16697a">ao</span>.<span style="color:#16697a">quantity</span>;
-</span></span></code></pre><div><pre>| product_id | quantity |
-|------------|----------|
-| 4          | 40       |
-| 1          | 20       |
-</pre></div></div></div><div>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">EXCEPT</span></code></span></span> operator returns rows from the first set that do not exist in the second set. Think of it as a way to subtract the second set from the first set. Some databases call this operator <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">MINUS</span></code></span></span>.<br><br>This example shows all the orders from 2024 that did not have identical orders placed in 2023.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">orders</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3</span><span><span style="color:#ffa62b">EXCEPT</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#16697a">product_id</span>, <span style="color:#16697a">quantity</span>
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">archived_orders_2023</span>;
-</span></span></code></pre><div><pre>| product_id | quantity |
-|------------|----------|
-| 2          | 60       |
-| 3          | 60       |
-| 5          | 50       |
-| 6          | 10       |
-</pre></div></div></div></div></div></body></html>
+</pre></div></div></details><div class="container"><div>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> operator allows you to combine two sets of result rows into one.<br><br>A <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> is different than a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span>. Think of a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> as a way to combine columns "horizontally" from different tables, whereas a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> is a way to stack rows "vertically" on top of one another.<br><br>In order for a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> to succeed, the queries before and after it must have the same number of columns. Most databases require that the data types of the results match up as well. SQLite's dynamic typing feature allows you to mix data types within the same column. See <a href="/data_types">Data Types</a> for more information.<br><br>The column names from the first query are used in the resulting set.<br><br>This example shows one use case for <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span>. Sometimes you will encounter separate tables that have the same structure. In this scenario, orders from the previous year are moved into another table as an archived copy.<br><br>This technique can improve database performance with large datasets by limiting the amount of rows the database needs to check for queries against this year's orders.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+CREATE TABLE archived_orders_2023(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#39;Cool Splash Cologne&#39;, &#39;Toiletries&#39;, 49.99, 25, 2),
+    (2, &#39;More Spice Please Chips&#39;, &#39;Food&#39;, 3.99, 60, 1),
+    (3, &#39;Night Shift Coffee&#39;, &#39;Food&#39;, 6.99, 1, 1),
+    (4, &#39;Crunchy Munchy Trail Mix&#39;, &#39;Food&#39;, 8.99, 5, 3),
+    (5, &#39;Super Glide Floss&#39;, &#39;Toiletries&#39;, 1.99, 19, 4),
+    (6, &#39;Big Bark Dog Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (7, &#39;Soft Purr Cat Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (8, &#39;Tiny Fresh Scent Tree&#39;, &#39;Automotive&#39;, 2.00, 7, 4);
+    
+INSERT INTO orders VALUES
+    (1, 4, 40, &#39;2024-06-01 07:58:05&#39;, &#39;2024-06-03 09:04:05&#39;),
+    (2, 1, 20, &#39;2024-06-14 19:30:10&#39;, &#39;2024-06-26 14:20:10&#39;),
+    (3, 5, 50, &#39;2024-07-03 01:00:07&#39;, &#39;2024-07-09 12:50:12&#39;),
+    (4, 2, 60, &#39;2024-07-24 06:06:03&#39;, &#39;2024-07-30 15:05:00&#39;),
+    (5, 3, 60, &#39;2024-08-15 16:40:07&#39;, &#39;2024-08-19 07:05:00&#39;),
+    (6, 6, 10, &#39;2024-09-01 08:01:01&#39;, NULL);
+    
+INSERT INTO archived_orders_2023 VALUES
+    (7, 1, 20, &#39;2023-12-15 10:30:00&#39;, &#39;2023-12-20 14:15:00&#39;),
+    (8, 2, 25, &#39;2023-11-28 08:45:22&#39;, &#39;2023-12-02 11:20:15&#39;),
+    (9, 4, 40, &#39;2023-08-22 11:05:15&#39;, &#39;2023-08-29 15:30:00&#39;),
+    (10, 8, 100, &#39;2023-07-14 09:20:00&#39;, &#39;2023-07-18 10:15:30&#39;),
+    (11, 6, 5, &#39;2023-06-30 14:55:25&#39;, &#39;2023-07-05 16:40:10&#39;),
+    (12, 7, 10, &#39;2023-05-12 07:30:00&#39;, &#39;2023-05-16 13:25:45&#39;);
+`, `SELECT product_id, quantity
+FROM orders
+UNION
+SELECT product_id, quantity
+FROM archived_orders_2023;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span> <span style="color:#ffa62b">ALL</span></code></span></span> is a modifier that preserves duplicates in the resulting set.<br><br><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> ignores duplicate rows by default.<br><br>Both tables contain some orders with the same <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">product_id</span></code></span></span> and <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">quantity</span></code></span></span>, so they are treated as duplicates by <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span>.<br><br>As an aside, notice how the previous example had results ordered by <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">product_id</span></code></span></span> and this example has no meaningful order. This shows us how a database engine will typically return rows in whatever order it decides is most efficient to compute unless we supply an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span></code></span></span> clause.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+CREATE TABLE archived_orders_2023(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#39;Cool Splash Cologne&#39;, &#39;Toiletries&#39;, 49.99, 25, 2),
+    (2, &#39;More Spice Please Chips&#39;, &#39;Food&#39;, 3.99, 60, 1),
+    (3, &#39;Night Shift Coffee&#39;, &#39;Food&#39;, 6.99, 1, 1),
+    (4, &#39;Crunchy Munchy Trail Mix&#39;, &#39;Food&#39;, 8.99, 5, 3),
+    (5, &#39;Super Glide Floss&#39;, &#39;Toiletries&#39;, 1.99, 19, 4),
+    (6, &#39;Big Bark Dog Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (7, &#39;Soft Purr Cat Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (8, &#39;Tiny Fresh Scent Tree&#39;, &#39;Automotive&#39;, 2.00, 7, 4);
+    
+INSERT INTO orders VALUES
+    (1, 4, 40, &#39;2024-06-01 07:58:05&#39;, &#39;2024-06-03 09:04:05&#39;),
+    (2, 1, 20, &#39;2024-06-14 19:30:10&#39;, &#39;2024-06-26 14:20:10&#39;),
+    (3, 5, 50, &#39;2024-07-03 01:00:07&#39;, &#39;2024-07-09 12:50:12&#39;),
+    (4, 2, 60, &#39;2024-07-24 06:06:03&#39;, &#39;2024-07-30 15:05:00&#39;),
+    (5, 3, 60, &#39;2024-08-15 16:40:07&#39;, &#39;2024-08-19 07:05:00&#39;),
+    (6, 6, 10, &#39;2024-09-01 08:01:01&#39;, NULL);
+    
+INSERT INTO archived_orders_2023 VALUES
+    (7, 1, 20, &#39;2023-12-15 10:30:00&#39;, &#39;2023-12-20 14:15:00&#39;),
+    (8, 2, 25, &#39;2023-11-28 08:45:22&#39;, &#39;2023-12-02 11:20:15&#39;),
+    (9, 4, 40, &#39;2023-08-22 11:05:15&#39;, &#39;2023-08-29 15:30:00&#39;),
+    (10, 8, 100, &#39;2023-07-14 09:20:00&#39;, &#39;2023-07-18 10:15:30&#39;),
+    (11, 6, 5, &#39;2023-06-30 14:55:25&#39;, &#39;2023-07-05 16:40:10&#39;),
+    (12, 7, 10, &#39;2023-05-12 07:30:00&#39;, &#39;2023-05-16 13:25:45&#39;);
+`, `SELECT product_id, quantity
+FROM orders
+UNION ALL
+SELECT product_id, quantity
+FROM archived_orders_2023;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> can be chained multiple times to keep appending rows to the result from multiple queries.<br><br>This example also shows how you can <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span></code></span></span> constants or computed columns and use them in a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span>. This can be a useful technique to include ad-hoc data that doesn't exist in a table.<br><br></div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+CREATE TABLE archived_orders_2023(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#39;Cool Splash Cologne&#39;, &#39;Toiletries&#39;, 49.99, 25, 2),
+    (2, &#39;More Spice Please Chips&#39;, &#39;Food&#39;, 3.99, 60, 1),
+    (3, &#39;Night Shift Coffee&#39;, &#39;Food&#39;, 6.99, 1, 1),
+    (4, &#39;Crunchy Munchy Trail Mix&#39;, &#39;Food&#39;, 8.99, 5, 3),
+    (5, &#39;Super Glide Floss&#39;, &#39;Toiletries&#39;, 1.99, 19, 4),
+    (6, &#39;Big Bark Dog Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (7, &#39;Soft Purr Cat Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (8, &#39;Tiny Fresh Scent Tree&#39;, &#39;Automotive&#39;, 2.00, 7, 4);
+    
+INSERT INTO orders VALUES
+    (1, 4, 40, &#39;2024-06-01 07:58:05&#39;, &#39;2024-06-03 09:04:05&#39;),
+    (2, 1, 20, &#39;2024-06-14 19:30:10&#39;, &#39;2024-06-26 14:20:10&#39;),
+    (3, 5, 50, &#39;2024-07-03 01:00:07&#39;, &#39;2024-07-09 12:50:12&#39;),
+    (4, 2, 60, &#39;2024-07-24 06:06:03&#39;, &#39;2024-07-30 15:05:00&#39;),
+    (5, 3, 60, &#39;2024-08-15 16:40:07&#39;, &#39;2024-08-19 07:05:00&#39;),
+    (6, 6, 10, &#39;2024-09-01 08:01:01&#39;, NULL);
+    
+INSERT INTO archived_orders_2023 VALUES
+    (7, 1, 20, &#39;2023-12-15 10:30:00&#39;, &#39;2023-12-20 14:15:00&#39;),
+    (8, 2, 25, &#39;2023-11-28 08:45:22&#39;, &#39;2023-12-02 11:20:15&#39;),
+    (9, 4, 40, &#39;2023-08-22 11:05:15&#39;, &#39;2023-08-29 15:30:00&#39;),
+    (10, 8, 100, &#39;2023-07-14 09:20:00&#39;, &#39;2023-07-18 10:15:30&#39;),
+    (11, 6, 5, &#39;2023-06-30 14:55:25&#39;, &#39;2023-07-05 16:40:10&#39;),
+    (12, 7, 10, &#39;2023-05-12 07:30:00&#39;, &#39;2023-05-16 13:25:45&#39;);
+`, `SELECT product_id, quantity
+FROM orders
+UNION ALL
+SELECT product_id, quantity
+FROM archived_orders_2023
+UNION ALL
+SELECT 10, 100;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>Ad-hoc data supplied to a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> can be a useful technique to create separate "utility" tables as well.<br><br>Here we construct a table called <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">shelf_life</span></code></span></span> which maps a product category to a number of days of shelf life. Note again that we only need to alias the columns of the first input to the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> because those column names will be used for all the rows in the result.<br><br>Note that this example also demonstrates a <a href="/common_table_expressions">Common Table Expression</a> to construct the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">shelf_life</span></code></span></span> table for later use in the query.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+CREATE TABLE archived_orders_2023(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#39;Cool Splash Cologne&#39;, &#39;Toiletries&#39;, 49.99, 25, 2),
+    (2, &#39;More Spice Please Chips&#39;, &#39;Food&#39;, 3.99, 60, 1),
+    (3, &#39;Night Shift Coffee&#39;, &#39;Food&#39;, 6.99, 1, 1),
+    (4, &#39;Crunchy Munchy Trail Mix&#39;, &#39;Food&#39;, 8.99, 5, 3),
+    (5, &#39;Super Glide Floss&#39;, &#39;Toiletries&#39;, 1.99, 19, 4),
+    (6, &#39;Big Bark Dog Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (7, &#39;Soft Purr Cat Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (8, &#39;Tiny Fresh Scent Tree&#39;, &#39;Automotive&#39;, 2.00, 7, 4);
+    
+INSERT INTO orders VALUES
+    (1, 4, 40, &#39;2024-06-01 07:58:05&#39;, &#39;2024-06-03 09:04:05&#39;),
+    (2, 1, 20, &#39;2024-06-14 19:30:10&#39;, &#39;2024-06-26 14:20:10&#39;),
+    (3, 5, 50, &#39;2024-07-03 01:00:07&#39;, &#39;2024-07-09 12:50:12&#39;),
+    (4, 2, 60, &#39;2024-07-24 06:06:03&#39;, &#39;2024-07-30 15:05:00&#39;),
+    (5, 3, 60, &#39;2024-08-15 16:40:07&#39;, &#39;2024-08-19 07:05:00&#39;),
+    (6, 6, 10, &#39;2024-09-01 08:01:01&#39;, NULL);
+    
+INSERT INTO archived_orders_2023 VALUES
+    (7, 1, 20, &#39;2023-12-15 10:30:00&#39;, &#39;2023-12-20 14:15:00&#39;),
+    (8, 2, 25, &#39;2023-11-28 08:45:22&#39;, &#39;2023-12-02 11:20:15&#39;),
+    (9, 4, 40, &#39;2023-08-22 11:05:15&#39;, &#39;2023-08-29 15:30:00&#39;),
+    (10, 8, 100, &#39;2023-07-14 09:20:00&#39;, &#39;2023-07-18 10:15:30&#39;),
+    (11, 6, 5, &#39;2023-06-30 14:55:25&#39;, &#39;2023-07-05 16:40:10&#39;),
+    (12, 7, 10, &#39;2023-05-12 07:30:00&#39;, &#39;2023-05-16 13:25:45&#39;);
+`, `WITH shelf_life AS (
+    SELECT &#39;Food&#39; AS category, 21 AS shelf_life_days
+    UNION
+    SELECT &#39;Toiletries&#39;, 365*2
+    UNION
+    SELECT &#39;Pet Care&#39;, 365
+    UNION
+    SELECT &#39;Automotive&#39;, 365*5
+)
+SELECT p.name, p.category, sl.shelf_life_days
+FROM products p
+INNER JOIN shelf_life sl
+ON p.category = sl.category;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>The result of a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> is treated the same as any other <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">SELECT</span></code></span></span> statement, so it can be used with aggregate clauses like <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">GROUP</span> <span style="color:#ffa62b">BY</span></code></span></span>. This example shows how we can calculate the total purchased quantity of items by year.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+CREATE TABLE archived_orders_2023(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#39;Cool Splash Cologne&#39;, &#39;Toiletries&#39;, 49.99, 25, 2),
+    (2, &#39;More Spice Please Chips&#39;, &#39;Food&#39;, 3.99, 60, 1),
+    (3, &#39;Night Shift Coffee&#39;, &#39;Food&#39;, 6.99, 1, 1),
+    (4, &#39;Crunchy Munchy Trail Mix&#39;, &#39;Food&#39;, 8.99, 5, 3),
+    (5, &#39;Super Glide Floss&#39;, &#39;Toiletries&#39;, 1.99, 19, 4),
+    (6, &#39;Big Bark Dog Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (7, &#39;Soft Purr Cat Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (8, &#39;Tiny Fresh Scent Tree&#39;, &#39;Automotive&#39;, 2.00, 7, 4);
+    
+INSERT INTO orders VALUES
+    (1, 4, 40, &#39;2024-06-01 07:58:05&#39;, &#39;2024-06-03 09:04:05&#39;),
+    (2, 1, 20, &#39;2024-06-14 19:30:10&#39;, &#39;2024-06-26 14:20:10&#39;),
+    (3, 5, 50, &#39;2024-07-03 01:00:07&#39;, &#39;2024-07-09 12:50:12&#39;),
+    (4, 2, 60, &#39;2024-07-24 06:06:03&#39;, &#39;2024-07-30 15:05:00&#39;),
+    (5, 3, 60, &#39;2024-08-15 16:40:07&#39;, &#39;2024-08-19 07:05:00&#39;),
+    (6, 6, 10, &#39;2024-09-01 08:01:01&#39;, NULL);
+    
+INSERT INTO archived_orders_2023 VALUES
+    (7, 1, 20, &#39;2023-12-15 10:30:00&#39;, &#39;2023-12-20 14:15:00&#39;),
+    (8, 2, 25, &#39;2023-11-28 08:45:22&#39;, &#39;2023-12-02 11:20:15&#39;),
+    (9, 4, 40, &#39;2023-08-22 11:05:15&#39;, &#39;2023-08-29 15:30:00&#39;),
+    (10, 8, 100, &#39;2023-07-14 09:20:00&#39;, &#39;2023-07-18 10:15:30&#39;),
+    (11, 6, 5, &#39;2023-06-30 14:55:25&#39;, &#39;2023-07-05 16:40:10&#39;),
+    (12, 7, 10, &#39;2023-05-12 07:30:00&#39;, &#39;2023-05-16 13:25:45&#39;);
+`, `SELECT 2024 AS year, sum(quantity) AS purchase_volume
+FROM orders
+UNION ALL
+SELECT 2023 AS year, sum(quantity)
+FROM archived_orders_2023
+GROUP BY year;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> is an operator available in some databases that is used to return only the rows that are shared by both input sets.<br><br>Think of a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">UNION</span></code></span></span> as being inclusive, or as growing the result set, while an <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> is exclusive, or shrinking the result set. In terms of a <span><span><a href="https://en.wikipedia.org/wiki/Venn_diagram">Venn Diagram</a><svg style="display: inline; width: 0.8rem; height: 0.8rem;" viewbox="0 0 48 48"><path d="M36 24c-1.2 0-2 0.8-2 2v12c0 1.2-0.8 2-2 2h-22c-1.2 0-2-0.8-2-2v-22c0-1.2 0.8-2 2-2h12c1.2 0 2-0.8 2-2s-0.8-2-2-2h-12c-3.4 0-6 2.6-6 6v22c0 3.4 2.6 6 6 6h22c3.4 0 6-2.6 6-6v-12c0-1.2-0.8-2-2-2z"></path> <path d="M43.8 5.2c-0.2-0.4-0.6-0.8-1-1-0.2-0.2-0.6-0.2-0.8-0.2h-12c-1.2 0-2 0.8-2 2s0.8 2 2 2h7.2l-18.6 18.6c-0.8 0.8-0.8 2 0 2.8 0.4 0.4 0.8 0.6 1.4 0.6s1-0.2 1.4-0.6l18.6-18.6v7.2c0 1.2 0.8 2 2 2s2-0.8 2-2v-12c0-0.2 0-0.6-0.2-0.8z"></path></svg></span></span>, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> is equivalent to the area where the two circles overlap.<br><br>In this example we show how <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> helps us find out which orders we made in 2024 are identical to orders we made in 2023.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+CREATE TABLE archived_orders_2023(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#39;Cool Splash Cologne&#39;, &#39;Toiletries&#39;, 49.99, 25, 2),
+    (2, &#39;More Spice Please Chips&#39;, &#39;Food&#39;, 3.99, 60, 1),
+    (3, &#39;Night Shift Coffee&#39;, &#39;Food&#39;, 6.99, 1, 1),
+    (4, &#39;Crunchy Munchy Trail Mix&#39;, &#39;Food&#39;, 8.99, 5, 3),
+    (5, &#39;Super Glide Floss&#39;, &#39;Toiletries&#39;, 1.99, 19, 4),
+    (6, &#39;Big Bark Dog Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (7, &#39;Soft Purr Cat Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (8, &#39;Tiny Fresh Scent Tree&#39;, &#39;Automotive&#39;, 2.00, 7, 4);
+    
+INSERT INTO orders VALUES
+    (1, 4, 40, &#39;2024-06-01 07:58:05&#39;, &#39;2024-06-03 09:04:05&#39;),
+    (2, 1, 20, &#39;2024-06-14 19:30:10&#39;, &#39;2024-06-26 14:20:10&#39;),
+    (3, 5, 50, &#39;2024-07-03 01:00:07&#39;, &#39;2024-07-09 12:50:12&#39;),
+    (4, 2, 60, &#39;2024-07-24 06:06:03&#39;, &#39;2024-07-30 15:05:00&#39;),
+    (5, 3, 60, &#39;2024-08-15 16:40:07&#39;, &#39;2024-08-19 07:05:00&#39;),
+    (6, 6, 10, &#39;2024-09-01 08:01:01&#39;, NULL);
+    
+INSERT INTO archived_orders_2023 VALUES
+    (7, 1, 20, &#39;2023-12-15 10:30:00&#39;, &#39;2023-12-20 14:15:00&#39;),
+    (8, 2, 25, &#39;2023-11-28 08:45:22&#39;, &#39;2023-12-02 11:20:15&#39;),
+    (9, 4, 40, &#39;2023-08-22 11:05:15&#39;, &#39;2023-08-29 15:30:00&#39;),
+    (10, 8, 100, &#39;2023-07-14 09:20:00&#39;, &#39;2023-07-18 10:15:30&#39;),
+    (11, 6, 5, &#39;2023-06-30 14:55:25&#39;, &#39;2023-07-05 16:40:10&#39;),
+    (12, 7, 10, &#39;2023-05-12 07:30:00&#39;, &#39;2023-05-16 13:25:45&#39;);
+`, `SELECT product_id, quantity
+FROM orders
+INTERSECT
+SELECT product_id, quantity
+FROM archived_orders_2023;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>For reference, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">INTERSECT</span></code></span></span> is functionally equivalent to a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">JOIN</span></code></span></span> with a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">DISTINCT</span></code></span></span> clause to eliminate duplicates.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+CREATE TABLE archived_orders_2023(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#39;Cool Splash Cologne&#39;, &#39;Toiletries&#39;, 49.99, 25, 2),
+    (2, &#39;More Spice Please Chips&#39;, &#39;Food&#39;, 3.99, 60, 1),
+    (3, &#39;Night Shift Coffee&#39;, &#39;Food&#39;, 6.99, 1, 1),
+    (4, &#39;Crunchy Munchy Trail Mix&#39;, &#39;Food&#39;, 8.99, 5, 3),
+    (5, &#39;Super Glide Floss&#39;, &#39;Toiletries&#39;, 1.99, 19, 4),
+    (6, &#39;Big Bark Dog Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (7, &#39;Soft Purr Cat Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (8, &#39;Tiny Fresh Scent Tree&#39;, &#39;Automotive&#39;, 2.00, 7, 4);
+    
+INSERT INTO orders VALUES
+    (1, 4, 40, &#39;2024-06-01 07:58:05&#39;, &#39;2024-06-03 09:04:05&#39;),
+    (2, 1, 20, &#39;2024-06-14 19:30:10&#39;, &#39;2024-06-26 14:20:10&#39;),
+    (3, 5, 50, &#39;2024-07-03 01:00:07&#39;, &#39;2024-07-09 12:50:12&#39;),
+    (4, 2, 60, &#39;2024-07-24 06:06:03&#39;, &#39;2024-07-30 15:05:00&#39;),
+    (5, 3, 60, &#39;2024-08-15 16:40:07&#39;, &#39;2024-08-19 07:05:00&#39;),
+    (6, 6, 10, &#39;2024-09-01 08:01:01&#39;, NULL);
+    
+INSERT INTO archived_orders_2023 VALUES
+    (7, 1, 20, &#39;2023-12-15 10:30:00&#39;, &#39;2023-12-20 14:15:00&#39;),
+    (8, 2, 25, &#39;2023-11-28 08:45:22&#39;, &#39;2023-12-02 11:20:15&#39;),
+    (9, 4, 40, &#39;2023-08-22 11:05:15&#39;, &#39;2023-08-29 15:30:00&#39;),
+    (10, 8, 100, &#39;2023-07-14 09:20:00&#39;, &#39;2023-07-18 10:15:30&#39;),
+    (11, 6, 5, &#39;2023-06-30 14:55:25&#39;, &#39;2023-07-05 16:40:10&#39;),
+    (12, 7, 10, &#39;2023-05-12 07:30:00&#39;, &#39;2023-05-16 13:25:45&#39;);
+`, `SELECT DISTINCT o.product_id, o.quantity
+FROM orders o
+INNER JOIN archived_orders_2023 ao
+ON o.product_id = ao.product_id
+AND o.quantity = ao.quantity;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div><div>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">EXCEPT</span></code></span></span> operator returns rows from the first set that do not exist in the second set. Think of it as a way to subtract the second set from the first set. Some databases call this operator <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">MINUS</span></code></span></span>.<br><br>This example shows all the orders from 2024 that did not have identical orders placed in 2023.</div><div class="example sticky-container"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE products(id INTEGER PRIMARY KEY, name TEXT, category TEXT, price REAL, remaining_stock INTEGER, vendor_id INTEGER);
+CREATE TABLE orders(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+CREATE TABLE archived_orders_2023(id INTEGER PRIMARY KEY, product_id INTEGER, quantity INTEGER, date_ordered TEXT, date_arrived TEXT);
+
+INSERT INTO products VALUES
+    (1, &#39;Cool Splash Cologne&#39;, &#39;Toiletries&#39;, 49.99, 25, 2),
+    (2, &#39;More Spice Please Chips&#39;, &#39;Food&#39;, 3.99, 60, 1),
+    (3, &#39;Night Shift Coffee&#39;, &#39;Food&#39;, 6.99, 1, 1),
+    (4, &#39;Crunchy Munchy Trail Mix&#39;, &#39;Food&#39;, 8.99, 5, 3),
+    (5, &#39;Super Glide Floss&#39;, &#39;Toiletries&#39;, 1.99, 19, 4),
+    (6, &#39;Big Bark Dog Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (7, &#39;Soft Purr Cat Food&#39;, &#39;Pet Care&#39;, 30.00, 2, 2),
+    (8, &#39;Tiny Fresh Scent Tree&#39;, &#39;Automotive&#39;, 2.00, 7, 4);
+    
+INSERT INTO orders VALUES
+    (1, 4, 40, &#39;2024-06-01 07:58:05&#39;, &#39;2024-06-03 09:04:05&#39;),
+    (2, 1, 20, &#39;2024-06-14 19:30:10&#39;, &#39;2024-06-26 14:20:10&#39;),
+    (3, 5, 50, &#39;2024-07-03 01:00:07&#39;, &#39;2024-07-09 12:50:12&#39;),
+    (4, 2, 60, &#39;2024-07-24 06:06:03&#39;, &#39;2024-07-30 15:05:00&#39;),
+    (5, 3, 60, &#39;2024-08-15 16:40:07&#39;, &#39;2024-08-19 07:05:00&#39;),
+    (6, 6, 10, &#39;2024-09-01 08:01:01&#39;, NULL);
+    
+INSERT INTO archived_orders_2023 VALUES
+    (7, 1, 20, &#39;2023-12-15 10:30:00&#39;, &#39;2023-12-20 14:15:00&#39;),
+    (8, 2, 25, &#39;2023-11-28 08:45:22&#39;, &#39;2023-12-02 11:20:15&#39;),
+    (9, 4, 40, &#39;2023-08-22 11:05:15&#39;, &#39;2023-08-29 15:30:00&#39;),
+    (10, 8, 100, &#39;2023-07-14 09:20:00&#39;, &#39;2023-07-18 10:15:30&#39;),
+    (11, 6, 5, &#39;2023-06-30 14:55:25&#39;, &#39;2023-07-05 16:40:10&#39;),
+    (12, 7, 10, &#39;2023-05-12 07:30:00&#39;, &#39;2023-05-16 13:25:45&#39;);
+`, `SELECT product_id, quantity
+FROM orders
+EXCEPT
+SELECT product_id, quantity
+FROM archived_orders_2023;
+`)" x-init="$nextTick(() =&gt; Prism.highlightAll())"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" x-init="$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="run()">&#9654; run</button> <button class="run" x-on:click="reset()">&#10227; reset</button><p class="result" x-text="result"></p></div></div></div></div></div></body></html>

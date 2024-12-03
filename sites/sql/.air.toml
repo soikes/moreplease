@@ -5,6 +5,7 @@ tmp_dir = "tmp"
 [build]
 pre_cmd = [
     # "go generate soikke.li/moreplease/sites/sql/...",
+    "templ generate -path ../../templates",
     "templ generate",
     "go run soikke.li/moreplease/sites/sql/bin/render",
     "pnpm -C www build",

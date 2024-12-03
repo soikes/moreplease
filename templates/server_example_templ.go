@@ -9,16 +9,15 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"fmt"
 	"soikke.li/moreplease/sites/sql/db"
 	"soikke.li/moreplease/sites/sql/highlight"
 )
 
-type Example struct {
+type ServerExample struct {
 	Statements db.Statements
 }
 
-func (e *Example) Run(path string) templ.Component {
+func (e *ServerExample) Run(path string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -39,28 +38,29 @@ func (e *Example) Run(path string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"example sticky-container\"><div class=\"tile sticky\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"sticky-container\"><div class=\"tile sticky\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-
-		schema := e.Statements.From(e.Statements.SchemaPath)
-		stmt := e.Statements.From(path)
-		xdata := fmt.Sprintf("createExample(`%s`, `%s`)", schema, stmt)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"")
+		stmt := highlight.Block(e.Statements.From(path))
+		templ_7745c5c3_Err = templ.Raw(stmt).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(xdata)
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(e.Statements.ExecFile(path))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `example.templ`, Line: 22, Col: 30}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `server_example.templ`, Line: 19, Col: 49}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-init=\"$nextTick(() =&gt; Prism.highlightAll())\"><div class=\"stmt\"><textarea spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" onInput=\"this.parentNode.dataset.replicatedValue = this.value\" x-init=\"$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})\" x-model=\"stmt\"></textarea><pre><code class=\"language-sql\" x-text=\"stmt\" x-ref=\"codeBlock\"></code></pre></div><button class=\"run\" x-on:click=\"run()\">&#9654; run</button> <button class=\"run\" x-on:click=\"reset()\">&#10227; reset</button><p class=\"result\" x-text=\"result\"></p></div></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -68,7 +68,7 @@ func (e *Example) Run(path string) templ.Component {
 	})
 }
 
-func (e *Example) Display(path string) templ.Component {
+func (e *ServerExample) Display(path string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
