@@ -21,6 +21,7 @@ import (
 	where_topic "soikke.li/moreplease/sites/sql/templates/where"
 )
 
+// NewDynamicMux Creates a multiplexer that runs and renders SQLite statements on the *server* on every request.
 func NewDynamicMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	mux.Handle("/aggregate_functions", templ.Handler(aggregate_functions_topic.Topic()))
