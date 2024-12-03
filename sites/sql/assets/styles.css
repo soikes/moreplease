@@ -334,10 +334,11 @@ button.run {
     cursor: pointer;
     background-color: #ffffff;
     color: black;
-    padding: 0.5rem;
+    padding: 0.4rem;
+    line-height: 1rem;
     margin-right: 1rem;
     font-family: "DM Mono", monospace;
-    font-size: 1rem;
+    font-size: 0.9rem;
     box-shadow: 0.2rem 0.2rem 0 #353535;
 }
 
@@ -346,22 +347,24 @@ button.run:active {
     transform: translate(0.1rem, 0.1rem);
 }
 
-.result {
+button.run img {
+    vertical-align: middle;
+    height: 0.9rem;
+}
+
+.result,
+#schema .table {
     font-family: "DM Mono", monospace;
-    font-size: 1rem;
+    font-size: 0.9rem;
     text-align: left;
     white-space: pre;
-    word-spacing: -0.1rem;
     word-break: normal;
     word-wrap: normal;
-    line-height: 1.4rem;
-
-    -moz-tab-size: 4;
-    -o-tab-size: 4;
-    tab-size: 4;
 
     -webkit-hyphens: none;
     -moz-hyphens: none;
     -ms-hyphens: none;
     hyphens: none;
+
+    margin-top: 1rem;
 }

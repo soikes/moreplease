@@ -1,5 +1,5 @@
-// import Alpine from "alpinejs";
 import { Db } from "../db/db";
+import { MarkdownFormatter } from "../db/formatter";
 
 interface Example {
   loading: boolean;
@@ -42,7 +42,7 @@ function createExample(schema: string, stmt: string): Example {
     run() {
       try {
         let res = this.db.exec(this.stmt);
-        this.result = JSON.stringify(res);
+        this.result = MarkdownFormatter.fromResult(res).toString();
       } catch (error) {
         this.result = error.toString();
       }
@@ -50,6 +50,7 @@ function createExample(schema: string, stmt: string): Example {
 
     reset() {
       this.stmt = this.initialStmt;
+      this.run();
     },
   };
 }
@@ -60,8 +61,3 @@ declare global {
   }
 }
 window.createExample = createExample;
-
-// Alpine.data("example", createExample());
-// document.addEventListener("DOMContentLoaded", function (event) {
-//   Alpine.start();
-// });

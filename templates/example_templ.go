@@ -60,7 +60,7 @@ func (e *Example) Run(path string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-init=\"$nextTick(() =&gt; Prism.highlightAll())\"><div class=\"stmt\"><textarea spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" onInput=\"this.parentNode.dataset.replicatedValue = this.value\" x-init=\"$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})\" x-model=\"stmt\"></textarea><pre><code class=\"language-sql\" x-text=\"stmt\" x-ref=\"codeBlock\"></code></pre></div><button class=\"run\" x-on:click=\"run()\">&#9654; run</button> <button class=\"run\" x-on:click=\"reset()\">&#10227; reset</button><p class=\"result\" x-text=\"result\"></p></div></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-init=\"$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))\"><div class=\"stmt\"><textarea spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" onInput=\"this.parentNode.dataset.replicatedValue = this.value\" x-init=\"$watch(&#39;stmt&#39;, () =&gt; {$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))})\" x-model=\"stmt\"></textarea><pre><code class=\"language-sql\" x-text=\"stmt\" x-ref=\"codeBlock\"></code></pre></div><button class=\"run\" x-on:click=\"run()\"><img src=\"assets/run.svg\"> run</button> <button class=\"run\" x-on:click=\"reset()\"><img src=\"assets/reset.svg\"> reset</button><div class=\"result\" x-text=\"result\"></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

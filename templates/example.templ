@@ -18,9 +18,9 @@ templ (e *Example) Run(path string) {
                 stmt := e.Statements.From(path)
                 xdata := fmt.Sprintf("createExample(`%s`, `%s`)", schema, stmt)
             }}
-            <div 
+            <div
                 x-data={ xdata } 
-                x-init="$nextTick(() => Prism.highlightAll())"
+                x-init="$nextTick(() => Prism.highlightElement($refs.codeBlock))"
             >
                 <div class="stmt">
                     <textarea
@@ -36,9 +36,9 @@ templ (e *Example) Run(path string) {
                         </code>
                     </pre>
                 </div>
-                <button class="run" x-on:click="run()">&#9654; run</button>
-                <button class="run" x-on:click="reset()">&#10227; reset</button>
-                <p class="result" x-text="result"></p>
+                <button class="run" x-on:click="run()"><img src="assets/run.svg"></img> run</button>
+                <button class="run" x-on:click="reset()"><img src="assets/reset.svg"></img> reset</button>
+                <div class="result" x-text="result"></div>
             </div>
             /* <div x-show="!result">
                 <pre>
