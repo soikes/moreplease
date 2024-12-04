@@ -4,9 +4,11 @@ tmp_dir = "tmp"
 
 [build]
 pre_cmd = [
-    "templ generate",
     # "go generate soikke.li/moreplease/sites/sql/...",
+    "templ generate -path ../../templates",
+    "templ generate",
     "go run soikke.li/moreplease/sites/sql/bin/render",
+    "pnpm -C www build",
 ]
 args_bin = []
 bin = "./tmp/main"
@@ -14,12 +16,12 @@ cmd = "go build -o ./tmp/main ."
 delay = 1000
 exclude_dir = ["tmp", "vendor", "testdata"]
 exclude_file = []
-exclude_regex = ["_test.go", "_templ.go"]
+exclude_regex = ["_test.go", "_templ.go", ".html"]
 exclude_unchanged = false
 follow_symlink = false
 full_bin = ""
 include_dir = []
-include_ext = ["sh", "go", "templ", "html", "css", "sql", "xml"]
+include_ext = ["sh", "go", "templ", "html", "css", "sql", "xml", "ts"]
 include_file = []
 kill_delay = "0s"
 log = "build-errors.log"
@@ -27,7 +29,7 @@ poll = false
 poll_interval = 0
 post_cmd = []
 rerun = true
-rerun_delay = 500
+rerun_delay = 1000
 send_interrupt = false
 stop_on_error = false
 

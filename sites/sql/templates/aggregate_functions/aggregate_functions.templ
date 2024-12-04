@@ -1,0 +1,77 @@
+package aggregate_functions
+
+import (
+    "embed"
+    "soikke.li/moreplease/sites/sql/db"
+    "soikke.li/moreplease/sites/sql/render"
+    t "soikke.li/moreplease/templates"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
+
+func init() {
+    c := Topic()
+    render.RegisterComponent("aggregate_functions", c)
+}
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        e := t.Example{
+            Statements: s,
+        }
+        st := t.Site{Language: t.LanguageSQL}
+    }}
+    @st.Base("More SQL Please: Aggregate Functions") {
+        <div class="content wide">
+            @t.TopicTitle("Aggregate Functions")
+            @t.Schema(s, "users", "donations")
+            <div class="container">
+                <div>
+                    The <a href="/functions">Functions</a> topic introduces the concept of simple/scalar functions, which accept zero or more input values and produce a single output value per row.<br><br>
+                    <i>Aggregate functions</i> are categorized differently because they operate on more than one row of data at a time.<br><br>
+                    <span>@t.Inline("count()")</span> is a function that accepts a column name or a <span>@t.Inline("*")</span> as input. Instead of returning data though, it returns a count of the total number of rows.  If a <span>@t.Inline("*")</span> is specified, the count of all rows in the table is returned. Think of it as asking for a row count "including all columns".<br><br>
+                </div>
+                @e.Run("sql/count.sql")
+                <div>
+                    If a column name is specified, the returned count is the number of non-<span>@t.Inline("NULL")</span> rows.
+                </div>
+                @e.Run("sql/count_column.sql")
+                <div>
+                    Aggregate functions can accept a <span>@t.Inline("DISTINCT")</span> clause which causes duplicate rows to be ignored by the function. Here, the second "Amini" last name is not included in the count.
+                </div>
+                @e.Run("sql/count_distinct.sql")
+                <div>
+                    Another commonly used aggregate function is <span>@t.Inline("max()")</span>. It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an <a href="/order_by"><span>@t.Inline("ORDER BY")</span></a>: by following the current <a href="/order_by#collation">collation</a> for that data type.<br><br>
+                    To instead find the minimum value the <span>@t.Inline("min()")</span> function is used.<br><br>
+                    Keep in mind that in SQLite and other databases, <span>@t.Inline("max()")</span> and <span>@t.Inline("min()")</span> have versions that accept multiple arguments which are actually scalar functions that perform a different task.
+                </div>
+                @e.Run("sql/max.sql")
+                <div>
+                    The <span>@t.Inline("sum()")</span> function calculates the sum of all non-<span>@t.Inline("NULL")</span> values. <br><br>
+                    If every input row is <span>@t.Inline("NULL")</span> then <span>@t.Inline("sum()")</span> will return <span>@t.Inline("NULL")</span>. Unfortunately this is required by the SQL standard and several aggregate functions behave this way. This is not very useful if you are expecting a numerical result so some databases like SQLite have implemented a nonstandard <span>@t.Inline("total()")</span> function that returns 0.0 in this case instead.
+                </div>
+                @e.Run("sql/sum.sql")
+                <div>
+                    The <span>@t.Inline("avg()")</span> function calculates an average value across all the rows. It is equivalent to running <span>@t.Inline("total()/count()")</span>. Note again that only non-<span>@t.Inline("NULL")</span> values are considered in the calculation.<br><br>
+                    In SQLite string values that can't be converted into numbers, such as <span>@t.Inline("\"hello\"")</span>, are treated as <span>@t.Inline("0")</span> in the average calculation.
+                </div>
+                @e.Run("sql/avg.sql")
+                <div>
+                    There are often more built-in aggregate functions to use as well as the ability to define your own aggregate functions similar to scalar functions.<br><br>
+                    Aggregate functions are powerful tools alone but they become even more useful when combined with the <a href="/group_by"><span>@t.Inline("GROUP BY")</span></a> clause which we will explore next.
+                </div>
+            </div>
+        </div>
+    }
+}
+
+/*
+"sql/select_all_columns.sql",
+"sql/select_alias.sql",
+"sql/select_computation.sql",
+*/

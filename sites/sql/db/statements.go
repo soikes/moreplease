@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"io/fs"
+	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -88,5 +89,5 @@ func (s *Statements) read(path string) string {
 	if err != nil {
 		panic(err)
 	}
-	return string(src)
+	return strings.TrimSpace(string(src))
 }

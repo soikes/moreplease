@@ -1,9 +1,7 @@
 package templates
 
-import "soikke.li/moreplease/sites/sql/highlight"
-
 templ Inline(code string) {
     <span class="inline-code">
-        @templ.Raw(highlight.Inline(code))
+        <code> { code } </code>
     </span>
 }

@@ -9,8 +9,8 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
+	"fmt"
 	"soikke.li/moreplease/sites/sql/db"
-	"soikke.li/moreplease/sites/sql/highlight"
 )
 
 type Example struct {
@@ -38,29 +38,28 @@ func (e *Example) Run(path string) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"sticky-container\"><div class=\"tile sticky\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"example sticky-container fade-in\"><div class=\"tile sticky\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		stmt := highlight.Block(e.Statements.From(path))
-		templ_7745c5c3_Err = templ.Raw(stmt).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><pre>")
+
+		schema := e.Statements.From(e.Statements.SchemaPath)
+		stmt := e.Statements.From(path)
+		xdata := fmt.Sprintf("createExample(`%s`, `%s`)", schema, stmt)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
-		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(e.Statements.ExecFile(path))
+		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(xdata)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `templates/example.templ`, Line: 19, Col: 49}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `example.templ`, Line: 21, Col: 30}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</pre></div></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-init=\"$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))\"><div class=\"stmt\"><textarea spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" x-init=\"$watch(&#39;stmt&#39;, () =&gt; { $el.parentNode.dataset.replicatedValue = $el.value }\" x-model=\"stmt\"></textarea><pre><code class=\"language-sql\" x-init=\"$watch(&#39;stmt&#39;, () =&gt; {\n                                $nextTick(() =&gt; Prism.highlightElement($el))\n                            })\" x-text=\"stmt\"></code></pre></div><button class=\"run\" x-on:click=\"run()\"><img src=\"assets/run.svg\"> run</button> <button class=\"run\" x-on:click=\"reset()\"><img src=\"assets/reset.svg\"> reset</button><div class=\"result\" x-text=\"result\"></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -93,12 +92,22 @@ func (e *Example) Display(path string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		stmt := highlight.Block(e.Statements.From(path))
-		templ_7745c5c3_Err = templ.Raw(stmt).Render(ctx, templ_7745c5c3_Buffer)
+
+		stmt := e.Statements.From(path)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<pre><code class=\"language-sql\" x-text=\"stmt\" x-ref=\"codeBlock\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(stmt)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `example.templ`, Line: 64, Col: 81}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</code></pre></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

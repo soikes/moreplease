@@ -1,0 +1,151 @@
+package data_types_topic
+
+import (
+    "embed"
+    "soikke.li/moreplease/sites/sql/db"
+    "soikke.li/moreplease/sites/sql/render"
+    t "soikke.li/moreplease/templates"
+)
+
+//go:embed sql
+var sqlFiles embed.FS
+
+func init() {
+    c := Topic()
+    render.RegisterComponent("data_types", c)
+}
+
+templ Topic() {
+    {{
+        s := db.Statements{
+            Files: sqlFiles,
+            SchemaPath: "sql/schema/schema.sql",
+        }
+        e := t.Example{
+            Statements: s,
+        }
+        st := t.Site{Language: t.LanguageSQL}
+    }}
+    @st.Base("More SQL Please: Data Types") {
+        <div class="content wide">
+            @t.TopicTitle("Data Types")
+            @t.Schema(s, "profiles")
+            <div class="container">
+                <div>
+                    Relational databases typically require you to define which type of data you would like to store in each column. This is done at the time of table creation.<br><br>
+                    The SQL Standard defines over 20 different data types for things like numbers, text, dates and more. The various database vendors such as PostgreSQL, MySQL, Microsoft SQL Server, and Oracle Database may not support them all and they may define their own extra types.<br><br>
+                    
+                    This example uses a built-in SQLite function called <span>@t.Inline("pragma_table_info()")</span> on our <span>@t.Inline("profiles")</span> table to show each column and its data type.<br><br>
+
+                    SQLite is different in that instead of exposing all of these different types, it simplifies things for the user by using just five basic types:<br><br>
+                    
+                    <span>@t.Inline("INTEGER")</span> for whole numbers.<br><br>
+                    <span>@t.Inline("REAL")</span> for floating-point (decimal) numbers.<br><br>
+                    <span>@t.Inline("TEXT")</span> for text-based data.<br><br>
+                    <span>@t.Inline("BLOB")</span> for binary data.<br><br>
+                    <span>@t.Inline("NULL")</span> for representing the absence of any type of data. Usually you can define columns to allow or disallow <span>@t.Inline("NULL")</span>s.<br><br>
+                    <span>@t.Inline("ANY")</span> is a special keyword for a column that can accept any type of data. SQLite is unique in that it also allows dynamically-typed columns. See <a href="https://www.sqlite.org/datatype3.html">Datatypes in SQLite</a> for more details on data types.<br><br>
+
+                    Each type has a maximum storage size in bytes which will limit how much data or how big of a value you can store in each row. Depending on your vocation and reasons for learning SQL you may or may not need to know those details, for example the maximum byte size of a data type.<br><br>
+                    Don't worry if you don't understand what a byte is — that information is included as a starting point for those who want to learn more.<br><br>
+                    Below you will see a more complete list of types from the SQL Standard and/or available to use in other database engines.
+                </div>
+                @e.Run("sql/data_types.sql")
+                <div>
+                    <i><b>Numeric types:</b></i>
+                    <ul>
+                        <li><span>@t.Inline("TINYINT")</span>, <span>@t.Inline("SMALLINT")</span> and <span>@t.Inline("MEDIUMINT")</span> for smaller positive/negative whole numbers; takes less space.</li><br>
+                        <li><span>@t.Inline("INT")</span> or <span>@t.Inline("INTEGER")</span> for positive/negative whole numbers.</li><br>
+                        <li><span>@t.Inline("BIGINT")</span> for larger whole numbers; takes more space.</li><br>
+                    </ul>
+                </div>
+                @e.Run("sql/integer.sql")
+                <div>
+                    <ul>
+                        <li><span>@t.Inline("FLOAT")</span>, <span>@t.Inline("DOUBLE PRECISION")</span> and <span>@t.Inline("REAL")</span> for floating point (decimal) numbers. Typically a <span>@t.Inline("FLOAT")</span> can store 4 bytes (around 6 digits) of data, a <span>@t.Inline("DOUBLE PRECISION")</span> can store 8 bytes (around 15 digits), and <span>@t.Inline("REAL")</span> is usually equivalent to a <span>@t.Inline("FLOAT")</span>. Sometimes database vendors use <span>@t.Inline("FLOAT(n)")</span> where <span>@t.Inline("n")</span> is the storage space in bytes to use.</li><br>
+                        <li><span>@t.Inline("DECIMAL(p,s)")</span> or <span>@t.Inline("NUMERIC(p,s)")</span> for exact-precision floating point numbers. The <span>@t.Inline("p")</span> stands for "precision" and specifies the maximum amount of total digits. The <span>@t.Inline("s")</span> stands for "scale" and specifies the maximum amount of digits to the right of the decimal point. Both types exist for historical reasons but most modern databases treat <span>@t.Inline("DECIMAL")</span> and <span>@t.Inline("NUMERIC")</span> as synonyms. See your database's documentation to be sure.</li>
+                    </ul>
+                </div>
+                @e.Run("sql/real.sql")
+                <div>
+                    <i><b>Text/string types:</b></i>
+                    <ul>
+                        <li>
+                            <span>@t.Inline("CHAR(n)")</span> for fixed-length strings. <span>@t.Inline("n")</span> specifies how many characters the strings will have. Every row will store the same size of string regardless of how large the inserted strings are and the string will be padded or truncated.
+                        </li>
+                        <br>
+                        <li>
+                            <span>@t.Inline("VARCHAR(n)")</span> for variable-length strings. <span>@t.Inline("n")</span> specifies the maximum amount of characters a string can have.
+                        </li>
+                        <br>
+                        <li>
+                            <span>@t.Inline("TEXT")</span> for variable-length strings without a specified maximum. Typically this type has a very large maximum size and varies by database.
+                        </li>
+                    </ul>
+                </div>
+                @e.Run("sql/text.sql")
+                <div>
+                    <i><b>Date/Time types:</b></i>
+                    <ul>
+                        <li>
+                            <span>@t.Inline("DATE")</span> for dates including the year, month and day.
+                        </li>
+                        <br>
+                        <li>
+                            <span>@t.Inline("TIME")</span> for times of day including the hour, minute and second.
+                        </li>
+                        <br>
+                        <li>
+                            <span>@t.Inline("TIMESTAMP")</span> or <span>@t.Inline("DATETIME")</span> for a combination of both date and time.
+                        </li>
+                        <br><br>
+                        SQLite does not include any special type for storing dates or times; it uses <span>@t.Inline("TEXT")</span> for this purpose and includes several built-in <a href="/functions">functions</a> for working with dates and times.
+                    </ul>
+                </div>
+                @e.Run("sql/date.sql")
+                <div>
+                    <i><b>Binary types:</b></i>
+                    <ul>
+                        <li>
+                            <span>@t.Inline("BINARY(n)")</span> for fixed length <span>@t.Outlink("https://en.wikipedia.org/wiki/Binary_file", "binary data")</span>, for example image data. <span>@t.Inline("n")</span> specifies the amount of bytes all rows will have. Every row will store the same size of data regardless of how large the inserted data is and the data will be padded or truncated.
+                        </li><br>
+                        <li>
+                            <span>@t.Inline("VARBINARY(n)")</span> for variable length binary data. <span>@t.Inline("n")</span> specifies the maximum amount of bytes rows can have.
+                        </li><br>
+                        <li>
+                            <span>@t.Inline("BLOB")</span> for variable-length binary objects without a specified maximum. Typically this type has a very large maximum size and varies by database. "BLOB" stands for "Binary Large Object".
+                        </li>
+                        <br>
+                        This example shows a text representation of what binary data would look like if stored in a SQLite <span>@t.Inline("BLOB")</span> column. In reality, binary data in its native format cannot be rendered as text and would look garbled or display squares. The <span>@t.Inline("x'...'")</span> format shown here can actually be used to insert the hexadecimal string representation of binary data into the column.
+                    </ul>
+                </div>
+                @e.Run("sql/binary.sql")
+                <div>
+                    <i><b>Boolean types:</b></i>
+                    <ul>
+                        <li>
+                            <span>@t.Inline("BOOLEAN")</span> for true/false values. This means every row must either be <span>@t.Inline("TRUE")</span> or <span>@t.Inline("FALSE")</span>.
+                        </li>
+                        <br>
+                        SQLite has no built-in <span>@t.Inline("BOOLEAN")</span> type; boolean values are stored as the integer <span>@t.Inline("0")</span> for false and <span>@t.Inline("1")</span> for true.
+                    </ul>
+                </div>
+                @e.Run("sql/boolean.sql")
+                <div>
+                    <i><b>Other types:</b></i>
+                    <ul>
+                        <li>
+                            <span>@t.Inline("JSON")</span> for JSON-formatted data. Many modern databases have features and functions to deal specifically with JSON data.
+                        </li><br>
+                        <li>
+                            <span>@t.Inline("XML")</span> for XML-formatted data. Several modern databases have features specifically for working with XML data.
+                        </li><br>
+                        <li>
+                            <span>@t.Inline("UUID")</span> for UUID-formatted IDs. Some databases have this as a built-in type so the data can be stored, found and compared more efficiently than a <span>@t.Inline("TEXT")</span>-like type.
+                        </li><br>
+                    </ul><br>
+                </div>
+            </div>
+        </div>
+    }
+}

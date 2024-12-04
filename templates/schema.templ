@@ -18,7 +18,7 @@ templ Schema(s db.Statements, tables ...string) {
                     <div class="tablename">
                         <span>@Inline(table)</span>
                     </div>
-                    <pre>
+                    <pre class="table">
                         { s.ExecFile(fmt.Sprintf("sql/schema/dump_%s.sql", table)) }
                     </pre>
                 </div>

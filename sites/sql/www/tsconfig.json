@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "strictNullChecks": true,
+    "sourceMap": true
+  }
+}

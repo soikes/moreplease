@@ -1,6 +1,8 @@
 package web
 
 import (
+	"fmt"
+	"io"
 	"io/fs"
 	"log"
 	"path/filepath"
@@ -45,4 +47,12 @@ func (f AssetsFile) Stat() (fs.FileInfo, error) {
 		return nil, fs.ErrNotExist
 	}
 	return fi, nil
+}
+
+func (f AssetsFile) Seek(offset int64, whence int) (int64, error) {
+	switch s := f.File.(type) {
+	case io.Seeker:
+		return s.Seek(offset, whence)
+	}
+	return 0, fmt.Errorf("not a seeker")
 }

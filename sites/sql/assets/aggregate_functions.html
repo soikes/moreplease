@@ -1,4 +1,4 @@
-<html><head><link rel="stylesheet" href="assets/styles.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: Aggregate Functions</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">Aggregate Functions</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">users</span></code></span></span></div><pre>| id | name_first | name_last |       email_address       |
+<html><head><script type="text/javascript" src="assets/app.js"></script> <script defer type="text/javascript" src="assets/alpine.js"></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: Aggregate Functions</title></head><body class="language-sql"><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">Aggregate Functions</span></h1></div><details id="schema" class="toggle"><summary class="action heading" data-open="hide tables" data-close="show tables"></summary><div class="container"><div class="tile"><div class="tablename"><span><span class="inline-code"><code>users</code></span></span></div><pre class="table">| id | name_first | name_last |       email_address       |
 |----|------------|-----------|---------------------------|
 | 1  | Marcus     | Crawford  | marcus@mcrawford.ca       |
 | 2  | Elena      | Moreno    | elena@hellocorp.com       |
@@ -6,7 +6,7 @@
 | 4  | Priya      | Amini     | priya@aminiconsulting.com |
 | 5  | Zara       | Amini     | zara@aminiconsulting.com  |
 | 6  | Charlotte  | NULL      | NULL                      |
-</pre></div><div class="tile"><div class="tablename"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">donations</span></code></span></span></div><pre>| id | user_id |        date         | amount |
+</pre></div><div class="tile"><div class="tablename"><span><span class="inline-code"><code>donations</code></span></span></div><pre class="table">| id | user_id |        date         | amount |
 |----|---------|---------------------|--------|
 | 1  | 1       | 2024-04-12 09:10:01 | 20     |
 | 2  | 3       | 2024-04-19 12:40:15 | 10     |
@@ -14,34 +14,124 @@
 | 4  | 2       | 2024-05-03 14:09:11 | 75     |
 | 5  | 99      | 2024-06-01 01:11:44 | 100    |
 | 6  | 1       | 2024-06-04 09:01:59 | 40     |
-</pre></div></div></details><div class="container"><div>The <a href="/functions">Functions</a> topic introduces the concept of simple/scalar functions, which accept zero or more input values and produce a single output value per row.<br><br><i>Aggregate functions</i> are categorized differently because they operate on more than one row of data at a time.<br><br><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">count</span>()</code></span></span> is a function that accepts a column name or a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">*</span></code></span></span> as input. Instead of returning data though, it returns a count of the total number of rows.  If a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#90708c">*</span></code></span></span> is specified, the count of all rows in the table is returned. Think of it as asking for a row count "including all columns".<br><br></div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">count</span>(<span style="color:#90708c">*</span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>| count(*) |
-|----------|
-| 6        |
-</pre></div></div></div><div>If a column name is specified, the returned count is the number of non-<span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> rows.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">count</span>(<span style="color:#16697a">name_last</span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>| count(name_last) |
-|------------------|
-| 5                |
-</pre></div></div></div><div>Aggregate functions can accept a <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">DISTINCT</span></code></span></span> clause which causes duplicate rows to be ignored by the function. Here, the second "Amini" last name is not included in the count.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">count</span>(<span style="color:#ffa62b">DISTINCT</span> <span style="color:#16697a">name_last</span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">users</span>;
-</span></span></code></pre><div><pre>| count(DISTINCT name_last) |
-|---------------------------|
-| 4                         |
-</pre></div></div></div><div>Another commonly used aggregate function is <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">max</span>()</code></span></span>. It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an <a href="/order_by"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">ORDER</span> <span style="color:#ffa62b">BY</span></code></span></span></a>: by following the current <a href="/order_by#collation">collation</a> for that data type.<br><br>To instead find the minimum value the <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">min</span>()</code></span></span> function is used.<br><br>Keep in mind that in SQLite and other databases, <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">max</span>()</code></span></span> and <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">min</span>()</code></span></span> have versions that accept multiple arguments which are actually scalar functions that perform a different task.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">max</span>(<span style="color:#16697a">amount</span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">donations</span>;
-</span></span></code></pre><div><pre>| max(amount) |
-|-------------|
-| 100         |
-</pre></div></div></div><div>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">sum</span>()</code></span></span> function calculates the sum of all non-<span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> values. <br><br>If every input row is <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> then <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">sum</span>()</code></span></span> will return <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span>. Unfortunately this is required by the SQL standard and several aggregate functions behave this way. This is not very useful if you are expecting a numerical result so some databases like SQLite have implemented a nonstandard <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">total</span>()</code></span></span> function that returns 0.0 in this case instead.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">sum</span>(<span style="color:#16697a">amount</span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">donations</span>;
-</span></span></code></pre><div><pre>| sum(amount) |
-|-------------|
-| 285         |
-</pre></div></div></div><div>The <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">avg</span>()</code></span></span> function calculates an average value across all the rows. It is equivalent to running <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#16697a">total</span>()<span style="color:#90708c">/</span><span style="color:#ffa62b">count</span>()</code></span></span>. Note again that only non-<span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">NULL</span></code></span></span> values are considered in the calculation.<br><br>In SQLite string values that can't be converted into numbers, such as <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#7f8c8d">&#34;</span><span style="color:#7f8c8d">hello</span><span style="color:#7f8c8d">&#34;</span></code></span></span>, are treated as <span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#8a7b52">0</span></code></span></span> in the average calculation.</div><div class="sticky-container"><div class="tile sticky"><pre style="background-color:#fff;"><code><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1</span><span><span style="color:#ffa62b">SELECT</span> <span style="color:#ffa62b">avg</span>(<span style="color:#16697a">amount</span>)
-</span></span><span style="display:flex;"><span style="white-space:pre;-webkit-user-select:none;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2</span><span><span style="color:#ffa62b">FROM</span> <span style="color:#16697a">donations</span>;
-</span></span></code></pre><div><pre>| avg(amount) |
-|-------------|
-| 47.5        |
-</pre></div></div></div><div>There are often more built-in aggregate functions to use as well as the ability to define your own aggregate functions similar to scalar functions.<br><br>Aggregate functions are powerful tools alone but they become even more useful when combined with the <a href="/group_by"><span><span class="inline-code"><code style="background-color:#fff;"><span style="color:#ffa62b">GROUP</span> <span style="color:#ffa62b">BY</span></code></span></span></a> clause which we will explore next.</div></div></div></body></html>
+</pre></div></div></details><div class="container"><div>The <a href="/functions">Functions</a> topic introduces the concept of simple/scalar functions, which accept zero or more input values and produce a single output value per row.<br><br><i>Aggregate functions</i> are categorized differently because they operate on more than one row of data at a time.<br><br><span><span class="inline-code"><code>count()</code></span></span> is a function that accepts a column name or a <span><span class="inline-code"><code>*</code></span></span> as input. Instead of returning data though, it returns a count of the total number of rows.  If a <span><span class="inline-code"><code>*</code></span></span> is specified, the count of all rows in the table is returned. Think of it as asking for a row count "including all columns".<br><br></div><div class="example sticky-container fade-in"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;),
+    (6, &#39;Charlotte&#39;, NULL, NULL);
+
+INSERT INTO donations VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, 100.0),
+    (6, 1, &#39;2024-06-04 09:01:59&#39;, 40.0);`, `SELECT count(*)
+FROM users;`)" x-init="$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" x-init="$watch(&#39;stmt&#39;, () =&gt; { $el.parentNode.dataset.replicatedValue = $el.value }" x-model="stmt"></textarea><pre><code class="language-sql" x-init="$watch(&#39;stmt&#39;, () =&gt; {
+                                $nextTick(() =&gt; Prism.highlightElement($el))
+                            })" x-text="stmt"></code></pre></div><button class="run" x-on:click="run()"><img src="assets/run.svg"> run</button> <button class="run" x-on:click="reset()"><img src="assets/reset.svg"> reset</button><div class="result" x-text="result"></div></div></div></div><div>If a column name is specified, the returned count is the number of non-<span><span class="inline-code"><code>NULL</code></span></span> rows.</div><div class="example sticky-container fade-in"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;),
+    (6, &#39;Charlotte&#39;, NULL, NULL);
+
+INSERT INTO donations VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, 100.0),
+    (6, 1, &#39;2024-06-04 09:01:59&#39;, 40.0);`, `SELECT count(name_last)
+FROM users;`)" x-init="$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" x-init="$watch(&#39;stmt&#39;, () =&gt; { $el.parentNode.dataset.replicatedValue = $el.value }" x-model="stmt"></textarea><pre><code class="language-sql" x-init="$watch(&#39;stmt&#39;, () =&gt; {
+                                $nextTick(() =&gt; Prism.highlightElement($el))
+                            })" x-text="stmt"></code></pre></div><button class="run" x-on:click="run()"><img src="assets/run.svg"> run</button> <button class="run" x-on:click="reset()"><img src="assets/reset.svg"> reset</button><div class="result" x-text="result"></div></div></div></div><div>Aggregate functions can accept a <span><span class="inline-code"><code>DISTINCT</code></span></span> clause which causes duplicate rows to be ignored by the function. Here, the second "Amini" last name is not included in the count.</div><div class="example sticky-container fade-in"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;),
+    (6, &#39;Charlotte&#39;, NULL, NULL);
+
+INSERT INTO donations VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, 100.0),
+    (6, 1, &#39;2024-06-04 09:01:59&#39;, 40.0);`, `SELECT count(DISTINCT name_last)
+FROM users;`)" x-init="$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" x-init="$watch(&#39;stmt&#39;, () =&gt; { $el.parentNode.dataset.replicatedValue = $el.value }" x-model="stmt"></textarea><pre><code class="language-sql" x-init="$watch(&#39;stmt&#39;, () =&gt; {
+                                $nextTick(() =&gt; Prism.highlightElement($el))
+                            })" x-text="stmt"></code></pre></div><button class="run" x-on:click="run()"><img src="assets/run.svg"> run</button> <button class="run" x-on:click="reset()"><img src="assets/reset.svg"> reset</button><div class="result" x-text="result"></div></div></div></div><div>Another commonly used aggregate function is <span><span class="inline-code"><code>max()</code></span></span>. It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an <a href="/order_by"><span><span class="inline-code"><code>ORDER BY</code></span></span></a>: by following the current <a href="/order_by#collation">collation</a> for that data type.<br><br>To instead find the minimum value the <span><span class="inline-code"><code>min()</code></span></span> function is used.<br><br>Keep in mind that in SQLite and other databases, <span><span class="inline-code"><code>max()</code></span></span> and <span><span class="inline-code"><code>min()</code></span></span> have versions that accept multiple arguments which are actually scalar functions that perform a different task.</div><div class="example sticky-container fade-in"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;),
+    (6, &#39;Charlotte&#39;, NULL, NULL);
+
+INSERT INTO donations VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, 100.0),
+    (6, 1, &#39;2024-06-04 09:01:59&#39;, 40.0);`, `SELECT max(amount)
+FROM donations;`)" x-init="$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" x-init="$watch(&#39;stmt&#39;, () =&gt; { $el.parentNode.dataset.replicatedValue = $el.value }" x-model="stmt"></textarea><pre><code class="language-sql" x-init="$watch(&#39;stmt&#39;, () =&gt; {
+                                $nextTick(() =&gt; Prism.highlightElement($el))
+                            })" x-text="stmt"></code></pre></div><button class="run" x-on:click="run()"><img src="assets/run.svg"> run</button> <button class="run" x-on:click="reset()"><img src="assets/reset.svg"> reset</button><div class="result" x-text="result"></div></div></div></div><div>The <span><span class="inline-code"><code>sum()</code></span></span> function calculates the sum of all non-<span><span class="inline-code"><code>NULL</code></span></span> values. <br><br>If every input row is <span><span class="inline-code"><code>NULL</code></span></span> then <span><span class="inline-code"><code>sum()</code></span></span> will return <span><span class="inline-code"><code>NULL</code></span></span>. Unfortunately this is required by the SQL standard and several aggregate functions behave this way. This is not very useful if you are expecting a numerical result so some databases like SQLite have implemented a nonstandard <span><span class="inline-code"><code>total()</code></span></span> function that returns 0.0 in this case instead.</div><div class="example sticky-container fade-in"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;),
+    (6, &#39;Charlotte&#39;, NULL, NULL);
+
+INSERT INTO donations VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, 100.0),
+    (6, 1, &#39;2024-06-04 09:01:59&#39;, 40.0);`, `SELECT sum(amount)
+FROM donations;`)" x-init="$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" x-init="$watch(&#39;stmt&#39;, () =&gt; { $el.parentNode.dataset.replicatedValue = $el.value }" x-model="stmt"></textarea><pre><code class="language-sql" x-init="$watch(&#39;stmt&#39;, () =&gt; {
+                                $nextTick(() =&gt; Prism.highlightElement($el))
+                            })" x-text="stmt"></code></pre></div><button class="run" x-on:click="run()"><img src="assets/run.svg"> run</button> <button class="run" x-on:click="reset()"><img src="assets/reset.svg"> reset</button><div class="result" x-text="result"></div></div></div></div><div>The <span><span class="inline-code"><code>avg()</code></span></span> function calculates an average value across all the rows. It is equivalent to running <span><span class="inline-code"><code>total()/count()</code></span></span>. Note again that only non-<span><span class="inline-code"><code>NULL</code></span></span> values are considered in the calculation.<br><br>In SQLite string values that can't be converted into numbers, such as <span><span class="inline-code"><code>&#34;hello&#34;</code></span></span>, are treated as <span><span class="inline-code"><code>0</code></span></span> in the average calculation.</div><div class="example sticky-container fade-in"><div class="tile sticky"><div x-data="createExample(`CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;),
+    (6, &#39;Charlotte&#39;, NULL, NULL);
+
+INSERT INTO donations VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, 100.0),
+    (6, 1, &#39;2024-06-04 09:01:59&#39;, 40.0);`, `SELECT avg(amount)
+FROM donations;`)" x-init="$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" x-init="$watch(&#39;stmt&#39;, () =&gt; { $el.parentNode.dataset.replicatedValue = $el.value }" x-model="stmt"></textarea><pre><code class="language-sql" x-init="$watch(&#39;stmt&#39;, () =&gt; {
+                                $nextTick(() =&gt; Prism.highlightElement($el))
+                            })" x-text="stmt"></code></pre></div><button class="run" x-on:click="run()"><img src="assets/run.svg"> run</button> <button class="run" x-on:click="reset()"><img src="assets/reset.svg"> reset</button><div class="result" x-text="result"></div></div></div></div><div>There are often more built-in aggregate functions to use as well as the ability to define your own aggregate functions similar to scalar functions.<br><br>Aggregate functions are powerful tools alone but they become even more useful when combined with the <a href="/group_by"><span><span class="inline-code"><code>GROUP BY</code></span></span></a> clause which we will explore next.</div></div></div></body></html>

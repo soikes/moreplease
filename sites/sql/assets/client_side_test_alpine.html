@@ -1,0 +1,21 @@
+<html><head><script type="text/javascript" src="assets/prism.js" data-manual></script> <script type="text/javascript" src="assets/app.js"></script> <script defer type="text/javascript" src="assets/alpine.js"></script><link rel="stylesheet" href="assets/styles.css"><link rel="stylesheet" href="assets/prism.css"><link rel="icon" type="image/x-icon" href="assets/favicon.ico"><title>More SQL Please: Highlight Client Side Test</title></head><body><div class="content wide"><div class="title"><h1 class="heading"><a href="/">More SQL Please</a>: <span class="title-em">Client Side Test</span></h1></div><div class="container"><div>This is a test of running and rendering SQLite queries client-side instead of server side. This will allow users to edit and re-run queries live!</div><div class="tile sticky"><div x-init="db = await Db.load(`CREATE TABLE users(id INTEGER PRIMARY KEY, referrer_id INTEGER, name_first TEXT, name_last TEXT, email_address TEXT);
+CREATE TABLE donations(id INTEGER PRIMARY KEY, user_id INTEGER, date TEXT, amount REAL);
+
+INSERT INTO users VALUES
+    (1, 2, &#39;Marcus&#39;, &#39;Crawford&#39;, &#39;marcus@mcrawford.ca&#39;),
+    (2, NULL, &#39;Elena&#39;, &#39;Moreno&#39;, &#39;elena@hellocorp.com&#39;),
+    (3, NULL, &#39;Simon&#39;, &#39;Chen&#39;, &#39;simon@sqlanalytics.io&#39;),
+    (4, 5, &#39;Priya&#39;, &#39;Amini&#39;, &#39;priya@aminiconsulting.com&#39;),
+    (5, NULL, &#39;Zara&#39;, &#39;Amini&#39;, &#39;zara@aminiconsulting.com&#39;);
+
+INSERT INTO donations VALUES
+    (1, 1, &#39;2024-04-12 09:10:01&#39;, 20.0),
+    (2, 3, &#39;2024-04-19 12:40:15&#39;, 10.0),
+    (3, 5, &#39;2024-05-01 19:51:45&#39;, 40.0),
+    (4, 2, &#39;2024-05-03 14:09:11&#39;, 75.0),
+    (5, 99, &#39;2024-06-01 01:11:44&#39;, 100.0);
+`); result = JSON.stringify(db.exec(stmt)); loading = false;" x-data="{ loading: true, stmt: `SELECT concat(upper(name_last), &#39;, &#39;, substr(name_first, 1, 1))
+    AS name_full
+FROM users
+ORDER BY name_full ASC;
+`, result: &#39;&#39; }"><div class="stmt"><textarea spellcheck="false" autocorrect="off" autocapitalize="off" onInput="this.parentNode.dataset.replicatedValue = this.value" @input="$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))" x-init="$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))" x-model="stmt"></textarea><pre><code class="language-sql" x-text="stmt" x-ref="codeBlock"></code></pre></div><button class="run" x-on:click="result = JSON.stringify(db.exec(stmt))">&#9654; run</button><p class="result" x-text="loading ? &#39;running...&#39; : result"></p></div></div></div></div></body></html>

@@ -62,7 +62,7 @@ func RenderComponents(path string) error {
 // 	}
 // 	sigStr := "func() github.com/a-h/templ.Component"
 
-// 	pkgs, err := packages.Load(config, "soikke.li/moreplease/sites/sql/pages/...")
+// 	pkgs, err := packages.Load(config, "soikke.li/moreplease/sites/sql/templates/...")
 // 	if err != nil {
 // 		return
 // 	}
@@ -134,8 +134,8 @@ func RenderComponents(path string) error {
 // 	results := types.NewTuple(types.NewVar(0, templPkg.Types, "", obj.Type()))
 // 	sig := types.NewSignatureType(nil, nil, nil, params, results, false)
 
-// 	// Get the package signatures of our "page" packages
-// 	pkgs, err = packages.Load(config, "soikke.li/moreplease/sites/sql/pages/...")
+// 	// Get the package signatures of our "template" packages
+// 	pkgs, err = packages.Load(config, "soikke.li/moreplease/sites/sql/templates/...")
 // 	if err != nil {
 // 		return err
 // 	}

@@ -1,13 +1,39 @@
 package templates
 
-templ Base(title string) {
+import "fmt"
+
+var jsImports = templ.NewOnceHandle()
+
+type Language int
+const (
+    LanguageSQL = iota
+)
+
+var languages = map[Language]string{
+    LanguageSQL: "sql",
+}
+
+type Site struct {
+    Language Language
+}
+
+func (s Site) languageClass() string {
+    return fmt.Sprintf("language-%s", languages[s.Language])
+}
+
+templ (s Site) Base(title string) {
     <html>
     <head>
-    <link rel="stylesheet" href="assets/styles.css">
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <title>{ title }</title>
+        @jsImports.Once() {
+            <script type="text/javascript" src="assets/app.js"></script>
+            <script defer type="text/javascript" src="assets/alpine.js"></script>
+        }
+        <link rel="stylesheet" href="assets/styles.css">
+        <link rel="stylesheet" href="assets/prism.css">
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+        <title>{ title }</title>
     </head>
-    <body>
+    <body class={ s.languageClass() }>
         /* <div id="dark-light">
             <input id="dark-light-toggle" type="checkbox">
             <label for="dark-light-toggle">◐</label>
