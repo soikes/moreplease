@@ -12,14 +12,14 @@
 
 - [ ] Align the right side of the code blocks with the right side of the tables at top of page.
 
-- [ ] Instead of running sqlite on the server, use https://github.com/flimzy/go-sql.js to run sqlite in the browser! Nullify security and load concerns.
+- [x] Instead of running sqlite on the server, use https://github.com/flimzy/go-sql.js to run sqlite in the browser! Nullify security and load concerns.
 
-  - [ ] This would involve changing the architecture of the site from being a server-side-rendered site to mostly a client side rendered site.
+  - [x] This would involve changing the architecture of the site from being a server-side-rendered site to mostly a client side rendered site.
     - Code syntax highlighting would need to be done on client instead of rendered on server
     - SQLite API would need to be redone to work with go-sql
     - Server would just be responsible for sending the base HTML and .sql content to the browser which would handle the rest. Would react then become a better choice for the frontend?
 
-- [ ] Change syntax highlight rendering to use classes so we don't flood the page with inline styles.
+- [x] Change syntax highlight rendering to use classes so we don't flood the page with inline styles.
 
 - [ ] Write a Zed syntax highlighting module for .templ files: the one I am using seems to break a lot.
 
@@ -65,7 +65,9 @@ FROM table;
 
 - [ ] Add caching headers / Etag for assets
 
-- [ ] Change the inline rendering to use the same colour scheme and font as the examples. Probably just need to replace the server side rendering everywhere with client side.
+- [x] Change the inline rendering to use the same colour scheme and font as the examples. Probably just need to replace the server side rendering everywhere with client side.
+
+- [ ] Move AlpineJS code into JS instead of in markup
 
 # BUGS
 

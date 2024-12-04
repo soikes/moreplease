@@ -24,8 +24,9 @@ templ Topic() {
         e := t.Example{
             Statements: s,
         }
+        st := t.Site{Language: t.LanguageSQL}
     }}
-    @t.Base("More SQL Please: UNION and Set Operators") {
+    @st.Base("More SQL Please: UNION and Set Operators") {
         <div class="content wide">
             @t.TopicTitle("UNION and Set Operators")
             @t.Schema(s, "products", "orders", "archived_orders_2023")

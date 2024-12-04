@@ -11,7 +11,10 @@ func init() {
 }
 
 templ Index() {
-    @t.Base("More SQL Please") {
+    {{ 
+        st := t.Site{Language: t.LanguageSQL}
+    }}
+    @st.Base("More SQL Please") {
         @inner()
         // @coffee()
     }

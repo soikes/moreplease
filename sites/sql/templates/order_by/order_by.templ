@@ -25,8 +25,9 @@ templ Topic() {
         e := t.Example{
             Statements: s,
         }
+        st := t.Site{Language: t.LanguageSQL}
     }}
-    @t.Base("More SQL Please: ORDER BY") {
+    @st.Base("More SQL Please: ORDER BY") {
         <div class="content wide">
             @t.TopicTitle("ORDER BY")
             @t.Schema(s, "users")

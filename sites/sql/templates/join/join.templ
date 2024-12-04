@@ -24,8 +24,9 @@ templ Topic() {
         e := t.Example{
             Statements: s,
         }
+        st := t.Site{Language: t.LanguageSQL}
     }}
-    @t.Base("More SQL Please: JOIN") {
+    @st.Base("More SQL Please: JOIN") {
         <div class="content wide">
             @t.TopicTitle("JOIN")
             @t.Schema(s, "users", "donations", "charities")

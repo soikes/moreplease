@@ -24,8 +24,9 @@ templ Topic() {
         e := t.Example{
             Statements: s,
         }
+        st := t.Site{Language: t.LanguageSQL}
     }}
-    @t.Base("More SQL Please: Data Types") {
+    @st.Base("More SQL Please: Data Types") {
         <div class="content wide">
             @t.TopicTitle("Data Types")
             @t.Schema(s, "profiles")

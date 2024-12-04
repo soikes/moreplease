@@ -52,6 +52,7 @@ func Topic() templ.Component {
 		e := t.Example{
 			Statements: s,
 		}
+		st := t.Site{Language: t.LanguageSQL}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -396,7 +397,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"linkable\" id=\"case_restructured\">Here is the example <a href=\"#case_and_or\">above</a> that is restructured using <a href=\"/common_table_expressions\">Common Table Expressions</a> and <span><a href=\"/union_and_intersect\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"linkable\" id=\"case_restructured\">Here is the example <a href=\"#case_and_or\">above</a> that is restructured using <a href=\"/common_table_expressions\">Common Table Expressions</a> and <span><a href=\"/union_and_set_operators\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -426,7 +427,7 @@ func Topic() templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = t.Base("More SQL Please: CASE").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = st.Base("More SQL Please: CASE").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

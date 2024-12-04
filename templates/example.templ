@@ -2,7 +2,6 @@ package templates
 
 import (
     "soikke.li/moreplease/sites/sql/db"
-    "soikke.li/moreplease/sites/sql/highlight"
     "fmt"
 )
 
@@ -11,7 +10,7 @@ type Example struct {
 }
 
 templ (e *Example) Run(path string) {
-    <div class="example sticky-container">
+    <div class="example sticky-container fade-in">
         <div class="tile sticky">
             {{
                 schema := e.Statements.From(e.Statements.SchemaPath)
@@ -27,12 +26,15 @@ templ (e *Example) Run(path string) {
                         spellcheck="false"
                         autocorrect="off"
                         autocapitalize="off"
-                        onInput="this.parentNode.dataset.replicatedValue = this.value"
-                        x-init="$watch('stmt', () => {$nextTick(() => Prism.highlightElement($refs.codeBlock))})"
+                        x-init="$watch('stmt', () => { $el.parentNode.dataset.replicatedValue = $el.value }"
                         x-model="stmt">
                     </textarea>
                     <pre>
-                        <code class="language-sql" x-text="stmt" x-ref="codeBlock">
+                        <code class="language-sql"
+                            x-init="$watch('stmt', () => {
+                                $nextTick(() => Prism.highlightElement($el))
+                            })"
+                            x-text="stmt">
                         </code>
                     </pre>
                 </div>
@@ -55,8 +57,12 @@ templ (e *Example) Run(path string) {
 templ (e *Example) Display(path string) {
     <div class="sticky-container">
         <div class="tile sticky">
-            {{ stmt := highlight.Block(e.Statements.From(path)) }}
-            @templ.Raw(stmt)
+            {{
+                stmt := e.Statements.From(path)
+            }}
+            <pre>
+                <code class="language-sql" x-text="stmt" x-ref="codeBlock">{ stmt }</code>
+            </pre>
         </div>
     </div>
 }

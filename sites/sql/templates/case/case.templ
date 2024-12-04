@@ -24,8 +24,9 @@ templ Topic() {
         e := t.Example{
             Statements: s,
         }
+        st := t.Site{Language: t.LanguageSQL}
     }}
-    @t.Base("More SQL Please: CASE") {
+    @st.Base("More SQL Please: CASE") {
         <div class="content wide">
             @t.TopicTitle("CASE")
             @t.Schema(s, "products", "vendors", "orders")
@@ -70,7 +71,7 @@ templ Topic() {
                 </div>
                 @e.Run("sql/case_aggregate_functions.sql")
                 <div class="linkable" id="case_restructured">
-                    Here is the example <a href="#case_and_or">above</a> that is restructured using <a href="/common_table_expressions">Common Table Expressions</a> and <span><a href="/union_and_intersect">@t.Inline("UNION")</a></span> to be easier to maintain and understand. Instead of using the order status labels as our column names to match on, we use the integer <span>@t.Inline("id")</span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.<br><br>
+                    Here is the example <a href="#case_and_or">above</a> that is restructured using <a href="/common_table_expressions">Common Table Expressions</a> and <span><a href="/union_and_set_operators">@t.Inline("UNION")</a></span> to be easier to maintain and understand. Instead of using the order status labels as our column names to match on, we use the integer <span>@t.Inline("id")</span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.<br><br>
                     When you need to re-use the same statements in multiple places in your query consider techniques like this that limit the amount of duplicate code you need to write.
                 </div>
                 @e.Run("sql/case_restructured.sql")

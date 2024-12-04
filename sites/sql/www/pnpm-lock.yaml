@@ -8,12 +8,18 @@ dependencies:
   '@types/alpinejs':
     specifier: ^3.13.11
     version: 3.13.11
+  '@types/prismjs':
+    specifier: ^1.26.5
+    version: 1.26.5
   '@types/sql.js':
     specifier: ^1.4.9
     version: 1.4.9
   alpinejs:
     specifier: ^3.14.6
     version: 3.14.6
+  prismjs:
+    specifier: ^1.29.0
+    version: 1.29.0
   sql.js:
     specifier: ^1.12.0
     version: 1.12.0
@@ -258,6 +264,10 @@ packages:
       undici-types: 6.20.0
     dev: false
 
+  /@types/prismjs@1.26.5:
+    resolution: {integrity: sha512-AUZTa7hQ2KY5L7AmtSiqxlhWxb4ina0yd8hNbl4TWuqnv/pFP0nDMb3YrfSBf4hJVGLh2YEIBfKaBW/9UEl6IQ==}
+    dev: false
+
   /@types/sql.js@1.4.9:
     resolution: {integrity: sha512-ep8b36RKHlgWPqjNG9ToUrPiwkhwh0AEzy883mO5Xnd+cL6VBH1EvSjBAAuxLUFF2Vn/moE3Me6v9E1Lo+48GQ==}
     dependencies:
@@ -312,6 +322,11 @@ packages:
       '@esbuild/win32-ia32': 0.24.0
       '@esbuild/win32-x64': 0.24.0
     dev: true
+
+  /prismjs@1.29.0:
+    resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
+    engines: {node: '>=6'}
+    dev: false
 
   /sql.js@1.12.0:
     resolution: {integrity: sha512-Bi+43yMx/tUFZVYD4AUscmdL6NHn3gYQ+CM+YheFWLftOmrEC/Mz6Yh7E96Y2WDHYz3COSqT+LP6Z79zgrwJlA==}

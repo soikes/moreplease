@@ -24,8 +24,9 @@ templ Topic() {
         e := t.Example{
             Statements: s,
         }
+        st := t.Site{Language: t.LanguageSQL}
     }}
-    @t.Base("More SQL Please: Aggregate Functions") {
+    @st.Base("More SQL Please: Aggregate Functions") {
         <div class="content wide">
             @t.TopicTitle("Aggregate Functions")
             @t.Schema(s, "users", "donations")

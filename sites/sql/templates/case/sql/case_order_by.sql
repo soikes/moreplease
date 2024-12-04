@@ -18,4 +18,4 @@ ORDER BY
         WHEN 'Restock Soon' THEN 3
         WHEN 'No Restock Needed' THEN 4
     END
-    ASC;
+ASC;

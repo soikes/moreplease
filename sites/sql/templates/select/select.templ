@@ -25,8 +25,9 @@ templ Topic() {
         e := t.Example{
             Statements: s,
         }
+        st := t.Site{Language: t.LanguageSQL}
     }}
-    @t.Base("More SQL Please: SELECT") {
+    @st.Base("More SQL Please: SELECT") {
         <div class="content wide">
             @t.TopicTitle("SELECT")
             @t.Schema(s, "users")
@@ -40,7 +41,7 @@ templ Topic() {
                 </div>
                 @e.Run("sql/select_all.sql")
                 <div>
-                    Most database engines allow you to perform computations on the columns you retrieve.<br><br> Sometimes combining columns can be useful. In the case of SQLite, <span>@t.Inline("||")</span> is used to concatenate. Other engines may use <span>@t.Inline("+")</span>, and most engines include a <span>@t.Inline("CONCAT()")</span> <a href="/functions">function</a> which serves the same purpose.<br><br>
+                    Most database engines allow you to perform computations on the columns you retrieve.<br><br> Sometimes combining columns can be useful. In the case of SQLite, <span>@t.Inline("||")</span> is used to concatenate. Other engines may use <span>@t.Inline("+")</span>, and most engines include a <span>@t.Inline("concat()")</span> <a href="/functions">function</a> which serves the same purpose.<br><br>
                     Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.
                 </div>
                 @e.Run("sql/select_concat.sql")

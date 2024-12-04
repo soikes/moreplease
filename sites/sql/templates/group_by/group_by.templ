@@ -24,8 +24,9 @@ templ Topic() {
         e := t.Example{
             Statements: s,
         }
+        st := t.Site{Language: t.LanguageSQL}
     }}
-    @t.Base("More SQL Please: GROUP BY") {
+    @st.Base("More SQL Please: GROUP BY") {
         <div class="content wide">
             @t.TopicTitle("GROUP BY")
             @t.Schema(s, "products", "vendors", "orders")

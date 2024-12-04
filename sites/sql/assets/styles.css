@@ -225,7 +225,12 @@ p {
 }
 
 .inline-code {
+    font-family: "DM Mono", monospace;
     font-size: 1rem;
+    white-space: pre;
+    word-spacing: -0.1rem;
+    word-break: normal;
+    word-wrap: normal;
 }
 
 .inline-tile {
@@ -282,7 +287,7 @@ p {
     word-spacing: -0.1rem;
     word-break: normal;
     word-wrap: normal;
-    line-height: 1.4rem;
+    /* line-height: 1.4rem; */
 
     -moz-tab-size: 4;
     -o-tab-size: 4;
@@ -367,4 +372,17 @@ button.run img {
     hyphens: none;
 
     margin-top: 1rem;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
