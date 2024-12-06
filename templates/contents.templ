@@ -1,0 +1,19 @@
+package templates
+
+import "soikke.li/moreplease/web"
+
+templ Contents(sections []web.Section) {
+	<ul class="index">
+		for _, section := range sections {
+			<li>
+				<h3><i>{ section.Title }</i></h3>
+			</li>
+			for _, page := range section.Pages {
+				<li>
+					<a href={ templ.URL(page.URL) }>{ page.Title }</a>
+				</li>
+			}
+			<br/>
+		}
+	</ul>
+}

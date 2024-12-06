@@ -10,7 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"soikke.li/moreplease/sites/sql/render"
+	"soikke.li/moreplease/sites/sql/site"
 	t "soikke.li/moreplease/templates"
+	"soikke.li/moreplease/web"
 )
 
 func init() {
@@ -40,7 +42,7 @@ func Index() templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 
-		st := t.Site{Language: t.LanguageSQL}
+		s := site.MSP
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -53,17 +55,13 @@ func Index() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = inner().Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" ")
+			templ_7745c5c3_Err = inner(s.Sections).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = st.Base("More SQL Please").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = t.Base(s.Language, s.Title).Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -71,7 +69,7 @@ func Index() templ.Component {
 	})
 }
 
-func inner() templ.Component {
+func inner(sections []web.Section) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -92,7 +90,7 @@ func inner() templ.Component {
 			templ_7745c5c3_Var3 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content narrow\"><div class=\"logo\"><img src=\"assets/logo.svg\"></div><p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to <span>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content narrow\"><div class=\"logo\"><img src=\"assets/logo.svg\"></div><p>Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to  <span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -100,7 +98,7 @@ func inner() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> where the data has well-defined relationships.</p><p><em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. It uses SQL statements that have been run against <span>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> where the data has well-defined relationships.</p><p><em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. Every SQL statement is run fully in your browser using the <span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -108,7 +106,23 @@ func inner() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> databases. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p><p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p><input type=\"search\" class=\"search search-tile\"><ul class=\"index\"><li><a href=\"/select\">SELECT</a></li><li><a href=\"/where\">WHERE</a></li><li><a href=\"/order_by\">ORDER BY</a></li><li><a href=\"/limit\">LIMIT</a></li><li><a href=\"select\">Operators</a></li><li><a href=\"select\">Comments</a></li><li><a href=\"select\">INSERT</a></li><li><a href=\"select\">UPDATE</a></li><li><a href=\"select\">DELETE</a></li><li><a href=\"/data_types\">Data Types</a></li><br><li><a href=\"/join\">JOIN</a></li><li><a href=\"/functions\">Functions</a></li><li><a href=\"/aggregate_functions\">Aggregate Functions</a></li><li><a href=\"/group_by\">GROUP BY</a></li><li><a href=\"/case\">CASE</a></li><li><a href=\"/union_and_set_operators\">UNION and Set Operators</a></li><li><a href=\"select\">PIVOT</a></li><li><a href=\"select\">String Manipulation</a></li><li><a href=\"select\">Date and Time</a></li><br><li><a href=\"select\">CREATE TABLE</a></li><li><a href=\"select\">ALTER TABLE</a></li><li><a href=\"select\">DROP TABLE</a></li><li><a href=\"select\">Constraints</a></li><li><a href=\"select\">PRIMARY KEY</a></li><li><a href=\"select\">FOREIGN KEY</a></li><li><a href=\"select\">CASCADE</a></li><li><a href=\"select\">Indexes</a></li><br><li><a href=\"select\">Subqueries</a></li><li><a href=\"select\">Common Table Expressions</a></li><li><a href=\"select\">Temporary Tables</a></li><li><a href=\"select\">Views</a></li><li><a href=\"select\">Materialized Views</a></li><li><a href=\"select\">Transactions</a></li><br><li><a href=\"/window_functions\">Window Functions</a></li><li><a href=\"/rank_functions\">Rank Functions</a></li><li><a href=\"select\">Stored Procedures</a></li><li><a href=\"select\">Triggers</a></li><li><a href=\"select\">Recursive Queries</a></li><li><a href=\"select\">Performance and EXPLAIN</a></li><li><a href=\"select\">JSON Operations</a></li><br><li><a href=\"select\">Users and Permissions</a></li><li><a href=\"select\">SQL Injection</a></li><li><a href=\"select\">Database Engines</a></li><li><a href=\"select\">Replicas</a></li><li><a href=\"select\">Backup and Recovery</a></li><li><a href=\"select\">Database Migrations</a></li><li><a href=\"select\">Dynamic SQL</a></li><li><a href=\"select\">RDBMS Applications</a></li><li><a href=\"select\">Schema Design</a></li><li><a href=\"select\">Expert Cookbook</a></li><li><a href=\"select\">Tips and Tricks</a></li><br><li><a href=\"select\">Glossary</a></li></ul><small class=\"footer\">by  <a href=\"http://soikke.li\">Mike Soikkeli</a> | <a href=\"https://github.com/soikes/byexample/tree/main/sql\">source</a> |  <a href=\"https://github.com/soikes/byexample/blob/main/LICENSE\">license</a> |  <a href=\"https://buymeacoffee.com/mikesoikkeli\">☕️ Buy me a Coffee!</a></small></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> database engine and  <span>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = t.Outlink("https://github.com/sql-js/sql.js/", "sql.js").Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>!</p><p>You can edit, re-run and reset every example on the site. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p><p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p><input type=\"search\" class=\"search search-tile\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = t.Contents(sections).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<small class=\"footer\"><span class=\"italic\">by <a href=\"http://soikke.li\">Mike Soikkeli</a></span> <span>|</span> <a class=\"italic\" href=\"https://github.com/soikes/byexample/tree/main/sql\">source</a> <span>|</span> <a class=\"italic\" href=\"https://github.com/soikes/byexample/blob/main/LICENSE\">license</a> <span>|</span> <a class=\"italic\" href=\"https://buymeacoffee.com/mikesoikkeli\">☕️ Buy me a Coffee!</a></small></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

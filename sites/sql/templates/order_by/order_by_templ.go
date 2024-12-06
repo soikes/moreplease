@@ -10,9 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"embed"
-
 	"soikke.li/moreplease/sites/sql/db"
 	"soikke.li/moreplease/sites/sql/render"
+	"soikke.li/moreplease/sites/sql/site"
 	t "soikke.li/moreplease/templates"
 )
 
@@ -53,7 +53,6 @@ func Topic() templ.Component {
 		e := t.Example{
 			Statements: s,
 		}
-		st := t.Site{Language: t.LanguageSQL}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -66,19 +65,11 @@ func Topic() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = t.TopicTitle("ORDER BY").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			templ_7745c5c3_Err = t.Schema(s, "users").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container\"><div>The <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div class=\"container\"><div>The  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -86,7 +77,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause allows you to sort the results of a query based on a particular column.<br><br>Rows have no defined sort order in most databases by default. If no <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause allows you to sort the results of a query based on a particular column.<br><br>Rows have no defined sort order in most databases by default. If no  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -94,7 +85,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is specified, rows are returned based on speed and efficiency and should not be relied on to return rows in the same order every time.<br><br>To sort rows in ascending order use <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clause is specified, rows are returned based on speed and efficiency and should not be relied on to return rows in the same order every time.<br><br>To sort rows in ascending order use  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -102,7 +93,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and to sort in descending order use <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and to sort in descending order use  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -110,7 +101,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>The method by which a column is sorted depends on the data type of the column. By default in most database engines <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>The method by which a column is sorted depends on the data type of the column. By default in most database engines  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -118,7 +109,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> will sort <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> will sort  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -126,7 +117,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> types numerically from lowest to highest, <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> types numerically from lowest to highest,  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -134,7 +125,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> types alphabetically, and <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> types alphabetically, and  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -142,7 +133,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and similar types chronologically from oldest to newest. Refer to the particular database engine you use to see how other types are sorted.<br><br>It is best practice to <i>always</i> be explicit and include an <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and similar types chronologically from oldest to newest. Refer to the particular database engine you use to see how other types are sorted.<br><br>It is best practice to <i>always</i> be explicit and include an  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -150,7 +141,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> in your queries. For brevity, the rest of the examples on this website will not include <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> in your queries. For brevity, the rest of the examples on this website will not include  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -190,7 +181,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is applied after other clauses like <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is applied after other clauses like  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -198,7 +189,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> but there are some clauses that are applied after it such as <a href=\"/limit\"><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> but there are some clauses that are applied after it such as  <a href=\"/limit\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -222,7 +213,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values are sorted differently depending on the database engine used. SQLite treats <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values are sorted differently depending on the database engine used. SQLite treats  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -230,7 +221,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> as \"smaller\" than non-<span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> as \"smaller\" than non- <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -238,7 +229,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values, meaning they will appear first if you <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values, meaning they will appear first if you  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -246,7 +237,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>Some database engines, including SQLite, support <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>Some database engines, including SQLite, support  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -254,7 +245,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> or <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> or  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -262,7 +253,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clauses which alter the default ordering of <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> clauses which alter the default ordering of  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -278,7 +269,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"linkable\" id=\"collation\">Capitalized letters, special characters, whitespace and numbers inside strings have a particular sort order depending on the database engine. Be sure to find out the default ordering and comparison rules, or \"collation\", for the database you are using.<br><br>The default collation for text in SQLite is called <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"linkable\" id=\"collation\">Capitalized letters, special characters, whitespace and numbers inside strings have a particular sort order depending on the database engine. Be sure to find out the default ordering and comparison rules, or \"collation\", for the database you are using.<br><br>The default collation for text in SQLite is called  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -286,7 +277,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> which means text characters are compared based on their binary (ASCII/Unicode) representation. See <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> which means text characters are compared based on their binary (ASCII/Unicode) representation. See  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -294,7 +285,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>This is why \"james\" appears at the bottom of the <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>.<br><br>This is why \"james\" appears at the bottom of the  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -310,7 +301,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>The <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>The  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -350,7 +341,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Computations can be applied to an <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Computations can be applied to an  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -374,7 +365,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>If we want to show the result of the computation and still order by it, <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>If we want to show the result of the computation and still order by it,  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -382,7 +373,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> will accept an alias created earlier in the statement.<br><br>Applying computations to <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> will accept an alias created earlier in the statement.<br><br>Applying computations to  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -398,13 +389,13 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = st.Base("More SQL Please: ORDER BY").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = t.PageView{Site: site.MSP, Page: site.MSP.Page(site.OrderByPage)}.Render().Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

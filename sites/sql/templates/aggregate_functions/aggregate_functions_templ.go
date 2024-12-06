@@ -12,6 +12,7 @@ import (
 	"embed"
 	"soikke.li/moreplease/sites/sql/db"
 	"soikke.li/moreplease/sites/sql/render"
+	"soikke.li/moreplease/sites/sql/site"
 	t "soikke.li/moreplease/templates"
 )
 
@@ -52,7 +53,6 @@ func Topic() templ.Component {
 		e := t.Example{
 			Statements: s,
 		}
-		st := t.Site{Language: t.LanguageSQL}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -65,19 +65,11 @@ func Topic() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"content wide\">")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = t.TopicTitle("Aggregate Functions").Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			templ_7745c5c3_Err = t.Schema(s, "users", "donations").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"container\"><div>The <a href=\"/functions\">Functions</a> topic introduces the concept of simple/scalar functions, which accept zero or more input values and produce a single output value per row.<br><br><i>Aggregate functions</i> are categorized differently because they operate on more than one row of data at a time.<br><br><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" <div class=\"container\"><div>The <a href=\"/functions\">Functions</a> topic introduces the concept of simple/scalar functions, which accept zero or more input values and produce a single output value per row.<br><br><i>Aggregate functions</i> are categorized differently because they operate on more than one row of data at a time.<br><br><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -85,7 +77,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is a function that accepts a column name or a <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> is a function that accepts a column name or a  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -93,7 +85,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> as input. Instead of returning data though, it returns a count of the total number of rows.  If a <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> as input. Instead of returning data though, it returns a count of the total number of rows.  If a  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -109,7 +101,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>If a column name is specified, the returned count is the number of non-<span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>If a column name is specified, the returned count is the number of non- <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -125,7 +117,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Aggregate functions can accept a <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Aggregate functions can accept a  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -141,7 +133,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Another commonly used aggregate function is <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>Another commonly used aggregate function is  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -149,7 +141,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an <a href=\"/order_by\"><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an  <a href=\"/order_by\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -157,7 +149,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a>: by following the current <a href=\"/order_by#collation\">collation</a> for that data type.<br><br>To instead find the minimum value the <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a>: by following the current <a href=\"/order_by#collation\">collation</a> for that data type.<br><br>To instead find the minimum value the  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -165,7 +157,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function is used.<br><br>Keep in mind that in SQLite and other databases, <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function is used.<br><br>Keep in mind that in SQLite and other databases,  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -173,7 +165,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> and  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -189,7 +181,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>The <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>The  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -197,7 +189,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function calculates the sum of all non-<span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function calculates the sum of all non- <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -205,7 +197,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values. <br><br>If every input row is <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values. <br><br>If every input row is  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -213,7 +205,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> then <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> then  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -221,7 +213,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> will return <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> will return  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -229,7 +221,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. Unfortunately this is required by the SQL standard and several aggregate functions behave this way. This is not very useful if you are expecting a numerical result so some databases like SQLite have implemented a nonstandard <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. Unfortunately this is required by the SQL standard and several aggregate functions behave this way. This is not very useful if you are expecting a numerical result so some databases like SQLite have implemented a nonstandard  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -245,7 +237,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>The <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>The  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -253,15 +245,15 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function calculates an average value across all the rows. It is equivalent to running <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> function calculates an average value across all the rows. It is equivalent to running  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = t.Inline("total()/count()").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = t.Inline("total() / count()").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. Note again that only non-<span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>. Note again that only non- <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -269,7 +261,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values are considered in the calculation.<br><br>In SQLite string values that can't be converted into numbers, such as <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> values are considered in the calculation.<br><br>In SQLite string values that can't be converted into numbers, such as  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -277,7 +269,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, are treated as <span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>, are treated as  <span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -293,7 +285,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>There are often more built-in aggregate functions to use as well as the ability to define your own aggregate functions similar to scalar functions.<br><br>Aggregate functions are powerful tools alone but they become even more useful when combined with the <a href=\"/group_by\"><span>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>There are often more built-in aggregate functions to use as well as the ability to define your own aggregate functions similar to scalar functions.<br><br>Aggregate functions are powerful tools alone but they become even more useful when combined with the  <a href=\"/group_by\"><span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -301,13 +293,13 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a> clause which we will explore next.</div></div></div>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></a> clause which we will explore next.</div></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = st.Base("More SQL Please: Aggregate Functions").Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = t.PageView{Site: site.MSP, Page: site.MSP.Page(site.AggregateFunctionsPage)}.Render().Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

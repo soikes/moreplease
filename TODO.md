@@ -67,7 +67,11 @@ FROM table;
 
 - [x] Change the inline rendering to use the same colour scheme and font as the examples. Probably just need to replace the server side rendering everywhere with client side.
 
-- [ ] Move AlpineJS code into JS instead of in markup
+- [x] Move AlpineJS code into JS instead of in markup
+
+- [ ] Add privacy-respecting analytics (integrated with Go?) to get simple site statistics
+
+- [ ] Align the nav footer on each page as left, center, right -or- always put the nav footer in the left column in a .container
 
 # BUGS
 

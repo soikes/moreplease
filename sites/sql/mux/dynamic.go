@@ -1,4 +1,4 @@
-package web
+package mux
 
 import (
 	"net/http"
@@ -6,6 +6,7 @@ import (
 	"github.com/a-h/templ"
 
 	"soikke.li/moreplease/sites/sql/assets"
+	"soikke.li/moreplease/web"
 
 	aggregate_functions_topic "soikke.li/moreplease/sites/sql/templates/aggregate_functions"
 	case_topic "soikke.li/moreplease/sites/sql/templates/case"
@@ -36,7 +37,7 @@ func NewDynamicMux() *http.ServeMux {
 	mux.Handle("/union_and_set_operators", templ.Handler(union_and_set_operators_topic.Topic()))
 	mux.Handle("/where", templ.Handler(where_topic.Topic()))
 
-	fsys := AssetsFS{assets.Assets}
+	fsys := web.AssetsFS{FS: assets.Assets}
 	mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServerFS(fsys)))
 	mux.Handle("/", templ.Handler(index.Index()))
 	return mux

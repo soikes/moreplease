@@ -1,84 +1,197 @@
 package order_by_stmt
 
 import (
-    "embed"
-
-    t "soikke.li/moreplease/templates"
-    "soikke.li/moreplease/sites/sql/db"
-    "soikke.li/moreplease/sites/sql/render"
+	"embed"
+	"soikke.li/moreplease/sites/sql/db"
+	"soikke.li/moreplease/sites/sql/render"
+	"soikke.li/moreplease/sites/sql/site"
+	t "soikke.li/moreplease/templates"
 )
 
 //go:embed sql
 var sqlFiles embed.FS
 
 func init() {
-    c := Topic()
-    render.RegisterComponent("order_by", c)
+	c := Topic()
+	render.RegisterComponent("order_by", c)
 }
 
 templ Topic() {
-    {{
-        s := db.Statements{
-            Files: sqlFiles,
-            SchemaPath: "sql/schema/schema.sql",
-        }
-        e := t.Example{
-            Statements: s,
-        }
-        st := t.Site{Language: t.LanguageSQL}
-    }}
-    @st.Base("More SQL Please: ORDER BY") {
-        <div class="content wide">
-            @t.TopicTitle("ORDER BY")
-            @t.Schema(s, "users")
-            <div class="container">
-                <div>
-                    The <span>@t.Inline("ORDER BY")</span> clause allows you to sort the results of a query based on a particular column.<br><br>
-                    Rows have no defined sort order in most databases by default. If no <span>@t.Inline("ORDER BY")</span> clause is specified, rows are returned based on speed and efficiency and should not be relied on to return rows in the same order every time.<br><br>
-                    To sort rows in ascending order use <span>@t.Inline("ORDER BY ... ASC")</span> and to sort in descending order use <span>@t.Inline("ORDER BY ... DESC")</span>.<br><br>
-                    The method by which a column is sorted depends on the data type of the column. By default in most database engines <span>@t.Inline("ASC")</span> will sort <span>@t.Inline("INTEGER")</span> types numerically from lowest to highest, <span>@t.Inline("TEXT")</span> types alphabetically, and <span>@t.Inline("DATE")</span> and similar types chronologically from oldest to newest. Refer to the particular database engine you use to see how other types are sorted.<br><br>
-                    It is best practice to <i>always</i> be explicit and include an <span>@t.Inline("ORDER BY")</span> in your queries. For brevity, the rest of the examples on this website will not include <span>@t.Inline("ORDER BY")</span> unless it's relevant to the example.
-                </div>
-                @e.Run("sql/order_by.sql")
-                <div>
-                    <span>@t.Inline("ORDER BY")</span> can be applied to multiple columns which applies the sorting in that order when a column has duplicate values.
-                </div>
-                @e.Run("sql/order_by_multicolumn.sql")
-                <div>
-                    <span>@t.Inline("ORDER BY")</span> is applied after other clauses like <span>@t.Inline("WHERE")</span> but there are some clauses that are applied after it such as <a href="/limit"><span>@t.Inline("LIMIT")</span></a>.
-                </div>
-                @e.Run("sql/order_by_where.sql")
-                <div>
-                    <span>@t.Inline("NULL")</span> values are sorted differently depending on the database engine used. SQLite treats <span>@t.Inline("NULL")</span> as "smaller" than non-<span>@t.Inline("NULL")</span> values, meaning they will appear first if you <span>@t.Inline("ORDER BY ... ASC")</span>.<br><br>
-                    Some database engines, including SQLite, support <span>@t.Inline("ASC NULLS LAST")</span> or <span>@t.Inline("DESC NULLS FIRST")</span> clauses which alter the default ordering of <span>@t.Inline("NULL")</span> in the results.
-                </div>
-                @e.Run("sql/order_by_null.sql")
-                <div class="linkable" id="collation">
-                    Capitalized letters, special characters, whitespace and numbers inside strings have a particular sort order depending on the database engine. Be sure to find out the default ordering and comparison rules, or "collation", for the database you are using.<br><br>
-                    The default collation for text in SQLite is called <span>@t.Inline("BINARY")</span> which means text characters are compared based on their binary (ASCII/Unicode) representation.
-                    See <span>@t.Outlink("https://en.wikipedia.org/wiki/ASCII#Character_order", "ASCII Character Order")</span>.<br><br>
-                    This is why "james" appears at the bottom of the <span>@t.Inline("ASC")</span> ordered query.
-                </div>
-                @e.Run("sql/order_by_special_characters.sql")
-                <div>
-                    The <span>@t.Inline("COLLATE")</span> operator can be used to alter the collation rules for the current statement. SQLite includes three collation sequences:<br><br>
-                    <span>@t.Inline("RTRIM")</span>: Ignores trailing whitespace.<br><br>
-                    <span>@t.Inline("NOCASE")</span>: Ignores case.<br><br>
-                    <span>@t.Inline("BINARY")</span>: Compare text characters based on their binary (ASCII/Unicode) representation.<br><br>
-                    SQLite itself can be compiled with extensions such as language-specific collations. Other database engines like MySQL or PostgreSQL offer more built-in collations.
-                </div>
-                @e.Run("sql/order_by_collate.sql")
-                <div>
-                    Computations can be applied to an <span>@t.Inline("ORDER BY")</span>. This example shows a query that orders the table based on the total length of a user's first and last name.<br><br>
-                    <span>@t.Inline("length")</span> is an unrelated <a href="/functions">function</a> that is included to demonstrate the example.
-                </div>
-                @e.Run("sql/order_by_computation_direct.sql")
-                <div>
-                    If we want to show the result of the computation and still order by it, <span>@t.Inline("ORDER BY")</span> will accept an alias created earlier in the statement.<br><br>
-                    Applying computations to <span>@t.Inline("ORDER BY")</span> can be used in clever ways to sort data that would not be possible with the data itself.
-                </div>
-                @e.Run("sql/order_by_computation.sql")
-            </div>
-        </div>
-    }
+	{{
+	s := db.Statements{
+		Files:      sqlFiles,
+		SchemaPath: "sql/schema/schema.sql",
+	}
+	e := t.Example{
+		Statements: s,
+	}
+	}}
+	@t.PageView{Site: site.MSP, Page: site.MSP.Page(site.OrderByPage)}.Render() {
+		@t.Schema(s, "users")
+		<div class="container">
+			<div>
+				The 
+				<span>
+					@t.Inline("ORDER BY")
+				</span> clause allows you to sort the results of a query based on a particular column.
+				<br/>
+				<br/>
+				Rows have no defined sort order in most databases by default. If no 
+				<span>
+					@t.Inline("ORDER BY")
+				</span> clause is specified, rows are returned based on speed and efficiency and should not be relied on to return rows in the same order every time.
+				<br/>
+				<br/>
+				To sort rows in ascending order use 
+				<span>
+					@t.Inline("ORDER BY ... ASC")
+				</span> and to sort in descending order use 
+				<span>
+					@t.Inline("ORDER BY ... DESC")
+				</span>.
+				<br/>
+				<br/>
+				The method by which a column is sorted depends on the data type of the column. By default in most database engines 
+				<span>
+					@t.Inline("ASC")
+				</span> will sort 
+				<span>
+					@t.Inline("INTEGER")
+				</span> types numerically from lowest to highest, 
+				<span>
+					@t.Inline("TEXT")
+				</span> types alphabetically, and 
+				<span>
+					@t.Inline("DATE")
+				</span> and similar types chronologically from oldest to newest. Refer to the particular database engine you use to see how other types are sorted.
+				<br/>
+				<br/>
+				It is best practice to <i>always</i> be explicit and include an 
+				<span>
+					@t.Inline("ORDER BY")
+				</span> in your queries. For brevity, the rest of the examples on this website will not include 
+				<span>
+					@t.Inline("ORDER BY")
+				</span> unless it's relevant to the example.
+			</div>
+			@e.Run("sql/order_by.sql")
+			<div>
+				<span>
+					@t.Inline("ORDER BY")
+				</span> can be applied to multiple columns which applies the sorting in that order when a column has duplicate values.
+			</div>
+			@e.Run("sql/order_by_multicolumn.sql")
+			<div>
+				<span>
+					@t.Inline("ORDER BY")
+				</span> is applied after other clauses like 
+				<span>
+					@t.Inline("WHERE")
+				</span> but there are some clauses that are applied after it such as 
+				<a href="/limit">
+					<span>
+						@t.Inline("LIMIT")
+					</span>
+				</a>.
+			</div>
+			@e.Run("sql/order_by_where.sql")
+			<div>
+				<span>
+					@t.Inline("NULL")
+				</span> values are sorted differently depending on the database engine used. SQLite treats 
+				<span>
+					@t.Inline("NULL")
+				</span> as "smaller" than non-
+				<span>
+					@t.Inline("NULL")
+				</span> values, meaning they will appear first if you 
+				<span>
+					@t.Inline("ORDER BY ... ASC")
+				</span>.
+				<br/>
+				<br/>
+				Some database engines, including SQLite, support 
+				<span>
+					@t.Inline("ASC NULLS LAST")
+				</span> or 
+				<span>
+					@t.Inline("DESC NULLS FIRST")
+				</span> clauses which alter the default ordering of 
+				<span>
+					@t.Inline("NULL")
+				</span> in the results.
+			</div>
+			@e.Run("sql/order_by_null.sql")
+			<div class="linkable" id="collation">
+				Capitalized letters, special characters, whitespace and numbers inside strings have a particular sort order depending on the database engine. Be sure to find out the default ordering and comparison rules, or "collation", for the database you are using.
+				<br/>
+				<br/>
+				The default collation for text in SQLite is called 
+				<span>
+					@t.Inline("BINARY")
+				</span> which means text characters are compared based on their binary (ASCII/Unicode) representation.
+				See 
+				<span>
+					@t.Outlink("https://en.wikipedia.org/wiki/ASCII#Character_order", "ASCII Character Order")
+				</span>.
+				<br/>
+				<br/>
+				This is why "james" appears at the bottom of the 
+				<span>
+					@t.Inline("ASC")
+				</span> ordered query.
+			</div>
+			@e.Run("sql/order_by_special_characters.sql")
+			<div>
+				The 
+				<span>
+					@t.Inline("COLLATE")
+				</span> operator can be used to alter the collation rules for the current statement. SQLite includes three collation sequences:
+				<br/>
+				<br/>
+				<span>
+					@t.Inline("RTRIM")
+				</span>: Ignores trailing whitespace.
+				<br/>
+				<br/>
+				<span>
+					@t.Inline("NOCASE")
+				</span>: Ignores case.
+				<br/>
+				<br/>
+				<span>
+					@t.Inline("BINARY")
+				</span>: Compare text characters based on their binary (ASCII/Unicode) representation.
+				<br/>
+				<br/>
+				SQLite itself can be compiled with extensions such as language-specific collations. Other database engines like MySQL or PostgreSQL offer more built-in collations.
+			</div>
+			@e.Run("sql/order_by_collate.sql")
+			<div>
+				Computations can be applied to an 
+				<span>
+					@t.Inline("ORDER BY")
+				</span>. This example shows a query that orders the table based on the total length of a user's first and last name.
+				<br/>
+				<br/>
+				<span>
+					@t.Inline("length")
+				</span> is an unrelated <a href="/functions">function</a> that is included to demonstrate the example.
+			</div>
+			@e.Run("sql/order_by_computation_direct.sql")
+			<div>
+				If we want to show the result of the computation and still order by it, 
+				<span>
+					@t.Inline("ORDER BY")
+				</span> will accept an alias created earlier in the statement.
+				<br/>
+				<br/>
+				Applying computations to 
+				<span>
+					@t.Inline("ORDER BY")
+				</span> can be used in clever ways to sort data that would not be possible with the data itself.
+			</div>
+			@e.Run("sql/order_by_computation.sql")
+		</div>
+	}
 }

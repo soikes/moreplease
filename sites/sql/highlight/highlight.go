@@ -1,3 +1,5 @@
+// Package highlight implements server-side syntax highlighting using chroma.
+// Server-side syntax highlighting is no longer used in favor of live editor syntax editing on client-side. See sites/sql/www.
 package highlight
 
 import (

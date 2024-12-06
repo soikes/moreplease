@@ -11,9 +11,11 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"fmt"
 	"soikke.li/moreplease/sites/sql/db"
+	"soikke.li/moreplease/web"
 )
 
 type Example struct {
+	Language   web.Language
 	Statements db.Statements
 }
 
@@ -53,13 +55,35 @@ func (e *Example) Run(path string) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(xdata)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `example.templ`, Line: 21, Col: 30}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `example.templ`, Line: 22, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-init=\"$nextTick(() =&gt; Prism.highlightElement($refs.codeBlock))\"><div class=\"stmt\"><textarea spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" x-init=\"$watch(&#39;stmt&#39;, () =&gt; { $el.parentNode.dataset.replicatedValue = $el.value }\" x-model=\"stmt\"></textarea><pre><code class=\"language-sql\" x-init=\"$watch(&#39;stmt&#39;, () =&gt; {\n                                $nextTick(() =&gt; Prism.highlightElement($el))\n                            })\" x-text=\"stmt\"></code></pre></div><button class=\"run\" x-on:click=\"run()\"><img src=\"assets/run.svg\"> run</button> <button class=\"run\" x-on:click=\"reset()\"><img src=\"assets/reset.svg\"> reset</button><div class=\"result\" x-text=\"result\"></div></div></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div class=\"stmt\"><textarea spellcheck=\"false\" autocorrect=\"off\" autocapitalize=\"off\" x-init=\"$watch(&#39;stmt&#39;, () =&gt; { $el.parentNode.dataset.replicatedValue = $el.value })\" x-model=\"stmt\"></textarea><pre>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var3 = []any{e.Language.Class()}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<code class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var3).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `example.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-init=\"$watch(&#39;stmt&#39;, () =&gt; {\n                                $nextTick(() =&gt; Prism.highlightElement($el))\n                            })\" x-text=\"stmt\"></code></pre></div><button class=\"run\" x-on:click=\"run()\"><img src=\"assets/run.svg\"> run</button> <button class=\"run\" x-on:click=\"reset()\"><img src=\"assets/reset.svg\"> reset</button><div class=\"result\" x-text=\"result\"></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -83,9 +107,9 @@ func (e *Example) Display(path string) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var3 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var3 == nil {
-			templ_7745c5c3_Var3 = templ.NopComponent
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"sticky-container\"><div class=\"tile sticky\">")
@@ -94,16 +118,38 @@ func (e *Example) Display(path string) templ.Component {
 		}
 
 		stmt := e.Statements.From(path)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<pre><code class=\"language-sql\" x-text=\"stmt\" x-ref=\"codeBlock\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<pre>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(stmt)
+		var templ_7745c5c3_Var6 = []any{e.Language.Class()}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `example.templ`, Line: 64, Col: 81}
+			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<code class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var7 string
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var6).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `example.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-text=\"stmt\" x-ref=\"codeBlock\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(stmt)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `example.templ`, Line: 64, Col: 77}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

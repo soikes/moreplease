@@ -1,0 +1,21 @@
+package templates
+
+import (
+	"fmt"
+	"soikke.li/moreplease/web"
+)
+
+type PageView struct {
+	Site web.Site
+	Page web.Page
+}
+
+templ (p PageView) Render() {
+	@Base(p.Site.Language, fmt.Sprintf("%s: %s", p.Site.Title, p.Page.Title)) {
+		<div class="content wide">
+			@TopicTitle(p.Page.Title)
+			{ children... }
+			@BottomNav(p.Page)
+		</div>
+	}
+}

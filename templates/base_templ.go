@@ -8,29 +8,11 @@ package templates
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "fmt"
+import "soikke.li/moreplease/web"
 
 var jsImports = templ.NewOnceHandle()
 
-type Language int
-
-const (
-	LanguageSQL = iota
-)
-
-var languages = map[Language]string{
-	LanguageSQL: "sql",
-}
-
-type Site struct {
-	Language Language
-}
-
-func (s Site) languageClass() string {
-	return fmt.Sprintf("language-%s", languages[s.Language])
-}
-
-func (s Site) Base(title string) templ.Component {
+func Base(lang web.Language, title string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -84,7 +66,7 @@ func (s Site) Base(title string) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `base.templ`, Line: 34, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `base.templ`, Line: 17, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -94,7 +76,7 @@ func (s Site) Base(title string) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 = []any{s.languageClass()}
+		var templ_7745c5c3_Var4 = []any{lang.Class()}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

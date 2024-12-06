@@ -1,4 +1,4 @@
-package web
+package mux
 
 import (
 	"io/fs"
@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"soikke.li/moreplease/sites/sql/assets"
+	"soikke.li/moreplease/web"
 )
 
 // htmlAssetPath converts a web url path into a file path suitable for use with an AssetsFileSystem.
@@ -27,7 +28,7 @@ func (h HTMLHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func NewStaticMux() *http.ServeMux {
 	mux := http.NewServeMux()
 	as := assets.Assets
-	fsys := AssetsFS{as}
+	fsys := web.AssetsFS{FS: as}
 	mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServerFS(fsys)))
 	mux.Handle("/", HTMLHandler{fsys})
 

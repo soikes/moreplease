@@ -1,5 +1,23 @@
 package templates
 
-templ Link(url, text string) {
-    <a href={ templ.URL(url) }>{ text }</a>
+import (
+	"fmt"
+	"soikke.li/moreplease/web"
+)
+
+// Link links to an internal page on the site. An optional link text can be provided, otherwise the link text will be the page's title.
+templ Link(page web.Page, text string, fragment string) {
+	{{
+	var anchor string
+	if text != "" {
+		anchor = text
+	} else {
+		anchor = page.Title
+	}
+	href := page.URL
+	if fragment != "" {
+		href += fmt.Sprintf("#%s", fragment)
+	}
+	}}
+	<a href={ templ.URL(href) }>{ anchor }</a>
 }
