@@ -1,10 +1,10 @@
 package index
 
 import (
+	"soikke.li/moreplease/models"
 	"soikke.li/moreplease/sites/sql/render"
 	"soikke.li/moreplease/sites/sql/site"
 	t "soikke.li/moreplease/templates"
-	"soikke.li/moreplease/web"
 )
 
 func init() {
@@ -21,7 +21,7 @@ templ Index() {
 	}
 }
 
-templ inner(sections []web.Section) {
+templ inner(sections []models.Section) {
 	<div class="content narrow">
 		<div class="logo">
 			<img src="assets/logo.svg"/>

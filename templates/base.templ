@@ -1,10 +1,10 @@
 package templates
 
-import "soikke.li/moreplease/web"
+import "soikke.li/moreplease/models"
 
 var jsImports = templ.NewOnceHandle()
 
-templ Base(lang web.Language, title string) {
+templ Base(lang models.Language, title string) {
 	<html>
 		<head>
 			@jsImports.Once() {
