@@ -2,11 +2,11 @@ package templates
 
 import (
 	"fmt"
-	"soikke.li/moreplease/web"
+	"soikke.li/moreplease/models"
 )
 
 // Link links to an internal page on the site. An optional link text can be provided, otherwise the link text will be the page's title.
-templ Link(page web.Page, text string, fragment string) {
+templ Link(page models.Page, text string, fragment string) {
 	{{
 	var anchor string
 	if text != "" {

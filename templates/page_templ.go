@@ -10,12 +10,12 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"soikke.li/moreplease/web"
+	"soikke.li/moreplease/models"
 )
 
 type PageView struct {
-	Site web.Site
-	Page web.Page
+	Site models.Site
+	Page models.Page
 }
 
 func (p PageView) Render() templ.Component {

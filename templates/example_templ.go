@@ -10,12 +10,12 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
+	"soikke.li/moreplease/models"
 	"soikke.li/moreplease/sites/sql/db"
-	"soikke.li/moreplease/web"
 )
 
 type Example struct {
-	Language   web.Language
+	Language   models.Language
 	Statements db.Statements
 }
 

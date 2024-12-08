@@ -1,4 +1,4 @@
-package web
+package models
 
 type Site struct {
 	Title    string

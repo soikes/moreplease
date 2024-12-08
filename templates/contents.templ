@@ -1,8 +1,8 @@
 package templates
 
-import "soikke.li/moreplease/web"
+import "soikke.li/moreplease/models"
 
-templ Contents(sections []web.Section) {
+templ Contents(sections []models.Section) {
 	<ul class="index">
 		for _, section := range sections {
 			<li>
