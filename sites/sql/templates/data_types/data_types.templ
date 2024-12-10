@@ -12,8 +12,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("data_types", c)
+	render.RegisterComponent(site.DataTypesPage, Topic())
 }
 
 templ Topic() {
@@ -75,7 +74,7 @@ templ Topic() {
 					@t.Inline("NULL")
 				</span>s using 
 				<span>
-					@t.Link(site.MSP.Page(site.ConstraintsPage), "", "")
+					@t.Link(site.MSP.Page(site.ConstraintsPage), "")
 				</span>.
 				<br/>
 				<br/>

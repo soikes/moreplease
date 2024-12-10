@@ -20,8 +20,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("union_and_set_operators", c)
+	render.RegisterComponent(site.UnionAndSetOperatorsPage, Topic())
 }
 
 func Topic() templ.Component {

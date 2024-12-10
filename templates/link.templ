@@ -6,18 +6,19 @@ import (
 )
 
 // Link links to an internal page on the site. An optional link text can be provided, otherwise the link text will be the page's title.
-templ Link(page models.Page, text string, fragment string) {
+templ Link(page models.Page, fragment string) {
 	{{
-	var anchor string
-	if text != "" {
-		anchor = text
-	} else {
-		anchor = page.Title
-	}
 	href := page.URL
-	if fragment != "" {
+	if fragment != `` {
 		href += fmt.Sprintf("#%s", fragment)
 	}
+	ch := templ.GetChildren(ctx)
 	}}
-	<a href={ templ.URL(href) }>{ anchor }</a>
+	<a href={ templ.URL(href) }>
+		if ch != nil {
+			{ children... }
+		} else {
+			page.Title
+		}
+	</a>
 }

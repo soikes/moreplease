@@ -12,8 +12,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("group_by", c)
+	render.RegisterComponent(site.GroupByPage, Topic())
 }
 
 templ Topic() {
@@ -156,7 +155,12 @@ templ Topic() {
 				<br/>
 				<br/>
 				If we wanted something more informative to display like "Not Arrived" or "Pending", we could use the 
-				@t.Link(site.MSP.Page(site.FunctionsPage), "coalesce() function", "coalesce")
+				@t.Link(site.MSP.Page(site.FunctionsPage), "coalesce") {
+					<span>
+						@t.Inline("coalesce()")
+					</span>
+					function
+				}
 				.
 			</div>
 			@e.Run("sql/group_by_null.sql")

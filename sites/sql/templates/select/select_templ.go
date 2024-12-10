@@ -20,8 +20,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("select", c)
+	render.RegisterComponent(site.SelectPage, Topic())
 }
 
 func Topic() templ.Component {

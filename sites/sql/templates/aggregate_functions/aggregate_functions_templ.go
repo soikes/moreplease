@@ -20,8 +20,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("aggregate_functions", c)
+	render.RegisterComponent(site.AggregateFunctionsPage, Topic())
 }
 
 func Topic() templ.Component {

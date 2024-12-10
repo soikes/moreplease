@@ -20,8 +20,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("functions", c)
+	render.RegisterComponent(site.FunctionsPage, Topic())
 }
 
 func Topic() templ.Component {

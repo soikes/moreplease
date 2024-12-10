@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	err := render.RenderComponents("assets")
+	err := render.RenderComponents(`assets`)
 	if err != nil {
 		panic(err)
 	}

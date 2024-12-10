@@ -1,0 +1,56 @@
+package templates
+
+import (
+	"fmt"
+	"net/url"
+)
+
+templ Search() {
+	<div class="search-container search-tile">
+		<input
+			hx-post="/search/"
+			hx-target="#search-results"
+			hx-trigger="input changed delay:200ms, search"
+			name="term"
+			type="search"
+			class="search"
+			spellcheck="false"
+			autocorrect="off"
+			autocapitalize="off"
+		/>
+		<div id="search-results"></div>
+	</div>
+}
+
+type ResultInfo struct {
+	Query    string
+	Fragment string
+	Title    string
+	Href     string
+}
+
+templ SearchResults(results []ResultInfo) {
+	if len(results) > 0 {
+		<div class="search-results">
+			for i, result := range results {
+				if result.Fragment == "" {
+					{{ continue }}
+				}
+				if i > 0 {
+					<hr/>
+				}
+				<h3>{ result.Title }</h3>
+				<div>
+					@templ.Raw(result.Fragment)
+				</div>
+				{{ textFrag := fmt.Sprintf("#:~:text=%s", url.PathEscape(result.Query)) }}
+				<div class="link">
+					<a href={ templ.URL(result.Href + textFrag) }>Go to page</a>
+					<span class="inline-icon">☞</span>
+				</div>
+			}
+		</div>
+	} else {
+		<div></div>
+	}
+}

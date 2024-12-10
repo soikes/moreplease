@@ -12,8 +12,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("limit", c)
+	render.RegisterComponent(site.LimitPage, Topic())
 }
 
 templ Topic() {
@@ -113,10 +112,10 @@ templ Topic() {
 					@t.Inline("LIMIT")
 				</span> clause using arithmetic, 
 				<span>
-					@t.Link(site.MSP.Page(site.FunctionsPage), "", "")
+					@t.Link(site.MSP.Page(site.FunctionsPage), "")
 				</span>, 
 				<span>
-					@t.Link(site.MSP.Page(site.SubqueriesPage), "", "")
+					@t.Link(site.MSP.Page(site.SubqueriesPage), "")
 				</span> and other computations as long as the result is a valid numeric type. See your database's documentation for types compatible with 
 				<span>
 					@t.Inline("LIMIT")
@@ -129,13 +128,13 @@ templ Topic() {
 					@t.Inline("LIMIT")
 				</span> clause to your query can improve performance. There are a number of factors that influence this including: how complex your query is, how many tables are queried, what 
 				<span>
-					@t.Link(site.MSP.Page(site.IndexesPage), "", "")
+					@t.Link(site.MSP.Page(site.IndexesPage), "")
 				</span> are present on the table, and whether any rows actually match your query or if the query needs to scan the entire table anyways. Fewer results also means the size of the data returned over a network connection is less.
 				<br/>
 				<br/>
 				See 
 				<span>
-					@t.Link(site.MSP.Page(site.PerformanceAndExplainPage), "", "")
+					@t.Link(site.MSP.Page(site.PerformanceAndExplainPage), "")
 				</span> for more information.
 			</div>
 		</div>

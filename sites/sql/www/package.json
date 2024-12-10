@@ -17,6 +17,7 @@
     "@types/prismjs": "^1.26.5",
     "@types/sql.js": "^1.4.9",
     "alpinejs": "^3.14.6",
+    "htmx.org": "2.0.3",
     "prismjs": "^1.29.0",
     "sql.js": "^1.12.0"
   }

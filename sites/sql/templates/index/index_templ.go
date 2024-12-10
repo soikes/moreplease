@@ -16,8 +16,7 @@ import (
 )
 
 func init() {
-	c := Index()
-	render.RegisterComponent("index", c)
+	render.RegisterComponent(site.IndexPage, Index())
 }
 
 func Index() templ.Component {
@@ -114,7 +113,11 @@ func inner(sections []models.Section) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>!</p><p>You can edit, re-run and reset every example on the site. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p><p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p><input type=\"search\" class=\"search search-tile\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>!</p><p>You can edit, re-run and reset every example on the site. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p><p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = t.Search().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

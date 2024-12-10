@@ -20,8 +20,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("limit", c)
+	render.RegisterComponent(site.LimitPage, Topic())
 }
 
 func Topic() templ.Component {
@@ -257,7 +256,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = t.Link(site.MSP.Page(site.FunctionsPage), "", "").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = t.Link(site.MSP.Page(site.FunctionsPage), "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -265,7 +264,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = t.Link(site.MSP.Page(site.SubqueriesPage), "", "").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = t.Link(site.MSP.Page(site.SubqueriesPage), "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -297,7 +296,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = t.Link(site.MSP.Page(site.IndexesPage), "", "").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = t.Link(site.MSP.Page(site.IndexesPage), "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -305,7 +304,7 @@ func Topic() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = t.Link(site.MSP.Page(site.PerformanceAndExplainPage), "", "").Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = t.Link(site.MSP.Page(site.PerformanceAndExplainPage), "").Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

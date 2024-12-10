@@ -1,8 +1,15 @@
 package models
 
+import (
+	"fmt"
+	"strings"
+	"unicode"
+)
+
 type Site struct {
 	Title    string
 	Language Language
+	Index    Page
 	Sections []Section
 }
 
@@ -19,7 +26,15 @@ type Page struct {
 	Prev  *Page
 }
 
-type PageID int
+type PageID string
+
+func (p PageID) URL() string {
+	return fmt.Sprintf(`/%s`, p)
+}
+
+func (p PageID) Asset() string {
+	return fmt.Sprintf(`%s.html`, p)
+}
 
 // NewSection returns a section of ordered pages that are navigatable to their direct siblings.
 func NewSection(title string, pages []Page) Section {
@@ -41,12 +56,13 @@ func NewSection(title string, pages []Page) Section {
 	}
 }
 
-func NewPage(id PageID, title string, url string) Page {
-	return Page{
+func NewPage(id PageID, title string) Page {
+	p := Page{
 		ID:    id,
 		Title: title,
-		URL:   url,
 	}
+	p.URL = p.ID.URL()
+	return p
 }
 
 // Page returns the first matching Page from a Site.
@@ -60,4 +76,15 @@ func (s Site) Page(id PageID) Page {
 		}
 	}
 	return Page{}
+}
+
+func camelToSnake(s string) string {
+	var res strings.Builder
+	for i, r := range s {
+		if i > 0 && unicode.IsUpper(r) {
+			res.WriteRune('_')
+		}
+		res.WriteRune(unicode.ToLower(r))
+	}
+	return res.String()
 }

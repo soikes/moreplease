@@ -12,8 +12,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("where", c)
+	render.RegisterComponent(site.WherePage, Topic())
 }
 
 templ Topic() {

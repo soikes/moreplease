@@ -12,8 +12,7 @@ import (
 var sqlFiles embed.FS
 
 func init() {
-	c := Topic()
-	render.RegisterComponent("order_by", c)
+	render.RegisterComponent(site.OrderByPage, Topic())
 }
 
 templ Topic() {
@@ -88,11 +87,12 @@ templ Topic() {
 				<span>
 					@t.Inline("WHERE")
 				</span> but there are some clauses that are applied after it such as 
-				<a href="/limit">
+				@t.Link(site.MSP.Page(site.LimitPage), "") {
 					<span>
 						@t.Inline("LIMIT")
 					</span>
-				</a>.
+				}
+				.
 			</div>
 			@e.Run("sql/order_by_where.sql")
 			<div>

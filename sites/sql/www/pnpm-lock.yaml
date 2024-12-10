@@ -17,6 +17,9 @@ dependencies:
   alpinejs:
     specifier: ^3.14.6
     version: 3.14.6
+  htmx.org:
+    specifier: 2.0.3
+    version: 2.0.3
   prismjs:
     specifier: ^1.29.0
     version: 1.29.0
@@ -322,6 +325,10 @@ packages:
       '@esbuild/win32-ia32': 0.24.0
       '@esbuild/win32-x64': 0.24.0
     dev: true
+
+  /htmx.org@2.0.3:
+    resolution: {integrity: sha512-AeoJUAjkCVVajbfKX+3sVQBTCt8Ct4lif1T+z/tptTXo8+8yyq3QIMQQe/IT+R8ssfrO1I0DeX4CAronzCL6oA==}
+    dev: false
 
   /prismjs@1.29.0:
     resolution: {integrity: sha512-Kx/1w86q/epKcmte75LNrEoT+lX8pBpavuAbvJWRXar7Hz8jrtF+e3vY751p0R8H9HdArwaCTNDDzHg/ScJK1Q==}
