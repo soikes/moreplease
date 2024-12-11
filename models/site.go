@@ -18,12 +18,15 @@ type Section struct {
 }
 
 type Page struct {
-	ID    PageID
-	Title string
-	URL   string
-	Next  *Page
-	Prev  *Page
+	ID      PageID
+	Title   string
+	URL     string
+	Next    *Page
+	Prev    *Page
+	Enabled bool
 }
+
+type PageOption func(*Page)
 
 type PageID string
 
@@ -85,12 +88,30 @@ func NewSection(title string, pages []Page) Section {
 	}
 }
 
-func NewPage(id PageID, title string) Page {
+func Enable() PageOption {
+	return func(p *Page) {
+		p.Enabled = true
+	}
+}
+
+func WithURL(url string) PageOption {
+	return func(p *Page) {
+		p.URL = url
+	}
+}
+
+func NewPage(id PageID, title string, opts ...PageOption) Page {
 	p := Page{
-		ID:    id,
-		Title: title,
+		ID:      id,
+		Title:   title,
+		Enabled: false,
 	}
 	p.URL = p.ID.URL()
+
+	for _, opt := range opts {
+		opt(&p)
+	}
+
 	return p
 }
 

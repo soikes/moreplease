@@ -10,7 +10,11 @@ templ Contents(sections []models.Section) {
 			</li>
 			for _, page := range section.Pages {
 				<li>
-					<a href={ templ.URL(page.URL) }>{ page.Title }</a>
+					if page.Enabled {
+						<a href={ templ.URL(page.URL) }>{ page.Title }</a>
+					} else {
+						<span class="disabled">{ page.Title }</span>
+					}
 				</li>
 			}
 			<br/>
