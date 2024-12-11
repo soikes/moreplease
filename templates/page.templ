@@ -5,12 +5,12 @@ import (
 	"soikke.li/moreplease/models"
 )
 
-type PageView struct {
+type Page struct {
 	Site models.Site
 	Page models.Page
 }
 
-templ (p PageView) Render() {
+templ (p Page) Render() {
 	@Base(p.Site.Language, fmt.Sprintf("%s: %s", p.Site.Title, p.Page.Title)) {
 		<div class="content wide">
 			@TopicTitle(p.Page.Title)

@@ -5,20 +5,30 @@ import (
 	"soikke.li/moreplease/models"
 )
 
-// Link links to an internal page on the site. An optional link text can be provided, otherwise the link text will be the page's title.
+// Link links to an internal page on the site.
+// The page title is used as the link text.
 templ Link(page models.Page, fragment string) {
 	{{
 	href := page.URL
 	if fragment != `` {
 		href += fmt.Sprintf("#%s", fragment)
 	}
-	ch := templ.GetChildren(ctx)
 	}}
 	<a href={ templ.URL(href) }>
-		if ch != nil {
-			{ children... }
-		} else {
-			page.Title
-		}
+		{ page.Title }
+	</a>
+}
+
+// LinkWithText links to an internal page on the site.
+// You must specify the link text as a child component.
+templ LinkWithText(page models.Page, fragment string) {
+	{{
+	href := page.URL
+	if fragment != `` {
+		href += fmt.Sprintf("#%s", fragment)
+	}
+	}}
+	<a href={ templ.URL(href) }>
+		{ children... }
 	</a>
 }

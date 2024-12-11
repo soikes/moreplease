@@ -9,7 +9,6 @@ import (
 type Site struct {
 	Title    string
 	Language Language
-	Index    Page
 	Sections []Section
 }
 
@@ -34,6 +33,36 @@ func (p PageID) URL() string {
 
 func (p PageID) Asset() string {
 	return fmt.Sprintf(`%s.html`, p)
+}
+
+// NewSite returns a Site with Pages that are navigatable to their direct siblings and between Sections.
+func NewSite(title string, language Language, sections []Section) Site {
+	site := Site{Title: title, Language: language}
+	var linkedSections []Section
+	for i, section := range sections {
+		var linkedPages []Page
+		for j, page := range section.Pages {
+			if j < len(section.Pages)-1 {
+				page.Next = &section.Pages[j+1]
+			} else {
+				if i < len(sections)-1 && len(sections[i+1].Pages) > 0 {
+					page.Next = &sections[i+1].Pages[0]
+				}
+			}
+			if j == 0 {
+				if i > 0 && len(sections[i-1].Pages) > 0 {
+					page.Prev = &sections[i-1].Pages[len(sections[i-1].Pages)-1]
+				}
+			} else {
+				page.Prev = &section.Pages[j-1]
+			}
+			linkedPages = append(linkedPages, page)
+		}
+		section.Pages = linkedPages
+		linkedSections = append(linkedSections, section)
+	}
+	site.Sections = linkedSections
+	return site
 }
 
 // NewSection returns a section of ordered pages that are navigatable to their direct siblings.

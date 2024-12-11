@@ -25,7 +25,7 @@ templ Topic() {
 		Statements: s,
 	}
 	}}
-	@t.PageView{Site: site.MSP, Page: site.MSP.Page(site.SelectPage)}.Render() {
+	@t.Page{Site: site.MSP, Page: site.MSP.Page(site.SelectPage)}.Render() {
 		@t.Schema(s, "users")
 		<div class="container">
 			<div>
@@ -43,22 +43,24 @@ templ Topic() {
 			</div>
 			@e.Run("sql/select_all.sql")
 			<div>
-				Most database engines allow you to perform computations on the columns you retrieve.
-				<br/>
-				<br/>
-				Sometimes combining columns can be useful. In the case of SQLite, 
-				<span>
-					@t.Inline("||")
-				</span> is used to concatenate. Other engines may use 
-				<span>
-					@t.Inline("+")
-				</span>, and most engines include a 
-				<span>
-					@t.Inline("concat()")
-				</span> <a href="/functions">function</a> which serves the same purpose.
-				<br/>
-				<br/>
-				Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.
+				<p>
+					Most database engines allow you to perform computations on the columns you retrieve.
+				</p>
+				<p>
+					Sometimes combining columns can be useful. In the case of SQLite, 
+					<span>
+						@t.Inline("||")
+					</span> is used to concatenate. Other engines may use 
+					<span>
+						@t.Inline("+")
+					</span>, and most engines include a 
+					<span>
+						@t.Inline("concat()")
+					</span> <a href="/functions">function</a> which serves the same purpose.
+				</p>
+				<p>
+					Here we concatenate first and last name with a space in between. Single quotes are used to begin and end strings in SQL.
+				</p>
 			</div>
 			@e.Run("sql/select_concat.sql")
 			<div>
@@ -73,24 +75,31 @@ templ Topic() {
 			</div>
 			@e.Run("sql/select_as_pretty.sql")
 			<div>
-				<span>
-					@t.Inline("SELECT DISTINCT")
-				</span> can be used when you want to return only unique values.
-				<br/>
-				<br/>
-				Notice how in the example the last name "Amini" appears once where previous examples included both people with the same last name.
+				<p>
+					<span>
+						@t.Inline("SELECT DISTINCT")
+					</span> can be used when you want to return only unique values.
+				</p>
+				<p>
+					Notice how in the example the last name "Amini" appears once where previous examples included both people with the same last name.
+				</p>
 			</div>
 			@e.Run("sql/select_distinct.sql")
 			<div>
-				Some database engines allow a 
-				<span>
-					@t.Inline("SELECT")
-				</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query or when using a 
-				<a href="case">
+				<p>
+					Some database engines allow a 
 					<span>
-						@t.Inline("CASE")
-					</span>
-				</a> statement.
+						@t.Inline("SELECT")
+					</span> clause without a table to allow you to include arbitrary computations in your results. This can be useful as a test query or when using a
+					<span>
+						@t.LinkWithText(site.MSP.Page(site.UnionAndSetOperatorsPage), "") {
+							@t.Inline("UNION")
+						}
+					</span> operator.
+				</p>
+				<p>
+					Note that if you don't supply an alias for computed columns, the column name will typically default to the same value as the row.
+				</p>
 			</div>
 			@e.Run("sql/select_computation.sql")
 		</div>

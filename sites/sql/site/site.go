@@ -7,130 +7,151 @@ import (
 
 const (
 	SelectPage                 models.PageID = `select`
-	WherePage                                = `where`
-	OrderByPage                              = `order_by`
-	LimitPage                                = `limit`
-	OperatorsPage                            = `operators`
-	CommentsPage                             = `comments`
-	InsertPage                               = `insert`
-	UpdatePage                               = `update`
-	DeletePage                               = `delete`
-	DataTypesPage                            = `data_types`
-	JoinPage                                 = `join`
-	FunctionsPage                            = `functions`
-	AggregateFunctionsPage                   = `aggregate_functions`
-	GroupByPage                              = `group_by`
-	CasePage                                 = `case`
-	UnionAndSetOperatorsPage                 = `union_and_set_operators`
-	PivotPage                                = `pivot`
-	StringManipulationPage                   = `string_manipulation`
-	DateAndTimePage                          = `date_and_time`
-	CreateTablePage                          = `create_table`
-	AlterTablePage                           = `alter_table`
-	DropTablePage                            = `drop_table`
-	ConstraintsPage                          = `constraints`
-	PrimaryKeyPage                           = `primary_key`
-	ForeignKeyPage                           = `foreign_key`
-	CascadePage                              = `cascade`
-	IndexesPage                              = `indexes`
-	SubqueriesPage                           = `subqueries`
-	CommonTableExpressionsPage               = `common_table_expressions`
-	TemporaryTablesPage                      = `temporary_tables`
-	ViewsPage                                = `views`
-	MaterializedViewsPage                    = `materialized_views`
-	TransactionsPage                         = `transactions`
-	WindowFunctionsPage                      = `window_functions`
-	RankFunctionsPage                        = `rank_functions`
-	StoredProceduresPage                     = `stored_procedures`
-	TriggersPage                             = `triggers`
-	RecursiveQueriesPage                     = `recursive_queries`
-	PerformanceAndExplainPage                = `performance_and_explain`
-	JSONOperationsPage                       = `json_operations`
-	UsersAndPermissionsPage                  = `users_and_permissions`
-	SQLInjectionPage                         = `sql_injection`
-	DatabaseEnginesPage                      = `database_engines`
-	ReplicasPage                             = `replicas`
-	BackupAndRecoveryPage                    = `backup_and_recovery`
-	DatabaseMigrationsPage                   = `database_migrations`
-	DynamicSQLPage                           = `dynamic_sql`
-	RDBMSApplicationsPage                    = `rdbms_applications`
-	SchemaDesignPage                         = `schema_design`
-	ExpertCookbookPage                       = `expert_cookbook`
-	TipsAndTricksPage                        = `tips_and_tricks`
-	GlossaryPage                             = `glossary`
-	IndexPage                                = `index`
+	WherePage                  models.PageID = `where`
+	OrderByPage                models.PageID = `order_by`
+	LimitPage                  models.PageID = `limit`
+	OperatorsPage              models.PageID = `operators`
+	CommentsPage               models.PageID = `comments`
+	InsertPage                 models.PageID = `insert`
+	UpdatePage                 models.PageID = `update`
+	DeletePage                 models.PageID = `delete`
+	DataTypesPage              models.PageID = `data_types`
+	JoinPage                   models.PageID = `join`
+	FunctionsPage              models.PageID = `functions`
+	AggregateFunctionsPage     models.PageID = `aggregate_functions`
+	GroupByPage                models.PageID = `group_by`
+	CasePage                   models.PageID = `case`
+	UnionAndSetOperatorsPage   models.PageID = `union_and_set_operators`
+	PivotPage                  models.PageID = `pivot`
+	StringManipulationPage     models.PageID = `string_manipulation`
+	DateAndTimePage            models.PageID = `date_and_time`
+	CreateTablePage            models.PageID = `create_table`
+	AlterTablePage             models.PageID = `alter_table`
+	DropTablePage              models.PageID = `drop_table`
+	ConstraintsPage            models.PageID = `constraints`
+	PrimaryKeyPage             models.PageID = `primary_key`
+	ForeignKeyPage             models.PageID = `foreign_key`
+	CascadePage                models.PageID = `cascade`
+	IndexesPage                models.PageID = `indexes`
+	SubqueriesPage             models.PageID = `subqueries`
+	CommonTableExpressionsPage models.PageID = `common_table_expressions`
+	TemporaryTablesPage        models.PageID = `temporary_tables`
+	ViewsPage                  models.PageID = `views`
+	MaterializedViewsPage      models.PageID = `materialized_views`
+	TransactionsPage           models.PageID = `transactions`
+	WindowFunctionsPage        models.PageID = `window_functions`
+	RankFunctionsPage          models.PageID = `rank_functions`
+	StoredProceduresPage       models.PageID = `stored_procedures`
+	TriggersPage               models.PageID = `triggers`
+	RecursiveQueriesPage       models.PageID = `recursive_queries`
+	PerformanceAndExplainPage  models.PageID = `performance_and_explain`
+	JSONOperationsPage         models.PageID = `json_operations`
+	UsersAndPermissionsPage    models.PageID = `users_and_permissions`
+	SQLInjectionPage           models.PageID = `sql_injection`
+	DatabaseEnginesPage        models.PageID = `database_engines`
+	ReplicasPage               models.PageID = `replicas`
+	BackupAndRecoveryPage      models.PageID = `backup_and_recovery`
+	DatabaseMigrationsPage     models.PageID = `database_migrations`
+	DynamicSQLPage             models.PageID = `dynamic_sql`
+	RDBMSApplicationsPage      models.PageID = `rdbms_applications`
+	SchemaDesignPage           models.PageID = `schema_design`
+	ExpertCookbookPage         models.PageID = `expert_cookbook`
+	TipsAndTricksPage          models.PageID = `tips_and_tricks`
+	GlossaryPage               models.PageID = `glossary`
+	IndexPage                  models.PageID = `index`
 )
 
 // MSP defines metadata and page order of the More SQL Please site.
-var MSP = models.Site{
-	Title:    "More SQL Please",
-	Language: models.LanguageSQL,
-	Sections: []models.Section{
-		models.NewSection("Basics", []models.Page{
-			models.NewPage(SelectPage, "SELECT"),
-			models.NewPage(WherePage, "WHERE"),
-			models.NewPage(OrderByPage, "ORDER BY"),
-			models.NewPage(LimitPage, "LIMIT"),
-			models.NewPage(OperatorsPage, "Operators"),
-			models.NewPage(CommentsPage, "Comments"),
-			models.NewPage(InsertPage, "INSERT"),
-			models.NewPage(UpdatePage, "UPDATE"),
-			models.NewPage(DeletePage, "DELETE"),
-			models.NewPage(DataTypesPage, "Data Types"),
-		}),
-		models.NewSection("Intermediate", []models.Page{
-			models.NewPage(JoinPage, "JOIN"),
-			models.NewPage(FunctionsPage, "Functions"),
-			models.NewPage(AggregateFunctionsPage, "Aggregate Functions"),
-			models.NewPage(GroupByPage, "GROUP BY"),
-			models.NewPage(CasePage, "CASE"),
-			models.NewPage(UnionAndSetOperatorsPage, "UNION and Set Operators"),
-			models.NewPage(PivotPage, "PIVOT"),
-			models.NewPage(StringManipulationPage, "String Manipulation"),
-			models.NewPage(DateAndTimePage, "Date and Time"),
-		}),
-		models.NewSection("Table Operations", []models.Page{
-			models.NewPage(CreateTablePage, "CREATE TABLE"),
-			models.NewPage(AlterTablePage, "ALTER TABLE"),
-			models.NewPage(DropTablePage, "DROP TABLE"),
-			models.NewPage(ConstraintsPage, "Constraints"),
-			models.NewPage(PrimaryKeyPage, "PRIMARY KEY"),
-			models.NewPage(ForeignKeyPage, "FOREIGN KEY"),
-			models.NewPage(CascadePage, "CASCADE"),
-			models.NewPage(IndexesPage, "Indexes"),
-		}),
-		models.NewSection("Advanced Queries", []models.Page{
-			models.NewPage(SubqueriesPage, "Subqueries"),
-			models.NewPage(CommonTableExpressionsPage, "Common Table Expressions"),
-			models.NewPage(TemporaryTablesPage, "Temporary Tables"),
-			models.NewPage(ViewsPage, "Views"),
-			models.NewPage(MaterializedViewsPage, "Materialized Views"),
-			models.NewPage(TransactionsPage, "Transactions"),
-		}),
-		models.NewSection("Advanced Features", []models.Page{
-			models.NewPage(WindowFunctionsPage, "Window Functions"),
-			models.NewPage(RankFunctionsPage, "Rank Functions"),
-			models.NewPage(StoredProceduresPage, "Stored Procedures"),
-			models.NewPage(TriggersPage, "Triggers"),
-			models.NewPage(RecursiveQueriesPage, "Recursive Queries"),
-			models.NewPage(PerformanceAndExplainPage, "Performance and EXPLAIN"),
-			models.NewPage(JSONOperationsPage, "JSON Operations"),
-		}),
-		models.NewSection("Administration and Security", []models.Page{
-			models.NewPage(UsersAndPermissionsPage, "Users and Permissions"),
-			models.NewPage(SQLInjectionPage, "SQL Injection"),
-			models.NewPage(DatabaseEnginesPage, "Database Engines"),
-			models.NewPage(ReplicasPage, "Replicas"),
-			models.NewPage(BackupAndRecoveryPage, "Backup and Recovery"),
-			models.NewPage(DatabaseMigrationsPage, "Database Migrations"),
-			models.NewPage(DynamicSQLPage, "Dynamic SQL"),
-			models.NewPage(RDBMSApplicationsPage, "RDBMS Applications"),
-			models.NewPage(SchemaDesignPage, "Schema Design"),
-		}),
-		models.NewSection("Reference", []models.Page{
-			models.NewPage(ExpertCookbookPage, "Expert Cookbook"),
-			models.NewPage(TipsAndTricksPage, "Tips and Tricks"),
-			models.NewPage(GlossaryPage, "Glossary"),
-		}),
+var MSP = models.NewSite(
+	"More SQL Please",
+	models.LanguageSQL,
+	[]models.Section{
+		{
+			Title: "Basics",
+			Pages: []models.Page{
+				models.NewPage(SelectPage, "SELECT"),
+				models.NewPage(WherePage, "WHERE"),
+				models.NewPage(OrderByPage, "ORDER BY"),
+				models.NewPage(LimitPage, "LIMIT"),
+				models.NewPage(OperatorsPage, "Operators"),
+				models.NewPage(CommentsPage, "Comments"),
+				models.NewPage(InsertPage, "INSERT"),
+				models.NewPage(UpdatePage, "UPDATE"),
+				models.NewPage(DeletePage, "DELETE"),
+				models.NewPage(DataTypesPage, "Data Types"),
+			},
+		},
+		{
+			Title: "Intermediate",
+			Pages: []models.Page{
+				models.NewPage(JoinPage, "JOIN"),
+				models.NewPage(FunctionsPage, "Functions"),
+				models.NewPage(AggregateFunctionsPage, "Aggregate Functions"),
+				models.NewPage(GroupByPage, "GROUP BY"),
+				models.NewPage(UnionAndSetOperatorsPage, "UNION and Set Operators"),
+				models.NewPage(CasePage, "CASE"),
+				models.NewPage(PivotPage, "PIVOT"),
+				models.NewPage(StringManipulationPage, "String Manipulation"),
+				models.NewPage(DateAndTimePage, "Date and Time"),
+			},
+		},
+		{
+			Title: "Table Operations",
+			Pages: []models.Page{
+				models.NewPage(CreateTablePage, "CREATE TABLE"),
+				models.NewPage(AlterTablePage, "ALTER TABLE"),
+				models.NewPage(DropTablePage, "DROP TABLE"),
+				models.NewPage(ConstraintsPage, "Constraints"),
+				models.NewPage(PrimaryKeyPage, "PRIMARY KEY"),
+				models.NewPage(ForeignKeyPage, "FOREIGN KEY"),
+				models.NewPage(CascadePage, "CASCADE"),
+				models.NewPage(IndexesPage, "Indexes"),
+			},
+		},
+		{
+			Title: "Advanced Queries",
+			Pages: []models.Page{
+				models.NewPage(SubqueriesPage, "Subqueries"),
+				models.NewPage(CommonTableExpressionsPage, "Common Table Expressions"),
+				models.NewPage(TemporaryTablesPage, "Temporary Tables"),
+				models.NewPage(ViewsPage, "Views"),
+				models.NewPage(MaterializedViewsPage, "Materialized Views"),
+				models.NewPage(TransactionsPage, "Transactions"),
+			},
+		},
+		{
+			Title: "Advanced Features",
+			Pages: []models.Page{
+				models.NewPage(WindowFunctionsPage, "Window Functions"),
+				models.NewPage(RankFunctionsPage, "Rank Functions"),
+				models.NewPage(StoredProceduresPage, "Stored Procedures"),
+				models.NewPage(TriggersPage, "Triggers"),
+				models.NewPage(RecursiveQueriesPage, "Recursive Queries"),
+				models.NewPage(PerformanceAndExplainPage, "Performance and EXPLAIN"),
+				models.NewPage(JSONOperationsPage, "JSON Operations"),
+			},
+		},
+		{
+			Title: "Administration and Security",
+			Pages: []models.Page{
+				models.NewPage(UsersAndPermissionsPage, "Users and Permissions"),
+				models.NewPage(SQLInjectionPage, "SQL Injection"),
+				models.NewPage(DatabaseEnginesPage, "Database Engines"),
+				models.NewPage(ReplicasPage, "Replicas"),
+				models.NewPage(BackupAndRecoveryPage, "Backup and Recovery"),
+				models.NewPage(DatabaseMigrationsPage, "Database Migrations"),
+				models.NewPage(DynamicSQLPage, "Dynamic SQL"),
+				models.NewPage(RDBMSApplicationsPage, "RDBMS Applications"),
+				models.NewPage(SchemaDesignPage, "Schema Design"),
+			},
+		},
+		{
+			Title: "Reference",
+			Pages: []models.Page{
+				models.NewPage(ExpertCookbookPage, "Expert Cookbook"),
+				models.NewPage(TipsAndTricksPage, "Tips and Tricks"),
+				models.NewPage(GlossaryPage, "Glossary"),
+			},
+		},
 	},
-}
+)

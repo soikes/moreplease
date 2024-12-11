@@ -25,41 +25,43 @@ templ Topic() {
 		Statements: s,
 	}
 	}}
-	@t.PageView{Site: site.MSP, Page: site.MSP.Page(site.LimitPage)}.Render() {
+	@t.Page{Site: site.MSP, Page: site.MSP.Page(site.LimitPage)}.Render() {
 		@t.Schema(s, "users")
 		<div class="container">
 			<div>
-				The 
-				<span>
-					@t.Inline("LIMIT")
-				</span> clause limits the maximum number of rows returned by a 
-				<span>
-					@t.Inline("SELECT")
-				</span> statement.
-				<br/>
-				<br/>
-				Other databases can have different syntaxes such as 
-				<span>
-					@t.Inline("SELECT TOP")
-				</span>, 
-				<span>
-					@t.Inline("FETCH FIRST")
-				</span> and 
-				<span>
-					@t.Inline("WHERE ROWNUM")
-				</span>.
-				<br/>
-				<br/>
-				Some databases also allow a 
-				<span>
-					@t.Inline("LIMIT")
-				</span> clause on 
-				<span>
-					@t.Inline("INSERT")
-				</span> and 
-				<span>
-					@t.Inline("DELETE")
-				</span> statements which limits the effect of those statements to the specified maximum amount of rows.
+				<p>
+					The 
+					<span>
+						@t.Inline("LIMIT")
+					</span> clause limits the maximum number of rows returned by a 
+					<span>
+						@t.Inline("SELECT")
+					</span> statement.
+				</p>
+				<p>
+					Other databases can have different syntaxes such as 
+					<span>
+						@t.Inline("SELECT TOP")
+					</span>, 
+					<span>
+						@t.Inline("FETCH FIRST")
+					</span> and 
+					<span>
+						@t.Inline("WHERE ROWNUM")
+					</span>.
+				</p>
+				<p>
+					Some databases also allow a 
+					<span>
+						@t.Inline("LIMIT")
+					</span> clause on 
+					<span>
+						@t.Inline("INSERT")
+					</span> and 
+					<span>
+						@t.Inline("DELETE")
+					</span> statements which limits the effect of those statements to the specified maximum amount of rows.
+				</p>
 			</div>
 			@e.Run("sql/limit.sql")
 			<div>
@@ -123,19 +125,21 @@ templ Topic() {
 			</div>
 			@e.Run("sql/limit_computation.sql")
 			<div>
-				Sometimes but not always, adding a 
-				<span>
-					@t.Inline("LIMIT")
-				</span> clause to your query can improve performance. There are a number of factors that influence this including: how complex your query is, how many tables are queried, what 
-				<span>
-					@t.Link(site.MSP.Page(site.IndexesPage), "")
-				</span> are present on the table, and whether any rows actually match your query or if the query needs to scan the entire table anyways. Fewer results also means the size of the data returned over a network connection is less.
-				<br/>
-				<br/>
-				See 
-				<span>
-					@t.Link(site.MSP.Page(site.PerformanceAndExplainPage), "")
-				</span> for more information.
+				<p>
+					Sometimes but not always, adding a 
+					<span>
+						@t.Inline("LIMIT")
+					</span> clause to your query can improve performance. There are a number of factors that influence this including: how complex your query is, how many tables are queried, what 
+					<span>
+						@t.Link(site.MSP.Page(site.IndexesPage), "")
+					</span> are present on the table, and whether any rows actually match your query or if the query needs to scan the entire table anyways. Fewer results also means the size of the data returned over a network connection is less.
+				</p>
+				<p>
+					See 
+					<span>
+						@t.Link(site.MSP.Page(site.PerformanceAndExplainPage), "")
+					</span> for more information.
+				</p>
 			</div>
 		</div>
 	}

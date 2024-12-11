@@ -25,25 +25,27 @@ templ Topic() {
 		Statements: s,
 	}
 	}}
-	@t.PageView{Site: site.MSP, Page: site.MSP.Page(site.FunctionsPage)}.Render() {
+	@t.Page{Site: site.MSP, Page: site.MSP.Page(site.FunctionsPage)}.Render() {
 		@t.Schema(s, "users", "transactions")
 		<div class="container">
 			<div>
-				Most relational database engines support the ability to create and call functions as part of a SQL statement. Most also have commonly used utility functions already built-in.
-				<br/>
-				<br/>
-				Functions that accept zero or more input values and produce a single output value per row are called "simple" or "scalar" functions. There are other types of functions that work with more than one row at a time and they are generally grouped into <a href="aggregate_functions">Aggregate Functions</a> and <a href="window_functions">Window Functions</a>.
-				<br/>
-				<br/>
-				<span>
-					@t.Inline("datetime()")
-				</span> is a scalar function in SQLite that returns the current date and time.
-				<br/>
-				<br/>
-				SQLite and most other database engines will publish 
-				<span>
-					@t.Outlink("https://www.sqlite.org/lang_corefunc.html", "documentation")
-				</span> on built-in functions available to use.
+				<p>
+					Most relational database engines support the ability to create and call functions as part of a SQL statement. Most also have commonly used utility functions already built-in.
+				</p>
+				<p>
+					Functions that accept zero or more input values and produce a single output value per row are called "simple" or "scalar" functions. There are other types of functions that work with more than one row at a time and they are generally grouped into <a href="aggregate_functions">Aggregate Functions</a> and <a href="window_functions">Window Functions</a>.
+				</p>
+				<p>
+					<span>
+						@t.Inline("datetime()")
+					</span> is a scalar function in SQLite that returns the current date and time.
+				</p>
+				<p>
+					SQLite and most other database engines will publish 
+					<span>
+						@t.Outlink("https://www.sqlite.org/lang_corefunc.html", "documentation")
+					</span> on built-in functions available to use.
+				</p>
 			</div>
 			@e.Run("sql/functions_date.sql")
 			<div>
@@ -64,7 +66,9 @@ templ Topic() {
 				</span> function in SQLite returns 
 				<span>
 					@t.Inline("NULL")
-				</span>, not 0.
+				</span>, not 
+				@t.Inline("0")
+				.
 			</div>
 			@e.Run("sql/functions_null.sql")
 			<div class="linkable" id="coalesce">
@@ -80,44 +84,48 @@ templ Topic() {
 			</div>
 			@e.Run("sql/functions_coalesce.sql")
 			<div>
-				Some functions are capable of accepting a variable amount of arguments. These are called <i>variadic functions</i>.
-				<br/>
-				<br/>
-				A common example are string formatting functions like 
-				<span>
-					@t.Inline("printf()")
-				</span> (or 
-				<span>
-					@t.Inline("format()")
-				</span>). They often take in a "template" string that describes how you want the output string to be formatted, then any number of arguments that supply the data to fill it in with.
-				<br/>
-				<br/>
-				In this case, 
-				<span>
-					@t.Inline("\"%s\"")
-				</span> means we want a string type to appear in that spot, and 
-				<span>
-					@t.Inline("\"%.2f\"")
-				</span> means we want a floating-point number rounded to two deicmal places to appear in that spot.
-				<br/>
-				<br/>
-				A fun fact is that this is such a common problem to solve that most programming languages have 
-				<span>
-					@t.Inline("printf()")
-				</span> or some similar form of it.
+				<p>
+					Some functions are capable of accepting a variable amount of arguments. These are called <i>variadic functions</i>.
+				</p>
+				<p>
+					A common example are string formatting functions like 
+					<span>
+						@t.Inline("printf()")
+					</span> (or 
+					<span>
+						@t.Inline("format()")
+					</span>). They often take in a "template" string that describes how you want the output string to be formatted, then any number of arguments that supply the data to fill it in with.
+				</p>
+				<p>
+					In this case, 
+					<span>
+						@t.Inline("\"%s\"")
+					</span> means we want a string type to appear in that spot, and 
+					<span>
+						@t.Inline("\"%.2f\"")
+					</span> means we want a floating-point number rounded to two deicmal places to appear in that spot.
+				</p>
+				<p>
+					A fun fact is that this is such a common problem to solve that most programming languages have 
+					<span>
+						@t.Inline("printf()")
+					</span> or some similar form of it.
+				</p>
 			</div>
 			@e.Run("sql/functions_variadic.sql")
 			<div>
-				Some database engines support creating custom functions using the 
-				<span>
-					@t.Inline("CREATE FUNCTION")
-				</span>) statement. Others, like SQLite require you to define custom functions outside of the database and load them separately which we will not cover here.
-				<br/>
-				<br/>
-				This example gives an idea of what a user-defined/custom function would typically look like in PostgreSQL, a different database engine, so ignore the syntax differences. This function could then be used anywhere a built-in function can be used by calling 
-				<span>
-					@t.Inline("format_transaction(...)")
-				</span>.
+				<p>
+					Some database engines support creating custom functions using the 
+					<span>
+						@t.Inline("CREATE FUNCTION")
+					</span>) statement. Others, like SQLite require you to define custom functions outside of the database and load them separately which we will not cover here.
+				</p>
+				<p>
+					This example gives an idea of what a user-defined/custom function would typically look like in PostgreSQL, a different database engine, so ignore the syntax differences. This function could then be used anywhere a built-in function can be used by calling 
+					<span>
+						@t.Inline("format_transaction(...)")
+					</span>.
+				</p>
 			</div>
 			@e.Display("sql/functions_user_defined.sql")
 		</div>

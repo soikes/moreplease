@@ -77,6 +77,8 @@ FROM table;
 
 - [ ] Bring back server rendering of SQL as default content so examples can be indexed and searched
 
+- [ ] Add thumbs down to "Bare column" example and search for other "counter-examples"
+
 # BUGS
 
 - [x] (FIXED: Just add jusify-self: start to the container too.) To make the sticky thing work I had to use divs as sticky containers in the css grid rows. This seems to have broken the "justify-self: start" that makes each bubble fit only the content. Now on the JOIN page all the bubbles are the same width. it makes it a bit visually overwhelming. Fix that and make them all their own unique size again based on the content.

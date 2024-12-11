@@ -1,7 +1,7 @@
 SELECT printf("%s %s withdrew %.2f.",
     u.name_first,
     u.name_last,
-    t.amount
+    abs(t.amount)
 ) AS output
 FROM users u
 INNER JOIN transactions t

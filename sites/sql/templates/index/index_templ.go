@@ -93,7 +93,7 @@ func inner(sections []models.Section) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = t.Outlink("https://en.wikipedia.org/wiki/Relational_database", "relational data").Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = t.Outlink("https://simple.wikipedia.org/wiki/Relational_database", "relational data").Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -113,7 +113,7 @@ func inner(sections []models.Section) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>!</p><p>You can edit, re-run and reset every example on the site. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p><p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span>!</p><p>You can edit, re-run and reset every example on this site. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p><p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

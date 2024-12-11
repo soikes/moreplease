@@ -28,7 +28,7 @@ templ inner(sections []models.Section) {
 		<p>
 			Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to 
 			<span>
-				@t.Outlink("https://en.wikipedia.org/wiki/Relational_database", "relational data")
+				@t.Outlink("https://simple.wikipedia.org/wiki/Relational_database", "relational data")
 			</span> where the data has well-defined relationships.
 		</p>
 		<p>
@@ -40,8 +40,12 @@ templ inner(sections []models.Section) {
 				@t.Outlink("https://github.com/sql-js/sql.js/", "sql.js")
 			</span>!
 		</p>
-		<p>You can edit, re-run and reset every example on the site. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.</p>
-		<p>The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.</p>
+		<p>
+			You can edit, re-run and reset every example on this site. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.
+		</p>
+		<p>
+			The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.
+		</p>
 		@t.Search()
 		@t.Contents(sections)
 		<small class="footer">
