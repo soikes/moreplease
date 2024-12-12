@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"soikke.li/moreplease/sites/sql/highlight"
 	"soikke.li/moreplease/sites/sql/mux"
 )
 
@@ -23,6 +24,8 @@ func main() {
 	}
 	addr := "127.0.0.1:9000"
 	fmt.Printf("%s site listening at %s\n", desc, addr)
+	ttt := `SELECT name, address FROM table WHERE 1 = 2 AND 3 % 4 = 7 ORDER BY name ASC;`
+	fmt.Println(highlight.Block(ttt))
 	err := http.ListenAndServe(addr, m)
 	panic(err)
 }

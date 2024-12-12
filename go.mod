@@ -10,6 +10,7 @@ require (
 )
 
 require (
+	github.com/DataDog/go-sqllexer v0.0.17 // indirect
 	github.com/RoaringBitmap/roaring v1.9.3 // indirect
 	github.com/bits-and-blooms/bitset v1.12.0 // indirect
 	github.com/blevesearch/bleve/v2 v2.4.3 // indirect

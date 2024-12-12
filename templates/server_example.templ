@@ -1,33 +1,30 @@
 package templates
 
-import (
-    "soikke.li/moreplease/sites/sql/db"
-    "soikke.li/moreplease/sites/sql/highlight"
-)
+import "soikke.li/moreplease/sites/sql/db"
 
 type ServerExample struct {
-    Statements  db.Statements
+	Statements db.Statements
 }
 
 templ (e *ServerExample) Run(path string) {
-    <div class="sticky-container">
-        <div class="tile sticky">
-            {{ stmt := highlight.Block(e.Statements.From(path)) }}
-            @templ.Raw(stmt)
-            <div>
-                <pre>
-                    { e.Statements.ExecFile(path) }
-                </pre>
-            </div>
-        </div>
-    </div>
+	<div class="sticky-container">
+		<div class="tile sticky">
+			/*{{ stmt := highlight.Block(e.Statements.From(path)) }}*/
+			/*@templ.Raw(stmt)*/
+			<div>
+				<pre>
+					{ e.Statements.ExecFile(path) }
+				</pre>
+			</div>
+		</div>
+	</div>
 }
 
 templ (e *ServerExample) Display(path string) {
-    <div class="sticky-container">
-        <div class="tile sticky">
-            {{ stmt := highlight.Block(e.Statements.From(path)) }}
-            @templ.Raw(stmt)
-        </div>
-    </div>
+	<div class="sticky-container">
+		<div class="tile sticky">
+			/*{{ stmt := highlight.Block(e.Statements.From(path)) }}*/
+			/*@templ.Raw(stmt)*/
+		</div>
+	</div>
 }
