@@ -3,27 +3,41 @@ package mux
 import (
 	"io/fs"
 	"net/http"
-	"strings"
 
 	"soikke.li/moreplease/sites/sql/assets"
 	"soikke.li/moreplease/web"
 	"soikke.li/moreplease/web/search"
 )
 
-// htmlAssetPath converts a web url path into a file path suitable for use with an AssetsFileSystem.
-func htmlAssetPath(path string) string {
-	if path == "/" {
-		path += "index"
+type FSHandler struct {
+	fs fs.FS
+}
+
+func NewFSHandler() FSHandler {
+	h := FSHandler{}
+	as := assets.Assets
+	h.fs = web.AssetsFS{FS: as}
+	return h
+}
+
+// asset retrieves a specific static asset from the assets directory.
+func (h *FSHandler) asset(w http.ResponseWriter, r *http.Request) {
+	asset := r.PathValue(`asset`)
+	if asset == "" {
+		http.NotFound(w, r)
+		return
 	}
-	return strings.ReplaceAll(path, "/", "") + ".html"
+	http.ServeFileFS(w, r, h.fs, asset)
 }
 
-type HTMLHandler struct {
-	fsys fs.FS
-}
-
-func (h HTMLHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	http.ServeFileFS(w, r, h.fsys, htmlAssetPath(r.URL.Path))
+// htmlAsset converts a More SQL Please topic path segment into its matching html asset in the assets directory.
+func (h *FSHandler) htmlAsset(w http.ResponseWriter, r *http.Request) {
+	asset := r.PathValue(`topic`)
+	if asset == `` {
+		asset = `index`
+	}
+	asset += `.html`
+	http.ServeFileFS(w, r, h.fs, asset)
 }
 
 func NewStaticMux() *http.ServeMux {
@@ -33,12 +47,11 @@ func NewStaticMux() *http.ServeMux {
 	if err != nil {
 		panic(err)
 	}
-	mux.Handle("/search/", s)
+	mux.Handle("POST /search/", s)
 
-	as := assets.Assets
-	fsys := web.AssetsFS{FS: as}
-	mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServerFS(fsys)))
-
-	mux.Handle("/", HTMLHandler{fsys})
+	f := NewFSHandler()
+	mux.HandleFunc("GET /assets/{asset}", f.asset)
+	mux.HandleFunc("GET /{topic}", f.htmlAsset)
+	mux.HandleFunc("GET /{$}", f.htmlAsset)
 	return mux
 }

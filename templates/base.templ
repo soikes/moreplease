@@ -8,11 +8,10 @@ templ Base(lang models.Language, title string) {
 	<html>
 		<head>
 			@jsImports.Once() {
-				<script type="text/javascript" src="assets/app.js"></script>
-				<script defer type="text/javascript" src="assets/alpine.js"></script>
+				<script type="text/javascript" src="assets/app.min.js"></script>
+				<script defer type="text/javascript" src="assets/alpine.min.js"></script>
 			}
 			<link rel="stylesheet" href="assets/styles.css"/>
-			<link rel="stylesheet" href="assets/prism.css"/>
 			<link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
 			<title>{ title }</title>
 		</head>

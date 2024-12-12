@@ -1,4 +1,7 @@
-**/tmp
 .DS_Store
+**/tmp
 **/node_modules
 **/*.bleve
+**/app.min.js
+**/app.min.js.map
+**/assets/*.html

@@ -6,7 +6,7 @@
 
 - [x] Get the code block to follow the window as the reader scrolls until they hit the next block (?)
 
-  - [ ] Highlight the relevant line being discussed as the user scrolls as well? or add a `>` to the left of the line number to show that.
+  - [x] Highlight the relevant line being discussed as the user scrolls as well? or add a `>` to the left of the line number to show that.
 
 - [ ] Allow the user to toggle showing the tables as a static overlay at the top of the screen. it may be helpful when they are scrolled far down the page.
 
@@ -21,7 +21,10 @@
 
 - [x] Change syntax highlight rendering to use classes so we don't flood the page with inline styles.
 
-- [ ] Write a Zed syntax highlighting module for .templ files: the one I am using seems to break a lot.
+- Submit PRs to zed-templ
+
+  - [ ] Single quotations in HTML markup breaks syntax highlighting
+  - [ ] Find other syntax highlighting breakages and submit fixes
 
 - [ ] Figure out how to style the grid so that by default we have a 2fr 3fr split but when tables are too long, they wrap to the next row.
 
@@ -29,33 +32,38 @@
 
 - [ ] Include the -> and ->> operators for extracting JSON. These are useful to know.
 
-- [ ] for CASE statement, use ```sql
-      SELECT
-      CASE CAST(strftime('%m', date_column) AS INTEGER)
-      WHEN 1 THEN 'January'
-      WHEN 2 THEN 'February'
-      WHEN 3 THEN 'March'
-      WHEN 4 THEN 'April'
-      WHEN 5 THEN 'May'
-      WHEN 6 THEN 'June'
-      WHEN 7 THEN 'July'
-      WHEN 8 THEN 'August'
-      WHEN 9 THEN 'September'
-      WHEN 10 THEN 'October'
-      WHEN 11 THEN 'November'
-      WHEN 12 THEN 'December'
-      END AS month
-      FROM table;
+- [ ] Tips and Tricks to add:
 
-````
+  - [ ]
 
-```sql
-SELECT
-    substr('JanFebMarAprMayJunJulAugSepOctNovDec',
-           3 * (strftime('%m', date_column) - 1) + 1,
-           3) AS month
-FROM table;
-````
+  ```sql
+    SELECT
+    CASE CAST(strftime('%m', date_column) AS INTEGER)
+    WHEN 1 THEN 'January'
+    WHEN 2 THEN 'February'
+    WHEN 3 THEN 'March'
+    WHEN 4 THEN 'April'
+    WHEN 5 THEN 'May'
+    WHEN 6 THEN 'June'
+    WHEN 7 THEN 'July'
+    WHEN 8 THEN 'August'
+    WHEN 9 THEN 'September'
+    WHEN 10 THEN 'October'
+    WHEN 11 THEN 'November'
+    WHEN 12 THEN 'December'
+    END AS month
+    FROM table;
+  ```
+
+  - [ ]
+
+  ```sql
+  SELECT
+      substr('JanFebMarAprMayJunJulAugSepOctNovDec',
+            3 * (strftime('%m', date_column) - 1) + 1,
+            3) AS month
+  FROM table;
+  ```
 
 - [x] Explain collation on aggregate functions page by linking back to ORDER BY
 
@@ -71,13 +79,21 @@ FROM table;
 
 - [ ] Add privacy-respecting analytics (integrated with Go?) to get simple site statistics
 
-- [ ] Align the nav footer on each page as left, center, right -or- always put the nav footer in the left column in a .container
+- [x] Align the nav footer on each page as left, center, right -or- always put the nav footer in the left column in a .container
 
-- [ ] Make a cache for the embedded assets
+- [ ] Make an in-memory cache for the embedded assets
 
-- [ ] Bring back server rendering of SQL as default content so examples can be indexed and searched
+- [ ] Bring back server rendering of SQL as default content so examples can be indexed and searched, also benefits those with JS disabled
+- [ ] Remove Run and Reset buttons if JS is disabled
 
 - [ ] Add thumbs down to "Bare column" example and search for other "counter-examples"
+
+- [ ] Minify and bundle all js dependencies (alpine, prism)
+
+- [ ] Prepare JS build for prod
+  - Remove source maps
+  - Other build configs
+- [ ] Prepare Go build for prod
 
 # BUGS
 
