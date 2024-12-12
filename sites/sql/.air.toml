@@ -4,7 +4,7 @@ tmp_dir = "tmp"
 
 [build]
 pre_cmd = [
-    # "go generate soikke.li/moreplease/sites/sql/...",
+    "go generate soikke.li/moreplease/sites/sql/generate",
     "templ generate -path ../../templates",
     "templ generate",
     "go run soikke.li/moreplease/sites/sql/bin/render",
@@ -14,9 +14,9 @@ args_bin = []
 bin = "./tmp/main"
 cmd = "go build -o ./tmp/main ."
 delay = 1000
-exclude_dir = ["tmp", "vendor", "testdata"]
+exclude_dir = ["tmp", "vendor", "testdata", "data"]
 exclude_file = []
-exclude_regex = ["_test.go", "_templ.go", ".html"]
+exclude_regex = ["_test.go", "_templ.go", ".html", "generated_imports.go"]
 exclude_unchanged = false
 follow_symlink = false
 full_bin = ""

@@ -161,8 +161,27 @@ p {
 
 .content ul {
     list-style: none;
-    padding-left: 0;
+    margin-left: 0;
+    padding-inline-start: 0;
 }
+
+/* .content ul.hand {
+    padding-inline-start: 0;
+    list-style-position: outside;
+}
+
+.content ul.hand li {
+    margin: 2rem 0;
+}
+
+.content ul.hand li::before {
+    content: "☞";
+    line-height: 1rem;
+    vertical-align: middle;
+    font-size: 1.5rem;
+    margin-left: 0;
+    padding-right: 1rem;
+} */
 
 .linkable {
     scroll-margin-top: 2rem;

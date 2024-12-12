@@ -8,6 +8,8 @@ import (
 
 	_ "soikke.li/moreplease/sites/sql/templates/case"
 
+	_ "soikke.li/moreplease/sites/sql/templates/comments"
+
 	_ "soikke.li/moreplease/sites/sql/templates/data_types"
 
 	_ "soikke.li/moreplease/sites/sql/templates/functions"

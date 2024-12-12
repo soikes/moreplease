@@ -15,6 +15,9 @@ interface Example {
   reset(): void;
 }
 
+/** createExample uses a schema and an initial statement to initialize a new SQLite database in memory.
+    @return {Example} An object literal because it is easier to work with in alpine.js.
+ */
 function createExample(schema: string, stmt: string): Example {
   return {
     loading: false,
@@ -25,7 +28,9 @@ function createExample(schema: string, stmt: string): Example {
     stmt: stmt,
     db: null as Db | null,
 
-    // init() is called automatically by alpine.js when this object is supplied into x-data: https://alpinejs.dev/directives/init#auto-evaluate-init-method
+    /** init() is called automatically by alpine.js when this object is supplied into x-data:
+    https://alpinejs.dev/directives/init#auto-evaluate-init-method 
+    */
     async init() {
       this.result = ``;
       this.loading = false;
@@ -42,7 +47,11 @@ function createExample(schema: string, stmt: string): Example {
     run() {
       try {
         let res = this.db.exec(this.stmt);
-        this.result = MarkdownFormatter.fromResult(res).toString();
+        if (res.length == 0) {
+          this.result = "No rows returned.";
+          return;
+        }
+        this.result = MarkdownFormatter.fromResult(res[0]).toString();
       } catch (error) {
         this.result = error.toString();
       }

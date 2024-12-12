@@ -314,10 +314,4 @@ func Topic() templ.Component {
 	})
 }
 
-/*
-"sql/select_all_columns.sql",
-"sql/select_alias.sql",
-"sql/select_computation.sql",
-*/
-
 var _ = templruntime.GeneratedTemplate
