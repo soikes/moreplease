@@ -1,3 +1,0 @@
-package generate
-
-//go:generate go run soikke.li/moreplease/sites/sql/bin/generate soikke.li/moreplease/sites/sql/templates/...

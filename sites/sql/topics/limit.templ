@@ -1,0 +1,143 @@
+package topics
+
+import (
+	"soikke.li/moreplease/pkg/db"
+	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+	l "soikke.li/moreplease/templates/layouts"
+)
+
+func init() {
+	render.MustRegisterComponent(site.LimitPage.Asset(), Limit())
+}
+
+templ Limit() {
+	{{
+	s := db.Statements{
+		Files:      mustSub("embed/limit"),
+		SchemaPath: "schema/schema.sql",
+	}
+	e := c.Example{
+		Statements: s,
+	}
+	}}
+	@l.Page{Site: site.MSP, Page: site.MSP.Page(site.LimitPage)}.Render() {
+		@c.Schema(s, "users")
+		<div class="container">
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("LIMIT")
+					</span> clause limits the maximum number of rows returned by a 
+					<span>
+						@c.Inline("SELECT")
+					</span> statement.
+				</p>
+				<p>
+					Other databases can have different syntaxes such as 
+					<span>
+						@c.Inline("SELECT TOP")
+					</span>, 
+					<span>
+						@c.Inline("FETCH FIRST")
+					</span> and 
+					<span>
+						@c.Inline("WHERE ROWNUM")
+					</span>.
+				</p>
+				<p>
+					Some databases also allow a 
+					<span>
+						@c.Inline("LIMIT")
+					</span> clause on 
+					<span>
+						@c.Inline("INSERT")
+					</span> and 
+					<span>
+						@c.Inline("DELETE")
+					</span> statements which limits the effect of those statements to the specified maximum amount of rows.
+				</p>
+			</div>
+			@e.Run("sql/limit.sql")
+			<div>
+				Without an 
+				<a href="/order_by">
+					<span>
+						@c.Inline("ORDER BY")
+					</span>
+				</a> clause, rows have no default sorting order in most databases. This means that using a 
+				<span>
+					@c.Inline("LIMIT")
+				</span> clause without 
+				<span>
+					@c.Inline("ORDER BY")
+				</span> can produce inconsistent result sets. It is best practice to always specify 
+				<span>
+					@c.Inline("ORDER BY")
+				</span> in your queries, especially when you are limiting the result set.
+			</div>
+			@e.Run("sql/limit_order_by.sql")
+			<div>
+				<span>
+					@c.Inline("OFFSET")
+				</span> can be applied to a 
+				<span>
+					@c.Inline("LIMIT")
+				</span> to offset the results returned. This helps in scenarios where you need to return your results in smaller paginated batches instead of all the data at once.
+			</div>
+			@e.Run("sql/limit_offset.sql")
+			<div>
+				If your 
+				<span>
+					@c.Inline("LIMIT")
+				</span> reaches past the total amount of data to return, the query will just return the total amount of data as if a 
+				<span>
+					@c.Inline("LIMIT")
+				</span> was not applied.
+			</div>
+			@e.Run("sql/limit_end.sql")
+			<div>
+				If an 
+				<span>
+					@c.Inline("OFFSET")
+				</span> reaches past the total amount of data to return, the query will return no data.
+			</div>
+			@e.Run("sql/offset_end.sql")
+			<div>
+				You can compute the number you supply to a 
+				<span>
+					@c.Inline("LIMIT")
+				</span> clause using arithmetic, 
+				<span>
+					@c.Link(site.MSP.Page(site.FunctionsPage), "")
+				</span>, 
+				<span>
+					@c.Link(site.MSP.Page(site.SubqueriesPage), "")
+				</span> and other computations as long as the result is a valid numeric type. See your database's documentation for types compatible with 
+				<span>
+					@c.Inline("LIMIT")
+				</span>.
+			</div>
+			@e.Run("sql/limit_computation.sql")
+			<div>
+				<p>
+					Sometimes but not always, adding a 
+					<span>
+						@c.Inline("LIMIT")
+					</span> clause to your query can improve performance. There are a number of factors that influence this including: how complex your query is, how many tables are queried, what 
+					<span>
+						@c.Link(site.MSP.Page(site.IndexesPage), "")
+					</span> are present on the table, and whether any rows actually match your query or if the query needs to scan the entire table anyways. Fewer results also means the size of the data returned over a network connection is less.
+				</p>
+				<p>
+					See 
+					<span>
+						@c.Link(site.MSP.Page(site.PerformanceAndExplainPage), "")
+					</span> for more information.
+				</p>
+			</div>
+		</div>
+	}
+}

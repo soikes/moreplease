@@ -1,0 +1,34 @@
+package components
+
+import (
+	"fmt"
+	"soikke.li/moreplease/pkg/model"
+)
+
+// Link links to an internal page on the site.
+// The page title is used as the link text.
+templ Link(page model.Page, fragment string) {
+	{{
+	href := page.URL
+	if fragment != `` {
+		href += fmt.Sprintf("#%s", fragment)
+	}
+	}}
+	<a href={ templ.URL(href) }>
+		{ page.Title }
+	</a>
+}
+
+// LinkWithText links to an internal page on the site.
+// You must specify the link text as a child component.
+templ LinkWithText(page model.Page, fragment string) {
+	{{
+	href := page.URL
+	if fragment != `` {
+		href += fmt.Sprintf("#%s", fragment)
+	}
+	}}
+	<a href={ templ.URL(href) }>
+		{ children... }
+	</a>
+}

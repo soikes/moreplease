@@ -1,0 +1,26 @@
+package layouts
+
+import "soikke.li/moreplease/pkg/model"
+
+var jsImports = templ.NewOnceHandle()
+
+templ Base(lang model.Language, title string) {
+	<html>
+		<head>
+			@jsImports.Once() {
+				<script type="text/javascript" src="assets/app.min.js"></script>
+				<script defer type="text/javascript" src="assets/alpine.min.js"></script>
+			}
+			<link rel="stylesheet" href="assets/styles.css"/>
+			<link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+			<title>{ title }</title>
+		</head>
+		<body class={ lang.CSSClass() }>
+			/* <div id="dark-light">
+            <input id="dark-light-toggle" type="checkbox">
+            <label for="dark-light-toggle">◐</label>
+        </div> */
+			{ children... }
+		</body>
+	</html>
+}

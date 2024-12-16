@@ -1,0 +1,170 @@
+package topics
+
+import (
+	"soikke.li/moreplease/pkg/db"
+	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+	l "soikke.li/moreplease/templates/layouts"
+)
+
+func init() {
+	render.MustRegisterComponent(site.AggregateFunctionsPage.Asset(), AggregateFunctions())
+}
+
+templ AggregateFunctions() {
+	{{
+	s := db.Statements{
+		Files:      mustSub("embed/aggregate_functions"),
+		SchemaPath: "schema/schema.sql",
+	}
+	e := c.Example{
+		Statements: s,
+	}
+	}}
+	@l.Page{Site: site.MSP, Page: site.MSP.Page(site.AggregateFunctionsPage)}.Render() {
+		@c.Schema(s, "users", "donations")
+		<div class="container">
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Link(site.MSP.Page(site.FunctionsPage), "")
+					</span> topic introduces the concept of simple/scalar functions, which accept zero or more input values and produce a single output value per row.				
+				</p>
+				<p>
+					<i>Aggregate functions</i> are categorized differently because they operate on more than one row of data at a time.
+				</p>
+				<p>
+					<span>
+						@c.Inline("count()")
+					</span> is a function that accepts a column name or a 
+					<span>
+						@c.Inline("*")
+					</span> as input. Instead of returning data though, it returns a count of the total number of rows.  If a 
+					<span>
+						@c.Inline("*")
+					</span> is specified, the count of all rows in the table is returned. Think of it as asking for a row count "including all columns".
+				</p>
+			</div>
+			@e.Run("count.sql")
+			<div>
+				<p>
+					If a column name is specified, the returned count is the number of non-
+					<span>
+						@c.Inline("NULL")
+					</span> rows.
+				</p>
+			</div>
+			@e.Run("count_column.sql")
+			<div>
+				<p>
+					Aggregate functions can accept a 
+					<span>
+						@c.Inline("DISTINCT")
+					</span> clause which causes duplicate rows to be ignored by the function. Here, the second "Amini" last name is not included in the count.
+				</p>
+			</div>
+			@e.Run("count_distinct.sql")
+			<div>
+				<p>
+					Another commonly used aggregate function is 
+					<span>
+						@c.Inline("max()")
+					</span>. It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an 
+					@c.LinkWithText(site.MSP.Page(site.OrderByPage), "") {
+						@c.Inline("ORDER BY")
+					}
+					: by following the current 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.OrderByPage), "collation") {
+							collation
+						}
+					</span> for that data type.
+				</p>
+				<p>
+					To instead find the minimum value, the 
+					<span>
+						@c.Inline("min()")
+					</span> function is used.
+				</p>
+				<p>
+					Keep in mind that in SQLite and other databases, 
+					<span>
+						@c.Inline("max()")
+					</span> and 
+					<span>
+						@c.Inline("min()")
+					</span> have versions that accept multiple arguments which are actually scalar functions that perform a different task.
+				</p>
+			</div>
+			@e.Run("max.sql")
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("sum()")
+					</span> function calculates the sum of all non-
+					<span>
+						@c.Inline("NULL")
+					</span> values. 
+				</p>
+				<p>
+					If every input row is 
+					<span>
+						@c.Inline("NULL")
+					</span> then 
+					<span>
+						@c.Inline("sum()")
+					</span> will return 
+					<span>
+						@c.Inline("NULL")
+					</span>. Unfortunately this is required by the SQL standard and several aggregate functions behave this way. This is not very useful if you are expecting a numerical result so some databases like SQLite have implemented a nonstandard 
+					<span>
+						@c.Inline("total()")
+					</span> function that returns 0.0 in this case instead.
+				</p>
+			</div>
+			@e.Run("sum.sql")
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("avg()")
+					</span> function calculates an average value across all the rows. It is equivalent to running 
+					<span>
+						@c.Inline("total() / count()")
+					</span>. Note again that only non-
+					<span>
+						@c.Inline("NULL")
+					</span> values are considered in the calculation.
+				</p>
+				<p>
+					In SQLite string values that can't be converted into numbers, such as 
+					<span>
+						@c.Inline("\"hello\"")
+					</span>, are treated as 
+					<span>
+						@c.Inline("0")
+					</span> in the average calculation.
+				</p>
+			</div>
+			@e.Run("avg.sql")
+			<div>
+				<p>
+					There are often more built-in aggregate functions to use as well as the ability to define your own aggregate functions similar to scalar functions.
+				</p>
+				<p>
+					Aggregate functions are powerful tools alone but they become even more useful when combined with the 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.GroupByPage), "") {
+							<span>
+								@c.Inline("GROUP BY")
+							</span>
+						}
+					</span> clause which we will explore next.
+				</p>
+			</div>
+		</div>
+	}
+}

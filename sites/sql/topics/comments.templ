@@ -1,0 +1,98 @@
+package topics
+
+import (
+	"soikke.li/moreplease/pkg/db"
+	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+	l "soikke.li/moreplease/templates/layouts"
+)
+
+func init() {
+	render.MustRegisterComponent(site.CommentsPage.Asset(), Comments())
+}
+
+templ Comments() {
+	{{
+	s := db.Statements{
+		Files:      mustSub("embed/comments"),
+		SchemaPath: "schema/schema.sql",
+	}
+	e := c.Example{
+		Statements: s,
+	}
+	}}
+	@l.Page{Site: site.MSP, Page: site.MSP.Page(site.CommentsPage)}.Render() {
+		@c.Schema(s, "users")
+		<div class="container">
+			<div>
+				<p>
+					Comments can be added to SQL and will not be evaluated as part of the statement. To add a single line comment, prefix the line with two dashes. 
+				</p>
+				<p>
+					If you are using the MySQL engine, the hash symbol
+					<span>
+						@c.Inline("#")
+					</span> is used for single line comments instead.
+				</p>
+			</div>
+			@e.Run("comments.sql")
+			<div>
+				<p>
+					Comments can be added to the same line as code, as long as the comment starts after the code.
+				</p>
+			</div>
+			@e.Run("inline_comments.sql")
+			<div>
+				<p>
+					You can make comments span multiple lines, otherwise known as block comments, by surrounding the comment with 
+					<span>
+						@c.Inline("/* */")
+					</span>.
+				</p>
+				<p>
+					Block comments allow you to add as many line breaks as you want and the comment will not end until it is terminated with the closing characters.
+				</p>
+				<p>
+					This example uses
+					<span>
+						@c.Link(site.MSP.Page(site.FunctionsPage), "")
+					</span> which are explained in a later topic. The comment briefly explains the intent and the rationale behind the query.
+				</p>
+			</div>
+			@e.Run("block_comments.sql")
+			<div>
+				<p>
+					When you are working on queries, comments can be useful to quickly test new ideas without having to remove your existing code.
+				</p>
+				<p>
+					This example also shows a technique using a "dummy" 
+					<span>
+						@c.Inline("WHERE")
+					</span> clause that allows us to switch between subsequent lines without having to edit them.
+				</p>
+			</div>
+			@e.Run("comment_testing.sql")
+			<div>
+				<p>
+					A few good rules of thumb for comments are:
+				</p>
+				<p>
+					Keep comments clear and concise.
+				</p>
+				<p>
+					Try to use comments to explain <i>why</i> something was done rather than <i>what</i>. Try to make your code as self-explanatory as possible.
+				</p>
+				<p>
+					An exception to the above rule is for large queries with complex logic. Sometimes an explanation helps with understanding.
+				</p>
+				<p>
+					Create a system for remembering to update comments when you update your code.
+				</p>
+				<p>
+					When you are writing your code and comments, imagine yourself or a colleague looking at it again months or even years later. You will thank yourself for writing good comments!
+				</p>
+			</div>
+		</div>
+	}
+}

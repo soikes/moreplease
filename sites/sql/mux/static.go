@@ -4,9 +4,10 @@ import (
 	"io/fs"
 	"net/http"
 
-	"soikke.li/moreplease/sites/sql/assets"
-	"soikke.li/moreplease/web"
-	"soikke.li/moreplease/web/search"
+	"soikke.li/moreplease/pkg/assets"
+	"soikke.li/moreplease/pkg/search"
+	sqlAssets "soikke.li/moreplease/sites/sql/assets"
+	"soikke.li/moreplease/sites/sql/site"
 )
 
 type FSHandler struct {
@@ -15,8 +16,8 @@ type FSHandler struct {
 
 func NewFSHandler() FSHandler {
 	h := FSHandler{}
-	as := assets.Assets
-	h.fs = web.AssetsFS{FS: as}
+	as := sqlAssets.Assets
+	h.fs = assets.AssetsFS{FS: as}
 	return h
 }
 
@@ -43,7 +44,7 @@ func (h *FSHandler) htmlAsset(w http.ResponseWriter, r *http.Request) {
 func NewStaticMux() *http.ServeMux {
 	mux := http.NewServeMux()
 
-	s, err := search.NewHandler()
+	s, err := search.NewHandler(site.AssetDocumentProvider{})
 	if err != nil {
 		panic(err)
 	}
@@ -52,6 +53,6 @@ func NewStaticMux() *http.ServeMux {
 	f := NewFSHandler()
 	mux.HandleFunc("GET /assets/{asset}", f.asset)
 	mux.HandleFunc("GET /{topic}", f.htmlAsset)
-	mux.HandleFunc("GET /{$}", f.htmlAsset)
+	mux.HandleFunc("GET /{$}", f.htmlAsset) // index.html
 	return mux
 }

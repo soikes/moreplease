@@ -1,0 +1,71 @@
+package topics
+
+import (
+	"soikke.li/moreplease/pkg/model"
+	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+	l "soikke.li/moreplease/templates/layouts"
+)
+
+func init() {
+	render.MustRegisterComponent(site.IndexPage.Asset(), Index())
+}
+
+templ Index() {
+	{{
+	s := site.MSP
+	}}
+	@l.Base(s.Language, s.Title) {
+		@inner(s.Sections)
+	}
+}
+
+templ inner(sections []model.Section) {
+	<div class="content narrow">
+		<div class="logo">
+			<img src="assets/logo.svg"/>
+		</div>
+		<p>
+			Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to 
+			<span>
+				@c.Outlink("https://simple.wikipedia.org/wiki/Relational_database", "relational data")
+			</span> where the data has well-defined relationships.
+		</p>
+		<p>
+			<em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. Every SQL statement is run fully in your browser using the
+			<span>
+				@c.Outlink("https://www.sqlite.org", "SQLite")
+			</span> database engine and 
+			<span>
+				@c.Outlink("https://github.com/sql-js/sql.js/", "sql.js")
+			</span>!
+		</p>
+		<p>
+			You can edit, re-run and reset every example on this site. Each topic utilizes a particular set of database tables, known as a schema, which can be shown or hidden at the top of the page anytime.
+		</p>
+		<p>
+			The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.
+		</p>
+		@c.Search()
+		@c.Contents(sections)
+		<small class="footer">
+			<span class="italic">
+				by
+				<a href="http://soikke.li">Mike Soikkeli</a>
+			</span>
+			<span>|</span>
+			<a class="italic" href="https://github.com/soikes/byexample/tree/main/sql">source</a>
+			<span>|</span>
+			<a class="italic" href="https://github.com/soikes/byexample/blob/main/LICENSE">license</a>
+			<span>|</span>
+			<a class="italic" href="https://buymeacoffee.com/mikesoikkeli">☕️ Buy me a Coffee!</a>
+		</small>
+	</div>
+}
+
+templ coffee() {
+	<div id="coffee">
+		<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="mikesoikkeli" data-description="Support me on Buy me a coffee!" data-message="Your support helps keep More SQL Please a peaceful place to learn SQL. Thank you for making that possible! ✨" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+	</div>
+}

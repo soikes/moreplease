@@ -5,3 +5,4 @@
 **/app.min.js
 **/app.min.js.map
 **/assets/*.html
+**/*_templ.go

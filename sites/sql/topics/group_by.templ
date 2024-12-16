@@ -1,0 +1,213 @@
+package topics
+
+import (
+	"soikke.li/moreplease/pkg/db"
+	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+	l "soikke.li/moreplease/templates/layouts"
+)
+
+func init() {
+	render.MustRegisterComponent(site.GroupByPage.Asset(), GroupBy())
+}
+
+templ GroupBy() {
+	{{
+	s := db.Statements{
+		Files:      mustSub("embed/group_by"),
+		SchemaPath: "schema/schema.sql",
+	}
+	e := c.Example{
+		Statements: s,
+	}
+	}}
+	@l.Page{Site: site.MSP, Page: site.MSP.Page(site.GroupByPage)}.Render() {
+		@c.Schema(s, "products", "vendors", "orders")
+		<div class="container">
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("GROUP BY")
+					</span> statement is used when you want to group results together so you can find things out about each group. 
+				</p>
+				<p>
+					<span>
+						@c.Inline("GROUP BY")
+					</span> is most useful when paired with an aggregate function like 
+					<span>
+						@c.Inline("sum()")
+					</span>, which in this case will operate once for each group instead of on all the rows together.
+				</p>
+			</div>
+			@e.Run("group_by.sql")
+			<div>
+				You can use multiple aggregate functions with a 
+				<span>
+					@c.Inline("GROUP BY")
+				</span> to find more information about each group side by side.
+			</div>
+			@e.Run("group_by_multiple_functions.sql")
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("HAVING")
+					</span> clause can be applied to a 
+					<span>
+						@c.Inline("GROUP BY")
+					</span>, which will only include rows in the group that match the clause. It is similar to a 
+					<span>
+						@c.Inline("WHERE")
+					</span> clause but with key differences:
+				</p>
+				<p>
+					<span>
+						@c.Inline("WHERE")
+					</span> filters rows before they are grouped and 
+					<span>
+						@c.Inline("HAVING")
+					</span> filters rows after groups are formed. Because of this, only the 
+					<span>
+						@c.Inline("HAVING")
+					</span> clause can accept aggeregated values.
+				</p>
+			</div>
+			@e.Run("group_by_having.sql")
+			<div>
+				<p>
+					<span>
+						@c.Inline("GROUP BY")
+					</span> can be used alongside other clauses like 
+					<span>
+						@c.Inline("JOIN")
+					</span>.
+				</p>
+				<p>
+					In logistics, lead time is how long it takes to receive something after ordering it. In this example we group by vendor then use the 
+					<span>
+						@c.Inline("avg()")
+					</span> function with the lead time of each order to find the average lead time for each vendor.
+				</p>
+				<p>
+					We group by a vendor's 
+					<span>
+						@c.Inline("id")
+					</span> instead of 
+					<span>
+						@c.Inline("name")
+					</span> because vendors might have the same name as one another but they always have a unique id. This ensures that our groups contain the correct order data for each unique vendor.
+				</p>
+				<p>
+					<span>
+						@c.Inline("julianday()")
+					</span> is a built-in function that helps us perform arithmetic on <a href="date_and_time">dates</a> in SQLite.
+				</p>
+			</div>
+			@e.Run("group_by_join.sql")
+			<div>
+				<p>
+					If you supply multiple columns to a 
+					<span>
+						@c.Inline("GROUP BY")
+					</span>, groups are formed based on all the unique combinations of data from those columns.
+				</p>
+				<p>
+					Here we group by both the product category and the month we made an order for that category. 
+					<span>
+						@c.Inline("count(*)")
+					</span> will then count how many rows are in each group, telling us how many orders there are in each group.
+				</p>
+			</div>
+			@e.Run("group_by_multicolumn.sql")
+			<div>
+				Now lets say we want to see the most recent order totals first. 
+				<span>
+					@c.Inline("ORDER BY")
+				</span> can be applied at the end of the query to sort the months in descending order.
+			</div>
+			@e.Run("group_by_order_by.sql")
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("DISTINCT")
+					</span> clause can be added to an aggregate function like 
+					<span>
+						@c.Inline("count()")
+					</span>. In this case we want to see how many different vendors we have for each product category to make sure we can negotiate the best prices.
+				</p>
+				<p>
+					Without the 
+					<span>
+						@c.Inline("DISTINCT")
+					</span> clause in this query it would return a row count of all the products in each category even if the same vendor appears multiple times. We would have thought we had two Pet Care vendors when really we only have one.
+				</p>
+			</div>
+			@e.Run("group_by_distinct.sql")
+			<div>
+				<p>
+					<span>
+						@c.Inline("NULL")
+					</span> values form their own group when they are found by a 
+					<span>
+						@c.Inline("GROUP BY")
+					</span>.
+				</p>
+				<p>
+					In this schema an order has a 
+					<span>
+						@c.Inline("NULL")
+					</span> arrival date if it hasn't arrived yet. This query will show us unfulfilled orders as a 
+					<span>
+						@c.Inline("NULL")
+					</span> arrival month alongside fulfilled orders.
+				</p>
+				<p>
+					If we wanted something more informative to display like "Not Arrived" or "Pending", we could use the 
+					@c.LinkWithText(site.MSP.Page(site.FunctionsPage), "coalesce") {
+						<span>
+							@c.Inline("coalesce()")
+						</span> function
+					}
+					.
+				</p>
+			</div>
+			@e.Run("group_by_null.sql")
+			<div>
+				<p>
+					As usual, a 
+					<span>
+						@c.Inline("WHERE")
+					</span> clause can be applied to any of these queries. This time, we filter out unfulfilled orders before they are grouped by month.
+				</p>
+				<p>
+					This example also shows 
+					<span>
+						@c.Inline("WHERE")
+					</span> and 
+					<span>
+						@c.Inline("HAVING")
+					</span> being used together.
+				</p>
+			</div>
+			@e.Run("group_by_where.sql")
+			<div>
+				<p>
+					Any selected columns that are not part of an aggregate function or included in the 
+					<span>
+						@c.Inline("GROUP BY")
+					</span> clause are called "bare" columns. Many databases will treat bare columns as an error because they create ambiguity in which value to return.
+				</p>
+				<p>
+					In this example, "name" is the bare column. It returns a single arbitrary product name from the associated category, which isn't very useful to us.
+				</p>
+				<p>
+					SQLite does allow bare columns but it's generally recommended not to include them in your queries.
+				</p>
+			</div>
+			@e.Run("group_by_invalid.sql")
+		</div>
+	}
+}

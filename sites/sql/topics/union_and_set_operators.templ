@@ -1,0 +1,225 @@
+package topics
+
+import (
+	"soikke.li/moreplease/pkg/db"
+	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+	l "soikke.li/moreplease/templates/layouts"
+)
+
+func init() {
+	render.MustRegisterComponent(site.UnionAndSetOperatorsPage.Asset(), UnionAndSetOperators())
+}
+
+templ UnionAndSetOperators() {
+	{{
+	s := db.Statements{
+		Files:      mustSub("embed/union_and_set_operators"),
+		SchemaPath: "schema/schema.sql",
+	}
+	e := c.Example{
+		Statements: s,
+	}
+	}}
+	@l.Page{Site: site.MSP, Page: site.MSP.Page(site.UnionAndSetOperatorsPage)}.Render() {
+		@c.Schema(s, "products", "orders", "archived_orders_2023")
+		<div class="container">
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("UNION")
+					</span> operator allows you to combine two sets of result rows into one.
+				</p>
+				<p>
+					A 
+					<span>
+						@c.Inline("UNION")
+					</span> is different than a 
+					<span>
+						@c.Inline("JOIN")
+					</span>. Think of a 
+					<span>
+						@c.Inline("JOIN")
+					</span> as a way to combine columns "horizontally" from different tables, whereas a 
+					<span>
+						@c.Inline("UNION")
+					</span> is a way to stack rows "vertically" on top of one another.
+				</p>
+				<p>
+					In order for a 
+					<span>
+						@c.Inline("UNION")
+					</span> to succeed, the queries before and after it must have the same number of columns. Most databases require that the data types of the results match up as well. SQLite's dynamic typing feature allows you to mix data types within the same column. See 
+					<span>
+						@c.Link(site.MSP.Page(site.DataTypesPage), "")
+					</span> for more information.
+				</p>
+				<p>
+					The column names from the first query are used in the resulting set.
+				</p>
+				<p>
+					This example shows one use case for 
+					<span>
+						@c.Inline("UNION")
+					</span>. Sometimes you will encounter separate tables that have the same structure. In this scenario, orders from the previous year are moved into another table as an archived copy.
+				</p>
+				<p>
+					This technique can improve database performance with large datasets by limiting the amount of rows the database needs to check for queries against this year's orders.
+				</p>
+			</div>
+			@e.Run("union.sql")
+			<div>
+				<p>
+					<span>
+						@c.Inline("UNION ALL")
+					</span> is a modifier that preserves duplicates in the resulting set.
+				</p>
+				<p>
+					<span>
+						@c.Inline("UNION")
+					</span> ignores duplicate rows by default.
+				</p>
+				<p>
+					Both tables contain some orders with the same 
+					<span>
+						@c.Inline("product_id")
+					</span> and 
+					<span>
+						@c.Inline("quantity")
+					</span>, so they are treated as duplicates by 
+					<span>
+						@c.Inline("UNION")
+					</span>.
+				</p>
+				<p>
+					As an aside, notice how the previous example had results ordered by 
+					<span>
+						@c.Inline("product_id")
+					</span> and this example has no meaningful order. This shows us how a database engine will typically return rows in whatever order it decides is most efficient to compute unless we supply an 
+					<span>
+						@c.Inline("ORDER BY")
+					</span> clause.
+				</p>
+			</div>
+			@e.Run("union_all.sql")
+			<div>
+				<p>
+					<span>
+						@c.Inline("UNION")
+					</span> can be chained multiple times to keep appending rows to the result from multiple queries.
+				</p>
+				<p>
+					This example also shows how you can 
+					<span>
+						@c.Inline("SELECT")
+					</span> constants or computed columns and use them in a 
+					<span>
+						@c.Inline("UNION")
+					</span>. This can be a useful technique to include ad-hoc data that doesn't exist in a table.
+				</p>
+			</div>
+			@e.Run("union_multi.sql")
+			<div>
+				<p>
+					Ad-hoc data supplied to a 
+					<span>
+						@c.Inline("UNION")
+					</span> can be a useful technique to create separate "utility" tables as well.
+				</p>
+				<p>
+					Here we construct a table called 
+					<span>
+						@c.Inline("shelf_life")
+					</span> which maps a product category to a number of days of shelf life. Note again that we only need to alias the columns of the first input to the 
+					<span>
+						@c.Inline("UNION")
+					</span> because those column names will be used for all the rows in the result.
+				</p>
+				<p>
+					Note that this example also demonstrates a 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.CommonTableExpressionsPage), "") {
+							Common Table Expression
+						}
+					</span> to construct the 
+					<span>
+						@c.Inline("shelf_life")
+					</span> table for later use in the query.
+				</p>
+			</div>
+			@e.Run("union_constants.sql")
+			<div>
+				The result of a 
+				<span>
+					@c.Inline("UNION")
+				</span> is treated the same as any other 
+				<span>
+					@c.Inline("SELECT")
+				</span> statement, so it can be used with aggregate clauses like 
+				<span>
+					@c.Inline("GROUP BY")
+				</span>. This example shows how we can calculate the total purchased quantity of items by year.
+			</div>
+			@e.Run("union_aggregate.sql")
+			<div>
+				<p>
+					<span>
+						@c.Inline("INTERSECT")
+					</span> is an operator available in some databases that is used to return only the rows that are shared by both input sets.
+				</p>
+				<p>
+					Think of a 
+					<span>
+						@c.Inline("UNION")
+					</span> as being inclusive, or as growing the result set, while an 
+					<span>
+						@c.Inline("INTERSECT")
+					</span> is exclusive, or shrinking the result set. In terms of a 
+					<span>
+						@c.Outlink("https://en.wikipedia.org/wiki/Venn_diagram", "Venn Diagram")
+					</span>, 
+					<span>
+						@c.Inline("INTERSECT")
+					</span> is equivalent to the area where the two circles overlap.
+				</p>
+				<p>
+					In this example we show how 
+					<span>
+						@c.Inline("INTERSECT")
+					</span> helps us find out which orders we made in 2024 are identical to orders we made in 2023.
+				</p>
+			</div>
+			@e.Run("intersect.sql")
+			<div>
+				For reference, 
+				<span>
+					@c.Inline("INTERSECT")
+				</span> is functionally equivalent to a 
+				<span>
+					@c.Inline("JOIN")
+				</span> with a 
+				<span>
+					@c.Inline("DISTINCT")
+				</span> clause to eliminate duplicates.
+			</div>
+			@e.Run("intersect_alternative.sql")
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("EXCEPT")
+					</span> operator returns rows from the first set that do not exist in the second set. Think of it as a way to subtract the second set from the first set. Some databases call this operator 
+					<span>
+						@c.Inline("MINUS")
+					</span>.
+				</p>
+				<p>
+					This example shows all the orders from 2024 that did not have identical orders placed in 2023.
+				</p>
+			</div>
+			@e.Run("except.sql")
+		</div>
+	}
+}

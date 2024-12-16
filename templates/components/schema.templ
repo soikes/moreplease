@@ -1,0 +1,30 @@
+package components
+
+import (
+	"fmt"
+	"soikke.li/moreplease/pkg/db"
+)
+
+templ Schema(s db.Statements, tables ...string) {
+	<details id="schema" class="toggle">
+		<summary
+			class="action heading"
+			data-open="hide tables"
+			data-close="show tables"
+		></summary>
+		<div class="container">
+			for _, table := range tables {
+				<div class="tile">
+					<div class="tablename">
+						<span>
+							@Inline(table)
+						</span>
+					</div>
+					<pre class="table">
+						{ s.ExecFile(fmt.Sprintf("schema/dump_%s.sql", table)) }
+					</pre>
+				</div>
+			}
+		</div>
+	</details>
+}
