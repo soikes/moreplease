@@ -6,7 +6,7 @@ CREATE FUNCTION format_transaction(
 RETURNS TEXT
 AS $$
 BEGIN
-    RETURN format("%s %s withdrew %.2f.",
+    RETURN format('%s %s withdrew %.2f.',
         name_first,
         name_last,
         amount

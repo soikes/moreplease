@@ -1,30 +1,17 @@
 # TODO
 
-- [x] Rename to More SQL Please
-
 - [ ] Add tags for each example and make the site searchable
-
-- [x] Get the code block to follow the window as the reader scrolls until they hit the next block (?)
-
-  - [x] Highlight the relevant line being discussed as the user scrolls as well? or add a `>` to the left of the line number to show that.
 
 - [ ] Allow the user to toggle showing the tables as a static overlay at the top of the screen. it may be helpful when they are scrolled far down the page.
 
 - [ ] Align the right side of the code blocks with the right side of the tables at top of page.
 
-- [x] Instead of running sqlite on the server, use https://github.com/flimzy/go-sql.js to run sqlite in the browser! Nullify security and load concerns.
-
-  - [x] This would involve changing the architecture of the site from being a server-side-rendered site to mostly a client side rendered site.
-    - Code syntax highlighting would need to be done on client instead of rendered on server
-    - SQLite API would need to be redone to work with go-sql
-    - Server would just be responsible for sending the base HTML and .sql content to the browser which would handle the rest. Would react then become a better choice for the frontend?
-
-- [x] Change syntax highlight rendering to use classes so we don't flood the page with inline styles.
-
 - Submit PRs to zed-templ
 
-  - [ ] Single quotations in HTML markup breaks syntax highlighting
-  - [ ] Find other syntax highlighting breakages and submit fixes
+  - [x] Work on extension is in "raw-go" branch in my fork of templ-zed.
+
+    - [ ] KNOWN ISSUE: Loading my .templ documents where I use @c.Inline("")</span>. causes the syntax highlighting to break when loading the documents. If you edit the text and re-save, it'll restore syntax highlighing. not sure if it's a problem with the extension, the grammar, or the custom C scanner in tree-sitter-templ.
+    - [ ] KNOWN ISSUE: escaped quotes inside quotes e.g. "\"asdf\"" are being treated as special highlighting and showing the unicode value on a popover. is this expected?
 
 - [ ] Figure out how to style the grid so that by default we have a 2fr 3fr split but when tables are too long, they wrap to the next row.
 
@@ -65,25 +52,18 @@
   FROM table;
   ```
 
-- [x] Explain collation on aggregate functions page by linking back to ORDER BY
-
 - [ ] Make schema container fall back to single column if the content is too wide for two
 
 - [ ] Put CTEs before UNION because we use that in an example...
 
 - [ ] Add caching headers / Etag for assets
 
-- [x] Change the inline rendering to use the same colour scheme and font as the examples. Probably just need to replace the server side rendering everywhere with client side.
-
-- [x] Move AlpineJS code into JS instead of in markup
-
 - [ ] Add privacy-respecting analytics (integrated with Go?) to get simple site statistics
-
-- [x] Align the nav footer on each page as left, center, right -or- always put the nav footer in the left column in a .container
 
 - [ ] Make an in-memory cache for the embedded assets
 
 - [ ] Bring back server rendering of SQL as default content so examples can be indexed and searched, also benefits those with JS disabled
+
 - [ ] Remove Run and Reset buttons if JS is disabled
 
 - [ ] Add thumbs down to "Bare column" example and search for other "counter-examples"

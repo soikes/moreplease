@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"soikke.li/moreplease/pkg/render"
+	_ "soikke.li/moreplease/sites/sql/topics" // Load pkgs to register them for rendering.
 )
 
 type config struct {

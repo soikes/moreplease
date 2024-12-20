@@ -225,7 +225,16 @@ templ DataTypes() {
 						SQLite does not include any special type for storing dates or times; it uses 
 						<span>
 							@c.Inline("TEXT")
-						</span> for this purpose and includes several built-in <a href="/functions">functions</a> for working with dates and times.
+						</span> for this purpose and includes several built-in 
+						<span>
+							@c.Link(site.MSP.Page(site.FunctionsPage), "")
+						</span> for working with dates and times.
+					</p>
+					<p>
+						SQLite requires you to store dates/times in one of a few certain formats. The most human-readable format to use is an 
+						<span>
+							@c.Outlink("https://en.wikipedia.org/wiki/ISO_8601", "ISO-8601 formatted")
+						</span> string.
 					</p>
 				</p>
 			</div>
@@ -303,8 +312,28 @@ templ DataTypes() {
 					<i><b>Other types:</b></i>
 					<p>
 						<span>
+							@c.Inline("TEXT[]")
+						</span> is an example of an array of text data. Array types allow you to store lists of items together in a single row. SQLite does not support array data types but other database engines such as PostgreSQL support arrays for any valid type, like
+						<span>
+							@c.Inline("TIMESTAMP[]")
+						</span> and 
+						<span>
+							@c.Inline("BOOLEAN[]")
+						</span>.
+					</p>
+					<p>
+						Databases that support array types also provide syntax and functions for accessing elements from an array, for example 
+						<span>
+							@c.Inline("users.names[0]")
+						</span> to select the first element of an array-type row.
+					</p>
+					<p>
+						<span>
 							@c.Inline("JSON")
-						</span> for JSON-formatted data. Many modern databases have features and functions to deal specifically with JSON data.
+						</span> for JSON-formatted data. Many modern databases have features and functions to deal specifically with JSON data. Some databases require you to use 
+						<span>
+							@c.Inline("JSON")
+						</span> for array data types and functions.
 					</p>
 					<p>
 						<span>

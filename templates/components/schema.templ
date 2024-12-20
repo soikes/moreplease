@@ -16,13 +16,11 @@ templ Schema(s db.Statements, tables ...string) {
 			for _, table := range tables {
 				<div class="tile">
 					<div class="tablename">
-						<span>
-							@Inline(table)
-						</span>
+						{ table }
 					</div>
-					<pre class="table">
+					<div class="table result">
 						{ s.ExecFile(fmt.Sprintf("schema/dump_%s.sql", table)) }
-					</pre>
+					</div>
 				</div>
 			}
 		</div>

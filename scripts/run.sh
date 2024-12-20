@@ -6,4 +6,4 @@ if [ "$#" -ne 1 ]; then
 fi
 site="$1"
 
-go run "soikke.li/moreplease/${site}" "$@"
+go run "soikke.li/moreplease/${site}" "$@" || exit 1

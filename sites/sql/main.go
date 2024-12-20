@@ -2,7 +2,7 @@ package main
 
 import (
 	"flag"
-	"fmt"
+	"log"
 	"net/http"
 
 	"soikke.li/moreplease/sites/sql/mux"
@@ -22,7 +22,7 @@ func main() {
 		m = mux.NewStaticMux()
 	}
 	addr := "127.0.0.1:9000"
-	fmt.Printf("%s site listening at %s\n", desc, addr)
+	log.Printf("%s site listening at %s\n", desc, addr)
 	err := http.ListenAndServe(addr, m)
 	panic(err)
 }

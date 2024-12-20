@@ -1,4 +1,4 @@
-SELECT strftime("%m", o.date_ordered) AS month,
+SELECT strftime('%m', o.date_ordered) AS month,
     p.category,
     count(*) AS total_orders
 FROM orders o

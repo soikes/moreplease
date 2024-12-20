@@ -3,6 +3,7 @@ package search
 import (
 	"errors"
 	"os"
+	"path/filepath"
 
 	"github.com/blevesearch/bleve/v2"
 	"github.com/blevesearch/bleve/v2/search/query"
@@ -56,21 +57,24 @@ func NewIndex(provider DocumentProvider) (Index, error) {
 	indexMapping := bleve.NewIndexMapping()
 	indexMapping.DefaultMapping = documentMapping
 
-	indexPath := "data/index.bleve"
-	var index bleve.Index
+	dataPath := `data`
+	indexName := `moresqlplease.bleve`
+	path := filepath.Join(dataPath, indexName)
+
 	var err error
-	if info, statErr := os.Stat(indexPath); statErr == nil && info.IsDir() {
-		err = os.RemoveAll(indexPath)
+	if info, statErr := os.Stat(path); statErr == nil && info.IsDir() {
+		err = os.RemoveAll(path)
 		if err != nil {
 			return i, err
 		}
 	} else {
-		err = os.MkdirAll(`data`, 0700)
+		err = os.MkdirAll(dataPath, 0700)
 		if err != nil {
 			return i, err
 		}
 	}
-	index, err = bleve.New(indexPath, indexMapping)
+	var index bleve.Index
+	index, err = bleve.New(path, indexMapping)
 	if err != nil {
 		return i, err
 	}

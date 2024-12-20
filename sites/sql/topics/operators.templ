@@ -1,0 +1,320 @@
+package topics
+
+import (
+	"soikke.li/moreplease/pkg/db"
+	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+	l "soikke.li/moreplease/templates/layouts"
+)
+
+func init() {
+	render.MustRegisterComponent(site.OperatorsPage.Asset(), Operators())
+}
+
+templ Operators() {
+	{{
+		s := db.Statements{
+			Files:      mustSub("embed/operators"),
+			SchemaPath: "schema/schema.sql",
+		}
+		e := c.Example{
+			Statements: s,
+		}
+	}}
+	@l.Page{Site: site.MSP, Page: site.MSP.Page(site.OperatorsPage)}.Render() {
+		@c.Schema(s, "users")
+		<div class="container">
+			<div>
+				<p>
+					Operators allow you to perform computations and comparisons between two sets of data within a SQL statement. SQL has different kinds of operators that can be classified into groups:
+					<p>
+						<i><b>Arithmetic Operators:</b></i>
+						<p>
+							Arithmetic operators allow you to perform arithmetic between two values.
+							They are usually used with numbers but some engines allow you to use arithmetic operators with other types like 
+							<span>
+								@c.Inline("TEXT")
+							</span> or 
+							<span>
+								@c.Inline("DATETIME")
+							</span>. See your database's documentation for information on how each operator is interpreted for different data types.
+						</p>
+						<p>The typical operators are:</p>
+						<p>
+							<span>
+								@c.Inline("+")
+							</span>&ensp;Addition.
+						</p>
+						<p>
+							<span>
+								@c.Inline("-")
+							</span>&ensp;Subtraction.
+						</p>
+						<p>
+							<span>
+								@c.Inline("*")
+							</span>&ensp;Multiplication.
+						</p>
+						<p>
+							<span>
+								@c.Inline("/")
+							</span>&ensp;Division.
+						</p>
+						<p>
+							<span>
+								@c.Inline("%")
+							</span>&ensp;Returns the remainder part of a division, also known as the modulo operator.
+						</p>
+					</p>
+				</p>
+			</div>
+			@e.Run("arithmetic_operators.sql")
+			<div>
+				<p>
+					<i><b>Comparison Operators:</b></i>
+					<p>
+						Comparison operators are used to compare two values to each other. We have seen that they are typically used in 
+						<span>
+							@c.Link(site.MSP.Page(site.WherePage), "")
+						</span> clauses but they can be used in many others as well.
+					</p>
+					<p>
+						An expression using comparison operators always evaluates to either 
+						<span>
+							@c.Inline("TRUE")
+						</span> or 
+						<span>
+							@c.Inline("FALSE")
+						</span> ( or
+						<span>
+							@c.Inline("1")
+						</span> or 
+						<span>
+							@c.Inline("0")
+						</span> ) in SQLite. You can try this yourself, e.g. 
+						<span>
+							@c.Inline("SELECT 1 = 2;")
+						</span>
+					</p>
+					<p>The typical operators are:</p>
+					<p>
+						<span>
+							@c.Inline("=")
+						</span>&ensp;or&ensp; 
+						<span>
+							@c.Inline("==")
+						</span>&ensp;Equal to.
+					</p>
+					<p>
+						<span>
+							@c.Inline(">")
+						</span>&ensp;Greater than.
+					</p>
+					<p>
+						<span>
+							@c.Inline("<")
+						</span>&ensp;Less than.
+					</p>
+					<p>
+						<span>
+							@c.Inline(">=")
+						</span>&ensp;Greater than or equal to.
+					</p>
+					<p>
+						<span>
+							@c.Inline("<=")
+						</span>&ensp;Less than or equal to.
+					</p>
+					<p>
+						<span>
+							@c.Inline("<>")
+						</span>&ensp;or&ensp; 
+						<span>
+							@c.Inline("!=")
+						</span>&ensp;Not Equal.
+					</p>
+					<p>
+						Note that comparisons use the same 
+						<span>
+							@c.LinkWithText(site.MSP.Page(site.OrderByPage), "collation") {
+								collation
+							}
+						</span> as the 
+						<span>
+							@c.Inline("ORDER BY")
+						</span> clause. This means that types like 
+						<span>
+							@c.Inline("TEXT")
+						</span> can be compared using these operators.
+					</p>
+					<p>
+						This example shows 
+						<span>
+							@c.Inline(">=")
+						</span> being used with a date. Recall from 
+						<span>
+							@c.Link(site.MSP.Page(site.DataTypesPage), "")
+						</span> that dates in SQLite are stored as 
+						<span>
+							@c.Outlink("https://en.wikipedia.org/wiki/ISO_8601", "ISO-8601 formatted")
+						</span> strings. This works well with the collation rules for strings in SQLite because the year is stored first, then month, then day. It means that sorting and comparing dates and times works as intended naturally!
+					</p>
+				</p>
+			</div>
+			@e.Run("comparison_operators.sql")
+			<div>
+				<p>
+					Since a comparison always yields a boolean result, it can be used anywhere a boolean can be used, such as a field in a 
+					<span>
+						@c.Inline("SELECT")
+					</span> statement.
+				</p>
+			</div>
+			@e.Run("comparison_select.sql")
+			<div>
+				<p>
+					<i><b>Logical Operators:</b></i>
+				</p>
+				<p>
+					Logical operators allow you to combine expressions based on logical operations. They can also be chained together to form more complex expressions.
+				</p>
+				<p>
+					<span>
+						@c.Inline("... AND ...")
+					</span>&ensp;Match when both expressions are true.
+				</p>
+				<p>
+					<span>
+						@c.Inline("... OR ...")
+					</span>&ensp;Match when either expression is true.
+				</p>
+				<p>
+					<span>
+						@c.Inline("... BETWEEN ... AND ...")
+					</span>&ensp;Match when the expression falls between two values inclusively. This is shorthand for using the 
+					<span>
+						@c.Inline("<=")
+					</span> and 
+					<span>
+						@c.Inline(">=")
+					</span> operators.
+				</p>
+				<p>
+					<span>
+						@c.Inline("... IS NULL")
+					</span>&ensp;or&ensp;
+					<span>
+						@c.Inline("... IS NOT NULL")
+					</span>&ensp;Match when the expression is NULL or not.
+				</p>
+				<p>
+					<span>
+						@c.Inline("... LIKE '%mail.com'")
+					</span>&ensp;Match based on a string pattern. 
+					<span>
+						@c.Inline("'%'")
+					</span> is the wildcard character used to match zero or more of any character.
+					<span>
+						@c.Inline("'_'")
+					</span> is the wildcard character used to match exactly one of any character.
+				</p>
+				<p>
+					<span>
+						@c.Inline("... REGEXP '.*'")
+					</span>&ensp;Match based on a 
+					<span>
+						@c.Outlink("https://en.wikipedia.org/wiki/Regular_expression#Basic_concepts", "regular expression")
+					</span> pattern. SQLite does not support regular expression matching without extra plugins.
+				</p>
+			</div>
+			@e.Run("logical_operators.sql")
+			<div>
+				<p>
+					If your data itself contains special characters like 
+					<span>
+						@c.Inline("'_'")
+					</span>, you can specify an "escape" character using the 
+					<span>
+						@c.Inline("ESCAPE")
+					</span> keyword. Special characters can be preceded by this escape character to treat them literally.
+				</p>
+			</div>
+			@e.Run("like_escape.sql")
+			<div>
+				<p>
+					<span>
+						@c.Inline("... IN (1,2,3)")
+					</span>&ensp;Match based on any value in a 
+					<span>
+						@c.Outlink("https://www.sqlite.org/rowvalue.html", "\"Row Value\"")
+					</span> or a 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.SubqueriesPage), "") {
+							Subquery
+						}
+					</span>.
+				</p>
+				<p>
+					A "row value" is just an ordered list of two or more values. You may be familiar with the term "vector" or "tuple", which are equivalent concepts. Row values in SQL allow you to be able to provide lists of values to operators that require them such as
+					<span>
+						@c.Inline("WHERE ... IN")
+					</span>.
+				</p>
+				<p>
+					Note that row values are not the same as array data types (e.g. 
+					<span>
+						@c.Inline("TEXT[]")
+					</span>). Row values represent a row of data from two or more columns, whereas array data types contain a list of values inside a single column.
+				</p>
+			</div>
+			@e.Run("where_in.sql")
+			<div>
+				<p>
+					Row values are also comparable themselves using comparison operators.
+				</p>
+			</div>
+			@e.Run("row_value_comparison.sql")
+			<div>
+				<p>
+					<i><b>Bitwise Operators:</b></i>
+					<p>
+						<span>
+							@c.Outlink("https://en.wikipedia.org/wiki/Bitwise_operation", "Bitwise operators")
+						</span> are called bitwise because they operate on the individual bits of the binary representation of a value's data type. They have some clever use cases so it is worth understanding how they work!
+					</p>
+					<p>
+						In SQLite, bitwise operations can only be applied to integer data types. Other databases may allow bitwise operations on other types, such as text representations of binary or hexadecimal numbers.
+					</p>
+					<p>The typical operators are:</p>
+					<p>
+						<span>
+							@c.Inline("&")
+						</span>&ensp;Bitwise AND. Performs bitwise AND between two numbers.
+					</p>
+					<p>
+						<span>
+							@c.Inline("|")
+						</span>&ensp;Bitwise OR. Performs bitwise OR between two numbers.
+					</p>
+					<p>
+						<span>
+							@c.Inline("~")
+						</span>&ensp;Bitwise NOT. Performs bitwise NOT to a single number.
+					</p>
+					<p>
+						<span>
+							@c.Inline("<<")
+						</span>&ensp;Left shift. Shifts the input left by the number of bits specified after the operator.
+					</p>
+					<p>
+						<span>
+							@c.Inline(">>")
+						</span>&ensp;Right shift. Shifts the input right by the number of bits specified after the operator.
+					</p>
+				</p>
+			</div>
+			@e.Run("bitwise_operators.sql")
+		</div>
+	}
+}

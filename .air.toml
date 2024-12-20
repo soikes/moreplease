@@ -3,14 +3,20 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-pre_cmd = ["scripts/build.sh sites/sql"]
+pre_cmd = ["scripts/prebuild.sh sites/sql"]
 args_bin = []
-bin = ""
-cmd = "scripts/run.sh sites/sql"
+bin = "tmp/moreplease"
+cmd = "go build -o tmp/moreplease ./sites/sql"
 delay = 1000
-exclude_dir = ["**/tmp", "**/vendor", "**/testdata", "**/data"]
+exclude_dir = ["**/tmp", "**/vendor", "**/testdata", "data", "**/data"]
 exclude_file = []
-exclude_regex = ["_test.go", "_templ.go", ".html", "generated_imports.go"]
+exclude_regex = [
+    "_test.go",
+    "_templ.go",
+    ".html",
+    "generated_imports.go",
+    ".bleve",
+]
 exclude_unchanged = false
 follow_symlink = false
 full_bin = ""
@@ -22,7 +28,7 @@ log = "build-errors.log"
 poll = false
 poll_interval = 0
 post_cmd = []
-rerun = false
+rerun = true
 rerun_delay = 1000
 send_interrupt = false
 stop_on_error = true
@@ -48,5 +54,5 @@ enabled = true
 proxy_port = 9001
 
 [screen]
-clear_on_rebuild = false
+clear_on_rebuild = true
 keep_scroll = true

@@ -6,7 +6,7 @@
 */
 SELECT DISTINCT 
     substr(email_address, 
-        instr(email_address, "@") + 1
+        instr(email_address, '@') + 1
     )
 AS domain
 FROM users

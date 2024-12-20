@@ -3,6 +3,7 @@ package render
 import (
 	"context"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -23,6 +24,7 @@ func MustRegisterComponent(assetPath string, c templ.Component) {
 }
 
 func MustRenderComponents(path string) {
+	log.Println("render components")
 	for ap, c := range registry {
 		assetPath := filepath.Join(path, ap)
 		f, err := os.Create(assetPath)
@@ -30,7 +32,7 @@ func MustRenderComponents(path string) {
 			panic(err)
 		}
 		defer f.Close()
-		fmt.Println("rendering " + assetPath)
+		log.Println(assetPath)
 		err = c.Render(context.Background(), f)
 		if err != nil {
 			panic(err)

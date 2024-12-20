@@ -248,6 +248,7 @@ p {
 
 .tablename {
     /* font-weight: bold; */
+    font-family: "DM Mono", monospace;
     font-size: 1.2rem;
     margin-bottom: 1rem;
 }
@@ -256,6 +257,7 @@ p {
     border: 1px solid black;
     border-radius: 0.7rem;
     padding: 1rem;
+    background-color: rgb(230, 234, 239);
     justify-self: start;
     align-self: start;
     box-shadow: 0.5rem 0.5rem 0 #353535;
@@ -274,7 +276,7 @@ p {
     font-family: "DM Mono", monospace;
     font-size: 1rem;
     white-space: pre;
-    word-spacing: -0.1rem;
+    /* word-spacing: -0.1rem; */
     word-break: normal;
     word-wrap: normal;
 }
@@ -358,7 +360,7 @@ p {
     font-size: 1rem;
     text-align: left;
     white-space: pre;
-    word-spacing: -0.1rem;
+    /* word-spacing: -0.1rem; */
     word-break: normal;
     word-wrap: normal;
     /* line-height: 1.4rem; */
@@ -448,6 +450,13 @@ button.run img {
     margin-top: 1rem;
 }
 
+.result {
+    border: 1px solid black;
+    border-radius: 0.7rem;
+    padding: 1rem;
+    background-color: white;
+}
+
 .fade-in {
     animation: fadeIn 0.5s ease-in;
 }
@@ -493,7 +502,7 @@ pre[class*="language-"] {
     font-size: 1rem;
     text-align: left;
     white-space: pre;
-    word-spacing: -0.1rem;
+    /* word-spacing: -0.1rem; */
     word-break: normal;
     word-wrap: normal;
     /* line-height: 1.4rem; */

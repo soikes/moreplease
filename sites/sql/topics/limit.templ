@@ -60,7 +60,7 @@ templ Limit() {
 					</span> statements which limits the effect of those statements to the specified maximum amount of rows.
 				</p>
 			</div>
-			@e.Run("sql/limit.sql")
+			@e.Run("limit.sql")
 			<div>
 				Without an 
 				<a href="/order_by">
@@ -78,7 +78,7 @@ templ Limit() {
 					@c.Inline("ORDER BY")
 				</span> in your queries, especially when you are limiting the result set.
 			</div>
-			@e.Run("sql/limit_order_by.sql")
+			@e.Run("limit_order_by.sql")
 			<div>
 				<span>
 					@c.Inline("OFFSET")
@@ -87,7 +87,7 @@ templ Limit() {
 					@c.Inline("LIMIT")
 				</span> to offset the results returned. This helps in scenarios where you need to return your results in smaller paginated batches instead of all the data at once.
 			</div>
-			@e.Run("sql/limit_offset.sql")
+			@e.Run("limit_offset.sql")
 			<div>
 				If your 
 				<span>
@@ -97,14 +97,14 @@ templ Limit() {
 					@c.Inline("LIMIT")
 				</span> was not applied.
 			</div>
-			@e.Run("sql/limit_end.sql")
+			@e.Run("limit_end.sql")
 			<div>
 				If an 
 				<span>
 					@c.Inline("OFFSET")
 				</span> reaches past the total amount of data to return, the query will return no data.
 			</div>
-			@e.Run("sql/offset_end.sql")
+			@e.Run("offset_end.sql")
 			<div>
 				You can compute the number you supply to a 
 				<span>
@@ -120,7 +120,7 @@ templ Limit() {
 					@c.Inline("LIMIT")
 				</span>.
 			</div>
-			@e.Run("sql/limit_computation.sql")
+			@e.Run("limit_computation.sql")
 			<div>
 				<p>
 					Sometimes but not always, adding a 

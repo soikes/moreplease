@@ -32,7 +32,7 @@ languages.sql = {
   boolean: /\b(?:FALSE|NULL|TRUE)\b/i,
   number: /\b0x[\da-f]+\b|\b\d+(?:\.\d*)?|\B\.\d+\b/i,
   operator:
-    /[-+*\/=%]|!=?|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|BETWEEN|IN|IS|LIKE|NOT|OR|GLOB|MATCH|REGEXP)\b/i,
+    /[-+*\/=%&\|~]|!=?|<<|>>|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|BETWEEN|IN|IS|LIKE|NOT|OR|GLOB|MATCH|REGEXP)\b/i,
   punctuation: /[;[\]()`,.]/,
 };
 

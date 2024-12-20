@@ -1,4 +1,4 @@
-SELECT printf("%s %s withdrew %.2f.",
+SELECT printf('%s %s withdrew %.2f.',
     u.name_first,
     u.name_last,
     abs(t.amount)
