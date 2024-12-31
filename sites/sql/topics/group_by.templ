@@ -5,7 +5,6 @@ import (
 	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/site"
 	c "soikke.li/moreplease/templates/components"
-	l "soikke.li/moreplease/templates/layouts"
 )
 
 func init() {
@@ -21,9 +20,10 @@ templ GroupBy() {
 	e := c.Example{
 		Statements: s,
 	}
+	p := site.MSP.Page(site.GroupByPage)
 	}}
-	@l.Page{Site: site.MSP, Page: site.MSP.Page(site.GroupByPage)}.Render() {
-		@c.Schema(s, "products", "vendors", "orders")
+	@c.Page{Site: site.MSP, Page: p}.Render() {
+		@c.Schema(p, s, "products", "vendors", "orders")
 		<div class="container">
 			<div>
 				<p>

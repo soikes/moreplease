@@ -196,34 +196,44 @@ p {
 }
 
 .container {
+    width: 100%;
     display: grid;
-    grid-template-columns: 1fr;
-    column-gap: 4rem;
-    row-gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 8rem;
+    column-gap: 2rem;
     margin-bottom: 2rem;
     position: relative;
 }
 
 #schema > .container {
+    display: flex;
+    flex-flow: row wrap;
     column-gap: 2rem;
     row-gap: 2rem;
 }
 
-@container (min-width: 60rem) {
+/* @container (min-width: 60rem) {
     .container {
-        grid-template-columns: 1fr 1fr;
-        row-gap: 8rem;
+        grid-template-columns: 1fr;
+        row-gap: 2rem;
     }
 
-    /* If we have one item e.g. a schema with one table, place it in the 2nd column with the code examples */
-    .container:has(> :only-child) > :only-child {
-        grid-column: 2;
+    .container:nth-child(2n) {
+        margin-bottom: 6rem;
     }
-}
+} */
 
 p {
-    margin-top: 0;
-    margin-bottom: 2rem;
+    margin: 0;
+}
+
+p + p {
+    margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+.popout {
+    margin-top: 1rem;
 }
 
 .toggle {

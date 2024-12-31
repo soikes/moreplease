@@ -5,7 +5,6 @@ import (
 	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/site"
 	c "soikke.li/moreplease/templates/components"
-	l "soikke.li/moreplease/templates/layouts"
 )
 
 func init() {
@@ -21,9 +20,10 @@ templ Join() {
 	e := c.Example{
 		Statements: s,
 	}
+	p := site.MSP.Page(site.JoinPage)
 	}}
-	@l.Page{Site: site.MSP, Page: site.MSP.Page(site.JoinPage)}.Render() {
-		@c.Schema(s, "users", "donations", "charities")
+	@c.Page{Site: site.MSP, Page: p}.Render() {
+		@c.Schema(p, s, "users", "donations", "charities")
 		<div class="container">
 			<div>
 				<p>

@@ -1,10 +1,15 @@
-package layouts
+package components
 
 import "soikke.li/moreplease/pkg/model"
 
 var jsImports = templ.NewOnceHandle()
 
-templ Base(lang model.Language, title string) {
+type Base struct {
+	Title    string
+	Language model.Language
+}
+
+templ (b *Base) Component() {
 	<html>
 		<head>
 			@jsImports.Once() {
@@ -13,13 +18,13 @@ templ Base(lang model.Language, title string) {
 			}
 			<link rel="stylesheet" href="assets/styles.css"/>
 			<link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
-			<title>{ title }</title>
+			<title>{ b.Title }</title>
 		</head>
-		<body class={ lang.CSSClass() }>
+		<body class={ b.Language.CSSClass() }>
 			/* <div id="dark-light">
             <input id="dark-light-toggle" type="checkbox">
             <label for="dark-light-toggle">◐</label>
-        </div> */
+            </div> */
 			{ children... }
 		</body>
 	</html>

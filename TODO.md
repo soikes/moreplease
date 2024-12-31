@@ -75,6 +75,10 @@
   - Other build configs
 - [ ] Prepare Go build for prod
 
+- [ ] Add UPSERT
+
+- [ ] Long tables run off the page in the schema
+
 # BUGS
 
 - [x] (FIXED: Just add jusify-self: start to the container too.) To make the sticky thing work I had to use divs as sticky containers in the css grid rows. This seems to have broken the "justify-self: start" that makes each bubble fit only the content. Now on the JOIN page all the bubbles are the same width. it makes it a bit visually overwhelming. Fix that and make them all their own unique size again based on the content.

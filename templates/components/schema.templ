@@ -1,17 +1,58 @@
 package components
 
 import (
+	"bytes"
+	"context"
 	"fmt"
 	"soikke.li/moreplease/pkg/db"
+	"soikke.li/moreplease/pkg/model"
 )
 
-templ Schema(s db.Statements, tables ...string) {
+templ Schema(p model.Page, s db.Statements, tables ...string) {
+	{{
+		var docBuf bytes.Buffer
+		err := SchemaPopout(p, s, tables...).Render(context.Background(), &docBuf)
+		if err != nil {
+			panic(err)
+		}
+		var htmlBuf bytes.Buffer
+		err = templ.Raw(docBuf.String()).Render(context.Background(), &htmlBuf)
+		if err != nil {
+			panic(err)
+		}
+	}}
 	<details id="schema" class="toggle">
 		<summary
 			class="action heading"
 			data-open="hide tables"
 			data-close="show tables"
 		></summary>
+		<div class="heading popout">
+			<span onclick="popout(document.getElementById('popupDocument').getAttribute('data-popup-html'))">
+				@Outlink("#", "pop out tables")
+			</span>
+		</div>
+		@innerSchema(s, tables...)
+	</details>
+	<script id="popupDocument" type="text/template" data-popup-html={ htmlBuf.String() }></script>
+}
+
+templ SchemaPopout(p model.Page, s db.Statements, tables ...string) {
+	{{
+		title := fmt.Sprintf("%s (Tables)", p.Title)
+		b := Base{
+			Title:    title,
+			Language: model.LanguageSQL,
+		}
+	}}
+	@b.Component() {
+		@TopicTitle(title)
+		@innerSchema(s, tables...)
+	}
+}
+
+templ innerSchema(s db.Statements, tables ...string) {
+	<div id="schema">
 		<div class="container">
 			for _, table := range tables {
 				<div class="tile">
@@ -24,5 +65,5 @@ templ Schema(s db.Statements, tables ...string) {
 				</div>
 			}
 		</div>
-	</details>
+	</div>
 }

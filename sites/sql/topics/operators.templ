@@ -5,7 +5,6 @@ import (
 	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/site"
 	c "soikke.li/moreplease/templates/components"
-	l "soikke.li/moreplease/templates/layouts"
 )
 
 func init() {
@@ -21,9 +20,10 @@ templ Operators() {
 		e := c.Example{
 			Statements: s,
 		}
+		p := site.MSP.Page(site.OperatorsPage)
 	}}
-	@l.Page{Site: site.MSP, Page: site.MSP.Page(site.OperatorsPage)}.Render() {
-		@c.Schema(s, "users")
+	@c.Page{Site: site.MSP, Page: p}.Render() {
+		@c.Schema(p, s, "users")
 		<div class="container">
 			<div>
 				<p>
@@ -86,13 +86,13 @@ templ Operators() {
 						</span> or 
 						<span>
 							@c.Inline("FALSE")
-						</span> ( or
+						</span> (
 						<span>
 							@c.Inline("1")
 						</span> or 
 						<span>
 							@c.Inline("0")
-						</span> ) in SQLite. You can try this yourself, e.g. 
+						</span> in SQLite). You can try this yourself, e.g. 
 						<span>
 							@c.Inline("SELECT 1 = 2;")
 						</span>
@@ -237,7 +237,7 @@ templ Operators() {
 					</span>, you can specify an "escape" character using the 
 					<span>
 						@c.Inline("ESCAPE")
-					</span> keyword. Special characters can be preceded by this escape character to treat them literally.
+					</span> keyword. Special characters like wildcards can be preceded by your chosen escape character to treat them literally. In this case, we match an underscore in the data instead of the underscore being used as a wildcard.
 				</p>
 			</div>
 			@e.Run("like_escape.sql")
@@ -256,13 +256,16 @@ templ Operators() {
 					</span>.
 				</p>
 				<p>
-					A "row value" is just an ordered list of two or more values. You may be familiar with the term "vector" or "tuple", which are equivalent concepts. Row values in SQL allow you to be able to provide lists of values to operators that require them such as
+					A "row value" is just an ordered list of two or more values. Row values in SQL allow you to be able to provide lists of values to operators such as
 					<span>
 						@c.Inline("WHERE ... IN")
 					</span>.
 				</p>
 				<p>
-					Note that row values are not the same as array data types (e.g. 
+					Note that row values are not the same as array data types as seen in 
+					<span>
+						@c.Link(site.MSP.Page(site.DataTypesPage), "")
+					</span> (e.g. 
 					<span>
 						@c.Inline("TEXT[]")
 					</span>). Row values represent a row of data from two or more columns, whereas array data types contain a list of values inside a single column.

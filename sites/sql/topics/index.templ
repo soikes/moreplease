@@ -5,7 +5,6 @@ import (
 	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/site"
 	c "soikke.li/moreplease/templates/components"
-	l "soikke.li/moreplease/templates/layouts"
 )
 
 func init() {
@@ -15,8 +14,12 @@ func init() {
 templ Index() {
 	{{
 	s := site.MSP
+	b := c.Base{
+		Title:    s.Title,
+		Language: model.LanguageSQL,
+	}
 	}}
-	@l.Base(s.Language, s.Title) {
+	@b.Component() {
 		@inner(s.Sections)
 	}
 }

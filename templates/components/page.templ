@@ -1,0 +1,27 @@
+package components
+
+import (
+	"fmt"
+	"soikke.li/moreplease/pkg/model"
+)
+
+type Page struct {
+	Site model.Site
+	Page model.Page
+}
+
+templ (p Page) Render() {
+	{{
+		b := Base{
+			Title:    fmt.Sprintf("%s: %s", p.Site.Title, p.Page.Title),
+			Language: p.Site.Language,
+		}
+	}}
+	@b.Component() {
+		<div class="content wide">
+			@TopicTitle(p.Page.Title)
+			{ children... }
+			@BottomNav(p.Page)
+		</div>
+	}
+}

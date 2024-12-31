@@ -1,0 +1,39 @@
+package topics
+
+import (
+	"soikke.li/moreplease/pkg/db"
+	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+)
+
+func init() {
+	render.MustRegisterComponent(site.InsertPage.Asset(), Insert())
+}
+
+templ Insert() {
+	{{
+	s := db.Statements{
+		Files:      mustSub("embed/insert"),
+		SchemaPath: "schema/schema.sql",
+	}
+	e := c.Example{
+		Statements: s,
+	}
+	p := site.MSP.Page(site.InsertPage)
+	}}
+	@c.Page{Site: site.MSP, Page: p}.Render() {
+		@c.Schema(p, s, "users")
+		<div class="container">
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("INSERT")
+					</span> statement is used to add new rows to a database.
+				</p>
+			</div>
+			@e.Run("insert.sql")
+		</div>
+	}
+}

@@ -24,4 +24,12 @@ export class Db {
     const rows = this.db.exec(stmt);
     return rows;
   }
+
+  /** Runs one SQL statement against the loaded database and
+      returns the number of rows modified.
+   */
+  run(stmt: string): number {
+    this.db.run(stmt);
+    return this.db.getRowsModified();
+  }
 }

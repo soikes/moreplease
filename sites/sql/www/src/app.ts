@@ -1,4 +1,5 @@
-import "./components/example.ts";
+import { createExample } from "./components/example.js";
+import { popout } from "./components/popout.js";
 import { highlightAll, languages } from "prismjs";
 import "prismjs/components/prism-sql";
 import "htmx.org";
@@ -35,6 +36,15 @@ languages.sql = {
     /[-+*\/=%&\|~]|!=?|<<|>>|<(?:=>?|<|>)?|>[>=]?|\b(?:AND|BETWEEN|IN|IS|LIKE|NOT|OR|GLOB|MATCH|REGEXP)\b/i,
   punctuation: /[;[\]()`,.]/,
 };
+
+declare global {
+  interface Window {
+    createExample: typeof createExample;
+    popout: typeof popout;
+  }
+}
+window.createExample = createExample;
+window.popout = popout;
 
 document.addEventListener("DOMContentLoaded", () => {
   highlightAll();
