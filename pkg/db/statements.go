@@ -45,10 +45,12 @@ func (s *Statements) run(statement string) (cols []string, rows [][]string, err 
 	}
 	defer db.Close()
 
-	schema := s.read(s.SchemaPath)
-	_, err = db.Exec(schema)
-	if err != nil {
-		return nil, nil, err
+	if s.SchemaPath != "" {
+		schema := s.read(s.SchemaPath)
+		_, err = db.Exec(schema)
+		if err != nil {
+			return nil, nil, err
+		}
 	}
 
 	r, err := db.Query(statement)

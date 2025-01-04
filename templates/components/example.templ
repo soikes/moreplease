@@ -15,9 +15,15 @@ templ (e *Example) Run(path string) {
 	<div class="example sticky-container fade-in">
 		<div class="tile sticky">
 			{{
-	schema := e.Statements.From(e.Statements.SchemaPath)
-	stmt := e.Statements.From(path)
-	xdata := fmt.Sprintf("createExample(`%s`, `%s`)", schema, stmt)
+				var xdata string
+				stmt := e.Statements.From(path)
+				var schema string
+				if e.Statements.SchemaPath != "" {
+					schema = e.Statements.From(e.Statements.SchemaPath)
+					xdata = fmt.Sprintf("createExample(`%s`, `%s`)", stmt, schema)
+				} else {
+					xdata = fmt.Sprintf("createExample(`%s`)", stmt)
+				}
 			}}
 			<div x-data={ xdata }>
 				<div class="stmt">
@@ -42,6 +48,7 @@ templ (e *Example) Run(path string) {
 				<button class="run" x-on:click="reset()"><img src="assets/reset.svg"/> reset</button>
 				<div class="result" x-text="result"></div>
 			</div>
+			// TODO: include this pre-rendered block conditionally before the client side runs
 			/* <div x-show="!result">
                 <pre>
                     { e.Statements.ExecFile(path) }

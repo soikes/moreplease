@@ -1,4 +1,4 @@
-CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, age INTEGER, email_address TEXT, created_at TEXT DEFAULT (datetime('now')));
+CREATE TABLE users(id INTEGER PRIMARY KEY, name_first TEXT, name_last TEXT, age INTEGER, email_address TEXT, created_at TEXT);
 
 INSERT INTO users VALUES
 (1, 'James', 'Mitchell', 30, 'jmitchell@email.net', '2023-04-30 09:20:00'),

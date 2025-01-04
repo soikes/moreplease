@@ -84,6 +84,7 @@ var MSP = model.NewSite(
 				model.NewPage(DataTypesPage, "Data Types", model.Enable()),
 				model.NewPage(OperatorsPage, "Operators", model.Enable()),
 				model.NewPage(CommentsPage, "Comments", model.Enable()),
+				model.NewPage(CreateTablePage, "CREATE TABLE", model.Enable()),
 				model.NewPage(InsertPage, "INSERT", model.Enable()),
 				model.NewPage(UpdatePage, "UPDATE"),
 				model.NewPage(DeletePage, "DELETE"),
@@ -106,7 +107,6 @@ var MSP = model.NewSite(
 		{
 			Title: "Table Operations",
 			Pages: []model.Page{
-				model.NewPage(CreateTablePage, "CREATE TABLE"),
 				model.NewPage(AlterTablePage, "ALTER TABLE"),
 				model.NewPage(DropTablePage, "DROP TABLE"),
 				model.NewPage(ConstraintsPage, "Constraints"),

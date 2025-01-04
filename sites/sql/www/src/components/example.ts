@@ -1,10 +1,12 @@
 import { Db } from "../db/db";
 import { MarkdownFormatter } from "../db/formatter";
 
+type stmtType = "ddl" | "dml" | "dql";
+
 interface Example {
   loading: boolean;
   result: string;
-  schema: string;
+  schema: string | undefined;
   initialStmt: string;
   stmt: string;
   db: Db | null;
@@ -12,18 +14,20 @@ interface Example {
   init(): Promise<void>;
   run(): void;
   reset(): void;
-  isDML(stmt: string): boolean;
+  stmtType(stmt: string): stmtType;
   pluralize(input: string, pluralize: boolean): string;
 }
 
+const ddlRegex = /\b(CREATE TABLE|ALTER TABLE|DROP TABLE)\b/gi;
 const dmlRegex = /\b(INSERT|UPDATE|DELETE|MERGE|UPSERT)\b/gi;
+const dqlRegex = /\b(SELECT)\b/gi;
 const noRowsMsg = "No rows returned.";
 const fatalMsg = "Failed to initialize database. Check console logs for error.";
 
 /** createExample uses a schema and an initial statement to initialize a new SQLite database in memory.
     @return {Example} An object literal because it is easier to work with in alpine.js.
  */
-export function createExample(schema: string, stmt: string): Example {
+export function createExample(stmt: string, schema?: string): Example {
   return {
     loading: false,
     result: "",
@@ -39,7 +43,7 @@ export function createExample(schema: string, stmt: string): Example {
       this.result = ``;
       this.loading = false;
       try {
-        this.db = await Db.load(this.schema);
+        this.db = await Db.create(this.schema);
       } catch (error) {
         console.error(error);
         this.result = fatalMsg;
@@ -48,18 +52,28 @@ export function createExample(schema: string, stmt: string): Example {
       this.run();
     },
 
+    /** run() runs a series of SQL statements and returns information depending on the statement type.
+    If the statement is a DML statement, the number of rows modified is returned.
+    Otherwise, the row information from the final statement in the series is returned.
+    */
     run() {
       try {
-        if (this.isDML(this.stmt)) {
-          let modified = this.db.run(this.stmt);
-          this.result = `${modified} ${this.pluralize("row", modified > 1)} modified.`;
-        } else {
-          let res = this.db.exec(this.stmt);
-          if (res.length == 0) {
-            this.result = noRowsMsg;
-            return;
-          }
-          this.result = MarkdownFormatter.fromResult(res[0]).toString();
+        switch (this.stmtType(this.stmt)) {
+          case "dml":
+            let modified = this.db.run(this.stmt);
+            this.result = `${modified} ${this.pluralize("row", modified > 1)} modified.`;
+            break;
+          case "ddl":
+          case "dql":
+            let res = this.db.exec(this.stmt);
+            if (res.length == 0) {
+              this.result = noRowsMsg;
+              return;
+            }
+            this.result = MarkdownFormatter.fromResult(
+              res[res.length - 1],
+            ).toString();
+            break;
         }
       } catch (error) {
         this.result = error.toString();
@@ -67,18 +81,20 @@ export function createExample(schema: string, stmt: string): Example {
     },
 
     async reset() {
-      await this.init();
+      this.db.close();
+      this.db = null;
       this.stmt = this.initialStmt;
-      this.run();
+      await this.init();
     },
 
-    /** isDML() returns true if the current statement is a DML (mutating) statement.
-     */
-    isDML(stmt: string) {
-      if (stmt.match(dmlRegex) == null) {
-        return false;
+    stmtType(stmt: string) {
+      if (stmt.match(dmlRegex) !== null) {
+        return "dml";
       }
-      return true;
+      if (stmt.match(ddlRegex) !== null) {
+        return "ddl";
+      }
+      return "dql";
     },
 
     // Does not work for all words. Used for the word "row".

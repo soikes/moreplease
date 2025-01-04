@@ -32,8 +32,196 @@ templ Insert() {
 						@c.Inline("INSERT")
 					</span> statement is used to add new rows to a database.
 				</p>
+				<p>
+					Remember that each example uses its own copy of the tables. If you want to see the current state of a table after an 
+					<span>
+						@c.Inline("INSERT")
+					</span>, edit the example to query the contents of the table, e.g.:
+					<span>
+						@c.Inline("SELECT * FROM users;")
+					</span>
+				</p>
+				<p>
+					The "reset" button will revert any changes to the table in that example and re-run the original statement from the example.
+				</p>
+				<p>
+					Depending on the database engine and SQL client you are using, running an 
+					<span>
+						@c.Inline("INSERT")
+					</span> typically returns the number of rows that were inserted. This example shows that this 
+					<span>
+						@c.Inline("INSERT")
+					</span> statement inserted one row into the database. Running the example again will insert another row.
+				</p>
+				<p>
+					You may have noticed that we omitted the 
+					<span>
+						@c.Inline("id")
+					</span> column from the 
+					<span>
+						@c.Inline("INSERT")
+					</span> statement. This is because we are taking advantage of a SQLite feature where the column specified as the 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.CreateTablePage), "primary_key") {
+							@c.Inline("PRIMARY KEY")
+						}
+					</span> (
+					<span>
+						@c.Inline("id")
+					</span> in this case) will be automatically incremented for new rows if we omit it from our 
+					<span>
+						@c.Inline("INSERT")
+					</span>. 
+				</p>
+				<p>
+					"Auto-incrementing" columns are featured in most other relational databases too but may have different syntax or require special annotation in your 
+					<span>
+						@c.Inline("CREATE TABLE")
+					</span> statement. See your database's documentation regarding primary keys and auto-incrementing data types.
+				</p>
+				<p>
+					This example uses 
+					<span>
+						@c.Inline("datetime('now')")
+					</span> for the 
+					<span>
+						@c.Inline("created_at")
+					</span> column, which is an example of a 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.FunctionsPage), "") {
+							function
+						}
+					</span> which returns the current day and time.
+				</p>
 			</div>
 			@e.Run("insert.sql")
+			<div>
+				You can insert more than one row in a single statement by including multiple comma-separated lines of data.
+			</div>
+			@e.Run("insert_multiple.sql")
+			<div>
+				<p>
+					You can omit the list of column names and only specify the values to insert. The values must then match their columns in order from left to right.
+				</p>
+				<p>
+					While this is valid SQL, it is considered best practice to include the list of column names in an 
+					<span>
+						@c.Inline("INSERT")
+					</span>. Specifying column names makes a statement more readable and more explicit in case the structure of the table changes later.
+				</p>
+				<p>
+					Notice that we also need to specify the 
+					<span>
+						@c.Inline("id")
+					</span> here whereas the previous example did not require it. If you try to run this example twice the database will return an error. This is because we are trying to insert a non-unique value into a column that we specified as our 
+					<span>
+						@c.Inline("PRIMARY KEY")
+					</span>, which requires a unique value for every row. Uniqueness is a common 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "uniqueness") {
+							constraint
+						}
+					</span> in relational databases.
+				</p>
+			</div>
+			@e.Run("insert_implicit.sql")
+			<div>
+				<p>
+					Columns can have 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "default_values") {
+							default values
+						}
+					</span> that you specify at the time of table creation. If you omit a column in an 
+					<span>
+						@c.Inline("INSERT")
+					</span> and no default values are specified, a 
+					<span>
+						@c.Inline("NULL")
+					</span> value is inserted for that column. If the column 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "null_values") {
+							disallows 
+							<span>
+								@c.Inline("NULL")
+							</span> values
+						}
+					</span>, the database will return an error.
+				</p>
+				<p>
+					If the column allows it you can use the keyword 
+					<span>
+						@c.Inline("NULL")
+					</span> to explicitly insert a null value.
+				</p>
+				<p>
+					Notice how newly created rows have a 
+					<span>
+						@c.Inline("created_at")
+					</span> that contains the current date even if you don't explicitly specify a value. This is because our 
+					<span>
+						@c.Inline("users")
+					</span> table was created using a 
+					<span>
+						@c.Inline("CREATE TABLE")
+					</span> statement that specifies a default value of 
+					<span>
+						@c.Inline("datetime('now')")
+					</span> for the 
+					<span>
+						@c.Inline("created_at")
+					</span> column.
+				</p>
+			</div>
+			@e.Run("insert_null.sql")
+			<div>
+				<p>
+					You can insert the results of a 
+					<span>
+						@c.Inline("SELECT")
+					</span> into a table in a single statement.
+				</p>
+				<p>
+					This technique can be used to migrate data from one table to another or aggregate data from multiple different tables into one.
+				</p>
+			</div>
+			@e.Run("insert_select.sql")
+			<div>
+				<p>
+					If you want to insert a row that consists only of default values, you can use the 
+					<span>
+						@c.Inline("DEFAULT VALUES")
+					</span> clause. This is a lesser-known feature but can be useful in cases where you want to create rows ahead of time and update them later.
+				</p>
+			</div>
+			@e.Run("insert_default.sql")
+			<div>
+				<p>
+					You can configure a conflict resolution action in case your 
+					<span>
+						@c.Inline("INSERT")
+					</span> fails because of a constraint violation. We saw an example of a constraint violation above when we tried to insert a row with a non-unique 
+					<span>
+						@c.Inline("id")
+					</span> column.
+				</p>
+				<p>
+					There are several different conflict resolutions you can apply. See your database's documentation for its supported algorithms. This example uses
+					<span>
+						@c.Inline("REPLACE")
+					</span>, which will allow the 
+					<span>
+						@c.Inline("INSERT")
+					</span> to proceed and replace the row that it is in conflict with.
+				</p>
+				<p>
+					Some database engines use alternative syntax such as 
+					<span>
+						@c.Inline("INSERT ... ON CONFLICT ...")
+					</span> for the same feature.
+				</p>
+			</div>
+			@e.Run("insert_or.sql")
 		</div>
 	}
 }

@@ -198,7 +198,7 @@ p {
 .container {
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(25rem, 1fr) 1fr;
     row-gap: 8rem;
     column-gap: 2rem;
     margin-bottom: 2rem;

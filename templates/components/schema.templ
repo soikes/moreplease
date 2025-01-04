@@ -21,20 +21,22 @@ templ Schema(p model.Page, s db.Statements, tables ...string) {
 			panic(err)
 		}
 	}}
-	<details id="schema" class="toggle">
-		<summary
-			class="action heading"
-			data-open="hide tables"
-			data-close="show tables"
-		></summary>
-		<div class="heading popout">
-			<span onclick="popout(document.getElementById('popupDocument').getAttribute('data-popup-html'))">
-				@Outlink("#", "pop out tables")
-			</span>
-		</div>
-		@innerSchema(s, tables...)
-	</details>
-	<script id="popupDocument" type="text/template" data-popup-html={ htmlBuf.String() }></script>
+	if len(tables) > 0 {
+		<details id="schema" class="toggle">
+			<summary
+				class="action heading"
+				data-open="hide tables"
+				data-close="show tables"
+			></summary>
+			<div class="heading popout">
+				<span onclick="popout(document.getElementById('popupDocument').getAttribute('data-popup-html'))">
+					@Outlink("#", "pop out tables")
+				</span>
+			</div>
+			@innerSchema(s, tables...)
+		</details>
+		<script id="popupDocument" type="text/template" data-popup-html={ htmlBuf.String() }></script>
+	}
 }
 
 templ SchemaPopout(p model.Page, s db.Statements, tables ...string) {
