@@ -28,7 +28,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	term := r.FormValue(`term`)
-	results, err := h.Index.MatchQuery(term)
+	results, err := h.Index.Query(term)
 	if err != nil {
 		if !errors.Is(err, ErrNoResults) {
 			w.WriteHeader(http.StatusBadRequest)
@@ -38,10 +38,11 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	ri := []components.ResultInfo{}
 	for _, result := range results {
 		info := components.ResultInfo{
-			Query:    term,
-			Fragment: result.Fragment,
-			Title:    result.Title,
-			Href:     result.URL,
+			Highlight: result.Highlight,
+			Query:     term,
+			Fragment:  result.Fragment,
+			Title:     result.Title,
+			Href:      result.URL,
 		}
 		ri = append(ri, info)
 	}

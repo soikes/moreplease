@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/blevesearch/bleve/v2"
+	"github.com/blevesearch/bleve/v2/analysis/analyzer/simple"
 	"github.com/blevesearch/bleve/v2/search/query"
 )
 
@@ -14,6 +15,7 @@ type Index struct {
 }
 
 type ResultInfo struct {
+	Highlight      string
 	Fragment       string
 	FragmentPrefix string // https://developer.mozilla.org/en-US/docs/Web/URI/Fragment/Text_fragments#prefix-
 	Title          string
@@ -52,10 +54,10 @@ func NewIndex(provider DocumentProvider) (Index, error) {
 	documentMapping.AddFieldMappingsAt("title", metadataFieldMapping)
 	documentMapping.AddFieldMappingsAt("url", metadataFieldMapping)
 	documentMapping.AddFieldMappingsAt("id", metadataFieldMapping)
-	documentMapping.DefaultAnalyzer = "en"
 
 	indexMapping := bleve.NewIndexMapping()
 	indexMapping.DefaultMapping = documentMapping
+	indexMapping.DefaultAnalyzer = simple.Name
 
 	dataPath := `data`
 	indexName := `moresqlplease.bleve`
@@ -89,15 +91,15 @@ func NewIndex(provider DocumentProvider) (Index, error) {
 	return i, nil
 }
 
-func (i Index) MatchQuery(term string) ([]ResultInfo, error) {
+func (i Index) Query(term string) ([]ResultInfo, error) {
 	results := []ResultInfo{}
 	q := query.NewMatchPhraseQuery(term)
 
 	req := bleve.NewSearchRequest(q)
 	req.Highlight = bleve.NewHighlight()
 	req.Fields = []string{`content`, `title`, `url`}
+	req.IncludeLocations = true
 	req.Size = 5
-
 	res, err := i.index.Search(req)
 	if err != nil {
 		return results, err
@@ -116,8 +118,14 @@ func (i Index) MatchQuery(term string) ([]ResultInfo, error) {
 			if url, ok := hit.Fields[`url`]; ok {
 				result.URL = url.(string)
 			}
-			results = append(results, result)
+			break
 		}
+		for _, locs := range hit.Locations {
+			for term := range locs {
+				result.Highlight = result.Highlight + term + " "
+			}
+		}
+		results = append(results, result)
 	}
 	return results, nil
 }

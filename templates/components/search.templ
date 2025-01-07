@@ -23,10 +23,11 @@ templ Search() {
 }
 
 type ResultInfo struct {
-	Query    string
-	Fragment string
-	Title    string
-	Href     string
+	Highlight string
+	Query     string
+	Fragment  string
+	Title     string
+	Href      string
 }
 
 templ SearchResults(results []ResultInfo) {
