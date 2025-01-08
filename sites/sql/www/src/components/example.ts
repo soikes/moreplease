@@ -61,7 +61,7 @@ export function createExample(stmt: string, schema?: string): Example {
         switch (this.stmtType(this.stmt)) {
           case "dml":
             let modified = this.db.run(this.stmt);
-            this.result = `${modified} ${this.pluralize("row", modified > 1)} modified.`;
+            this.result = `${modified} ${this.pluralize("row", modified > 1 || modified == 0)} modified.`;
             break;
           case "ddl":
           case "dql":
