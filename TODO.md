@@ -10,8 +10,12 @@
 
   - [x] Work on extension is in "raw-go" branch in my fork of templ-zed.
 
-    - [ ] KNOWN ISSUE: Loading my .templ documents where I use @c.Inline("")</span>. causes the syntax highlighting to break when loading the documents. If you edit the text and re-save, it'll restore syntax highlighing. not sure if it's a problem with the extension, the grammar, or the custom C scanner in tree-sitter-templ.
-    - [ ] KNOWN ISSUE: escaped quotes inside quotes e.g. "\"asdf\"" are being treated as special highlighting and showing the unicode value on a popover. is this expected?
+    - [ ] ISSUE tree-sitter-templ: Loading my .templ documents where I use "</span>." causes the syntax highlighting to break when loading the documents. If you edit the text and re-save, it'll restore syntax highlighing.
+    - [ ] ISSUE with tree-sitter-templ: "</span> for" is treated as a "for" statement, same with "if", "else", ".", "(", ")"
+      - Depending on the badly-parsed token, the rest of the formatting will be incorrect until a token appears that "closes" the incorrect expression or statement. e.g. "for" breaks syntax until "{ }" appears.
+      - These were proven with tree-sitter playground. Load some source and look for "ERROR" in the output on the right.
+    - [ ] ISSUE: escaped quotes inside quotes e.g. "\"asdf\"" are being treated as special highlighting and showing the unicode value on a popover. is this expected?
+    - [ ] ISSUE with tree-sitter-templ: Component imports break if you modify part of it, such as: "@c.Page{Site: site.MSP, Page: p}.Render() {". Removing the "()" breaks the entire tree and treats the following as a templ "expression". Deleting the entire line and re-typing or pasting it restores the proper syntax tree.
 
 - [ ] Figure out how to style the grid so that by default we have a 2fr 3fr split but when tables are too long, they wrap to the next row.
 

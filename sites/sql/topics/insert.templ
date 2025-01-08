@@ -13,14 +13,14 @@ func init() {
 
 templ Insert() {
 	{{
-	s := db.Statements{
-		Files:      mustSub("embed/insert"),
-		SchemaPath: "schema/schema.sql",
-	}
-	e := c.Example{
-		Statements: s,
-	}
-	p := site.MSP.Page(site.InsertPage)
+		s := db.Statements{
+			Files:      mustSub("embed/insert"),
+			SchemaPath: "schema/schema.sql",
+		}
+		e := c.Example{
+			Statements: s,
+		}
+		p := site.MSP.Page(site.InsertPage)
 	}}
 	@c.Page{Site: site.MSP, Page: p}.Render() {
 		@c.Schema(p, s, "users")
@@ -71,7 +71,7 @@ templ Insert() {
 					</span> in this case) will be automatically incremented for new rows if we omit it from our 
 					<span>
 						@c.Inline("INSERT")
-					</span>. 
+					</span><span>.</span>
 				</p>
 				<p>
 					"Auto-incrementing" columns are featured in most other relational databases too but may have different syntax or require special annotation in your 
@@ -83,10 +83,11 @@ templ Insert() {
 					This example uses 
 					<span>
 						@c.Inline("datetime('now')")
-					</span> for the 
+					</span> <span>for</span> the 
 					<span>
 						@c.Inline("created_at")
-					</span> column, which is an example of a 
+					</span>
+					column, which is an example of a 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.FunctionsPage), "") {
 							function
@@ -107,7 +108,7 @@ templ Insert() {
 					While this is valid SQL, it is considered best practice to include the list of column names in an 
 					<span>
 						@c.Inline("INSERT")
-					</span>. Specifying column names makes a statement more readable and more explicit in case the structure of the table changes later.
+					</span><span>.</span> Specifying column names makes a statement more readable and more explicit in case the structure of the table changes later.
 				</p>
 				<p>
 					Notice that we also need to specify the 
@@ -167,7 +168,7 @@ templ Insert() {
 					</span> statement that specifies a default value of 
 					<span>
 						@c.Inline("datetime('now')")
-					</span> for the 
+					</span> <span>for</span> the 
 					<span>
 						@c.Inline("created_at")
 					</span> column.
@@ -218,7 +219,7 @@ templ Insert() {
 					Some database engines use alternative syntax such as 
 					<span>
 						@c.Inline("INSERT ... ON CONFLICT ...")
-					</span> for the same feature.
+					</span> <span>for</span> the same feature.
 				</p>
 			</div>
 			@e.Run("insert_or.sql")

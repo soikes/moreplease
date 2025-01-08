@@ -45,7 +45,7 @@ templ Limit() {
 					</span> and 
 					<span>
 						@c.Inline("WHERE ROWNUM")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					Some databases also allow a 
@@ -118,7 +118,7 @@ templ Limit() {
 				</span> and other computations as long as the result is a valid numeric type. See your database's documentation for types compatible with 
 				<span>
 					@c.Inline("LIMIT")
-				</span>.
+				</span><span>.</span>
 			</div>
 			@e.Run("limit_computation.sql")
 			<div>
@@ -135,7 +135,7 @@ templ Limit() {
 					See 
 					<span>
 						@c.Link(site.MSP.Page(site.PerformanceAndExplainPage), "")
-					</span> for more information.
+					</span> <span>for</span> more information.
 				</p>
 			</div>
 		</div>

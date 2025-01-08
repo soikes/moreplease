@@ -71,7 +71,7 @@ templ AggregateFunctions() {
 					Another commonly used aggregate function is 
 					<span>
 						@c.Inline("max()")
-					</span>. It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an 
+					</span><span>.</span> It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an 
 					@c.LinkWithText(site.MSP.Page(site.OrderByPage), "") {
 						@c.Inline("ORDER BY")
 					}
@@ -80,7 +80,7 @@ templ AggregateFunctions() {
 						@c.LinkWithText(site.MSP.Page(site.OrderByPage), "collation") {
 							collation
 						}
-					</span> for that data type.
+					</span> <span>for</span> that data type.
 				</p>
 				<p>
 					To instead find the minimum value, the 
@@ -119,7 +119,7 @@ templ AggregateFunctions() {
 					</span> will return 
 					<span>
 						@c.Inline("NULL")
-					</span>. Unfortunately this is required by the SQL standard and several aggregate functions behave this way. This is not very useful if you are expecting a numerical result so some databases like SQLite have implemented a nonstandard 
+					</span><span>.</span> Unfortunately this is required by the SQL standard and several aggregate functions behave this way. This is not very useful if you are expecting a numerical result so some databases like SQLite have implemented a nonstandard 
 					<span>
 						@c.Inline("total()")
 					</span> function that returns 0.0 in this case instead.
@@ -134,7 +134,7 @@ templ AggregateFunctions() {
 					</span> function calculates an average value across all the rows. It is equivalent to running 
 					<span>
 						@c.Inline("total() / count()")
-					</span>. Note again that only non-
+					</span><span>.</span> Note again that only non-
 					<span>
 						@c.Inline("NULL")
 					</span> values are considered in the calculation.

@@ -13,14 +13,14 @@ func init() {
 
 templ Case() {
 	{{
-	s := db.Statements{
-		Files:      mustSub("embed/case"),
-		SchemaPath: "schema/schema.sql",
-	}
-	e := c.Example{
-		Statements: s,
-	}
-	p := site.MSP.Page(site.CasePage)
+		s := db.Statements{
+			Files:      mustSub("embed/case"),
+			SchemaPath: "schema/schema.sql",
+		}
+		e := c.Example{
+			Statements: s,
+		}
+		p := site.MSP.Page(site.CasePage)
 	}}
 	@c.Page{Site: site.MSP, Page: p}.Render() {
 		@c.Schema(p, s, "products", "vendors", "orders")
@@ -112,7 +112,7 @@ templ Case() {
 					</span> keyword; this is called a "base" expression. In this case it is 
 					<span>
 						@c.Inline("needs_restock")
-					</span>. When a base expression is present it is evaluated once at the beginning. For each row, the value of 
+					</span><span>.</span> When a base expression is present it is evaluated once at the beginning. For each row, the value of 
 					<span>
 						@c.Inline("needs_restock")
 					</span> determines which integer is returned.
@@ -157,7 +157,7 @@ templ Case() {
 					</span> and aggregate functions like 
 					<span>
 						@c.Inline("avg()")
-					</span>.
+					</span><span>.</span>
 				</p>
 			</div>
 			@e.Run("case_group_by.sql")
@@ -168,7 +168,7 @@ templ Case() {
 					</span> can also be used as an input for aggregate functions. This technique is useful when you need to create "buckets" of data as above but group the data using another separate category. If you are familiar with spreadsheets, this technique is similar to that of a 
 					<span>
 						@c.Outlink("https://en.wikipedia.org/wiki/Pivot_table", "pivot table")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					This example shows us how many of each price class of product each vendor has for sale.
@@ -183,7 +183,7 @@ templ Case() {
 					</span> value for 
 					<span>
 						@c.Inline("p.price")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					This causes our 
@@ -195,7 +195,7 @@ templ Case() {
 					</span> return value of 
 					<span>
 						@c.Inline("0")
-					</span>.
+					</span><span>.</span>
 				</p>
 			</div>
 			@e.Run("case_aggregate_functions.sql")

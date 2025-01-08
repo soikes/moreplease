@@ -47,38 +47,38 @@ templ DataTypes() {
 				<p>
 					<span>
 						@c.Inline("INTEGER")
-					</span> for whole numbers.
+					</span> <span>for</span> whole numbers.
 				</p>
 				<p>
 					<span>
 						@c.Inline("REAL")
-					</span> for floating-point (decimal) numbers.
+					</span> <span>for</span> floating-point (decimal) numbers.
 				</p>
 				<p>
 					<span>
 						@c.Inline("TEXT")
-					</span> for text-based data.
+					</span> <span>for</span> text-based data.
 				</p>
 				<p>
 					<span>
 						@c.Inline("BLOB")
-					</span> for binary data.
+					</span> <span>for</span> binary data.
 				</p>
 				<p>
 					<span>
 						@c.Inline("NULL")
-					</span> for representing the absence of any type of data. Typically you can define columns to allow or disallow 
+					</span> <span>for</span> representing the absence of any type of data. Typically you can define columns to allow or disallow 
 					<span>
 						@c.Inline("NULL")
 					</span>s using 
 					<span>
 						@c.Link(site.MSP.Page(site.ConstraintsPage), "")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					<span>
 						@c.Inline("ANY")
-					</span> is a special keyword for a column that can accept any type of data. SQLite is unique in that it also allows dynamically-typed columns. See <a href="https://www.sqlite.org/datatype3.html">Datatypes in SQLite</a> for more details on data types.
+					</span> is a special keyword for a column that can accept any type of data. SQLite is unique in that it also allows dynamically-typed columns. See <a href="https://www.sqlite.org/datatype3.html">Datatypes in SQLite</a> <span>for</span> more details on data types.
 				</p>
 				<p>
 					Each type has a maximum storage size in bytes which will limit how much data or how big of a value you can store in each row. Depending on your vocation and reasons for learning SQL you may or may not need to know those details, for example the maximum byte size of a data type.
@@ -103,7 +103,7 @@ templ DataTypes() {
 						</span> and 
 						<span>
 							@c.Inline("MEDIUMINT")
-						</span> for smaller positive/negative whole numbers; takes less space.
+						</span> <span>for</span> smaller positive/negative whole numbers; takes less space.
 					</p>
 					<p>
 						<span>
@@ -111,12 +111,12 @@ templ DataTypes() {
 						</span> or 
 						<span>
 							@c.Inline("INTEGER")
-						</span> for positive/negative whole numbers.
+						</span> <span>for</span> positive/negative whole numbers.
 					</p>
 					<p>
 						<span>
 							@c.Inline("BIGINT")
-						</span> for larger whole numbers; takes more space.
+						</span> <span>for</span> larger whole numbers; takes more space.
 					</p>
 				</p>
 			</div>
@@ -131,7 +131,7 @@ templ DataTypes() {
 					</span> and 
 					<span>
 						@c.Inline("REAL")
-					</span> for floating point (decimal) numbers. Typically a 
+					</span> <span>for</span> floating point (decimal) numbers. Typically a 
 					<span>
 						@c.Inline("FLOAT")
 					</span> can store 4 bytes (around 6 digits) of data, a 
@@ -143,7 +143,7 @@ templ DataTypes() {
 					</span> is usually equivalent to a 
 					<span>
 						@c.Inline("FLOAT")
-					</span>. Sometimes database vendors use 
+					</span><span>.</span> Sometimes database vendors use 
 					<span>
 						@c.Inline("FLOAT(n)")
 					</span> where 
@@ -157,7 +157,7 @@ templ DataTypes() {
 					</span> or 
 					<span>
 						@c.Inline("NUMERIC(p,s)")
-					</span> for exact-precision floating point numbers. The 
+					</span> <span>for</span> exact-precision floating point numbers. The 
 					<span>
 						@c.Inline("p")
 					</span> stands for "precision" and specifies the maximum amount of total digits. The 
@@ -179,7 +179,7 @@ templ DataTypes() {
 					<p>
 						<span>
 							@c.Inline("CHAR(n)")
-						</span> for fixed-length strings. 
+						</span> <span>for</span> fixed-length strings. 
 						<span>
 							@c.Inline("n")
 						</span> specifies how many characters the strings will have. Every row will store the same size of string regardless of how large the inserted strings are and the string will be padded or truncated.
@@ -187,7 +187,7 @@ templ DataTypes() {
 					<p>
 						<span>
 							@c.Inline("VARCHAR(n)")
-						</span> for variable-length strings. 
+						</span> <span>for</span> variable-length strings. 
 						<span>
 							@c.Inline("n")
 						</span> specifies the maximum amount of characters a string can have.
@@ -195,7 +195,7 @@ templ DataTypes() {
 					<p>
 						<span>
 							@c.Inline("TEXT")
-						</span> for variable-length strings without a specified maximum. Typically this type has a very large maximum size and varies by database.
+						</span> <span>for</span> variable-length strings without a specified maximum. Typically this type has a very large maximum size and varies by database.
 					</p>
 				</p>
 			</div>
@@ -206,12 +206,12 @@ templ DataTypes() {
 					<p>
 						<span>
 							@c.Inline("DATE")
-						</span> for dates including the year, month and day.
+						</span> <span>for</span> dates including the year, month and day.
 					</p>
 					<p>
 						<span>
 							@c.Inline("TIME")
-						</span> for times of day including the hour, minute and second.
+						</span> <span>for</span> times of day including the hour, minute and second.
 					</p>
 					<p>
 						<span>
@@ -219,16 +219,16 @@ templ DataTypes() {
 						</span> or 
 						<span>
 							@c.Inline("DATETIME")
-						</span> for a combination of both date and time.
+						</span> <span>for</span> a combination of both date and time.
 					</p>
 					<p>
 						SQLite does not include any special type for storing dates or times; it uses 
 						<span>
 							@c.Inline("TEXT")
-						</span> for this purpose and includes several built-in 
+						</span> <span>for</span> this purpose and includes several built-in 
 						<span>
 							@c.Link(site.MSP.Page(site.FunctionsPage), "")
-						</span> for working with dates and times.
+						</span> <span>for</span> working with dates and times.
 					</p>
 					<p>
 						SQLite requires you to store dates/times in one of a few certain formats. The most human-readable format to use is an 
@@ -245,7 +245,7 @@ templ DataTypes() {
 					<p>
 						<span>
 							@c.Inline("BINARY(n)")
-						</span> for fixed length 
+						</span> <span>for</span> fixed length 
 						<span>
 							@c.Outlink("https://en.wikipedia.org/wiki/Binary_file", "binary data")
 						</span>, for example image data. 
@@ -256,7 +256,7 @@ templ DataTypes() {
 					<p>
 						<span>
 							@c.Inline("VARBINARY(n)")
-						</span> for variable length binary data. 
+						</span> <span>for</span> variable length binary data. 
 						<span>
 							@c.Inline("n")
 						</span> specifies the maximum amount of bytes rows can have.
@@ -264,7 +264,7 @@ templ DataTypes() {
 					<p>
 						<span>
 							@c.Inline("BLOB")
-						</span> for variable-length binary objects without a specified maximum. Typically this type has a very large maximum size and varies by database. "BLOB" stands for "Binary Large Object".
+						</span> <span>for</span> variable-length binary objects without a specified maximum. Typically this type has a very large maximum size and varies by database. "BLOB" stands for "Binary Large Object".
 					</p>
 					<p>
 						This example shows a text representation of what binary data would look like if stored in a SQLite 
@@ -284,13 +284,13 @@ templ DataTypes() {
 					<p>
 						<span>
 							@c.Inline("BOOLEAN")
-						</span> for true/false values. This means every row must either be 
+						</span> <span>for</span> true/false values. This means every row must either be 
 						<span>
 							@c.Inline("TRUE")
 						</span> or 
 						<span>
 							@c.Inline("FALSE")
-						</span>.
+						</span><span>.</span>
 					</p>
 					<p>
 						SQLite has no built-in 
@@ -299,10 +299,10 @@ templ DataTypes() {
 						</span> type; boolean values are stored as the integer 
 						<span>
 							@c.Inline("0")
-						</span> for false and 
+						</span> <span>for</span> false and 
 						<span>
 							@c.Inline("1")
-						</span> for true.
+						</span> <span>for</span> true.
 					</p>
 				</p>
 			</div>
@@ -319,7 +319,7 @@ templ DataTypes() {
 						</span> and 
 						<span>
 							@c.Inline("BOOLEAN[]")
-						</span>.
+						</span><span>.</span>
 					</p>
 					<p>
 						Databases that support array types also provide syntax and functions for accessing elements from an array, for example 
@@ -330,20 +330,20 @@ templ DataTypes() {
 					<p>
 						<span>
 							@c.Inline("JSON")
-						</span> for JSON-formatted data. Many modern databases have features and functions to deal specifically with JSON data. Some databases require you to use 
+						</span> <span>for</span> JSON-formatted data. Many modern databases have features and functions to deal specifically with JSON data. Some databases require you to use 
 						<span>
 							@c.Inline("JSON")
-						</span> for array data types and functions.
+						</span> <span>for</span> array data types and functions.
 					</p>
 					<p>
 						<span>
 							@c.Inline("XML")
-						</span> for XML-formatted data. Several modern databases have features specifically for working with XML data.
+						</span> <span>for</span> XML-formatted data. Several modern databases have features specifically for working with XML data.
 					</p>
 					<p>
 						<span>
 							@c.Inline("UUID")
-						</span> for UUID-formatted IDs. Some databases have this as a built-in type so the data can be stored, found and compared more efficiently than a 
+						</span> <span>for</span> UUID-formatted IDs. Some databases have this as a built-in type so the data can be stored, found and compared more efficiently than a 
 						<span>
 							@c.Inline("TEXT")
 						</span>-like type.

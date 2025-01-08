@@ -39,7 +39,7 @@ templ Join() {
 					</span> and 
 					<span>
 						@c.Inline("donations")
-					</span>. Notice the donations table has a 
+					</span><span>.</span> Notice the donations table has a 
 					<span>
 						@c.Inline("user_id")
 					</span> column to indicate which user made that donation.
@@ -63,7 +63,7 @@ templ Join() {
 					</span>, it's just 
 					<span>
 						@c.Outlink("https://en.wikipedia.org/wiki/Syntactic_sugar", "syntactic sugar")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					The 
@@ -84,7 +84,7 @@ templ Join() {
 					Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is 
 					<span>
 						@c.Inline("id")
-					</span>.
+					</span><span>.</span>
 				</p>
 			</div>
 			@e.Run("join_alias.sql")
@@ -144,7 +144,7 @@ templ Join() {
 				</span> values from our 
 				<span>
 					@c.Inline("LEFT JOIN")
-				</span>.
+				</span><span>.</span>
 			</div>
 			@e.Run("left_join_where_null.sql")
 			<div>
@@ -166,7 +166,7 @@ templ Join() {
 						@c.LinkWithText(site.MSP.Page(site.CascadePage), "") {
 							@c.Inline("CASCADE")
 						}
-					</span>.
+					</span><span>.</span>
 				</p>
 			</div>
 			@e.Run("full_join.sql")
@@ -178,7 +178,7 @@ templ Join() {
 					</span>, also known as a "SELF" 
 					<span>
 						@c.Inline("JOIN")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					They are useful when a table has data that has a relationship with other data in the same table. In this example, users of the donation platform can refer other users and get a free credit.
@@ -202,7 +202,7 @@ templ Join() {
 					This can generate very large amounts of data depending on the size of the input tables so caution is advised when deciding to use a 
 					<span>
 						@c.Inline("CROSS JOIN")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					This can be used to generate test data since it allows you to generate every possible scenario between two sets of data.

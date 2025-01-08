@@ -39,7 +39,7 @@ templ UnionAndSetOperators() {
 					</span> is different than a 
 					<span>
 						@c.Inline("JOIN")
-					</span>. Think of a 
+					</span><span>.</span> Think of a 
 					<span>
 						@c.Inline("JOIN")
 					</span> as a way to combine columns "horizontally" from different tables, whereas a 
@@ -54,7 +54,7 @@ templ UnionAndSetOperators() {
 					</span> to succeed, the queries before and after it must have the same number of columns. Most databases require that the data types of the results match up as well. SQLite's dynamic typing feature allows you to mix data types within the same column. See 
 					<span>
 						@c.Link(site.MSP.Page(site.DataTypesPage), "")
-					</span> for more information.
+					</span> <span>for</span> more information.
 				</p>
 				<p>
 					The column names from the first query are used in the resulting set.
@@ -63,7 +63,7 @@ templ UnionAndSetOperators() {
 					This example shows one use case for 
 					<span>
 						@c.Inline("UNION")
-					</span>. Sometimes you will encounter separate tables that have the same structure. In this scenario, orders from the previous year are moved into another table as an archived copy.
+					</span><span>.</span> Sometimes you will encounter separate tables that have the same structure. In this scenario, orders from the previous year are moved into another table as an archived copy.
 				</p>
 				<p>
 					This technique can improve database performance with large datasets by limiting the amount of rows the database needs to check for queries against this year's orders.
@@ -91,7 +91,7 @@ templ UnionAndSetOperators() {
 					</span>, so they are treated as duplicates by 
 					<span>
 						@c.Inline("UNION")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					As an aside, notice how the previous example had results ordered by 
@@ -117,7 +117,7 @@ templ UnionAndSetOperators() {
 					</span> constants or computed columns and use them in a 
 					<span>
 						@c.Inline("UNION")
-					</span>. This can be a useful technique to include ad-hoc data that doesn't exist in a table.
+					</span><span>.</span> This can be a useful technique to include ad-hoc data that doesn't exist in a table.
 				</p>
 			</div>
 			@e.Run("union_multi.sql")
@@ -160,7 +160,7 @@ templ UnionAndSetOperators() {
 				</span> statement, so it can be used with aggregate clauses like 
 				<span>
 					@c.Inline("GROUP BY")
-				</span>. This example shows how we can calculate the total purchased quantity of items by year.
+				</span><span>.</span> This example shows how we can calculate the total purchased quantity of items by year.
 			</div>
 			@e.Run("union_aggregate.sql")
 			<div>
@@ -213,7 +213,7 @@ templ UnionAndSetOperators() {
 					</span> operator returns rows from the first set that do not exist in the second set. Think of it as a way to subtract the second set from the first set. Some databases call this operator 
 					<span>
 						@c.Inline("MINUS")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					This example shows all the orders from 2024 that did not have identical orders placed in 2023.

@@ -49,7 +49,7 @@ templ CreateTable() {
 						@c.LinkWithText(site.MSP.Page(site.DataTypesPage), "") {
 							data type
 						}
-					</span> for that column.
+					</span> <span>for</span> that column.
 				</p>
 				<p>
 					On this website, every table shown at the top of the page is created using a 
@@ -70,13 +70,13 @@ templ CreateTable() {
 					</span> is one such table that we query to see information about the 'posts' table we just created. Other database engines use special syntax such as 
 					<span>
 						@c.Inline("DESCRIBE ...")
-					</span> for the same purpose.
+					</span> <span>for</span> the same purpose.
 				</p>
 				<p id="primary_key">
 					You may notice the 'id' column declaration in our 'posts' table is followed by the keywords 
 					<span>
 						@c.Inline("PRIMARY KEY")
-					</span>. This is what is known as a 
+					</span><span>.</span> This is what is known as a 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "") {
 							Constraint
@@ -152,7 +152,7 @@ templ CreateTable() {
 					</span> will not copy table constraints, indexes, table permissions and other metadata that a database might associate with a table. See 
 					<span>
 						@c.Link(site.MSP.Page(site.BackupAndRecoveryPage), "")
-					</span> for details on recommended techniques for backing up data in relational databases.
+					</span> <span>for</span> details on recommended techniques for backing up data in relational databases.
 				</p>
 			</div>
 			@e.Run("create_as.sql")

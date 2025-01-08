@@ -82,7 +82,7 @@ templ GroupBy() {
 					</span> can be used alongside other clauses like 
 					<span>
 						@c.Inline("JOIN")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					In logistics, lead time is how long it takes to receive something after ordering it. In this example we group by vendor then use the 
@@ -136,7 +136,7 @@ templ GroupBy() {
 					</span> clause can be added to an aggregate function like 
 					<span>
 						@c.Inline("count()")
-					</span>. In this case we want to see how many different vendors we have for each product category to make sure we can negotiate the best prices.
+					</span><span>.</span> In this case we want to see how many different vendors we have for each product category to make sure we can negotiate the best prices.
 				</p>
 				<p>
 					Without the 
@@ -153,7 +153,7 @@ templ GroupBy() {
 					</span> values form their own group when they are found by a 
 					<span>
 						@c.Inline("GROUP BY")
-					</span>.
+					</span><span>.</span>
 				</p>
 				<p>
 					In this schema an order has a 
