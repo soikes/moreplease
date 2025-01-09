@@ -33,19 +33,25 @@ templ Join() {
 					</span> clause can be added to statements to combine results from multiple tables based on a relationship between them.
 				</p>
 				<p>
-					This example uses two tables: 
+					This example uses three tables: 
 					<span>
 						@c.Inline("users")
-					</span> and 
+					</span>, 
 					<span>
 						@c.Inline("donations")
+					</span>, and 
+					<span>
+						@c.Inline("charities")
 					</span><span>.</span> Notice the donations table has a 
 					<span>
 						@c.Inline("user_id")
 					</span> column to indicate which user made that donation.
 				</p>
 				<p>
-					In the query you first specify the names of all the columns to retrieve. Prefixing the columns with table names is not required but it's good practice to be able to easily see which columns come from which table.
+					When you want to join multiple tables together, specify the names of all the columns to retrieve from both tables in your 
+					<span>
+						@c.Inline("SELECT")
+					</span>. Prefixing the columns with table names is not required unless multiple tables have the same column name, but it's good practice to be able to easily see which columns come from which table.
 				</p>
 				<p>
 					An 
@@ -60,7 +66,7 @@ templ Join() {
 					</span> and an 
 					<span>
 						@c.Inline("INNER JOIN")
-					</span>, it's just 
+					</span>; it's just 
 					<span>
 						@c.Outlink("https://en.wikipedia.org/wiki/Syntactic_sugar", "syntactic sugar")
 					</span><span>.</span>

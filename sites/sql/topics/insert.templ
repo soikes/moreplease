@@ -30,7 +30,7 @@ templ Insert() {
 					The 
 					<span>
 						@c.Inline("INSERT")
-					</span> statement is used to add new rows to a database.
+					</span> statement is used to add new rows to a table.
 				</p>
 				<p>
 					Remember that each example uses its own copy of the tables. If you want to see the current state of a table after an 
@@ -223,6 +223,16 @@ templ Insert() {
 				</p>
 			</div>
 			@e.Run("insert_or.sql")
+			<div>
+				Some database engines support the 
+				<span>
+					@c.Inline("RETURNING")
+				</span> clause, which will cause the database to return the rows that were inserted. You can specify column names to return or 
+				<span>
+					@c.Inline("*")
+				</span> to include all columns.
+			</div>
+			@e.Run("insert_returning.sql")
 		</div>
 	}
 }

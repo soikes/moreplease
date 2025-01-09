@@ -1,0 +1,141 @@
+package topics
+
+import (
+	"soikke.li/moreplease/pkg/db"
+	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+)
+
+func init() {
+	render.MustRegisterComponent(site.DeletePage.Asset(), Delete())
+}
+
+templ Delete() {
+	{{
+		s := db.Statements{
+			Files:      mustSub("embed/delete"),
+			SchemaPath: "schema/schema.sql",
+		}
+		e := c.Example{
+			Statements: s,
+		}
+		p := site.MSP.Page(site.DeletePage)
+	}}
+	@c.Page{Site: site.MSP, Page: p}.Render() {
+		@c.Schema(p, s, "users", "posts")
+		<div class="container">
+			<div>
+				<p>
+					The 
+					<span>
+						@c.Inline("DELETE")
+					</span> statement allows you to delete existing rows from a table.
+				</p>
+				<p>
+					A 
+					<span>
+						@c.Inline("DELETE")
+					</span> will delete every row from a table unless a
+					<span>
+						@c.Inline("WHERE")
+					</span> clause is provided. 
+				</p>
+				<p>
+					It is not required to provide a 
+					<span>
+						@c.Inline("WHERE")
+					</span> clause but it is highly recommended to avoid accidentally deleting all the rows in a table. Some database engines will warn or even prevent you from running a table-wide 
+					<span>
+						@c.Inline("DELETE")
+					</span> statement.
+				</p>
+				<p>
+					It's usually a good idea to run a
+					<span>
+						@c.Inline("SELECT")
+					</span> statement with the same 
+					<span>
+						@c.Inline("WHERE")
+					</span> clause as the 
+					<span>
+						@c.Inline("DELETE")
+					</span> to check which rows will be deleted before actually performing the delete.
+				</p>
+				<p>
+					Remember that each example on this website is editable and runnable so you can see the results of your 
+					<span>
+						@c.Inline("DELETE")
+					</span> by querying the contents of the table, i.e.: 
+					<span>
+						@c.Inline("SELECT * FROM users;")
+					</span>
+				</p>
+			</div>
+			@e.Run("delete.sql")
+			<div>
+				Some database engines support the 
+				<span>
+					@c.Inline("RETURNING")
+				</span> clause, which will cause the database to return the rows that were deleted. You can specify the column names to return or 
+				<span>
+					@c.Inline("*")
+				</span> to include all columns.
+			</div>
+			@e.Run("delete_returning.sql")
+			<div>
+				<p>
+					In this example we have two tables that have a relationship with each other; a 
+					<span>
+						@c.Inline("post")
+					</span> must have an associated 
+					<span>
+						@c.Inline("user")
+					</span> that created it.
+				</p>
+				<p>
+					Remember that when you create a table you can define 
+					<span>
+						@c.Link(site.MSP.Page(site.ConstraintsPage), "")
+					</span> that will tell the database to enforce certain rules on a column. In this example we defined a 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.PrimaryKeyPage), "") {
+							<span>
+								@c.Inline("PRIMARY KEY")
+							</span>
+						}
+					</span> on the 
+					<span>
+						@c.Inline("id")
+					</span> column of the 
+					<span>
+						@c.Inline("users")
+					</span> table and a 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.ForeignKeyPage), "") {
+							<span>
+								@c.Inline("FOREIGN KEY")
+							</span>
+						}
+					</span> on the 
+					<span>
+						@c.Inline("user_id")
+					</span> column of the 
+					<span>
+						@c.Inline("posts")
+					</span> table that references the user's 
+					<span>
+						@c.Inline("id")
+					</span>.
+				</p>
+				<p>
+					When we try to delete a user that still has posts in the database, the deletion fails because of this constraint we added. This prevents the database from having posts that are no longer associated with a user, also known as "orphaned" records. See more in 
+					<span>
+						@c.Link(site.MSP.Page(site.SchemaDesignPage), "")
+					</span>.
+				</p>
+			</div>
+			@e.Run("delete_constraint_violation.sql")
+		</div>
+	}
+}

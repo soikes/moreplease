@@ -9,7 +9,7 @@ templ Contents(sections []model.Section) {
 				<h3><i>{ section.Title }</i></h3>
 			</li>
 			for _, page := range section.Pages {
-				<li>
+				<li id={ string(page.ID) }>
 					if page.Enabled {
 						<a href={ templ.URL(page.URL) }>{ page.Title }</a>
 					} else {

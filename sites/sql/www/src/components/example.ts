@@ -19,7 +19,8 @@ interface Example {
 }
 
 const ddlRegex = /\b(CREATE TABLE|ALTER TABLE|DROP TABLE)\b/gi;
-const dmlRegex = /\b(INSERT|UPDATE|DELETE|MERGE|UPSERT)\b/gi;
+const dmlRegex =
+  /\b(?![\s\S]*RETURNING)[\s\S]*(INSERT|UPDATE|DELETE|MERGE|UPSERT)\b/gi;
 const dqlRegex = /\b(SELECT)\b/gi;
 const noRowsMsg = "No rows returned.";
 const fatalMsg = "Failed to initialize database. Check console logs for error.";

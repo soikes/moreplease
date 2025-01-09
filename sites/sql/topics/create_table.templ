@@ -27,10 +27,10 @@ templ CreateTable() {
 		<div class="container">
 			<div>
 				<p>
-					The 
+					A database has a collection of tables which contain the data to be stored. The 
 					<span>
 						@c.Inline("CREATE TABLE")
-					</span> statement is used to create new tables in a database.
+					</span> statement is used to create a new table in a database.
 				</p>
 				<p>
 					A table needs to be created before any data can be inserted into or queried from it. When a table is created it will persist until it is deleted using a 
@@ -38,7 +38,10 @@ templ CreateTable() {
 						@c.LinkWithText(site.MSP.Page(site.DropTablePage), "") {
 							@c.Inline("DROP TABLE")
 						}
-					</span> statement. This example shows how to create a table 'posts' that can be used to store message board posts from users.
+					</span> statement. This example shows how to create a table 
+					<span>
+						@c.Inline("posts")
+					</span> that can be used to store message board posts from users.
 				</p>
 				<p>
 					A 
@@ -67,13 +70,49 @@ templ CreateTable() {
 					</span> to get information about the database/tables themselves. 
 					<span>
 						@c.Inline("pragma_table_info(...)")
-					</span> is one such table that we query to see information about the 'posts' table we just created. Other database engines use special syntax such as 
+					</span> is one such table that we query to see information about the 
+					<span>
+						@c.Inline("posts")
+					</span> table we just created. Other database engines use special syntax such as 
 					<span>
 						@c.Inline("DESCRIBE ...")
 					</span> <span>for</span> the same purpose.
 				</p>
+				<p>
+					Most tables will contain a column named something like 
+					<span>
+						@c.Inline("id")
+					</span>. The name doesn't have any special meaning other than to indicate that this is the column that will be used to uniquely identify a row. Typically an 
+					<span>
+						@c.Inline("id")
+					</span> is either a number that increments as you add new rows, or a uniquely random set of characters such as a 
+					<span>
+						@c.Outlink("https://en.wikipedia.org/wiki/Universally_unique_identifier", "UUID")
+					</span>. This is also the column that is used to create relationships between tables. In this case our 
+					<span>
+						@c.Inline("posts")
+					</span> table also contains a column called 
+					<span>
+						@c.Inline("user_id")
+					</span> which is how we associate a user with the posts they create. See more about table relationships in 
+					<span>
+						@c.Link(site.MSP.Page(site.JoinPage), "")
+					</span>, 
+					<span>
+						@c.Link(site.MSP.Page(site.ForeignKeyPage), "")
+					</span>, and
+					<span>
+						@c.Link(site.MSP.Page(site.SchemaDesignPage), "")
+					</span>.
+				</p>
 				<p id="primary_key">
-					You may notice the 'id' column declaration in our 'posts' table is followed by the keywords 
+					You may notice the 
+					<span>
+						@c.Inline("id")
+					</span> column declaration in our 
+					<span>
+						@c.Inline("posts")
+					</span> table is followed by the keywords 
 					<span>
 						@c.Inline("PRIMARY KEY")
 					</span><span>.</span> This is what is known as a 
@@ -81,7 +120,10 @@ templ CreateTable() {
 						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "") {
 							Constraint
 						}
-					</span> and it tells the database to uniquely identify each row using this column.
+					</span> and it tells the database it must enforce uniqueness of this column. It is not required to delcare a primary key but it is considered best practice for various reasons including data integrity and performance. See more about primary keys in 
+					<span>
+						@c.Link(site.MSP.Page(site.PrimaryKeyPage), "")
+					</span>.
 				</p>
 			</div>
 			@e.Run("create_posts.sql")

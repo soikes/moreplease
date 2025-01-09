@@ -54,7 +54,10 @@ templ Update() {
 					You can run a 
 					<span>
 						@c.Inline("SELECT")
-					</span> statement with the same parameters to check which rows will be altered with an 
+					</span> statement with the same 
+					<span>
+						@c.Inline("WHERE")
+					</span> clause to check which rows will be altered with an 
 					<span>
 						@c.Inline("UPDATE")
 					</span> before actually performing the update.
@@ -116,6 +119,16 @@ templ Update() {
 				</p>
 			</div>
 			@e.Run("update_or.sql")
+			<div>
+				Some database engines support the 
+				<span>
+					@c.Inline("RETURNING")
+				</span> clause, which will cause the database to return the rows that were updated. You can specify column names to return or 
+				<span>
+					@c.Inline("*")
+				</span> to include all columns.
+			</div>
+			@e.Run("update_returning.sql")
 		</div>
 	}
 }

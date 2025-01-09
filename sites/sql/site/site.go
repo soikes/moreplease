@@ -87,7 +87,7 @@ var MSP = model.NewSite(
 				model.NewPage(CreateTablePage, "CREATE TABLE", model.Enable()),
 				model.NewPage(InsertPage, "INSERT", model.Enable()),
 				model.NewPage(UpdatePage, "UPDATE", model.Enable()),
-				model.NewPage(DeletePage, "DELETE"),
+				model.NewPage(DeletePage, "DELETE", model.Enable()),
 			},
 		},
 		{
