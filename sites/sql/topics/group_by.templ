@@ -102,7 +102,12 @@ templ GroupBy() {
 				<p>
 					<span>
 						@c.Inline("julianday()")
-					</span> is a built-in function that helps us perform arithmetic on <a href="date_and_time">dates</a> in SQLite.
+					</span> is a built-in function that helps us perform arithmetic on 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.DateAndTimePage), "") {
+							dates
+						}
+					</span> in SQLite.
 				</p>
 			</div>
 			@e.Run("group_by_join.sql")

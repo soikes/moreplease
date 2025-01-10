@@ -30,7 +30,6 @@ const (
 	GroupByPage                model.PageID = `group_by`
 	CasePage                   model.PageID = `case`
 	UnionAndSetOperatorsPage   model.PageID = `union_and_set_operators`
-	PivotPage                  model.PageID = `pivot`
 	StringManipulationPage     model.PageID = `string_manipulation`
 	DateAndTimePage            model.PageID = `date_and_time`
 	CreateTablePage            model.PageID = `create_table`
@@ -99,7 +98,6 @@ var MSP = model.NewSite(
 				model.NewPage(GroupByPage, "GROUP BY", model.Enable()),
 				model.NewPage(UnionAndSetOperatorsPage, "UNION and Set Operators", model.Enable()),
 				model.NewPage(CasePage, "CASE", model.Enable()),
-				model.NewPage(PivotPage, "PIVOT"),
 				model.NewPage(StringManipulationPage, "String Manipulation"),
 				model.NewPage(DateAndTimePage, "Date and Time"),
 			},
