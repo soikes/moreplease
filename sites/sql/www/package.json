@@ -13,6 +13,7 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@alpinejs/csp": "^3.14.8",
     "@types/alpinejs": "^3.13.11",
     "@types/prismjs": "^1.26.5",
     "@types/sql.js": "^1.4.9",

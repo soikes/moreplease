@@ -36,6 +36,7 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/json-iterator/go v0.0.0-20171115153421-f7279a603ede // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
+	github.com/rs/xid v1.6.0 // indirect
 	go.etcd.io/bbolt v1.3.7 // indirect
 	golang.org/x/mod v0.22.0 // indirect
 	golang.org/x/net v0.32.0 // indirect

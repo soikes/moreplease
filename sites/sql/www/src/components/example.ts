@@ -1,9 +1,11 @@
 import { Db } from "../db/db";
 import { MarkdownFormatter } from "../db/formatter";
+import Alpine from "@alpinejs/csp";
 
 type stmtType = "ddl" | "dml" | "dql";
 
 interface Example {
+  id: string;
   loading: boolean;
   result: string;
   schema: string | undefined;
@@ -26,10 +28,10 @@ const noRowsMsg = "No rows returned.";
 const fatalMsg = "Failed to initialize database. Check console logs for error.";
 
 /** createExample uses a schema and an initial statement to initialize a new SQLite database in memory.
-    @return {Example} An object literal because it is easier to work with in alpine.js.
  */
-export function createExample(stmt: string, schema?: string): Example {
-  return {
+export function createExample(id: string, stmt: string, schema?: string) {
+  const example = {
+    id: id,
     loading: false,
     result: "",
     schema: schema,
@@ -103,4 +105,10 @@ export function createExample(stmt: string, schema?: string): Example {
       return pluralize ? input + "s" : input;
     },
   };
+
+  // Required for the CSP build of alpine.
+  // Setup the component with a unique id because there are many examples on one page.
+  Alpine.data(example.id, () => {
+    return example;
+  });
 }

@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@alpinejs/csp':
+    specifier: ^3.14.8
+    version: 3.14.8
   '@types/alpinejs':
     specifier: ^3.13.11
     version: 3.13.11
@@ -36,6 +39,12 @@ devDependencies:
     version: 5.7.2
 
 packages:
+
+  /@alpinejs/csp@3.14.8:
+    resolution: {integrity: sha512-tYFQQ14/M+oDHe6wGKweqULKLgv8YmP7khDLoghRj0KkA0TSQztIT8I9piV+1En6gKsbWxU5PHY6UZl+Z4FXzg==}
+    dependencies:
+      '@vue/reactivity': 3.1.5
+    dev: false
 
   /@esbuild/aix-ppc64@0.24.0:
     resolution: {integrity: sha512-WtKdFM7ls47zkKHFVzMz8opM7LkcsIp9amDUBIAWirg70RM71WRSjdILPsY5Uv1D42ZpUfaPILDlfactHgsRkw==}

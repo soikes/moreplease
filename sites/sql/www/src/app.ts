@@ -1,4 +1,5 @@
-import { createExample } from "./components/example.js";
+// import { createExample } from "./components/example.js";
+import { SQLExample } from "./components/example2.js";
 import { popout } from "./components/popout.js";
 import { highlightAll, languages } from "prismjs";
 import "prismjs/components/prism-sql";
@@ -39,13 +40,14 @@ languages.sql = {
 
 declare global {
   interface Window {
-    createExample: typeof createExample;
+    // createExample: typeof createExample;
     popout: typeof popout;
   }
 }
-window.createExample = createExample;
+// window.createExample = createExample;
 window.popout = popout;
 
 document.addEventListener("DOMContentLoaded", () => {
+  window.customElements.define("sql-example", SQLExample);
   highlightAll();
 });

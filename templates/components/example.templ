@@ -1,7 +1,7 @@
 package components
 
 import (
-	"fmt"
+	"encoding/json"
 	"soikke.li/moreplease/pkg/db"
 	"soikke.li/moreplease/pkg/model"
 )
@@ -15,39 +15,38 @@ templ (e *Example) Run(path string) {
 	<div class="example sticky-container fade-in">
 		<div class="tile sticky">
 			{{
-				var xdata string
-				stmt := e.Statements.From(path)
-				var schema string
-				if e.Statements.SchemaPath != "" {
-					schema = e.Statements.From(e.Statements.SchemaPath)
-					xdata = fmt.Sprintf("createExample(`%s`, `%s`)", stmt, schema)
-				} else {
-					xdata = fmt.Sprintf("createExample(`%s`)", stmt)
+				s := struct {
+					Schema      string `json:"schema"`
+					InitialStmt string `json:"initial_stmt"`
+					Stmt        string `json:"stmt"`
+					Result      string `json:"result"`
+				}{
+					Schema:      e.Statements.From(e.Statements.SchemaPath),
+					InitialStmt: e.Statements.From(path),
+					Stmt:        e.Statements.From(path),
+					Result:      "",
+				}
+				state, err := json.Marshal(s)
+				if err != nil {
+					panic(err)
 				}
 			}}
-			<div x-data={ xdata }>
+			<sql-example data-state={ string(state) }>
 				<div class="stmt">
 					<textarea
 						spellcheck="false"
 						autocorrect="off"
 						autocapitalize="off"
-						x-init="$watch('stmt', () => { $el.parentNode.dataset.replicatedValue = $el.value })"
-						x-model="stmt"
+						data-bind="stmt"
 					></textarea>
 					<pre>
-						<code
-							class={ e.Language.CSSClass() }
-							x-init="$watch('stmt', () => {
-                                $nextTick(() => Prism.highlightElement($el))
-                            })"
-							x-text="stmt"
-						></code>
+						<code class={ e.Language.CSSClass() }></code>
 					</pre>
 				</div>
-				<button class="run" x-on:click="run()"><img src="assets/run.svg"/> run</button>
-				<button class="run" x-on:click="reset()"><img src="assets/reset.svg"/> reset</button>
-				<div class="result" x-text="result"></div>
-			</div>
+				<button id="run" class="run"><img src="assets/run.svg"/> run</button>
+				<button id="reset" class="run"><img src="assets/reset.svg"/> reset</button>
+				<div data-bind="result" id="result" class="result"></div>
+			</sql-example>
 			// TODO: include this pre-rendered block conditionally before the client side runs
 			/* <div x-show="!result">
                 <pre>
@@ -65,7 +64,7 @@ templ (e *Example) Display(path string) {
 	<div class="sticky-container">
 		<div class="tile sticky">
 			{{
-	stmt := e.Statements.From(path)
+				stmt := e.Statements.From(path)
 			}}
 			<pre>
 				<code class={ e.Language.CSSClass() } x-text="stmt" x-ref="codeBlock">{ stmt }</code>
