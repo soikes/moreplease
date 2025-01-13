@@ -44,8 +44,8 @@ templ (e *Example) Run(path string) {
 						></code>
 					</pre>
 				</div>
-				<button class="run" x-on:click="run()"><img src="assets/run.svg"/> run</button>
-				<button class="run" x-on:click="reset()"><img src="assets/reset.svg"/> reset</button>
+				<button class="run" x-on:click="run"><img src="assets/run.svg"/> run</button>
+				<button class="run" x-on:click="reset"><img src="assets/reset.svg"/> reset</button>
 				<div class="result" x-text="result"></div>
 			</div>
 			// TODO: include this pre-rendered block conditionally before the client side runs

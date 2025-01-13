@@ -3,6 +3,7 @@ import { popout } from "./components/popout.js";
 import { highlightAll, languages } from "prismjs";
 import "prismjs/components/prism-sql";
 import "htmx.org";
+import Alpine from "alpinejs";
 
 // Use custom syntax highlighting for SQLite, with some extra syntax for
 // other engines when describing them.
@@ -47,5 +48,6 @@ window.createExample = createExample;
 window.popout = popout;
 
 document.addEventListener("DOMContentLoaded", () => {
+  Alpine.start();
   highlightAll();
 });
