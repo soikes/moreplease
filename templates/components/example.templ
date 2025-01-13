@@ -17,13 +17,9 @@ templ (e *Example) Run(path string) {
 			{{
 				var xdata string
 				stmt := e.Statements.From(path)
-				var schema string
-				if e.Statements.SchemaPath != "" {
-					schema = e.Statements.From(e.Statements.SchemaPath)
-					xdata = fmt.Sprintf("createExample(`%s`, `%s`)", stmt, schema)
-				} else {
-					xdata = fmt.Sprintf("createExample(`%s`)", stmt)
-				}
+				schema := e.Statements.From(e.Statements.SchemaPath)
+				// result := e.Statements.ExecFile(path) // TODO: CREATE TABLE statements in multi-statement files are not working.
+				xdata = fmt.Sprintf("createExample(`%s`, `%s`, `%s`)", schema, stmt, "")
 			}}
 			<div x-data={ xdata }>
 				<div class="stmt">
@@ -48,15 +44,6 @@ templ (e *Example) Run(path string) {
 				<button class="run" x-on:click="reset"><img src="assets/reset.svg"/> reset</button>
 				<div class="result" x-text="result"></div>
 			</div>
-			// TODO: include this pre-rendered block conditionally before the client side runs
-			/* <div x-show="!result">
-                <pre>
-                    { e.Statements.ExecFile(path) }
-                </pre>
-            </div>
-            <div x-show="result">
-                <pre x-text="result"></pre>
-            </div> */
 		</div>
 	</div>
 }
@@ -65,7 +52,7 @@ templ (e *Example) Display(path string) {
 	<div class="sticky-container">
 		<div class="tile sticky">
 			{{
-	stmt := e.Statements.From(path)
+				stmt := e.Statements.From(path)
 			}}
 			<pre>
 				<code class={ e.Language.CSSClass() } x-text="stmt" x-ref="codeBlock">{ stmt }</code>

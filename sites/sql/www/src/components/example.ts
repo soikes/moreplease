@@ -28,10 +28,14 @@ const fatalMsg = "Failed to initialize database. Check console logs for error.";
 /** createExample uses a schema and an initial statement to initialize a new SQLite database in memory.
     @return {Example} An object literal because it is easier to work with in alpine.js.
  */
-export function createExample(stmt: string, schema?: string): Example {
+export function createExample(
+  schema: string,
+  stmt: string,
+  result: string,
+): Example {
   return {
     loading: false,
-    result: "",
+    result: result,
     schema: schema,
     initialStmt: stmt,
     stmt: stmt,
