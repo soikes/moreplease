@@ -1,6 +1,9 @@
 package components
 
-import "soikke.li/moreplease/pkg/model"
+import (
+	"soikke.li/moreplease/pkg/model"
+	"soikke.li/moreplease/pkg/web"
+)
 
 var jsImports = templ.NewOnceHandle()
 
@@ -12,6 +15,8 @@ type Base struct {
 templ (b *Base) Component() {
 	<html>
 		<head>
+			<meta charset="UTF-8"/>
+			<meta http-equiv="Content-Security-Policy" content={ web.CSPString }/>
 			@jsImports.Once() {
 				<script type="text/javascript" src="assets/app.min.js"></script>
 			}
