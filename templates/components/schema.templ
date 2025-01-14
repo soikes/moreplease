@@ -28,14 +28,13 @@ templ Schema(p model.Page, s db.Statements, tables ...string) {
 				data-open="hide tables"
 				data-close="show tables"
 			></summary>
-			<div class="heading popout">
-				<span onclick="popout(document.getElementById('popupDocument').getAttribute('data-popup-html'))">
+			<popout-doc data-document={ htmlBuf.String() } class="heading popout">
+				<span>
 					@Outlink("#", "pop out tables")
 				</span>
-			</div>
+			</popout-doc>
 			@innerSchema(s, tables...)
 		</details>
-		<script id="popupDocument" type="text/template" data-popup-html={ htmlBuf.String() }></script>
 	}
 }
 

@@ -3,6 +3,7 @@
     "experimentalDecorators": true,
     "strictNullChecks": true,
     "sourceMap": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "target": "ES6"
   }
 }
