@@ -639,3 +639,9 @@ pre[class*="language-"] {
 .token.entity {
     cursor: help;
 }
+
+.outlink {
+    display: inline;
+    width: 0.8rem;
+    height: 0.8rem;
+}

@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"soikke.li/moreplease/pkg/db"
 	"soikke.li/moreplease/pkg/model"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
 )
 
 templ Schema(p model.Page, s db.Statements, tables ...string) {
@@ -30,7 +32,7 @@ templ Schema(p model.Page, s db.Statements, tables ...string) {
 			></summary>
 			<popout-doc data-document={ htmlBuf.String() } class="heading popout">
 				<span>
-					@Outlink("#", "pop out tables")
+					@c.Outlink("#", "pop out tables")
 				</span>
 			</popout-doc>
 			@innerSchema(s, tables...)
@@ -41,13 +43,13 @@ templ Schema(p model.Page, s db.Statements, tables ...string) {
 templ SchemaPopout(p model.Page, s db.Statements, tables ...string) {
 	{{
 		title := fmt.Sprintf("%s (Tables)", p.Title)
-		b := Base{
+		b := c.Base{
 			Title:    title,
-			Language: model.LanguageSQL,
+			Language: site.MSP.Language,
 		}
 	}}
-	@b.Component() {
-		@TopicTitle(title)
+	@b.Component(HashedImports()) {
+		@c.TopicTitle(site.MSP.Title, title)
 		@innerSchema(s, tables...)
 	}
 }

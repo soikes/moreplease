@@ -31,7 +31,6 @@ export class Db {
   /** Executes a series of SQL statements against the loaded database.
    */
   exec(stmt: string): QueryExecResult[] {
-    console.log(`exec ${stmt}`);
     const rows = this.db.exec(stmt);
     return rows;
   }

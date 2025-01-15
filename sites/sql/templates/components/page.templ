@@ -1,0 +1,23 @@
+package components
+
+import (
+	"soikke.li/moreplease/pkg/model"
+	"soikke.li/moreplease/sites/sql/site"
+	c "soikke.li/moreplease/templates/components"
+)
+
+type Page struct {
+	Page model.Page
+}
+
+templ (p Page) Component() {
+	{{
+		page := c.Page{
+			Site: site.MSP,
+			Page: p.Page,
+		}
+	}}
+	@page.Component(HashedImports()) {
+		{ children... }
+	}
+}

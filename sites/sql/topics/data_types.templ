@@ -4,6 +4,7 @@ import (
 	"soikke.li/moreplease/pkg/db"
 	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/site"
+	sqlc "soikke.li/moreplease/sites/sql/templates/components"
 	c "soikke.li/moreplease/templates/components"
 )
 
@@ -22,8 +23,8 @@ templ DataTypes() {
 	}
 	p := site.MSP.Page(site.DataTypesPage)
 	}}
-	@c.Page{Site: site.MSP, Page: p}.Render() {
-		@c.Schema(p, s, "profiles")
+	@sqlc.Page{Page: p}.Component() {
+		@sqlc.Schema(p, s, "profiles")
 		<div class="container">
 			<div>
 				<p>

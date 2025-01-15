@@ -1,0 +1,28 @@
+package components
+
+import (
+	"path"
+	"soikke.li/moreplease/pkg/assets"
+	sqlAssets "soikke.li/moreplease/sites/sql/assets"
+)
+
+var jsImports = templ.NewOnceHandle()
+
+templ HashedImports() {
+	{{
+		src := "assets/app.min.js"
+		srcHash, err := assets.HashAsset(sqlAssets.Assets, path.Base(src))
+		if err != nil {
+			panic(err)
+		}
+		style := "assets/styles.css"
+		styleHash, err := assets.HashAsset(sqlAssets.Assets, path.Base(style))
+		if err != nil {
+			panic(err)
+		}
+	}}
+	@jsImports.Once() {
+		<script type="text/javascript" src={ src } integrity={ srcHash }></script>
+	}
+	<link rel="stylesheet" href={ style } integrity={ styleHash }/>
+}

@@ -4,6 +4,7 @@ import (
 	"soikke.li/moreplease/pkg/model"
 	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/site"
+	sqlc "soikke.li/moreplease/sites/sql/templates/components"
 	c "soikke.li/moreplease/templates/components"
 )
 
@@ -19,7 +20,7 @@ templ Index() {
 		Language: model.LanguageSQL,
 	}
 	}}
-	@b.Component() {
+	@b.Component(sqlc.HashedImports()) {
 		@inner(s.Sections)
 	}
 }

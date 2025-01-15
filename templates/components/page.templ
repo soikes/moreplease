@@ -10,16 +10,16 @@ type Page struct {
 	Page model.Page
 }
 
-templ (p Page) Render() {
+templ (p Page) Component(hashedImports templ.Component) {
 	{{
 		b := Base{
 			Title:    fmt.Sprintf("%s: %s", p.Site.Title, p.Page.Title),
 			Language: p.Site.Language,
 		}
 	}}
-	@b.Component() {
+	@b.Component(hashedImports) {
 		<div class="content wide">
-			@TopicTitle(p.Page.Title)
+			@TopicTitle(p.Site.Title, p.Page.Title)
 			{ children... }
 			@BottomNav(p.Page)
 		</div>

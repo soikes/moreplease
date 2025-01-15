@@ -2,22 +2,19 @@ package components
 
 import "soikke.li/moreplease/pkg/model"
 
-var jsImports = templ.NewOnceHandle()
-
 type Base struct {
 	Title    string
 	Language model.Language
 }
 
-templ (b *Base) Component() {
+templ (b *Base) Component(hashedImports templ.Component) {
+	<!DOCTYPE html>
 	<html>
 		<head>
 			<meta charset="UTF-8"/>
-			// <meta http-equiv="Content-Security-Policy" content={ web.CSPString }/>
-			@jsImports.Once() {
-				<script type="text/javascript" src="assets/app.min.js"></script>
-			}
-			<link rel="stylesheet" href="assets/styles.css"/>
+			<meta name="htmx-config" content='{ "includeIndicatorStyles": false }'/>
+			// <meta http-equiv="Content-Security-Policy" content={ web.CSPString(false) }/>
+			@hashedImports
 			<link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
 			<title>{ b.Title }</title>
 		</head>
