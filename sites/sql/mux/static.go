@@ -7,7 +7,6 @@ import (
 	"soikke.li/moreplease/pkg/assets"
 	"soikke.li/moreplease/pkg/search"
 	sqlAssets "soikke.li/moreplease/sites/sql/assets"
-	"soikke.li/moreplease/sites/sql/site"
 )
 
 type FSHandler struct {
@@ -44,7 +43,8 @@ func (h *FSHandler) htmlAsset(w http.ResponseWriter, r *http.Request) {
 func NewStaticMux() *http.ServeMux {
 	mux := http.NewServeMux()
 
-	s, err := search.NewHandler(site.AssetDocumentProvider{})
+	storage := search.FSIndexStorage{Path: `data/moresqlplease.index`}
+	s, err := search.NewHandler(storage)
 	if err != nil {
 		panic(err)
 	}

@@ -96,4 +96,4 @@
 
 - [ ] The search page links use the input text as the text fragment "#:~:" and it doesn't always match the search results, so the highlighting doesn't highlight the text on the destination page. See if there's a way to use the bleve matches as the fragment. I looked it up and couldn't find a way to do this, Fragments seems to return the full HTML snippet of the result. You could also parse the result as HTML and extract the content in the "mark" tags, then combine them to form the fragment string.
 
-- [ ] Some of the JS widget content shows up in the search index, e.g. the "Run Reset" text from the buttons. Find a way to keep any unwanted text out of the content using CSS and including/excluding in htmlToText().
+- [ ] Some of the example code editor/runner content shows up in the search index, e.g. the "Run Reset" text from the buttons. Find a way to keep any unwanted text out of the content using CSS and including/excluding in htmlToText(). This should be handled by using "ExcludeTags" in the documentprovider but not working for some reason

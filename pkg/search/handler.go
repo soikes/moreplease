@@ -17,14 +17,12 @@ type Handler struct {
 	Index Index
 }
 
-func NewHandler(dp DocumentProvider) (Handler, error) {
+func NewHandler(storage IndexStorage) (Handler, error) {
 	h := Handler{}
-	i, err := NewIndex(dp)
+	i, err := storage.OpenIndex()
 	h.Index = i
 	return h, err
 }
-
-const maxTermLen = 50
 
 func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	r.Body = http.MaxBytesReader(w, r.Body, 1<<20)
@@ -60,6 +58,8 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	res := templ.Handler(components.SearchResults(ri))
 	res.ServeHTTP(w, r)
 }
+
+const maxTermLen = 50
 
 func prepareTerm(term string) (string, error) {
 	if len(term) > maxTermLen {
