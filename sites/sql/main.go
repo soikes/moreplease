@@ -11,32 +11,29 @@ import (
 	"soikke.li/moreplease/sites/sql/mux"
 )
 
-var dynamicFlag = flag.Bool("d", false, "dynamically render SQL examples per-request")
+var searchIndex = flag.String("s", "data/moresqlplease.index", "location of indexed documents for search engine")
 
 func main() {
 	flag.Parse()
 	var m *http.ServeMux
 	var desc string
-	if *dynamicFlag {
-		desc = "dynamic"
-		m = mux.NewDynamicMux()
-	} else {
-		desc = "static"
-		m = mux.NewStaticMux()
+	desc = "static"
+	cfg := mux.StaticMuxCfg{
+		SearchIndexPath: *searchIndex,
 	}
-	addr := "127.0.0.1:9000"
+	m = cfg.NewMux()
 	srv := web.NewServer()
 	fd, err := assets.CSPFetchDirectives(sqlAssets.Assets)
 	if err != nil {
 		panic(err)
 	}
-	h := web.Headers{
+	h := web.SecurityHeaders{
 		CSPFetchDirectives: fd,
 	}
-	handler := h.AddSecurityHeaders(m)
+	handler := h.Apply(m)
 	srv.Handler = handler
-	srv.Addr = addr
-	log.Printf("%s site listening at %s\n", desc, addr)
+	srv.Addr = ":8080"
+	log.Printf("%s site listening on %s\n", desc, srv.Addr)
 	err = srv.ListenAndServe()
 	panic(err)
 }

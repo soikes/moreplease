@@ -59,11 +59,11 @@ func CSPString(httpHeader bool, fetchDirectives []string) string {
 	return strings.Join(directives, "; ")
 }
 
-type Headers struct {
+type SecurityHeaders struct {
 	CSPFetchDirectives []string
 }
 
-func (h Headers) AddSecurityHeaders(next http.Handler) http.Handler {
+func (h SecurityHeaders) Apply(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Security-Policy", CSPString(true, h.CSPFetchDirectives))
 		w.Header().Set("Cross-Origin-Opener-Policy", "same-origin")

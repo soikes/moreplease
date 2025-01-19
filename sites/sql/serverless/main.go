@@ -15,10 +15,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	h := web.Headers{
+	h := web.SecurityHeaders{
 		CSPFetchDirectives: fd,
 	}
 	m := mux.NewServerlessMux()
-	handler := h.AddSecurityHeaders(m)
+	handler := h.Apply(m)
 	lambda.Start(httpadapter.New(handler).EventToRequest)
 }

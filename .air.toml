@@ -3,10 +3,10 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-pre_cmd = ["scripts/prebuild.sh sites/sql"]
+pre_cmd = ["scripts/prebuild.sh"]
 args_bin = []
 bin = "tmp/moreplease"
-cmd = "go build -o tmp/moreplease ./sites/sql"
+cmd = "go build -o tmp/moreplease"
 delay = 1000
 exclude_dir = ["**/tmp", "**/vendor", "**/testdata", "data", "**/data"]
 exclude_file = []

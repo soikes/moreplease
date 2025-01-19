@@ -13,7 +13,10 @@ import (
 // TestDeadlinks crawls a running mux and reports any links that return a non-200 response code.
 // Requires the site to be pre-built using scripts/prebuild.sh first.
 func TestDeadlinks(t *testing.T) {
-	m := mux.NewStaticMux()
+	cfg := mux.StaticMuxCfg{
+		SearchIndexPath: "../data/moresqlplease.index",
+	}
+	m := cfg.NewMux()
 	addr := "127.0.0.1:9009"
 	go func(t *testing.T) {
 		err := http.ListenAndServe(addr, m)

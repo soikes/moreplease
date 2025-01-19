@@ -1,0 +1,11 @@
+# flyctl launch added from .gitignore
+**/.DS_Store
+**/**/tmp
+**/**/node_modules
+**/**/*.index
+**/**/app.min.js
+**/**/app.min.js.map
+**/**/assets/*.html
+**/**/*_templ.go
+**/ops/infra/lambda_dummy.zip
+fly.toml

@@ -40,15 +40,19 @@ func (h *FSHandler) htmlAsset(w http.ResponseWriter, r *http.Request) {
 	http.ServeFileFS(w, r, h.fs, asset)
 }
 
-func NewStaticMux() *http.ServeMux {
+type StaticMuxCfg struct {
+	SearchIndexPath string
+}
+
+func (s StaticMuxCfg) NewMux() *http.ServeMux {
 	mux := http.NewServeMux()
 
-	storage := search.FSIndexStorage{Path: `data/moresqlplease.index`}
-	s, err := search.NewHandler(storage)
+	storage := search.FSIndexStorage{Path: s.SearchIndexPath}
+	h, err := search.NewHandler(storage)
 	if err != nil {
 		panic(err)
 	}
-	mux.Handle("POST /search/", s)
+	mux.Handle("POST /search/", h)
 
 	f := NewFSHandler()
 	mux.HandleFunc("GET /assets/{asset}", f.asset)
