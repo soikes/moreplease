@@ -1,4 +1,4 @@
-# flyctl launch added from .gitignore
+# from flyctl launch
 **/.DS_Store
 **/**/tmp
 **/**/*.index

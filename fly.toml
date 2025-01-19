@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for moreplease-dev on 2025-01-18T19:11:02-08:00
+# fly.toml app configuration file generated for moreplease on 2025-01-18T19:40:04-08:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'moreplease-dev'
+app = 'moreplease'
 primary_region = 'sea'
 
 [build]

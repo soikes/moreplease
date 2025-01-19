@@ -9,18 +9,20 @@ import (
 	"golang.org/x/net/html"
 	"soikke.li/moreplease/pkg/search"
 	"soikke.li/moreplease/sites/sql/mux"
+	"soikke.li/moreplease/sites/sql/site"
 )
 
 // TestDeadlinks crawls a running mux and reports any links that return a non-200 response code.
 // Requires the site to be pre-built using scripts/prebuild.sh first.
 func TestDeadlinks(t *testing.T) {
-	static := mux.StaticMux{
-		IndexStorage: search.MemoryIndexStorage{},
+	storage := search.MemoryIndexStorage{}
+	storage.CreateIndex(site.AssetDocumentProvider{})
+	m := mux.StaticMux{
+		IndexStorage: &storage,
 	}
-	m := static.NewMux()
 	addr := "127.0.0.1:9009"
 	go func(t *testing.T) {
-		err := http.ListenAndServe(addr, m)
+		err := http.ListenAndServe(addr, m.NewMux())
 		if err != nil {
 			t.Log(err)
 		}
