@@ -6,4 +6,3 @@
 **/app.min.js.map
 **/assets/*.html
 **/*_templ.go
-ops/infra/lambda_dummy.zip

@@ -40,15 +40,14 @@ func (h *FSHandler) htmlAsset(w http.ResponseWriter, r *http.Request) {
 	http.ServeFileFS(w, r, h.fs, asset)
 }
 
-type StaticMuxCfg struct {
-	SearchIndexPath string
+type StaticMux struct {
+	IndexStorage search.IndexStorage
 }
 
-func (s StaticMuxCfg) NewMux() *http.ServeMux {
+func (m *StaticMux) NewMux() *http.ServeMux {
 	mux := http.NewServeMux()
 
-	storage := search.FSIndexStorage{Path: s.SearchIndexPath}
-	h, err := search.NewHandler(storage)
+	h, err := search.NewHandler(m.IndexStorage)
 	if err != nil {
 		panic(err)
 	}

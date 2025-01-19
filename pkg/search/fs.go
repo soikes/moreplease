@@ -35,6 +35,10 @@ func (f FSIndexStorage) CreateIndex(provider DocumentProvider) error {
 			return err
 		}
 	}
-
-	return createIndex(f.Path, provider)
+	mapping := createIndexMapping()
+	index, err := bleve.New(f.Path, mapping)
+	if err != nil {
+		return err
+	}
+	return indexDocuments(index, provider)
 }

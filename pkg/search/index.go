@@ -5,6 +5,7 @@ import (
 
 	"github.com/blevesearch/bleve/v2"
 	"github.com/blevesearch/bleve/v2/analysis/analyzer/simple"
+	"github.com/blevesearch/bleve/v2/mapping"
 	"github.com/blevesearch/bleve/v2/search/query"
 )
 
@@ -61,7 +62,7 @@ func (i Index) Query(term string) ([]ResultInfo, error) {
 	return results, nil
 }
 
-func createIndex(path string, provider DocumentProvider) error {
+func createIndexMapping() mapping.IndexMapping {
 	contentMapping := bleve.NewTextFieldMapping()
 	contentMapping.Store = true
 	contentMapping.Index = true
@@ -82,12 +83,10 @@ func createIndex(path string, provider DocumentProvider) error {
 	indexMapping := bleve.NewIndexMapping()
 	indexMapping.DefaultMapping = documentMapping
 	indexMapping.DefaultAnalyzer = simple.Name
+	return indexMapping
+}
 
-	var index bleve.Index
-	index, err := bleve.New(path, indexMapping)
-	if err != nil {
-		return err
-	}
+func indexDocuments(index bleve.Index, provider DocumentProvider) error {
 	documents, err := provider.Documents()
 	if err != nil {
 		return err
