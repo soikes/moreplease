@@ -1,0 +1,642 @@
+@font-face {
+    font-family: "Merriweather";
+    src: url("Merriweather-Regular.ttf");
+}
+
+@font-face {
+    font-family: "DM Mono";
+    src: url("DMMono-Regular.ttf");
+}
+
+@font-face {
+    font-family: "DM Mono";
+    src: url("DMMono-Italic.ttf");
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "DM Mono";
+    src: url("DMMono-MediumItalic.ttf");
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* TODO: How to toggle this manually using the toggle button I made? */
+:root {
+    /* color-scheme: light dark; */
+}
+
+body {
+    /* color: light-dark(#000000, #e8eaed); */
+    /* background-color: light-dark(#ffffff, #202124); */
+    font-family: Merriweather, serif;
+    margin: 0;
+    padding: 0 4rem;
+}
+
+/* body.has(#dark-light input:checked) { */
+/* body { */
+/* color-scheme: dark; */
+/* } */
+
+#dark-light {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 2rem;
+    font-family: "SF Pro", serif;
+}
+
+#dark-light input {
+    display: none;
+}
+
+#dark-light label {
+    cursor: pointer;
+}
+
+/* #dark-light input:checked + label::after {
+    content: attr(data-dark);
+}
+
+#dark-light input + label::after {
+    content: attr(data-light);
+} */
+
+/* TODO: Needed because the code syntax highlighter renders <pre> tags with no class by default. */
+pre {
+    margin-top: 0;
+}
+
+a {
+    color: inherit;
+}
+
+h1 {
+    font-weight: normal;
+    font-size: 2rem;
+}
+
+p {
+    margin: 1rem 0;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    margin: 4rem auto 3rem auto;
+}
+
+.logo img {
+    width: 100%;
+}
+
+.logo-color {
+    color: #3d41ff;
+}
+
+.title {
+    margin: 2rem 0;
+}
+
+.heading {
+    font-family: "DM Mono";
+    font-style: italic;
+}
+
+.title-em {
+    font-weight: 600;
+}
+
+.footer {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: auto;
+    color: gray;
+    font-family: "DM Mono";
+}
+
+.footer * {
+    line-height: 1rem;
+}
+
+.footer > *:first-child {
+    justify-self: start;
+}
+
+.footer > *:not(:first-child):not(:last-child) {
+    justify-self: center;
+}
+
+.footer > *:last-child {
+    justify-self: end;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.action {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.narrow {
+    max-width: 30rem;
+}
+
+.wide {
+    max-width: 60rem;
+}
+
+.content {
+    margin: 0 auto 4rem auto;
+    container-type: inline-size;
+}
+
+.content ul {
+    list-style: none;
+    margin-left: 0;
+    padding-inline-start: 0;
+}
+
+/* .content ul.hand {
+    padding-inline-start: 0;
+    list-style-position: outside;
+}
+
+.content ul.hand li {
+    margin: 2rem 0;
+}
+
+.content ul.hand li::before {
+    content: "☞";
+    line-height: 1rem;
+    vertical-align: middle;
+    font-size: 1.5rem;
+    margin-left: 0;
+    padding-right: 1rem;
+} */
+
+.linkable {
+    scroll-margin-top: 2rem;
+    scroll-snap-margin-top: 2rem; /* iOS 11 and older */
+}
+
+.index {
+    font-family: "DM Mono";
+    font-style: italic;
+    font-weight: 500;
+    font-size: 1.1rem;
+}
+
+.container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(25rem, 1fr) 1fr;
+    row-gap: 8rem;
+    column-gap: 2rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+#schema > .container {
+    display: flex;
+    flex-flow: row wrap;
+    column-gap: 2rem;
+    row-gap: 2rem;
+}
+
+/* @container (min-width: 60rem) {
+    .container {
+        grid-template-columns: 1fr;
+        row-gap: 2rem;
+    }
+
+    .container:nth-child(2n) {
+        margin-bottom: 6rem;
+    }
+} */
+
+p {
+    margin: 0;
+}
+
+p + p {
+    margin-top: 2rem;
+    margin-bottom: 0;
+}
+
+.popout {
+    margin-top: 1rem;
+}
+
+.toggle {
+    margin: 2rem 0;
+}
+
+.toggle[open] {
+    margin: 2rem 0 4rem 0;
+}
+
+.toggle summary::after {
+    content: attr(data-close);
+}
+
+.toggle[open] summary::after {
+    content: attr(data-open);
+}
+
+.toggle .container {
+    margin-top: 2rem;
+}
+
+.tablename {
+    /* font-weight: bold; */
+    font-family: "DM Mono", monospace;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.tile {
+    border: 1px solid black;
+    border-radius: 0.7rem;
+    padding: 1rem;
+    background-color: rgb(230, 234, 239);
+    justify-self: start;
+    align-self: start;
+    box-shadow: 0.5rem 0.5rem 0 #353535;
+}
+
+.sticky {
+    position: sticky;
+    top: 2rem;
+}
+
+.sticky-container {
+    justify-self: start;
+}
+
+.inline-code {
+    font-family: "DM Mono", monospace;
+    font-size: 1rem;
+    white-space: pre;
+    /* word-spacing: -0.1rem; */
+    word-break: normal;
+    word-wrap: normal;
+}
+
+.inline-tile {
+    border: 1px solid black;
+    border-radius: 0.2rem;
+    line-height: 1;
+    padding: 0.1rem 0.3rem;
+}
+
+#coffee {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+}
+
+.search-container {
+    width: 100%;
+    min-height: 2rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.search {
+    width: 100%;
+    height: 2rem;
+    font-family: "DM Mono";
+    font-style: italic;
+    font-size: 1rem;
+    /* margin-top: 1rem;
+    margin-bottom: 1rem; */
+    border: none;
+    background-color: transparent;
+    border-radius: 0.7rem;
+
+    background-image: url("search.svg");
+    background-position: left 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    padding-left: 2rem;
+}
+
+.search-results {
+    padding: 1rem;
+}
+
+.search-results h3 {
+    font-family: "DM Mono", monospace;
+    font-style: italic;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.search-results .link {
+    font-family: "DM Mono", monospace;
+    font-style: italic;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.search-tile {
+    border: 1px solid black;
+    border-radius: 0.7rem;
+    /* padding: 0 0 0 2rem; */
+    justify-self: start;
+    align-self: start;
+    box-shadow: 0.2rem 0.2rem 0 #353535;
+}
+
+.stmt > textarea {
+    color: transparent;
+    caret-color: black; /* Makes the caret visible */
+    resize: none;
+    overflow: hidden;
+    outline: none;
+    background: transparent;
+    z-index: 2;
+
+    font-family: "DM Mono", monospace;
+    font-size: 1rem;
+    text-align: left;
+    white-space: pre;
+    /* word-spacing: -0.1rem; */
+    word-break: normal;
+    word-wrap: normal;
+    /* line-height: 1.4rem; */
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+.stmt > textarea,
+.stmt > pre,
+.stmt::after {
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.stmt {
+    display: grid;
+    margin-bottom: 1rem;
+}
+
+.stmt::after {
+    content: attr(data-replicated-value) " ";
+    white-space: pre-wrap;
+    visibility: hidden;
+}
+
+.stmt > pre {
+    z-index: 1;
+    margin: 0;
+}
+
+.stmt > pre,
+.stmt > code {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+button.run {
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    background: none;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: black;
+    padding: 0.4rem;
+    line-height: 1rem;
+    margin-right: 1rem;
+    font-family: "DM Mono", monospace;
+    font-size: 0.9rem;
+    box-shadow: 0.2rem 0.2rem 0 #353535;
+}
+
+button.run:active {
+    box-shadow: 0.1rem 0.1rem 0 #353535;
+    transform: translate(0.1rem, 0.1rem);
+}
+
+button.run img {
+    vertical-align: middle;
+    height: 0.9rem;
+}
+
+.result,
+#schema .table {
+    font-family: "DM Mono", monospace;
+    font-size: 0.9rem;
+    text-align: left;
+    white-space: pre;
+    word-break: normal;
+    word-wrap: normal;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+
+    margin-top: 1rem;
+}
+
+.result {
+    border: 1px solid black;
+    border-radius: 0.7rem;
+    padding: 1rem;
+    background-color: white;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+mark {
+    background: rgba(255, 166, 43, 0.4);
+}
+
+.inline-icon {
+    line-height: 1rem;
+    vertical-align: middle;
+    font-size: 1.5rem;
+}
+
+.disabled {
+    color: lightgrey;
+}
+
+/* PrismJS 1.29.0
+https://prismjs.com/download.html#themes=prism&languages=sql */
+/**
+ * prism.js default theme for JavaScript, CSS and HTML
+ * Based on dabblet (http://dabblet.com)
+ * @author Lea Verou
+ */
+
+/* Customized for SQLite specifically. */
+
+code[class*="language-"],
+pre[class*="language-"] {
+    color: black;
+    background: none;
+    font-family: "DM Mono", monospace;
+    font-size: 1rem;
+    text-align: left;
+    white-space: pre;
+    /* word-spacing: -0.1rem; */
+    word-break: normal;
+    word-wrap: normal;
+    /* line-height: 1.4rem; */
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+}
+
+/* pre[class*="language-"]::-moz-selection,
+pre[class*="language-"] ::-moz-selection,
+code[class*="language-"]::-moz-selection,
+code[class*="language-"] ::-moz-selection {
+    text-shadow: none;
+    background: #ffffff;
+}
+
+pre[class*="language-"]::selection,
+pre[class*="language-"] ::selection,
+code[class*="language-"]::selection,
+code[class*="language-"] ::selection {
+    text-shadow: none;
+    background: #ffffff;
+} */
+
+/* @media print {
+    code[class*="language-"],
+    pre[class*="language-"] {
+        text-shadow: none;
+    }
+} */
+
+/* Code blocks */
+/* pre[class*="language-"] {
+    padding: 1em;
+    margin: 0.5em 0;
+} */
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+    background: #ffffff;
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+    /* padding: 0.1em; */
+    /* border-radius: 0.3em; */
+    white-space: normal;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+    color: slategray;
+}
+
+.token.punctuation {
+    color: #999;
+}
+
+.token.namespace {
+    opacity: 0.7;
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+    color: #9a6e3a;
+    /* 9a6e3a */
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+    color: #690;
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+    color: #ffa62b;
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+    color: #07a;
+}
+
+.token.function,
+.token.class-name {
+    color: #dd4a68;
+}
+
+.token.regex,
+.token.important,
+.token.variable {
+    color: #e90;
+}
+
+.token.important,
+.token.bold {
+    font-weight: bold;
+}
+.token.italic {
+    font-style: italic;
+}
+
+.token.entity {
+    cursor: help;
+}
+
+.outlink {
+    display: inline;
+    width: 0.8rem;
+    height: 0.8rem;
+}

@@ -5,6 +5,7 @@ import (
 	"log"
 
 	"soikke.li/moreplease/pkg/assets"
+	"soikke.li/moreplease/pkg/metrics"
 	"soikke.li/moreplease/pkg/search"
 	"soikke.li/moreplease/pkg/web"
 	sqlAssets "soikke.li/moreplease/sites/sql/assets"
@@ -13,6 +14,8 @@ import (
 )
 
 func main() {
+	var metricsStore string
+	flag.StringVar(&metricsStore, "metrics", "", "path to metrics storage")
 	flag.Parse()
 	var desc string
 	desc = "static"
@@ -21,15 +24,24 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	h := web.SecurityHeaders{
+	sec := web.SecurityHeaders{
 		CSPFetchDirectives: fd,
 	}
-	storage := search.MemoryIndexStorage{}
-	storage.CreateIndex(site.AssetDocumentProvider{})
+	sstore := search.MemoryIndexStorage{}
+	sstore.CreateIndex(site.AssetDocumentProvider{})
 	m := mux.StaticMux{
-		IndexStorage: &storage,
+		IndexStorage: &sstore,
 	}
-	handler := h.Apply(m.NewMux())
+	mstore, err := metrics.NewStorage(metricsStore)
+	if err != nil {
+		panic(err)
+	}
+	err = mstore.InitSchema()
+	if err != nil {
+		panic(err)
+	}
+	mx := metrics.NewHandler(mstore)
+	handler := mx.Apply(sec.Apply(m.NewMux()))
 	srv.Handler = handler
 	srv.Addr = ":8080"
 	log.Printf("%s site listening on %s\n", desc, srv.Addr)

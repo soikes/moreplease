@@ -44,8 +44,7 @@ templ SchemaPopout(p model.Page, s db.Statements, tables ...string) {
 	{{
 		title := fmt.Sprintf("%s (Tables)", p.Title)
 		b := c.Base{
-			Title:    title,
-			Language: site.MSP.Language,
+			Title: title,
 		}
 	}}
 	@b.Component(HashedImports()) {

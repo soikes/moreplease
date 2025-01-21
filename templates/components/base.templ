@@ -1,10 +1,9 @@
 package components
 
-import "soikke.li/moreplease/pkg/model"
+import "soikke.li/moreplease/pkg/web"
 
 type Base struct {
-	Title    string
-	Language model.Language
+	Title string
 }
 
 templ (b *Base) Component(hashedImports templ.Component) {
@@ -13,16 +12,12 @@ templ (b *Base) Component(hashedImports templ.Component) {
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="htmx-config" content='{ "includeIndicatorStyles": false }'/>
-			// <meta http-equiv="Content-Security-Policy" content={ web.CSPString(false) }/>
+			<meta http-equiv="Content-Security-Policy" content={ web.CSPString(false) }/>
 			@hashedImports
 			<link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
 			<title>{ b.Title }</title>
 		</head>
-		<body class={ b.Language.CSSClass() }>
-			/* <div id="dark-light">
-            <input id="dark-light-toggle" type="checkbox">
-            <label for="dark-light-toggle">◐</label>
-            </div> */
+		<body>
 			{ children... }
 		</body>
 	</html>

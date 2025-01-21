@@ -16,8 +16,7 @@ templ Index() {
 	{{
 	s := site.MSP
 	b := c.Base{
-		Title:    s.Title,
-		Language: model.LanguageSQL,
+		Title: `Learn SQL by Example - ` + s.Title,
 	}
 	}}
 	@b.Component(sqlc.HashedImports()) {
@@ -70,6 +69,6 @@ templ inner(sections []model.Section) {
 
 templ coffee() {
 	<div id="coffee">
-		<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="mikesoikkeli" data-description="Support me on Buy me a coffee!" data-message="Your support helps keep More SQL Please a peaceful place to learn SQL. Thank you for making that possible! ✨" data-color="#FF813F" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+		<script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="mikesoikkeli" data-description="Support me on Buy me a coffee!" data-message="Your support helps keep More SQL Please a peaceful place to learn SQL. Thank you for making that possible! ✨" data-color="#ffdd00" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
 	</div>
 }

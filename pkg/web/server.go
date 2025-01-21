@@ -3,11 +3,11 @@ package web
 import (
 	"crypto/tls"
 	"net/http"
-	"strings"
 	"time"
 )
 
 func NewServer() *http.Server {
+	// https://blog.cloudflare.com/exposing-go-on-the-internet/
 	_ = &tls.Config{
 		PreferServerCipherSuites: true,
 		CurvePreferences: []tls.CurveID{
@@ -37,43 +37,4 @@ func NewServer() *http.Server {
 		// TLSConfig:         tc,
 	}
 	return srv
-}
-
-func CSPString(httpHeader bool, fetchDirectives []string) string {
-	directives := []string{
-		// `upgrade-insecure-requests`,
-		`default-src 'self'`,
-		`form-action 'self'`,
-		`connect-src 'self'`,
-		`object-src 'none'`,
-	}
-	httpHeaderOnlyDirectives := []string{
-		`frame-ancestors 'none'`,
-	}
-	if httpHeader {
-		directives = append(directives, httpHeaderOnlyDirectives...)
-	}
-	if len(fetchDirectives) > 0 {
-		directives = append(directives, fetchDirectives...)
-	}
-	return strings.Join(directives, "; ")
-}
-
-type SecurityHeaders struct {
-	CSPFetchDirectives []string
-}
-
-func (h SecurityHeaders) Apply(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Security-Policy", CSPString(true, h.CSPFetchDirectives))
-		w.Header().Set("Cross-Origin-Opener-Policy", "same-origin")
-		w.Header().Set("Cross-Origin-Embedder-Policy", "require-corp")
-		w.Header().Set("Cross-Origin-Resource-Policy", "same-site")
-		w.Header().Set("Permissions-Policy", "geolocation=(), camera=(), microphone=(), interest-cohort=()")
-		w.Header().Set("Referrer-Policy", "strict-origin-when-cross-origin")
-		w.Header().Set("Server", "webserver")
-		w.Header().Set("Strict-Transport-Security", "max-age=86400; includeSubDomains")
-		w.Header().Set("X-Content-Type-Options", "nosniff")
-		next.ServeHTTP(w, r)
-	})
 }

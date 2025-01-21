@@ -1,16 +1,24 @@
 # TODO
 
-- [ ] Add tags for each example and make the site searchable
+- [x] Add tags for each example and make the site searchable
 
-- [ ] Allow the user to toggle showing the tables as a static overlay at the top of the screen. it may be helpful when they are scrolled far down the page.
+  - FIXED: Site is full-text searchable.
 
-- [ ] Align the right side of the code blocks with the right side of the tables at top of page.
+- [x] Allow the user to toggle showing the tables as a static overlay at the top of the screen. it may be helpful when they are scrolled far down the page.
+
+  - FIXED: User can "pop out" tables into a new tab.
+
+- [x] Align the right side of the code blocks with the right side of the tables at top of page.
+
+  - WONTFIX: Tables need to be able to extend off the page. See styling issues below related to alignment.
 
 - Submit PRs to zed-templ
 
   - [x] Work on extension is in "raw-go" branch in my fork of templ-zed.
 
-    - [ ] ISSUE tree-sitter-templ: Loading my .templ documents where I use "</span>." causes the syntax highlighting to break when loading the documents. If you edit the text and re-save, it'll restore syntax highlighing.
+    - FIXED: My PR was merged into main by the maintainer.
+
+    - [ ] ISSUE tree-sitter-templ: Loading my .templ documents where I use "</span>." (the period specifically) causes the syntax highlighting to break when loading the documents. If you edit the text and re-save, it'll restore syntax highlighing.
     - [ ] ISSUE with tree-sitter-templ: "</span> for" is treated as a "for" statement, same with "if", "else", ".", "(", ")"
       - Depending on the badly-parsed token, the rest of the formatting will be incorrect until a token appears that "closes" the incorrect expression or statement. e.g. "for" breaks syntax until "{ }" appears.
       - These were proven with tree-sitter playground. Load some source and look for "ERROR" in the output on the right.
@@ -56,7 +64,7 @@
   FROM table;
   ```
 
-- [ ] Make schema container fall back to single column if the content is too wide for two
+- [x] Make schema container fall back to single column if the content is too wide for two
 
 - [ ] Put CTEs before UNION because we use that in an example...
 
@@ -64,7 +72,7 @@
 
 - [ ] Add privacy-respecting analytics (integrated with Go?) to get simple site statistics
 
-- [ ] Make an in-memory cache for the embedded assets
+- [x] Make an in-memory cache for the embedded assets
 
 - [ ] Bring back server rendering of SQL as default content so examples can be indexed and searched, also benefits those with JS disabled
 
@@ -77,7 +85,7 @@
 - [ ] Prepare JS build for prod
   - Remove source maps
   - Other build configs
-- [ ] Prepare Go build for prod
+- [x] Prepare Go build for prod
 
 - [ ] Add UPSERT
 
@@ -87,7 +95,7 @@
 
 - [x] (FIXED: Just add jusify-self: start to the container too.) To make the sticky thing work I had to use divs as sticky containers in the css grid rows. This seems to have broken the "justify-self: start" that makes each bubble fit only the content. Now on the JOIN page all the bubbles are the same width. it makes it a bit visually overwhelming. Fix that and make them all their own unique size again based on the content.
 
-- [ ] http://localhost:9001/select/#:~:The+column+name tries to fetch invalid assets:
+- [x] (FIXED) http://localhost:9001/select/#:~:The+column+name tries to fetch invalid assets:
 
 2024/12/09 20:15:18 open selectassetsapp.js.html: file does not exist
 2024/12/09 20:15:18 open selectassetsalpine.js.html: file does not exist

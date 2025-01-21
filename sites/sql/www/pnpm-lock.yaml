@@ -5,18 +5,12 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
-  '@types/alpinejs':
-    specifier: ^3.13.11
-    version: 3.13.11
   '@types/prismjs':
     specifier: ^1.26.5
     version: 1.26.5
   '@types/sql.js':
     specifier: ^1.4.9
     version: 1.4.9
-  alpinejs:
-    specifier: ^3.14.6
-    version: 3.14.6
   htmx.org:
     specifier: 2.0.3
     version: 2.0.3
@@ -253,10 +247,6 @@ packages:
     dev: true
     optional: true
 
-  /@types/alpinejs@3.13.11:
-    resolution: {integrity: sha512-3KhGkDixCPiLdL3Z/ok1GxHwLxEWqQOKJccgaQL01wc0EVM2tCTaqlC3NIedmxAXkVzt/V6VTM8qPgnOHKJ1MA==}
-    dev: false
-
   /@types/emscripten@1.39.13:
     resolution: {integrity: sha512-cFq+fO/isvhvmuP/+Sl4K4jtU6E23DoivtbO4r50e3odaxAiVdbfSYRDdJ4gCdxx+3aRjhphS5ZMwIH4hFy/Cw==}
     dev: false
@@ -276,22 +266,6 @@ packages:
     dependencies:
       '@types/emscripten': 1.39.13
       '@types/node': 22.10.1
-    dev: false
-
-  /@vue/reactivity@3.1.5:
-    resolution: {integrity: sha512-1tdfLmNjWG6t/CsPldh+foumYFo3cpyCHgBYQ34ylaMsJ+SNHQ1kApMIa8jN+i593zQuaw3AdWH0nJTARzCFhg==}
-    dependencies:
-      '@vue/shared': 3.1.5
-    dev: false
-
-  /@vue/shared@3.1.5:
-    resolution: {integrity: sha512-oJ4F3TnvpXaQwZJNF3ZK+kLPHKarDmJjJ6jyzVNDKH9md1dptjC7lWR//jrGuLdek/U6iltWxqAnYOu8gCiOvA==}
-    dev: false
-
-  /alpinejs@3.14.6:
-    resolution: {integrity: sha512-8Abdd6u8oVurOChPqWCHS2Lr3C9g4+zb/kL1vNPykK/2dVkb3giTcpQ1wykzzWmX7wbTvWLnHX3I3CPPnnAMCA==}
-    dependencies:
-      '@vue/reactivity': 3.1.5
     dev: false
 
   /esbuild@0.24.0:

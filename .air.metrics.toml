@@ -3,10 +3,10 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-pre_cmd = ["scripts/prebuild.sh -s sites/sql"]
+pre_cmd = ["scripts/prebuild.sh -s cmd/metrics -n"]
 args_bin = []
-bin = "tmp/moreplease -metrics tmp/metrics.db"
-cmd = "go build -o tmp/moreplease"
+bin = "tmp/metrics -metrics=tmp/metrics.db"
+cmd = "go build -o tmp/metrics ./cmd/metrics"
 delay = 1000
 exclude_dir = ["**/tmp", "**/vendor", "**/testdata", "data", "**/data"]
 exclude_file = []
@@ -49,9 +49,9 @@ time = false
 clean_on_exit = true
 
 [proxy]
-app_port = 8080
+app_port = 9090
 enabled = true
-proxy_port = 8081
+proxy_port = 9091
 
 [screen]
 clear_on_rebuild = true
