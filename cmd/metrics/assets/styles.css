@@ -34,35 +34,6 @@ body {
     padding: 0 4rem;
 }
 
-/* body.has(#dark-light input:checked) { */
-/* body { */
-/* color-scheme: dark; */
-/* } */
-
-#dark-light {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 2rem;
-    font-family: "SF Pro", serif;
-}
-
-#dark-light input {
-    display: none;
-}
-
-#dark-light label {
-    cursor: pointer;
-}
-
-/* #dark-light input:checked + label::after {
-    content: attr(data-dark);
-}
-
-#dark-light input + label::after {
-    content: attr(data-light);
-} */
-
 /* TODO: Needed because the code syntax highlighter renders <pre> tags with no class by default. */
 pre {
     margin-top: 0;
@@ -639,4 +610,63 @@ pre[class*="language-"] {
     display: inline;
     width: 0.8rem;
     height: 0.8rem;
+}
+
+.metric {
+    width: fit-content;
+}
+
+.metric-single {
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    background-color: white;
+    font-size: 3rem;
+    text-align: center;
+}
+
+.time-picker {
+    display: flex;
+    gap: -1px;
+}
+
+.time-picker input[type="radio"] {
+    display: none;
+}
+
+.time-picker label {
+    display: inline-block;
+    border: 1px solid black;
+    font-size: 2rem;
+    background: none;
+    cursor: pointer;
+    background-color: #ffffff;
+    color: black;
+    padding: 0.4rem;
+    line-height: 1rem;
+    font-family: "DM Mono", monospace;
+    font-size: 1rem;
+    box-shadow: 0.2rem 0.2rem 0 #353535;
+}
+
+.time-picker label:not(:first-of-type) {
+    /* border-left: none; */
+}
+
+.time-picker label:first-of-type {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.time-picker label:last-of-type {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.time-picker input[type="radio"]:checked + label {
+    box-shadow: 0.1rem 0.1rem 0 #353535;
+    transform: translate(0.1rem, 0.1rem);
+    z-index: -1;
+}
+
+.header {
+    padding: 2rem 0;
 }

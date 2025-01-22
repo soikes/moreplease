@@ -1,0 +1,40 @@
+package templates
+
+import (
+	"fmt"
+	"strconv"
+)
+
+type ScalarMetrics struct {
+	ID             string
+	UniqueVisitors *ScalarMetric
+}
+
+type ScalarMetric struct {
+	data int
+	err  error
+}
+
+func (s *ScalarMetric) Set(val int) {
+	s.data = val
+}
+
+func (s *ScalarMetric) Err(err error) {
+	s.err = err
+}
+
+func (s ScalarMetric) String() string {
+	if s.err != nil {
+		return "-"
+	}
+	return strconv.Itoa(s.data)
+}
+
+templ (d ScalarMetrics) Component() {
+	<div class="metric tile">
+		<span class="heading">Unique Visitors</span>
+		<div class="metric-single">
+			{ fmt.Sprint(d.UniqueVisitors) }
+		</div>
+	</div>
+}

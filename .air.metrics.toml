@@ -5,7 +5,7 @@ tmp_dir = "tmp"
 [build]
 pre_cmd = ["scripts/prebuild.sh -s cmd/metrics -n"]
 args_bin = []
-bin = "tmp/metrics -metrics=tmp/metrics.db"
+bin = "tmp/metrics -metrics=tmp/metrics.db -fakedata"
 cmd = "go build -o tmp/metrics ./cmd/metrics"
 delay = 1000
 exclude_dir = ["**/tmp", "**/vendor", "**/testdata", "data", "**/data"]
@@ -46,7 +46,7 @@ silent = false
 time = false
 
 [misc]
-clean_on_exit = true
+clean_on_exit = false
 
 [proxy]
 app_port = 9090

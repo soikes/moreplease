@@ -8,6 +8,9 @@ dependencies:
   d3:
     specifier: ^7.9.0
     version: 7.9.0
+  htmx.org:
+    specifier: 2.0.3
+    version: 2.0.3
 
 devDependencies:
   esbuild:
@@ -532,6 +535,10 @@ packages:
       '@esbuild/win32-ia32': 0.24.2
       '@esbuild/win32-x64': 0.24.2
     dev: true
+
+  /htmx.org@2.0.3:
+    resolution: {integrity: sha512-AeoJUAjkCVVajbfKX+3sVQBTCt8Ct4lif1T+z/tptTXo8+8yyq3QIMQQe/IT+R8ssfrO1I0DeX4CAronzCL6oA==}
+    dev: false
 
   /iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}

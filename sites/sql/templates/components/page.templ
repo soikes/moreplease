@@ -2,6 +2,7 @@ package components
 
 import (
 	"soikke.li/moreplease/pkg/model"
+	"soikke.li/moreplease/sites/sql/assets"
 	"soikke.li/moreplease/sites/sql/site"
 	c "soikke.li/moreplease/templates/components"
 )
@@ -17,7 +18,7 @@ templ (p Page) Component() {
 			Page: p.Page,
 		}
 	}}
-	@page.Component(HashedImports()) {
+	@page.Component(HashedImports(assets.Assets)) {
 		{ children... }
 	}
 }

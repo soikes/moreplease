@@ -52,9 +52,11 @@ templ (e *Example) Display(path string) {
 			{{
 				stmt := e.Statements.From(path)
 			}}
-			<pre>
-				<code class={ e.Language.CSSClass() } x-text="stmt" x-ref="codeBlock">{ stmt }</code>
-			</pre>
+			<div class="stmt">
+				<pre>
+					<code class={ e.Language.CSSClass() } x-text="stmt" x-ref="codeBlock">{ stmt }</code>
+				</pre>
+			</div>
 		</div>
 	</div>
 }

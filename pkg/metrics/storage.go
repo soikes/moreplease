@@ -2,10 +2,10 @@ package metrics
 
 import (
 	"database/sql"
-	"fmt"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
+	"github.com/rs/zerolog/log"
 )
 
 type Storage struct {
@@ -29,10 +29,12 @@ func NewStorage(path string) (Storage, error) {
 }
 
 func (s Storage) InitSchema() error {
-	if s.db == nil {
-		return fmt.Errorf(`no open connection`)
-	}
 	_, err := s.db.Exec(schemaStmt)
+	return err
+}
+
+func (s Storage) SeedFakeData() error {
+	_, err := s.db.Exec(seedFakeData)
 	return err
 }
 
@@ -65,12 +67,13 @@ GOALS:
 // UniqueVisitorsInLast() returns the count of unique visitors in the last period.
 // period must be one of: hour, day, week or month.
 func (s Storage) UniqueVisitorsInLast(period time.Duration) (int, error) {
-	startTime := time.Now().Add(-period)
+	startTime := time.Now().Add(-period).UTC()
 	selectStmt := `
 		SELECT count(DISTINCT visitor) FROM visits
 		WHERE timestamp > ?
 	;`
 	var n int
+	log.Debug().Str(`start`, startTime.String()).Str(`stmt`, selectStmt).Msg(`get unique visitors`)
 	err := s.db.QueryRow(selectStmt, startTime).Scan(&n)
 	return n, err
 }

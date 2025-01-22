@@ -8,7 +8,14 @@ args_bin = []
 bin = "tmp/moreplease -metrics tmp/metrics.db"
 cmd = "go build -o tmp/moreplease"
 delay = 1000
-exclude_dir = ["**/tmp", "**/vendor", "**/testdata", "data", "**/data"]
+exclude_dir = [
+    "**/tmp",
+    "**/vendor",
+    "**/testdata",
+    "data",
+    "**/data",
+    "cmd/metrics",
+]
 exclude_file = []
 exclude_regex = [
     "_test.go",

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"soikke.li/moreplease/pkg/db"
 	"soikke.li/moreplease/pkg/model"
+	"soikke.li/moreplease/sites/sql/assets"
 	"soikke.li/moreplease/sites/sql/site"
 	c "soikke.li/moreplease/templates/components"
 )
@@ -47,7 +48,7 @@ templ SchemaPopout(p model.Page, s db.Statements, tables ...string) {
 			Title: title,
 		}
 	}}
-	@b.Component(HashedImports()) {
+	@b.Component(HashedImports(assets.Assets)) {
 		@c.TopicTitle(site.MSP.Title, title)
 		@innerSchema(s, tables...)
 	}

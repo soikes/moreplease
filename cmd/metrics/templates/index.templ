@@ -1,0 +1,40 @@
+package templates
+
+import (
+	"soikke.li/moreplease/cmd/metrics/assets"
+	"soikke.li/moreplease/sites/sql/templates/components"
+)
+
+type Index struct {
+	ScalarMetrics *ScalarMetrics
+}
+
+templ (i *Index) Component() {
+	<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="htmx-config" content='{ "includeIndicatorStyles": false }'/>
+			<link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
+			@components.HashedImports(assets.Assets)
+			<title>More Please - Metrics</title>
+		</head>
+		<body>
+			<div class="wide content dashboard">
+				<div class="header">
+					<form class="time-picker" hx-get="/partials/scalar" hx-target="#scalar-metrics" hx-trigger="change">
+						<input type="radio" id="hour" name="period" value="1h" checked/>
+						<label for="hour">1h</label>
+						<input type="radio" id="day" name="period" value="24h"/>
+						<label for="day">1d</label>
+						<input type="radio" id="week" name="period" value="168h"/>
+						<label for="week">1w</label>
+					</form>
+				</div>
+				<div id="scalar-metrics">
+					@i.ScalarMetrics.Component()
+				</div>
+			</div>
+		</body>
+	</html>
+}

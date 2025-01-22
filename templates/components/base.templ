@@ -1,7 +1,5 @@
 package components
 
-import "soikke.li/moreplease/pkg/web"
-
 type Base struct {
 	Title string
 }
@@ -12,7 +10,7 @@ templ (b *Base) Component(hashedImports templ.Component) {
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="htmx-config" content='{ "includeIndicatorStyles": false }'/>
-			<meta http-equiv="Content-Security-Policy" content={ web.CSPString(false) }/>
+			// <meta http-equiv="Content-Security-Policy" content={ web.CSPString(false) }/>
 			@hashedImports
 			<link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
 			<title>{ b.Title }</title>

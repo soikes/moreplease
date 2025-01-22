@@ -1,22 +1,22 @@
 package components
 
 import (
+	"io/fs"
 	"path"
 	"soikke.li/moreplease/pkg/assets"
-	sqlAssets "soikke.li/moreplease/sites/sql/assets"
 )
 
 var jsImports = templ.NewOnceHandle()
 
-templ HashedImports() {
+templ HashedImports(fsys fs.FS) {
 	{{
 		src := "assets/app.min.js"
-		srcHash, err := assets.HashAsset(sqlAssets.Assets, path.Base(src))
+		srcHash, err := assets.HashAsset(fsys, path.Base(src))
 		if err != nil {
 			panic(err)
 		}
 		style := "assets/styles.css"
-		styleHash, err := assets.HashAsset(sqlAssets.Assets, path.Base(style))
+		styleHash, err := assets.HashAsset(fsys, path.Base(style))
 		if err != nil {
 			panic(err)
 		}
