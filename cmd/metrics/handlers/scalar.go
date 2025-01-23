@@ -18,7 +18,9 @@ func NewScalarMetricsHandler(storage metrics.Storage) ScalarMetricsHandler {
 	sh := ScalarMetricsHandler{
 		Storage: storage,
 		Component: &templates.ScalarMetrics{
-			UniqueVisitors: &templates.ScalarMetric{},
+			UniqueVisitors:         &templates.ScalarMetric{},
+			PageViews:              &templates.ScalarMetric{},
+			AverageSessionDuration: &templates.ScalarMetric{},
 		},
 	}
 	return sh
@@ -31,6 +33,8 @@ func (h ScalarMetricsHandler) Perform(r *http.Request) {
 		dur = defaultPeriod
 	}
 	h.getUniqueVisitors(dur)
+	h.getPageViews(dur)
+	h.getAverageSessionDuration(dur)
 }
 
 func (h ScalarMetricsHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -45,5 +49,25 @@ func (h ScalarMetricsHandler) getUniqueVisitors(period time.Duration) {
 		h.Component.UniqueVisitors.Err(err)
 	} else {
 		h.Component.UniqueVisitors.Set(visitors)
+	}
+}
+
+func (h ScalarMetricsHandler) getPageViews(period time.Duration) {
+	views, err := h.Storage.PageViewsInLast(period)
+	if err != nil {
+		log.Printf("failed to get page views: %s", err)
+		h.Component.PageViews.Err(err)
+	} else {
+		h.Component.PageViews.Set(views)
+	}
+}
+
+func (h ScalarMetricsHandler) getAverageSessionDuration(period time.Duration) {
+	duration, err := h.Storage.AverageSessionDurationInLast(period)
+	if err != nil {
+		log.Printf("failed to get average session duration: %s", err)
+		h.Component.AverageSessionDuration.Err(err)
+	} else {
+		h.Component.AverageSessionDuration.Set(duration)
 	}
 }

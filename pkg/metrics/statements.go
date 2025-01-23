@@ -8,6 +8,8 @@ const schemaStmt = `CREATE TABLE IF NOT EXISTS visits(id INTEGER PRIMARY KEY, vi
 const seedFakeData = `
 INSERT INTO visits (visitor, timestamp, host, path) VALUES
 	('8c2b8257936640a1df0fd8058e0fb45681c08bf5436ee7e159229f29679b1b66', datetime('now'), 'moresqlplease.com', 'bananas'),
+	('8c2b8257936640a1df0fd8058e0fb45681c08bf5436ee7e159229f29679b1b66', datetime('now', '-10 minutes'), 'moresqlplease.com', 'clouds'),
+	('8c2b8257936640a1df0fd8058e0fb45681c08bf5436ee7e159229f29679b1b66', datetime('now', '-5 minutes'), 'moresqlplease.com', 'clouds'),
 	('e8c9bff1d1b46c790c711722d801fafc2b3e5f3aacec2cb207ce5e73fc81db2b', datetime('now', '-2 hours'), 'moresqlplease.com', 'clouds'),
 	('7d5ded936a43682ffb8fcad4919a7752eec5585c403bb6d2d2de83e828374ec1', datetime('now', '-2 hours'), 'moresqlplease.com', 'books'),
 	('f8a7b629b12b3e6f359e81e8d4234eba6df59b6a4ee0981b4d3be5019c854664', datetime('now', '-2 days'), 'moresqlplease.com', 'computers'),

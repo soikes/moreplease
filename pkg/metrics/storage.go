@@ -67,13 +67,37 @@ GOALS:
 // UniqueVisitorsInLast() returns the count of unique visitors in the last period.
 // period must be one of: hour, day, week or month.
 func (s Storage) UniqueVisitorsInLast(period time.Duration) (int, error) {
-	startTime := time.Now().Add(-period).UTC()
+	startTime := time.Now().Add(-period).UTC().Unix()
 	selectStmt := `
 		SELECT count(DISTINCT visitor) FROM visits
-		WHERE timestamp > ?
-	;`
+		WHERE unixepoch(timestamp) > ?;
+	`
 	var n int
-	log.Debug().Str(`start`, startTime.String()).Str(`stmt`, selectStmt).Msg(`get unique visitors`)
+	log.Debug().Int64(`start`, startTime).Str(`stmt`, selectStmt).Msg(`get unique visitors`)
 	err := s.db.QueryRow(selectStmt, startTime).Scan(&n)
+	return n, err
+}
+
+func (s Storage) PageViewsInLast(period time.Duration) (int, error) {
+	startTime := time.Now().Add(-period).UTC().Unix()
+	selectStmt := `
+		SELECT count(*) FROM visits
+		WHERE unixepoch(timestamp) > ?;
+	`
+	var n int
+	log.Debug().Int64(`start`, startTime).Str(`stmt`, selectStmt).Msg(`get page views`)
+	err := s.db.QueryRow(selectStmt, startTime).Scan(&n)
+	return n, err
+}
+
+func (s Storage) AverageSessionDurationInLast(period time.Duration) (int, error) {
+	startTime := time.Now().Add(-period).UTC().Unix()
+	// Estimate that any value over 2 hours is probably a user that has left and returned another time.
+	stmt := `
+		SELECT CAST(avg(session_duration) AS INTEGER) as avg_session_duration FROM (SELECT visitor, unixepoch(max(timestamp)) - unixepoch(min(timestamp)) as session_duration FROM visits WHERE unixepoch(timestamp) > ? GROUP BY visitor HAVING session_duration < 7200);
+	`
+	var n int
+	err := s.db.QueryRow(stmt, startTime).Scan(&n)
+	log.Debug().Int64(`start`, startTime).Str(`stmt`, stmt).Int(`result`, n).Msg(`get avg session time`)
 	return n, err
 }

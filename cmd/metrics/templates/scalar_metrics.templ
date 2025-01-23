@@ -3,11 +3,14 @@ package templates
 import (
 	"fmt"
 	"strconv"
+	"time"
 )
 
 type ScalarMetrics struct {
-	ID             string
-	UniqueVisitors *ScalarMetric
+	ID                     string
+	UniqueVisitors         *ScalarMetric
+	PageViews              *ScalarMetric
+	AverageSessionDuration *ScalarMetric
 }
 
 type ScalarMetric struct {
@@ -30,11 +33,30 @@ func (s ScalarMetric) String() string {
 	return strconv.Itoa(s.data)
 }
 
+func (s ScalarMetric) Duration() string {
+	if s.err != nil {
+		return "-"
+	}
+	return (time.Duration(s.data) * time.Second).String()
+}
+
 templ (d ScalarMetrics) Component() {
 	<div class="metric tile">
 		<span class="heading">Unique Visitors</span>
 		<div class="metric-single">
 			{ fmt.Sprint(d.UniqueVisitors) }
+		</div>
+	</div>
+	<div class="metric tile">
+		<span class="heading">Page Views</span>
+		<div class="metric-single">
+			{ fmt.Sprint(d.PageViews) }
+		</div>
+	</div>
+	<div class="metric tile">
+		<span class="heading">Average Session</span>
+		<div class="metric-single">
+			{ fmt.Sprint(d.AverageSessionDuration.Duration()) }
 		</div>
 	</div>
 }

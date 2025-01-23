@@ -5,6 +5,7 @@ import (
 	"net"
 	"net/http"
 	"net/netip"
+	"strings"
 	"time"
 )
 
@@ -37,8 +38,17 @@ func (h Handler) storeVisit(queue chan Request) {
 
 func (h Handler) Apply(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		p := r.URL.Path
+		parts := strings.Split(p, "/")
+		for _, part := range parts {
+			if part == "assets" {
+				next.ServeHTTP(w, r)
+				return
+			}
+		}
 		mr := Request{}
 
+		mr.Path = r.URL.Path
 		// Time of request
 		mr.Timestamp = time.Now()
 
@@ -76,7 +86,6 @@ func (h Handler) Apply(next http.Handler) http.Handler {
 		if host, _, err := net.SplitHostPort(r.Host); err == nil {
 			mr.Host = host
 		}
-		mr.Path = r.URL.Path
 
 		select {
 		case h.collector <- mr:

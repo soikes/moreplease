@@ -670,3 +670,9 @@ pre[class*="language-"] {
 .header {
     padding: 2rem 0;
 }
+
+.small-item-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(7rem, 1fr));
+    gap: 4rem;
+}
