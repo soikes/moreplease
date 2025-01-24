@@ -38,7 +38,18 @@ languages.sql = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  highlightAll();
+  document.querySelectorAll("[data-fade-in]").forEach((elem) => {
+    elem.classList.add("fade-start");
+  });
+
+  requestAnimationFrame(() => {
+    highlightAll(false, () => {
+      document.querySelectorAll("[data-fade-in]").forEach((elem) => {
+        elem.classList.add("fade-ready");
+      });
+    });
+  });
+
   window.customElements.define("sql-example", SQLExample);
   window.customElements.define("popout-doc", Popout);
 });

@@ -30,22 +30,22 @@ templ Case() {
 				<p>
 					The 
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> expression allows you to add conditional logic to your queries. It is similar to the 
 					<span>
-						@c.Inline("if ... else")
+						@c.InlineSQL("if ... else")
 					</span> or 
 					<span>
-						@c.Inline("switch")
+						@c.InlineSQL("switch")
 					</span> expressions in other programming languages.
 				</p>
 				<p>
 					Most database engines allow a 
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> expression to return any data type but each 
 					<span>
-						@c.Inline("WHEN")
+						@c.InlineSQL("WHEN")
 					</span> "branch" of the statement must return the same type. In SQLite any type can be returned but these examples will return the same type from all branches.
 				</p>
 				<p>
@@ -57,38 +57,38 @@ templ Case() {
 				<p>
 					The conditions inside a 
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> statement can be compounded using logical operators like 
 					<span>
-						@c.Inline("AND")
+						@c.InlineSQL("AND")
 					</span> and 
 					<span>
-						@c.Inline("OR")
+						@c.InlineSQL("OR")
 					</span>.
 				</p>
 				<p>
 					Another thing to note about the 
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> statement is that it is evaluated in order from top to bottom, left to right. For each row it will return a result for only the first match it encounters. If there are no matches and you supply an 
 					<span>
-						@c.Inline("ELSE")
+						@c.InlineSQL("ELSE")
 					</span> expression, that value will be the result.
 					If you don't supply an 
 					<span>
-						@c.Inline("ELSE")
+						@c.InlineSQL("ELSE")
 					</span>, 
 					<span>
-						@c.Inline("NULL")
+						@c.InlineSQL("NULL")
 					</span> is returned.
 				</p>
 				<p>
 					Notice how the "Night Shift Coffee" product could technically match all of the "Critical Restock", "Urgent Restock" and "Restock Soon" categories. However once it matches "Critical Restock" the rest of the 
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> is not evaluated and we move on to the next product. You can utilize this behaviour or you can design your queries such that none of the branches in your 
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> overlap.
 				</p>
 			</div>
@@ -97,25 +97,25 @@ templ Case() {
 				<p>
 					The previous query is ordered alphabetically because our newly computed column 
 					<span>
-						@c.Inline("needs_restock")
+						@c.InlineSQL("needs_restock")
 					</span> has a text data type. If we wanted to apply a custom order to the query we can also apply a 
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> statement to our 
 					<span>
-						@c.Inline("ORDER BY")
+						@c.InlineSQL("ORDER BY")
 					</span> clause.
 				</p>
 				<p>
 					Notice that this example also shows that you can add an expression directly after the 
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> keyword; this is called a "base" expression. In this case it is 
 					<span>
-						@c.Inline("needs_restock")
+						@c.InlineSQL("needs_restock")
 					</span><span>.</span> When a base expression is present it is evaluated once at the beginning. For each row, the value of 
 					<span>
-						@c.Inline("needs_restock")
+						@c.InlineSQL("needs_restock")
 					</span> determines which integer is returned.
 				</p>
 				<p>
@@ -134,16 +134,16 @@ templ Case() {
 			<div>
 				<p>
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> can be used to check for 
 					<span>
-						@c.Inline("NULL")
+						@c.InlineSQL("NULL")
 					</span> and display a more human-readable value.
 				</p>
 				<p>
 					In simple cases like this, 
 					<span>
-						@c.Inline("COALESCE()")
+						@c.InlineSQL("COALESCE()")
 					</span> performs the same function.
 				</p>
 			</div>
@@ -151,13 +151,13 @@ templ Case() {
 			<div>
 				<p>
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> expressions can be used as part of aggregate queries using 
 					<span>
-						@c.Inline("GROUP BY")
+						@c.InlineSQL("GROUP BY")
 					</span> and aggregate functions like 
 					<span>
-						@c.Inline("avg()")
+						@c.InlineSQL("avg()")
 					</span><span>.</span>
 				</p>
 			</div>
@@ -165,7 +165,7 @@ templ Case() {
 			<div>
 				<p>
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> can also be used as an input for aggregate functions. This technique is useful when you need to create "buckets" of data as above but group the data using another separate category. If you are familiar with spreadsheets, this technique is similar to that of a 
 					<span>
 						@c.Outlink("https://en.wikipedia.org/wiki/Pivot_table", "pivot table")
@@ -177,25 +177,25 @@ templ Case() {
 				<p>
 					Notice how in this example we use a 
 					<span>
-						@c.Inline("LEFT JOIN")
+						@c.InlineSQL("LEFT JOIN")
 					</span> which will include vendors that have no products for sale. The vendor "Vend-tertainment" will return a 
 					<span>
-						@c.Inline("NULL")
+						@c.InlineSQL("NULL")
 					</span> value for 
 					<span>
-						@c.Inline("p.price")
+						@c.InlineSQL("p.price")
 					</span><span>.</span>
 				</p>
 				<p>
 					This causes our 
 					<span>
-						@c.Inline("CASE")
+						@c.InlineSQL("CASE")
 					</span> expressions to fall back to their 
 					<span>
-						@c.Inline("ELSE")
+						@c.InlineSQL("ELSE")
 					</span> return value of 
 					<span>
-						@c.Inline("0")
+						@c.InlineSQL("0")
 					</span><span>.</span>
 				</p>
 			</div>
@@ -208,11 +208,11 @@ templ Case() {
 					</span> and 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.UnionAndSetOperatorsPage), "") {
-							@c.Inline("UNION")
+							@c.InlineSQL("UNION")
 						}
 					</span> to be easier to maintain and understand. Instead of using the order status labels as our column names to match on, we use the integer 
 					<span>
-						@c.Inline("id")
+						@c.InlineSQL("id")
 					</span> we created which reduces the likelihood of human error by misspelling one of the labels somewhere.
 				</p>
 				<p>

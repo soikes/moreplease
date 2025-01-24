@@ -35,36 +35,36 @@ templ Operators() {
 							Arithmetic operators allow you to perform arithmetic between two values.
 							They are usually used with numbers but some engines allow you to use arithmetic operators with other types like 
 							<span>
-								@c.Inline("TEXT")
+								@c.InlineSQL("TEXT")
 							</span> or 
 							<span>
-								@c.Inline("DATETIME")
+								@c.InlineSQL("DATETIME")
 							</span><span>.</span> See your database's documentation for information on how each operator is interpreted for different data types.
 						</p>
 						<p>The typical operators are:</p>
 						<p>
 							<span>
-								@c.Inline("+")
+								@c.InlineSQL("+")
 							</span>&ensp;Addition.
 						</p>
 						<p>
 							<span>
-								@c.Inline("-")
+								@c.InlineSQL("-")
 							</span>&ensp;Subtraction.
 						</p>
 						<p>
 							<span>
-								@c.Inline("*")
+								@c.InlineSQL("*")
 							</span>&ensp;Multiplication.
 						</p>
 						<p>
 							<span>
-								@c.Inline("/")
+								@c.InlineSQL("/")
 							</span>&ensp;Division.
 						</p>
 						<p>
 							<span>
-								@c.Inline("%")
+								@c.InlineSQL("%")
 							</span>&ensp;Returns the remainder part of a division, also known as the modulo operator.
 						</p>
 					</p>
@@ -83,56 +83,56 @@ templ Operators() {
 					<p>
 						An expression using comparison operators always evaluates to either 
 						<span>
-							@c.Inline("TRUE")
+							@c.InlineSQL("TRUE")
 						</span> or 
 						<span>
-							@c.Inline("FALSE")
+							@c.InlineSQL("FALSE")
 						</span> (
 						<span>
-							@c.Inline("1")
+							@c.InlineSQL("1")
 						</span> or 
 						<span>
-							@c.Inline("0")
+							@c.InlineSQL("0")
 						</span> in SQLite). You can try this yourself, e.g. 
 						<span>
-							@c.Inline("SELECT 1 = 2;")
+							@c.InlineSQL("SELECT 1 = 2;")
 						</span>
 					</p>
 					<p>The typical operators are:</p>
 					<p>
 						<span>
-							@c.Inline("=")
+							@c.InlineSQL("=")
 						</span>&ensp;or&ensp; 
 						<span>
-							@c.Inline("==")
+							@c.InlineSQL("==")
 						</span>&ensp;Equal to.
 					</p>
 					<p>
 						<span>
-							@c.Inline(">")
+							@c.InlineSQL(">")
 						</span>&ensp;Greater than.
 					</p>
 					<p>
 						<span>
-							@c.Inline("<")
+							@c.InlineSQL("<")
 						</span>&ensp;Less than.
 					</p>
 					<p>
 						<span>
-							@c.Inline(">=")
+							@c.InlineSQL(">=")
 						</span>&ensp;Greater than or equal to.
 					</p>
 					<p>
 						<span>
-							@c.Inline("<=")
+							@c.InlineSQL("<=")
 						</span>&ensp;Less than or equal to.
 					</p>
 					<p>
 						<span>
-							@c.Inline("<>")
+							@c.InlineSQL("<>")
 						</span>&ensp;or&ensp; 
 						<span>
-							@c.Inline("!=")
+							@c.InlineSQL("!=")
 						</span>&ensp;Not Equal.
 					</p>
 					<p>
@@ -143,16 +143,16 @@ templ Operators() {
 							}
 						</span> as the 
 						<span>
-							@c.Inline("ORDER BY")
+							@c.InlineSQL("ORDER BY")
 						</span> clause. This means that types like 
 						<span>
-							@c.Inline("TEXT")
+							@c.InlineSQL("TEXT")
 						</span> can be compared using these operators.
 					</p>
 					<p>
 						This example shows 
 						<span>
-							@c.Inline(">=")
+							@c.InlineSQL(">=")
 						</span> being used with a date. Recall from 
 						<span>
 							@c.Link(site.MSP.Page(site.DataTypesPage), "")
@@ -168,7 +168,7 @@ templ Operators() {
 				<p>
 					Since a comparison always yields a boolean result, it can be used anywhere a boolean can be used, such as a field in a 
 					<span>
-						@c.Inline("SELECT")
+						@c.InlineSQL("SELECT")
 					</span> statement.
 				</p>
 			</div>
@@ -182,47 +182,47 @@ templ Operators() {
 				</p>
 				<p>
 					<span>
-						@c.Inline("... AND ...")
+						@c.InlineSQL("... AND ...")
 					</span>&ensp;Match when both expressions are true.
 				</p>
 				<p>
 					<span>
-						@c.Inline("... OR ...")
+						@c.InlineSQL("... OR ...")
 					</span>&ensp;Match when either expression is true.
 				</p>
 				<p>
 					<span>
-						@c.Inline("... BETWEEN ... AND ...")
+						@c.InlineSQL("... BETWEEN ... AND ...")
 					</span>&ensp;Match when the expression falls between two values inclusively. This is shorthand for using the 
 					<span>
-						@c.Inline("<=")
+						@c.InlineSQL("<=")
 					</span> and 
 					<span>
-						@c.Inline(">=")
+						@c.InlineSQL(">=")
 					</span> operators.
 				</p>
 				<p>
 					<span>
-						@c.Inline("... IS NULL")
+						@c.InlineSQL("... IS NULL")
 					</span>&ensp;or&ensp;
 					<span>
-						@c.Inline("... IS NOT NULL")
+						@c.InlineSQL("... IS NOT NULL")
 					</span>&ensp;Match when the expression is NULL or not.
 				</p>
 				<p>
 					<span>
-						@c.Inline("... LIKE '%mail.com'")
+						@c.InlineSQL("... LIKE '%mail.com'")
 					</span>&ensp;Match based on a string pattern. 
 					<span>
-						@c.Inline("'%'")
+						@c.InlineSQL("'%'")
 					</span> is the wildcard character used to match zero or more of any character.
 					<span>
-						@c.Inline("'_'")
+						@c.InlineSQL("'_'")
 					</span> is the wildcard character used to match exactly one of any character.
 				</p>
 				<p>
 					<span>
-						@c.Inline("... REGEXP '.*'")
+						@c.InlineSQL("... REGEXP '.*'")
 					</span>&ensp;Match based on a 
 					<span>
 						@c.Outlink("https://en.wikipedia.org/wiki/Regular_expression#Basic_concepts", "regular expression")
@@ -234,10 +234,10 @@ templ Operators() {
 				<p>
 					If your data itself contains special characters like 
 					<span>
-						@c.Inline("'_'")
+						@c.InlineSQL("'_'")
 					</span>, you can specify an "escape" character using the 
 					<span>
-						@c.Inline("ESCAPE")
+						@c.InlineSQL("ESCAPE")
 					</span> keyword. Special characters like wildcards can be preceded by your chosen escape character to treat them literally. In this case, we match an underscore in the data instead of the underscore being used as a wildcard.
 				</p>
 			</div>
@@ -245,7 +245,7 @@ templ Operators() {
 			<div>
 				<p>
 					<span>
-						@c.Inline("... IN (1,2,3)")
+						@c.InlineSQL("... IN (1,2,3)")
 					</span>&ensp;Match based on any value in a 
 					<span>
 						@c.Outlink("https://www.sqlite.org/rowvalue.html", "\"Row Value\"")
@@ -259,7 +259,7 @@ templ Operators() {
 				<p>
 					A "row value" is just an ordered list of two or more values. Row values in SQL allow you to be able to provide lists of values to operators such as
 					<span>
-						@c.Inline("WHERE ... IN")
+						@c.InlineSQL("WHERE ... IN")
 					</span><span>.</span>
 				</p>
 				<p>
@@ -268,7 +268,7 @@ templ Operators() {
 						@c.Link(site.MSP.Page(site.DataTypesPage), "")
 					</span> (e.g. 
 					<span>
-						@c.Inline("TEXT[]")
+						@c.InlineSQL("TEXT[]")
 					</span>). Row values represent a row of data from two or more columns, whereas array data types contain a list of values inside a single column.
 				</p>
 			</div>
@@ -293,27 +293,27 @@ templ Operators() {
 					<p>The typical operators are:</p>
 					<p>
 						<span>
-							@c.Inline("&")
+							@c.InlineSQL("&")
 						</span>&ensp;Bitwise AND. Performs bitwise AND between two numbers.
 					</p>
 					<p>
 						<span>
-							@c.Inline("|")
+							@c.InlineSQL("|")
 						</span>&ensp;Bitwise OR. Performs bitwise OR between two numbers.
 					</p>
 					<p>
 						<span>
-							@c.Inline("~")
+							@c.InlineSQL("~")
 						</span>&ensp;Bitwise NOT. Performs bitwise NOT to a single number.
 					</p>
 					<p>
 						<span>
-							@c.Inline("<<")
+							@c.InlineSQL("<<")
 						</span>&ensp;Left shift. Shifts the input left by the number of bits specified after the operator.
 					</p>
 					<p>
 						<span>
-							@c.Inline(">>")
+							@c.InlineSQL(">>")
 						</span>&ensp;Right shift. Shifts the input right by the number of bits specified after the operator.
 					</p>
 				</p>

@@ -30,46 +30,46 @@ templ Delete() {
 				<p>
 					The 
 					<span>
-						@c.Inline("DELETE")
+						@c.InlineSQL("DELETE")
 					</span> statement allows you to delete existing rows from a table.
 				</p>
 				<p>
 					A 
 					<span>
-						@c.Inline("DELETE")
+						@c.InlineSQL("DELETE")
 					</span> will delete every row from a table unless a
 					<span>
-						@c.Inline("WHERE")
+						@c.InlineSQL("WHERE")
 					</span> clause is provided. 
 				</p>
 				<p>
 					It is not required to provide a 
 					<span>
-						@c.Inline("WHERE")
+						@c.InlineSQL("WHERE")
 					</span> clause but it is highly recommended to avoid accidentally deleting all the rows in a table. Some database engines will warn or even prevent you from running a table-wide 
 					<span>
-						@c.Inline("DELETE")
+						@c.InlineSQL("DELETE")
 					</span> statement.
 				</p>
 				<p>
 					It's usually a good idea to run a
 					<span>
-						@c.Inline("SELECT")
+						@c.InlineSQL("SELECT")
 					</span> statement with the same 
 					<span>
-						@c.Inline("WHERE")
+						@c.InlineSQL("WHERE")
 					</span> clause as the 
 					<span>
-						@c.Inline("DELETE")
+						@c.InlineSQL("DELETE")
 					</span> to check which rows will be deleted before actually performing the delete.
 				</p>
 				<p>
 					Remember that each example on this website is editable and runnable so you can see the results of your 
 					<span>
-						@c.Inline("DELETE")
+						@c.InlineSQL("DELETE")
 					</span> by querying the contents of the table, i.e.: 
 					<span>
-						@c.Inline("SELECT * FROM users;")
+						@c.InlineSQL("SELECT * FROM users;")
 					</span>
 				</p>
 			</div>
@@ -77,10 +77,10 @@ templ Delete() {
 			<div>
 				Some database engines support the 
 				<span>
-					@c.Inline("RETURNING")
+					@c.InlineSQL("RETURNING")
 				</span> clause, which will cause the database to return the rows that were deleted. You can specify the column names to return or 
 				<span>
-					@c.Inline("*")
+					@c.InlineSQL("*")
 				</span> to include all columns.
 			</div>
 			@e.Run("delete_returning.sql")
@@ -88,10 +88,10 @@ templ Delete() {
 				<p>
 					In this example we have two tables that have a relationship with each other; a 
 					<span>
-						@c.Inline("post")
+						@c.InlineSQL("post")
 					</span> must have an associated 
 					<span>
-						@c.Inline("user")
+						@c.InlineSQL("user")
 					</span> that created it.
 				</p>
 				<p>
@@ -102,31 +102,31 @@ templ Delete() {
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.PrimaryKeyPage), "") {
 							<span>
-								@c.Inline("PRIMARY KEY")
+								@c.InlineSQL("PRIMARY KEY")
 							</span>
 						}
 					</span> on the 
 					<span>
-						@c.Inline("id")
+						@c.InlineSQL("id")
 					</span> column of the 
 					<span>
-						@c.Inline("users")
+						@c.InlineSQL("users")
 					</span> table and a 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.ForeignKeyPage), "") {
 							<span>
-								@c.Inline("FOREIGN KEY")
+								@c.InlineSQL("FOREIGN KEY")
 							</span>
 						}
 					</span> on the 
 					<span>
-						@c.Inline("user_id")
+						@c.InlineSQL("user_id")
 					</span> column of the 
 					<span>
-						@c.Inline("posts")
+						@c.InlineSQL("posts")
 					</span> table that references the user's 
 					<span>
-						@c.Inline("id")
+						@c.InlineSQL("id")
 					</span>.
 				</p>
 				<p>

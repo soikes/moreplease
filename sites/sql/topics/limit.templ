@@ -30,34 +30,34 @@ templ Limit() {
 				<p>
 					The 
 					<span>
-						@c.Inline("LIMIT")
+						@c.InlineSQL("LIMIT")
 					</span> clause limits the maximum number of rows returned by a 
 					<span>
-						@c.Inline("SELECT")
+						@c.InlineSQL("SELECT")
 					</span> statement.
 				</p>
 				<p>
 					Other databases can have different syntaxes such as 
 					<span>
-						@c.Inline("SELECT TOP")
+						@c.InlineSQL("SELECT TOP")
 					</span>, 
 					<span>
-						@c.Inline("FETCH FIRST")
+						@c.InlineSQL("FETCH FIRST")
 					</span> and 
 					<span>
-						@c.Inline("WHERE ROWNUM")
+						@c.InlineSQL("WHERE ROWNUM")
 					</span><span>.</span>
 				</p>
 				<p>
 					Some databases also allow a 
 					<span>
-						@c.Inline("LIMIT")
+						@c.InlineSQL("LIMIT")
 					</span> clause on 
 					<span>
-						@c.Inline("INSERT")
+						@c.InlineSQL("INSERT")
 					</span> and 
 					<span>
-						@c.Inline("DELETE")
+						@c.InlineSQL("DELETE")
 					</span> statements which limits the effect of those statements to the specified maximum amount of rows.
 				</p>
 			</div>
@@ -66,50 +66,50 @@ templ Limit() {
 				Without an 
 				<a href="/order_by">
 					<span>
-						@c.Inline("ORDER BY")
+						@c.InlineSQL("ORDER BY")
 					</span>
 				</a> clause, rows have no default sorting order in most databases. This means that using a 
 				<span>
-					@c.Inline("LIMIT")
+					@c.InlineSQL("LIMIT")
 				</span> clause without 
 				<span>
-					@c.Inline("ORDER BY")
+					@c.InlineSQL("ORDER BY")
 				</span> can produce inconsistent result sets. It is best practice to always specify 
 				<span>
-					@c.Inline("ORDER BY")
+					@c.InlineSQL("ORDER BY")
 				</span> in your queries, especially when you are limiting the result set.
 			</div>
 			@e.Run("limit_order_by.sql")
 			<div>
 				<span>
-					@c.Inline("OFFSET")
+					@c.InlineSQL("OFFSET")
 				</span> can be applied to a 
 				<span>
-					@c.Inline("LIMIT")
+					@c.InlineSQL("LIMIT")
 				</span> to offset the results returned. This helps in scenarios where you need to return your results in smaller paginated batches instead of all the data at once.
 			</div>
 			@e.Run("limit_offset.sql")
 			<div>
 				If your 
 				<span>
-					@c.Inline("LIMIT")
+					@c.InlineSQL("LIMIT")
 				</span> reaches past the total amount of data to return, the query will just return the total amount of data as if a 
 				<span>
-					@c.Inline("LIMIT")
+					@c.InlineSQL("LIMIT")
 				</span> was not applied.
 			</div>
 			@e.Run("limit_end.sql")
 			<div>
 				If an 
 				<span>
-					@c.Inline("OFFSET")
+					@c.InlineSQL("OFFSET")
 				</span> reaches past the total amount of data to return, the query will return no data.
 			</div>
 			@e.Run("offset_end.sql")
 			<div>
 				You can compute the number you supply to a 
 				<span>
-					@c.Inline("LIMIT")
+					@c.InlineSQL("LIMIT")
 				</span> clause using arithmetic, 
 				<span>
 					@c.Link(site.MSP.Page(site.FunctionsPage), "")
@@ -118,7 +118,7 @@ templ Limit() {
 					@c.Link(site.MSP.Page(site.SubqueriesPage), "")
 				</span> and other computations as long as the result is a valid numeric type. See your database's documentation for types compatible with 
 				<span>
-					@c.Inline("LIMIT")
+					@c.InlineSQL("LIMIT")
 				</span><span>.</span>
 			</div>
 			@e.Run("limit_computation.sql")
@@ -126,7 +126,7 @@ templ Limit() {
 				<p>
 					Sometimes but not always, adding a 
 					<span>
-						@c.Inline("LIMIT")
+						@c.InlineSQL("LIMIT")
 					</span> clause to your query can improve performance. There are a number of factors that influence this including: how complex your query is, how many tables are queried, what 
 					<span>
 						@c.Link(site.MSP.Page(site.IndexesPage), "")

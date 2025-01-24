@@ -1,7 +1,12 @@
 package components
 
-templ Inline(code string) {
-	<span class="inline-code">
+import (
+	"fmt"
+	"soikke.li/moreplease/pkg/model"
+)
+
+templ InlineSQL(code string) {
+	<span class={ fmt.Sprintf("inline-code %s", model.LanguageSQL.CSSClass()) }>
 		<code>{ code } </code>
 	</span>
 }

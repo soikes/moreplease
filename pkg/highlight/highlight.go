@@ -15,7 +15,7 @@ import (
 var rawStyle []byte
 
 // Inline returns a highlighted SQL statement suitable for embedding inline with text.
-func Inline(stmt string) string {
+func InlineSQL(stmt string) string {
 	return sql(stmt, true)
 }
 

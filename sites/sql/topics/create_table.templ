@@ -30,24 +30,24 @@ templ CreateTable() {
 				<p>
 					A database has a collection of tables which contain the data to be stored. The 
 					<span>
-						@c.Inline("CREATE TABLE")
+						@c.InlineSQL("CREATE TABLE")
 					</span> statement is used to create a new table in a database.
 				</p>
 				<p>
 					A table needs to be created before any data can be inserted into or queried from it. When a table is created it will persist until it is deleted using a 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.DropTablePage), "") {
-							@c.Inline("DROP TABLE")
+							@c.InlineSQL("DROP TABLE")
 						}
 					</span> statement. This example shows how to create a table 
 					<span>
-						@c.Inline("posts")
+						@c.InlineSQL("posts")
 					</span> that can be used to store message board posts from users.
 				</p>
 				<p>
 					A 
 					<span>
-						@c.Inline("CREATE TABLE")
+						@c.InlineSQL("CREATE TABLE")
 					</span> must contain the table name, any columns you wish to create, and the associated 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.DataTypesPage), "") {
@@ -58,43 +58,43 @@ templ CreateTable() {
 				<p>
 					On this website, every table shown at the top of the page is created using a 
 					<span>
-						@c.Inline("CREATE TABLE")
+						@c.InlineSQL("CREATE TABLE")
 					</span> statement that is run automatically in the background. This section will show examples of creating new tables in the same database using more 
 					<span>
-						@c.Inline("CREATE TABLE")
+						@c.InlineSQL("CREATE TABLE")
 					</span> statements.
 				</p>
 				<p>
 					Database engines have various ways to show the structure of an existing table. SQLite has a series of special "system" tables you can 
 					<span>
-						@c.Inline("SELECT")
+						@c.InlineSQL("SELECT")
 					</span> to get information about the database/tables themselves. 
 					<span>
-						@c.Inline("pragma_table_info(...)")
+						@c.InlineSQL("pragma_table_info(...)")
 					</span> is one such table that we query to see information about the 
 					<span>
-						@c.Inline("posts")
+						@c.InlineSQL("posts")
 					</span> table we just created. Other database engines use special syntax such as 
 					<span>
-						@c.Inline("DESCRIBE ...")
+						@c.InlineSQL("DESCRIBE ...")
 					</span> <span>for</span> the same purpose.
 				</p>
 				<p>
 					Most tables will contain a column named something like 
 					<span>
-						@c.Inline("id")
+						@c.InlineSQL("id")
 					</span>. The name doesn't have any special meaning other than to indicate that this is the column that will be used to uniquely identify a row. Typically an 
 					<span>
-						@c.Inline("id")
+						@c.InlineSQL("id")
 					</span> is either a number that increments as you add new rows, or a uniquely random set of characters such as a 
 					<span>
 						@c.Outlink("https://en.wikipedia.org/wiki/Universally_unique_identifier", "UUID")
 					</span>. This is also the column that is used to create relationships between tables. In this case our 
 					<span>
-						@c.Inline("posts")
+						@c.InlineSQL("posts")
 					</span> table also contains a column called 
 					<span>
-						@c.Inline("user_id")
+						@c.InlineSQL("user_id")
 					</span> which is how we associate a user with the posts they create. See more about table relationships in 
 					<span>
 						@c.Link(site.MSP.Page(site.JoinPage), "")
@@ -109,13 +109,13 @@ templ CreateTable() {
 				<p id="primary_key">
 					You may notice the 
 					<span>
-						@c.Inline("id")
+						@c.InlineSQL("id")
 					</span> column declaration in our 
 					<span>
-						@c.Inline("posts")
+						@c.InlineSQL("posts")
 					</span> table is followed by the keywords 
 					<span>
-						@c.Inline("PRIMARY KEY")
+						@c.InlineSQL("PRIMARY KEY")
 					</span><span>.</span> This is what is known as a 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "") {
@@ -132,7 +132,7 @@ templ CreateTable() {
 				<p>
 					Once a table is created, it persists in the database. Trying to recreate an existing table results in an error. The modifier 
 					<span>
-						@c.Inline("IF NOT EXISTS")
+						@c.InlineSQL("IF NOT EXISTS")
 					</span> can be applied to only create a table if it doesn't already exist. This can be useful if you have some code or process that automatically creates your tables for you and you want to be able to run it multiple times without causing an error.
 				</p>
 				<p>
@@ -141,7 +141,7 @@ templ CreateTable() {
 				<p>
 					Try removing 
 					<span>
-						@c.Inline("IF NOT EXISTS")
+						@c.InlineSQL("IF NOT EXISTS")
 					</span> from the example and running it again. Notice how it now returns an error because the table 'users' already exists.
 				</p>
 			</div>
@@ -153,24 +153,24 @@ templ CreateTable() {
 				<p>
 					Generated columns can be created as either 
 					<span>
-						@c.Inline("STORED")
+						@c.InlineSQL("STORED")
 					</span> or 
 					<span>
-						@c.Inline("VIRTUAL")
+						@c.InlineSQL("VIRTUAL")
 					</span> columns. A virtual column has its value computed when the row is read, for example at the time of a 
 					<span>
-						@c.Inline("SELECT")
+						@c.InlineSQL("SELECT")
 					</span> statement including the column. A stored column has its value computed when the row is written to the database, for example at the time of an 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.InsertPage), "") {
-							@c.Inline("INSERT")
+							@c.InlineSQL("INSERT")
 						}
 					</span> statement.
 				</p>
 				<p>
 					Note that a slightly different system table
 					<span>
-						@c.Inline("pragma_table_xinfo(...)")
+						@c.InlineSQL("pragma_table_xinfo(...)")
 					</span> is used here to include generated columns.
 				</p>
 			</div>
@@ -179,10 +179,10 @@ templ CreateTable() {
 				<p>
 					You can populate the contents of a created table using the 
 					<span>
-						@c.Inline("AS")
+						@c.InlineSQL("AS")
 					</span> keyword followed by a 
 					<span>
-						@c.Inline("SELECT")
+						@c.InlineSQL("SELECT")
 					</span> statement.
 				</p>
 				<p>
@@ -191,7 +191,7 @@ templ CreateTable() {
 				<p>
 					This is a simple technique for copying data but be aware that 
 					<span>
-						@c.Inline("CREATE TABLE ... AS")
+						@c.InlineSQL("CREATE TABLE ... AS")
 					</span> will not copy table constraints, indexes, table permissions and other metadata that a database might associate with a table. See 
 					<span>
 						@c.Link(site.MSP.Page(site.BackupAndRecoveryPage), "")
@@ -203,7 +203,7 @@ templ CreateTable() {
 				<p>
 					A table can created as a "temporary" table using the 
 					<span>
-						@c.Inline("CREATE TEMPORARY TABLE")
+						@c.InlineSQL("CREATE TEMPORARY TABLE")
 					</span> modifier. A temporary table is a table that only exists until you terminate your client session with the database server. At that point, any temporary tables are deleted and cleaned up automatically.
 				</p>
 				<p>

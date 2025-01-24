@@ -433,19 +433,6 @@ button.run img {
     background-color: white;
 }
 
-.fade-in {
-    animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-
 mark {
     background: rgba(255, 166, 43, 0.4);
 }

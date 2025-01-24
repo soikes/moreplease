@@ -30,46 +30,46 @@ templ Update() {
 				<p>
 					The 
 					<span>
-						@c.Inline("UPDATE")
+						@c.InlineSQL("UPDATE")
 					</span> statement allows you to update existing rows with new values for one or more columns.
 				</p>
 				<p>
 					An 
 					<span>
-						@c.Inline("UPDATE")
+						@c.InlineSQL("UPDATE")
 					</span> will modify every row of the table unless a 
 					<span>
-						@c.Inline("WHERE")
+						@c.InlineSQL("WHERE")
 					</span> clause is provided. 
 				</p>
 				<p>
 					It is not required to provide a 
 					<span>
-						@c.Inline("WHERE")
+						@c.InlineSQL("WHERE")
 					</span> clause but it is highly recommended to avoid accidental updates to the entire table. Some database engines will warn or even prevent you from running a table-wide 
 					<span>
-						@c.Inline("UPDATE")
+						@c.InlineSQL("UPDATE")
 					</span> statement.
 				</p>
 				<p>
 					You can run a 
 					<span>
-						@c.Inline("SELECT")
+						@c.InlineSQL("SELECT")
 					</span> statement with the same 
 					<span>
-						@c.Inline("WHERE")
+						@c.InlineSQL("WHERE")
 					</span> clause to check which rows will be altered with an 
 					<span>
-						@c.Inline("UPDATE")
+						@c.InlineSQL("UPDATE")
 					</span> before actually performing the update.
 				</p>
 				<p>
 					Remember that each example on this website is editable and runnable so you can see the results of your 
 					<span>
-						@c.Inline("UPDATE")
+						@c.InlineSQL("UPDATE")
 					</span> by querying the contents of the table, i.e.: 
 					<span>
-						@c.Inline("SELECT * FROM users;")
+						@c.InlineSQL("SELECT * FROM users;")
 					</span>
 				</p>
 			</div>
@@ -78,7 +78,7 @@ templ Update() {
 				<p>
 					You can update multiple columns within the same 
 					<span>
-						@c.Inline("UPDATE")
+						@c.InlineSQL("UPDATE")
 					</span> statement.
 				</p>
 			</div>
@@ -86,13 +86,13 @@ templ Update() {
 			<div>
 				An 
 				<span>
-					@c.Inline("UPDATE")
+					@c.InlineSQL("UPDATE")
 				</span> can use the result of a computation. This example shows using negation logic to toggle the value of a column between 
 				<span>
-					@c.Inline("0")
+					@c.InlineSQL("0")
 				</span> and 
 				<span>
-					@c.Inline("1")
+					@c.InlineSQL("1")
 				</span> on each update.
 			</div>
 			@e.Run("update_computation.sql")
@@ -100,22 +100,22 @@ templ Update() {
 				<p>
 					Similar to an 
 					<span>
-						@c.Inline("INSERT")
+						@c.InlineSQL("INSERT")
 					</span>,
 					<span>
-						@c.Inline("UPDATE")
+						@c.InlineSQL("UPDATE")
 					</span> accepts an optional fallback strategy using 
 					<span>
-						@c.Inline("OR")
+						@c.InlineSQL("OR")
 					</span> when the update would cause a constraint violation and fail.
 				</p>
 				<p>
 					Try removing the 
 					<span>
-						@c.Inline("OR IGNORE")
+						@c.InlineSQL("OR IGNORE")
 					</span> clause and run the example again. Notice that the 
 					<span>
-						@c.Inline("UPDATE")
+						@c.InlineSQL("UPDATE")
 					</span> now fails with an error.
 				</p>
 			</div>
@@ -123,10 +123,10 @@ templ Update() {
 			<div>
 				Some database engines support the 
 				<span>
-					@c.Inline("RETURNING")
+					@c.InlineSQL("RETURNING")
 				</span> clause, which will cause the database to return the rows that were updated. You can specify column names to return or 
 				<span>
-					@c.Inline("*")
+					@c.InlineSQL("*")
 				</span> to include all columns.
 			</div>
 			@e.Run("update_returning.sql")

@@ -38,13 +38,13 @@ templ AggregateFunctions() {
 				</p>
 				<p>
 					<span>
-						@c.Inline("count()")
+						@c.InlineSQL("count()")
 					</span> is a function that accepts a column name or a 
 					<span>
-						@c.Inline("*")
+						@c.InlineSQL("*")
 					</span> as input. Instead of returning data though, it returns a count of the total number of rows.  If a 
 					<span>
-						@c.Inline("*")
+						@c.InlineSQL("*")
 					</span> is specified, the count of all rows in the table is returned. Think of it as asking for a row count "including all columns".
 				</p>
 			</div>
@@ -53,7 +53,7 @@ templ AggregateFunctions() {
 				<p>
 					If a column name is specified, the returned count is the number of non-
 					<span>
-						@c.Inline("NULL")
+						@c.InlineSQL("NULL")
 					</span> rows.
 				</p>
 			</div>
@@ -62,7 +62,7 @@ templ AggregateFunctions() {
 				<p>
 					Aggregate functions can accept a 
 					<span>
-						@c.Inline("DISTINCT")
+						@c.InlineSQL("DISTINCT")
 					</span> clause which causes duplicate rows to be ignored by the function. Here, the second "Amini" last name is not included in the count.
 				</p>
 			</div>
@@ -71,10 +71,10 @@ templ AggregateFunctions() {
 				<p>
 					Another commonly used aggregate function is 
 					<span>
-						@c.Inline("max()")
+						@c.InlineSQL("max()")
 					</span><span>.</span> It accepts a single column name and returns the maximum value out of all of the rows. The maximum value is determined in the same way as an 
 					@c.LinkWithText(site.MSP.Page(site.OrderByPage), "") {
-						@c.Inline("ORDER BY")
+						@c.InlineSQL("ORDER BY")
 					}
 					: by following the current 
 					<span>
@@ -86,16 +86,16 @@ templ AggregateFunctions() {
 				<p>
 					To instead find the minimum value, the 
 					<span>
-						@c.Inline("min()")
+						@c.InlineSQL("min()")
 					</span> function is used.
 				</p>
 				<p>
 					Keep in mind that in SQLite and other databases, 
 					<span>
-						@c.Inline("max()")
+						@c.InlineSQL("max()")
 					</span> and 
 					<span>
-						@c.Inline("min()")
+						@c.InlineSQL("min()")
 					</span> have versions that accept multiple arguments which are actually scalar functions that perform a different task.
 				</p>
 			</div>
@@ -104,25 +104,25 @@ templ AggregateFunctions() {
 				<p>
 					The 
 					<span>
-						@c.Inline("sum()")
+						@c.InlineSQL("sum()")
 					</span> function calculates the sum of all non-
 					<span>
-						@c.Inline("NULL")
+						@c.InlineSQL("NULL")
 					</span> values. 
 				</p>
 				<p>
 					If every input row is 
 					<span>
-						@c.Inline("NULL")
+						@c.InlineSQL("NULL")
 					</span> then 
 					<span>
-						@c.Inline("sum()")
+						@c.InlineSQL("sum()")
 					</span> will return 
 					<span>
-						@c.Inline("NULL")
+						@c.InlineSQL("NULL")
 					</span><span>.</span> Unfortunately this is required by the SQL standard and several aggregate functions behave this way. This is not very useful if you are expecting a numerical result so some databases like SQLite have implemented a nonstandard 
 					<span>
-						@c.Inline("total()")
+						@c.InlineSQL("total()")
 					</span> function that returns 0.0 in this case instead.
 				</p>
 			</div>
@@ -131,22 +131,22 @@ templ AggregateFunctions() {
 				<p>
 					The 
 					<span>
-						@c.Inline("avg()")
+						@c.InlineSQL("avg()")
 					</span> function calculates an average value across all the rows. It is equivalent to running 
 					<span>
-						@c.Inline("total() / count()")
+						@c.InlineSQL("total() / count()")
 					</span><span>.</span> Note again that only non-
 					<span>
-						@c.Inline("NULL")
+						@c.InlineSQL("NULL")
 					</span> values are considered in the calculation.
 				</p>
 				<p>
 					In SQLite string values that can't be converted into numbers, such as 
 					<span>
-						@c.Inline("'hello'")
+						@c.InlineSQL("'hello'")
 					</span>, are treated as 
 					<span>
-						@c.Inline("0")
+						@c.InlineSQL("0")
 					</span> in the average calculation.
 				</p>
 			</div>
@@ -160,7 +160,7 @@ templ AggregateFunctions() {
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.GroupByPage), "") {
 							<span>
-								@c.Inline("GROUP BY")
+								@c.InlineSQL("GROUP BY")
 							</span>
 						}
 					</span> clause which we will explore next.

@@ -11,7 +11,7 @@ type Example struct {
 }
 
 templ (e *Example) Run(path string) {
-	<div class="example sticky-container fade-in">
+	<div class="example sticky-container">
 		<div class="tile sticky">
 			{{
 				stmt := e.Statements.From(path)

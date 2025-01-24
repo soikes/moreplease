@@ -41,7 +41,7 @@ templ Functions() {
 				</p>
 				<p>
 					<span>
-						@c.Inline("datetime()")
+						@c.InlineSQL("datetime()")
 					</span> is a scalar function in SQLite that returns the current date and time.
 				</p>
 				<p>
@@ -63,28 +63,28 @@ templ Functions() {
 			<div>
 				It is important to consider 
 				<span>
-					@c.Inline("NULL")
+					@c.InlineSQL("NULL")
 				</span> input values in functions and understand how they are interpreted. For example the 
 				<span>
-					@c.Inline("length()")
+					@c.InlineSQL("length()")
 				</span> function in SQLite returns 
 				<span>
-					@c.Inline("NULL")
+					@c.InlineSQL("NULL")
 				</span>, not
 				<span>
-					@c.Inline("0")
+					@c.InlineSQL("0")
 				</span><span>.</span>
 			</div>
 			@e.Run("functions_null.sql")
 			<div class="linkable" id="coalesce">
 				<span>
-					@c.Inline("coalesce()")
+					@c.InlineSQL("coalesce()")
 				</span> is a commonly used function to handle 
 				<span>
-					@c.Inline("NULL")
+					@c.InlineSQL("NULL")
 				</span> values by returning a "default" value if the input you supply evaluates to 
 				<span>
-					@c.Inline("NULL")
+					@c.InlineSQL("NULL")
 				</span><span>.</span>
 			</div>
 			@e.Run("functions_coalesce.sql")
@@ -95,25 +95,25 @@ templ Functions() {
 				<p>
 					A common example are string formatting functions like 
 					<span>
-						@c.Inline("printf()")
+						@c.InlineSQL("printf()")
 					</span> (or 
 					<span>
-						@c.Inline("format()")
+						@c.InlineSQL("format()")
 					</span>). They often take in a "template" string that describes how you want the output string to be formatted, then any number of arguments that supply the data to fill it in with.
 				</p>
 				<p>
 					In this case, 
 					<span>
-						@c.Inline("'%s'")
+						@c.InlineSQL("'%s'")
 					</span> means we want a string type to appear in that spot, and 
 					<span>
-						@c.Inline("'%.2f'")
+						@c.InlineSQL("'%.2f'")
 					</span> means we want a floating-point number rounded to two deicmal places to appear in that spot.
 				</p>
 				<p>
 					A fun fact is that this is such a common problem to solve that most programming languages have 
 					<span>
-						@c.Inline("printf()")
+						@c.InlineSQL("printf()")
 					</span> or some similar form of it.
 				</p>
 			</div>
@@ -122,13 +122,13 @@ templ Functions() {
 				<p>
 					Some database engines support creating custom functions using the 
 					<span>
-						@c.Inline("CREATE FUNCTION")
+						@c.InlineSQL("CREATE FUNCTION")
 					</span>) statement. Others, like SQLite require you to define custom functions outside of the database and load them separately which we will not cover here.
 				</p>
 				<p>
 					This example gives an idea of what a user-defined/custom function would typically look like in PostgreSQL, a different database engine, so ignore the syntax differences. This function could then be used anywhere a built-in function can be used by calling 
 					<span>
-						@c.Inline("format_transaction(...)")
+						@c.InlineSQL("format_transaction(...)")
 					</span><span>.</span>
 				</p>
 			</div>

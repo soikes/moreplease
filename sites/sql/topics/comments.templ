@@ -33,7 +33,7 @@ templ Comments() {
 				<p>
 					If you are using the MySQL engine, the hash symbol
 					<span>
-						@c.Inline("#")
+						@c.InlineSQL("#")
 					</span> is used for single line comments instead.
 				</p>
 			</div>
@@ -48,7 +48,7 @@ templ Comments() {
 				<p>
 					You can make comments span multiple lines, otherwise known as block comments, by surrounding the comment with 
 					<span>
-						@c.Inline("/* */")
+						@c.InlineSQL("/* */")
 					</span><span>.</span>
 				</p>
 				<p>
@@ -69,7 +69,7 @@ templ Comments() {
 				<p>
 					This example also shows a technique using a "dummy" 
 					<span>
-						@c.Inline("WHERE")
+						@c.InlineSQL("WHERE")
 					</span> clause that allows us to switch between subsequent lines without having to edit them.
 				</p>
 			</div>
