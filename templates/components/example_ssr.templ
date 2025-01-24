@@ -6,17 +6,17 @@ import (
 )
 
 type ServerExample struct {
-	Statements db.Statements
+	Config db.Config
 }
 
 templ (e *ServerExample) Run(path string) {
 	<div class="sticky-container">
 		<div class="tile sticky">
-			{{ stmt := highlight.Block(e.Statements.From(path)) }}
+			{{ stmt := highlight.Block(e.Config.MustReadFile(path)) }}
 			@templ.Raw(stmt)
 			<div>
 				<pre>
-					{ e.Statements.ExecFile(path) }
+					{ e.Config.MustQueryFile(path) }
 				</pre>
 			</div>
 		</div>
@@ -26,7 +26,7 @@ templ (e *ServerExample) Run(path string) {
 templ (e *ServerExample) Display(path string) {
 	<div class="sticky-container">
 		<div class="tile sticky">
-			{{ stmt := highlight.Block(e.Statements.From(path)) }}
+			{{ stmt := highlight.Block(e.Config.MustReadFile(path)) }}
 			@templ.Raw(stmt)
 		</div>
 	</div>

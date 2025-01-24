@@ -633,7 +633,7 @@ pre[class*="language-"] {
     height: 0.8rem;
 }
 
-[data-fade-in].fade-start {
+[data-fade-in].fade-init {
     opacity: 0;
     transition: opacity 0.5s ease-in;
 }
@@ -642,15 +642,10 @@ pre[class*="language-"] {
     opacity: 1;
 }
 
-/* .fade-in {
-    animation: fadeIn 0.5s ease-in;
+[data-js-required] {
+    display: none;
 }
 
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-} */
+[data-js-required].visible {
+    display: initial;
+}

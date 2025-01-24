@@ -6,17 +6,17 @@ import (
 )
 
 type Example struct {
-	Language   model.Language
-	Statements db.Statements
+	Language model.Language
+	Config   db.Config
 }
 
 templ (e *Example) Run(path string) {
 	<div class="example sticky-container">
 		<div class="tile sticky">
 			{{
-				stmt := e.Statements.From(path)
-				schema := e.Statements.From(e.Statements.SchemaPath)
-				// result := e.Statements.ExecFile(path) // TODO: CREATE TABLE statements in multi-statement files are not working.
+				stmt := e.Config.MustReadFile(path)
+				schema := e.Config.MustReadFile(e.Config.SchemaPath)
+				result := e.Config.MustQueryFile(path)
 			}}
 			<sql-example data-schema={ schema } data-stmt={ stmt }>
 				<div class="stmt">
@@ -25,18 +25,22 @@ templ (e *Example) Run(path string) {
 						autocorrect="off"
 						autocapitalize="off"
 						placeholder="Enter a SQL statement"
-					></textarea>
+					>
+						{ stmt }
+					</textarea>
 					<pre>
 						<code
 							class={ e.Language.CSSClass() }
-						></code>
+						>
+							{ result }
+						</code>
 					</pre>
 				</div>
-				<button id="run" class="run">
+				<button id="run" class="run" data-js-required>
 					<img src="assets/run.svg"/>
 					run
 				</button>
-				<button id="reset" class="run">
+				<button id="reset" class="run" data-js-required>
 					<img src="assets/reset.svg"/>
 					reset
 				</button>
@@ -50,7 +54,7 @@ templ (e *Example) Display(path string) {
 	<div class="sticky-container">
 		<div class="tile sticky">
 			{{
-				stmt := e.Statements.From(path)
+				stmt := e.Config.MustReadFile(path)
 			}}
 			<div class="stmt">
 				<pre>

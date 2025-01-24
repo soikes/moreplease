@@ -11,10 +11,15 @@ import (
 	c "soikke.li/moreplease/templates/components"
 )
 
-templ Schema(p model.Page, s db.Statements, tables ...string) {
+type Schema struct {
+	Page   model.Page
+	Config db.Config
+}
+
+templ (s *Schema) Component(tables ...string) {
 	{{
 		var docBuf bytes.Buffer
-		err := SchemaPopout(p, s, tables...).Render(context.Background(), &docBuf)
+		err := s.PopoutComponent(tables...).Render(context.Background(), &docBuf)
 		if err != nil {
 			panic(err)
 		}
@@ -36,25 +41,25 @@ templ Schema(p model.Page, s db.Statements, tables ...string) {
 					@c.Outlink("#", "pop out tables")
 				</span>
 			</popout-doc>
-			@innerSchema(s, tables...)
+			@innerSchema(s.Config, tables...)
 		</details>
 	}
 }
 
-templ SchemaPopout(p model.Page, s db.Statements, tables ...string) {
+templ (s *Schema) PopoutComponent(tables ...string) {
 	{{
-		title := fmt.Sprintf("%s (Tables)", p.Title)
+		title := fmt.Sprintf("%s (Tables)", s.Page.Title)
 		b := c.Base{
 			Title: title,
 		}
 	}}
 	@b.Component(HashedImports(assets.Assets)) {
 		@c.TopicTitle(site.MSP.Title, title)
-		@innerSchema(s, tables...)
+		@innerSchema(s.Config, tables...)
 	}
 }
 
-templ innerSchema(s db.Statements, tables ...string) {
+templ innerSchema(cfg db.Config, tables ...string) {
 	<div id="schema">
 		<div class="container">
 			for _, table := range tables {
@@ -63,7 +68,7 @@ templ innerSchema(s db.Statements, tables ...string) {
 						{ table }
 					</div>
 					<div class="table result">
-						{ s.ExecFile(fmt.Sprintf("schema/dump_%s.sql", table)) }
+						{ cfg.MustQueryFile(fmt.Sprintf("schema/dump_%s.sql", table)) }
 					</div>
 				</div>
 			}
