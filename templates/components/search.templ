@@ -6,7 +6,7 @@ import (
 )
 
 templ Search() {
-	<div class="search-container search-tile">
+	<div class="search-container search-tile" data-js-required>
 		<input
 			hx-post="/search/"
 			hx-target="#search-results"
@@ -42,7 +42,9 @@ templ SearchResults(results []ResultInfo) {
 				}
 				<h3>{ result.Title }</h3>
 				<div>
-					@templ.Raw(result.Fragment)
+					<p>
+						@templ.Raw(result.Fragment)
+					</p>
 				</div>
 				{{ textFrag := fmt.Sprintf("#:~:text=%s", url.PathEscape(result.Query)) }}
 				<div class="link">

@@ -30,19 +30,23 @@ templ Select() {
 	}}
 	@sqlc.Page{Page: p}.Component() {
 		@schema.Component("users")
-		<div class="container" data-fade-in>
+		<div class="content__two-column" data-fade-in>
 			<div>
-				A
-				<span>
-					@c.InlineSQL("SELECT")
-				</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.
+				<p>
+					A
+					<span>
+						@c.InlineSQL("SELECT")
+					</span> statement is a read-only query used to retrieve data from a table. It's typically the most commonly used query.
+				</p>
 			</div>
 			@e.Run("select.sql")
 			<div>
-				You can specify individual columns to retrieve, or 
-				<span>
-					@c.InlineSQL("*")
-				</span> to retrieve all columns.
+				<p>
+					You can specify individual columns to retrieve, or 
+					<span>
+						@c.InlineSQL("*")
+					</span> to retrieve all columns.
+				</p>
 			</div>
 			@e.Run("select_all.sql")
 			<div>
@@ -67,14 +71,18 @@ templ Select() {
 			</div>
 			@e.Run("select_concat.sql")
 			<div>
-				The column name returned above is difficult to read. The keyword 
-				<span>
-					@c.InlineSQL("AS")
-				</span> can be used to alias columns with any custom name.
+				<p>
+					The column name returned above is difficult to read. The keyword 
+					<span>
+						@c.InlineSQL("AS")
+					</span> can be used to alias columns with any custom name.
+				</p>
 			</div>
 			@e.Run("select_as.sql")
 			<div>
-				If you want to alias a column with a value that includes spaces, surround the name with double quotation marks.
+				<p>
+					If you want to alias a column with a value that includes spaces, surround the name with double quotation marks.
+				</p>
 			</div>
 			@e.Run("select_as_pretty.sql")
 			<div>

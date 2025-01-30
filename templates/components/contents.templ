@@ -3,21 +3,22 @@ package components
 import "soikke.li/moreplease/pkg/model"
 
 templ Contents(sections []model.Section) {
-	<ul class="index">
+	<nav class="content">
 		for _, section := range sections {
-			<li>
-				<h3><i>{ section.Title }</i></h3>
-			</li>
-			for _, page := range section.Pages {
-				<li id={ string(page.ID) }>
-					if page.Enabled {
-						<a href={ templ.URL(page.URL) }>{ page.Title }</a>
-					} else {
-						<span class="disabled">{ page.Title }</span>
-					}
+			<ol class="heading heading--med">
+				<li class="heading__nav">
+					<h2>{ section.Title }</h2>
 				</li>
-			}
-			<br/>
+				for _, page := range section.Pages {
+					<li id={ string(page.ID) }>
+						if page.Enabled {
+							<a href={ templ.URL(page.URL) }>{ page.Title }</a>
+						} else {
+							<span class="disabled">{ page.Title }</span>
+						}
+					</li>
+				}
+			</ol>
 		}
-	</ul>
+	</nav>
 }

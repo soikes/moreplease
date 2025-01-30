@@ -23,7 +23,7 @@ func MustRegisterComponent(assetPath string, c templ.Component) {
 	registry[assetPath] = c
 }
 
-func MustRenderComponents(path string) {
+func MustRenderComponents(ctx context.Context, path string) {
 	log.Println("render components")
 	for ap, c := range registry {
 		assetPath := filepath.Join(path, ap)
@@ -33,7 +33,7 @@ func MustRenderComponents(path string) {
 		}
 		defer f.Close()
 		log.Println(assetPath)
-		err = c.Render(context.Background(), f)
+		err = c.Render(ctx, f)
 		if err != nil {
 			panic(err)
 		}

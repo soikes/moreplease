@@ -5,6 +5,7 @@ import (
 	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/site"
 	sqlc "soikke.li/moreplease/sites/sql/templates/components"
+	"soikke.li/moreplease/sites/sql/topics/statements"
 	c "soikke.li/moreplease/templates/components"
 )
 
@@ -14,18 +15,19 @@ func init() {
 
 templ DataTypes() {
 	{{
-	s := db.Statements{
-		Files:      mustSub("embed/data_types"),
-		SchemaPath: "schema/schema.sql",
-	}
-	e := c.Example{
-		Statements: s,
-	}
-	p := site.MSP.Page(site.DataTypesPage)
+		cfg := db.Config{
+			SQLFiles:   statements.MustSub("data_types"),
+			SchemaPath: "schema/schema.sql",
+		}
+		e := c.Example{
+			Config: cfg,
+		}
+		p := site.MSP.Page(site.DataTypesPage)
+		schema := sqlc.Schema{Page: p, Config: cfg}
 	}}
 	@sqlc.Page{Page: p}.Component() {
-		@sqlc.Schema(p, s, "profiles")
-		<div class="container">
+		@schema.Component("profiles")
+		<div class="content__two-column">
 			<div>
 				<p>
 					Relational databases typically require you to define which type of data you would like to store in each column. This is done at the time of table creation.

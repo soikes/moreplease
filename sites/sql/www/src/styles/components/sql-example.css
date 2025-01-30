@@ -1,0 +1,14 @@
+sql-example {
+    pre {
+        /* TODO: Needed because the code syntax highlighter renders <pre> tags with no class by default. */
+        margin-top: 0;
+    }
+
+    pre code {
+        line-height: 1.4;
+    }
+
+    textarea {
+        line-height: 1.4;
+    }
+}

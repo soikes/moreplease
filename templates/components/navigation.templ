@@ -3,15 +3,13 @@ package components
 import "soikke.li/moreplease/pkg/model"
 
 templ BottomNav(page model.Page) {
-	<div>
-		<small class="footer">
-			if page.Prev != nil {
-				<span class="italic"><a href={ templ.URL(page.Prev.URL) }>previous: { page.Prev.Title }</a></span>
-			}
-			<span class="italic"><a href="/">home</a></span>
-			if page.Next != nil {
-				<span class="italic"><a href={ templ.URL(page.Next.URL) }>next: { page.Next.Title }</a></span>
-			}
-		</small>
-	</div>
+	<small class="footer">
+		if page.Prev != nil {
+			<span><i><a href={ templ.URL(page.Prev.URL) }>previous: { page.Prev.Title }</a></i></span>
+		}
+		<span><i><a href="/">home</a></i></span>
+		if page.Next != nil {
+			<span><i><a href={ templ.URL(page.Next.URL) }>next: { page.Next.Title }</a></i></span>
+		}
+	</small>
 }

@@ -16,7 +16,7 @@ templ (e *Example) Run(path string) {
 			{{
 				stmt := e.Config.MustReadFile(path)
 				schema := e.Config.MustReadFile(e.Config.SchemaPath)
-				result := e.Config.MustQueryFile(path)
+				result := e.Config.MustQueryFile(ctx, path)
 			}}
 			<sql-example data-schema={ schema } data-stmt={ stmt }>
 				<div class="stmt">
@@ -25,14 +25,11 @@ templ (e *Example) Run(path string) {
 						autocorrect="off"
 						autocapitalize="off"
 						placeholder="Enter a SQL statement"
-					>
-						{ stmt }
-					</textarea>
+						data-js-required
+					></textarea>
 					<pre>
-						<code
-							class={ e.Language.CSSClass() }
-						>
-							{ result }
+						<code class={ e.Language.CSSClass() }>
+							{ stmt }
 						</code>
 					</pre>
 				</div>
@@ -44,7 +41,9 @@ templ (e *Example) Run(path string) {
 					<img src="assets/reset.svg"/>
 					reset
 				</button>
-				<div id="result" class="result"></div>
+				<div id="result" class="result">
+					{ result }
+				</div>
 			</sql-example>
 		</div>
 	</div>

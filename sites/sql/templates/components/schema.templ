@@ -2,7 +2,6 @@ package components
 
 import (
 	"bytes"
-	"context"
 	"fmt"
 	"soikke.li/moreplease/pkg/db"
 	"soikke.li/moreplease/pkg/model"
@@ -19,34 +18,38 @@ type Schema struct {
 templ (s *Schema) Component(tables ...string) {
 	{{
 		var docBuf bytes.Buffer
-		err := s.PopoutComponent(tables...).Render(context.Background(), &docBuf)
+		err := s.popoutComponent(tables...).Render(ctx, &docBuf)
 		if err != nil {
 			panic(err)
 		}
 		var htmlBuf bytes.Buffer
-		err = templ.Raw(docBuf.String()).Render(context.Background(), &htmlBuf)
+		err = templ.Raw(docBuf.String()).Render(ctx, &htmlBuf)
 		if err != nil {
 			panic(err)
 		}
 	}}
 	if len(tables) > 0 {
-		<details id="schema" class="toggle">
-			<summary
-				class="action heading"
-				data-open="hide tables"
-				data-close="show tables"
-			></summary>
-			<popout-doc data-document={ htmlBuf.String() } class="heading popout">
-				<span>
-					@c.Outlink("#", "pop out tables")
-				</span>
-			</popout-doc>
-			@innerSchema(s.Config, tables...)
-		</details>
+		<div class="schema">
+			<details class="schema__toggle">
+				<summary
+					class="action heading heading--small schema__summary"
+					data-open="hide tables"
+					data-close="show tables"
+				></summary>
+				<div class="content">
+					<popout-doc data-document={ htmlBuf.String() } class="heading schema__popout">
+						<span>
+							@c.Outlink("#", "pop out tables")
+						</span>
+					</popout-doc>
+					@innerSchema(s.Config, tables...)
+				</div>
+			</details>
+		</div>
 	}
 }
 
-templ (s *Schema) PopoutComponent(tables ...string) {
+templ (s *Schema) popoutComponent(tables ...string) {
 	{{
 		title := fmt.Sprintf("%s (Tables)", s.Page.Title)
 		b := c.Base{
@@ -54,24 +57,24 @@ templ (s *Schema) PopoutComponent(tables ...string) {
 		}
 	}}
 	@b.Component(HashedImports(assets.Assets)) {
-		@c.TopicTitle(site.MSP.Title, title)
-		@innerSchema(s.Config, tables...)
+		<div class="padded content">
+			@c.TopicTitle(site.MSP.Title, title)
+			@innerSchema(s.Config, tables...)
+		</div>
 	}
 }
 
 templ innerSchema(cfg db.Config, tables ...string) {
-	<div id="schema">
-		<div class="container">
-			for _, table := range tables {
-				<div class="tile">
-					<div class="tablename">
-						{ table }
-					</div>
-					<div class="table result">
-						{ cfg.MustQueryFile(fmt.Sprintf("schema/dump_%s.sql", table)) }
-					</div>
+	<div class="content content__horizontal">
+		for _, table := range tables {
+			<div class="tile">
+				<h3 class="heading--small">
+					{ table }
+				</h3>
+				<div class="table result">
+					{ cfg.MustQueryFile(ctx, fmt.Sprintf("schema/dump_%s.sql", table)) }
 				</div>
-			}
-		</div>
+			</div>
+		}
 	</div>
 }

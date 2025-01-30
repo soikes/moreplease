@@ -23,7 +23,7 @@ func HashAsset(fsys fs.FS, name string) (string, error) {
 	return fmt.Sprintf("%s-%s", prefixHashType, base64.StdEncoding.EncodeToString(hasher.Sum(nil))), nil
 }
 
-func CSPFetchDirectives(fsys fs.FS) ([]string, error) {
+func CSPFetchDirectives(fsys fs.FS, externalHashes ...string) ([]string, error) {
 	am := assetMap{}
 	assets, err := fs.ReadDir(fsys, ".")
 	if err != nil {
@@ -53,9 +53,12 @@ func CSPFetchDirectives(fsys fs.FS) ([]string, error) {
 		directive.WriteString(" 'self' ")
 		if atype == assetScript {
 			directive.WriteString("'wasm-unsafe-eval' ")
+			for _, external := range externalHashes {
+				directive.WriteString(fmt.Sprintf("'%s' ", external))
+			}
 		}
 		for _, hash := range hashes {
-			directive.WriteString(fmt.Sprintf("'%s'", hash))
+			directive.WriteString(fmt.Sprintf("'%s' ", hash))
 		}
 		directives = append(directives, directive.String())
 	}

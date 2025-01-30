@@ -7,6 +7,10 @@ usage() {
     exit 1
 }
 
+if [ $# -eq 0 ]; then
+    usage
+fi
+
 site="$PWD"
 norender=false
 while [ $# -gt 0 ]; do

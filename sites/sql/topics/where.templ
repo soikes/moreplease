@@ -5,6 +5,7 @@ import (
 	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/site"
 	sqlc "soikke.li/moreplease/sites/sql/templates/components"
+	"soikke.li/moreplease/sites/sql/topics/statements"
 	c "soikke.li/moreplease/templates/components"
 )
 
@@ -14,18 +15,19 @@ func init() {
 
 templ Where() {
 	{{
-	s := db.Statements{
-		Files:      mustSub("embed/where"),
-		SchemaPath: "schema/schema.sql",
-	}
-	e := c.Example{
-		Statements: s,
-	}
-	p := site.MSP.Page(site.WherePage)
+		cfg := db.Config{
+			SQLFiles:   statements.MustSub("where"),
+			SchemaPath: "schema/schema.sql",
+		}
+		e := c.Example{
+			Config: cfg,
+		}
+		p := site.MSP.Page(site.WherePage)
+		schema := sqlc.Schema{Page: p, Config: cfg}
 	}}
 	@sqlc.Page{Page: p}.Component() {
-		@sqlc.Schema(p, s, "users")
-		<div class="container">
+		@schema.Component("users")
+		<div class="content__two-column">
 			<div>
 				<p>
 					A 

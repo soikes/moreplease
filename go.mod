@@ -9,6 +9,7 @@ require (
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
 	github.com/blevesearch/bleve/v2 v2.4.3
 	github.com/mattn/go-sqlite3 v1.14.24
+	github.com/rs/zerolog v1.33.0
 	golang.org/x/crypto v0.32.0
 	golang.org/x/net v0.33.0
 )
@@ -44,7 +45,6 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/mschoch/smat v0.2.0 // indirect
 	github.com/onsi/gomega v1.34.1 // indirect
-	github.com/rs/zerolog v1.33.0 // indirect
 	github.com/stretchr/testify v1.10.0 // indirect
 	go.etcd.io/bbolt v1.3.8 // indirect
 	golang.org/x/sys v0.29.0 // indirect

@@ -15,7 +15,7 @@ templ HashedImports(fsys fs.FS) {
 		if err != nil {
 			panic(err)
 		}
-		style := "assets/styles.css"
+		style := "assets/app.css"
 		styleHash, err := assets.HashAsset(fsys, path.Base(style))
 		if err != nil {
 			panic(err)

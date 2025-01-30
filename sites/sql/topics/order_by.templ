@@ -5,6 +5,7 @@ import (
 	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/site"
 	sqlc "soikke.li/moreplease/sites/sql/templates/components"
+	"soikke.li/moreplease/sites/sql/topics/statements"
 	c "soikke.li/moreplease/templates/components"
 )
 
@@ -14,18 +15,19 @@ func init() {
 
 templ OrderBy() {
 	{{
-	s := db.Statements{
-		Files:      mustSub("embed/order_by"),
+	cfg := db.Config{
+		SQLFiles:   statements.MustSub("order_by"),
 		SchemaPath: "schema/schema.sql",
 	}
 	e := c.Example{
-		Statements: s,
+		Config: cfg,
 	}
 	p := site.MSP.Page(site.OrderByPage)
+	schema := sqlc.Schema{Page: p, Config: cfg}
 	}}
 	@sqlc.Page{Page: p}.Component() {
-		@sqlc.Schema(p, s, "users")
-		<div class="container">
+		@schema.Component("users")
+		<div class="content__two-column">
 			<div>
 				<p>
 					The 

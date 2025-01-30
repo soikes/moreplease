@@ -4,40 +4,27 @@ tmp_dir = "tmp"
 
 [build]
 pre_cmd = ["scripts/prebuild.sh -s sites/sql"]
-args_bin = []
-bin = "tmp/moreplease -metrics tmp/metrics.db"
 cmd = "go build -o tmp/moreplease"
-delay = 1000
-exclude_dir = [
-    "**/tmp",
-    "**/vendor",
-    "**/testdata",
-    "data",
-    "**/data",
-    "cmd/metrics",
-]
-exclude_file = []
-exclude_regex = [
-    "_test.go",
-    "_templ.go",
-    ".html",
-    "generated_imports.go",
-    ".index",
-]
-exclude_unchanged = false
-follow_symlink = false
-full_bin = ""
-include_dir = []
+bin = "tmp/moreplease"
+args_bin = ["-metrics tmp/metrics.db"]
 include_ext = ["sh", "go", "templ", "html", "css", "sql", "xml", "ts"]
-include_file = []
-kill_delay = "0s"
+exclude_regex = [
+    "_test\\.go",
+    "_templ\\.go",
+    "\\.html",
+    "generated_imports\\.go",
+    "\\.index",
+    ".*/tmp/.*",
+    ".*/vendor/.*",
+    ".*/testdata/.*",
+    ".*/node_modules/.*",
+    ".*/data/.*",
+    ".*/cmd/metrics/.*",
+    ".*/assets/.*",
+]
 log = "build-errors.log"
-poll = false
-poll_interval = 0
-post_cmd = []
 rerun = true
-rerun_delay = 1000
-send_interrupt = false
+send_interrupt = true
 stop_on_error = true
 
 [color]
@@ -61,5 +48,4 @@ enabled = true
 proxy_port = 8081
 
 [screen]
-clear_on_rebuild = true
 keep_scroll = true

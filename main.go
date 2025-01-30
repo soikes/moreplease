@@ -20,6 +20,7 @@ func main() {
 	var desc string
 	desc = "static"
 	srv := web.NewServer()
+	// TODO: coffeeHash := `sha256-pyonVwm7hmHrD0g6YG0pCmcbOi3ip98R66NAgqrbTXQ=`
 	fd, err := assets.CSPFetchDirectives(sqlAssets.Assets)
 	if err != nil {
 		panic(err)

@@ -17,10 +17,12 @@ templ (p Page) Component(hashedImports templ.Component) {
 		}
 	}}
 	@b.Component(hashedImports) {
-		<div class="content wide" data-fade-in>
-			@TopicTitle(p.Site.Title, p.Page.Title)
-			{ children... }
-			@BottomNav(p.Page)
+		<div class="centered padded">
+			<div class="content content--wide" data-fade-in>
+				@TopicTitle(p.Site.Title, p.Page.Title)
+				{ children... }
+				@BottomNav(p.Page)
+			</div>
 		</div>
 	}
 }
