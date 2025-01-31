@@ -3,15 +3,23 @@ package model
 import "fmt"
 
 func (l Language) CSSClass() string {
-	return fmt.Sprintf("language-%s", languages[l])
+	var ls string
+	if lang, ok := languages[l]; ok {
+		if lang != "" {
+			ls = fmt.Sprintf("language-%s", lang)
+		}
+	}
+	return ls
 }
 
 type Language int
 
 const (
-	LanguageSQL Language = iota
+	LanguageNone Language = iota
+	LanguageSQL
 )
 
 var languages = map[Language]string{
-	LanguageSQL: "sql",
+	LanguageSQL:  "sql",
+	LanguageNone: "",
 }

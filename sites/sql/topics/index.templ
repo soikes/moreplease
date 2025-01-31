@@ -1,16 +1,16 @@
 package topics
 
 import (
+	"fmt"
 	"soikke.li/moreplease/pkg/model"
-	"soikke.li/moreplease/pkg/render"
 	"soikke.li/moreplease/sites/sql/assets"
+	"soikke.li/moreplease/sites/sql/render"
 	"soikke.li/moreplease/sites/sql/site"
-	sqlc "soikke.li/moreplease/sites/sql/templates/components"
 	c "soikke.li/moreplease/templates/components"
 )
 
 func init() {
-	render.MustRegisterComponent(site.IndexPage.Asset(), Index())
+	render.Registry.MustRegisterComponent(site.IndexPage.Asset(), Index())
 }
 
 templ Index() {
@@ -20,7 +20,7 @@ templ Index() {
 		Title: `Learn SQL by Example - ` + s.Title,
 	}
 	}}
-	@b.Component(sqlc.HashedImports(assets.Assets)) {
+	@b.Component(c.HashedImports(assets.Assets)) {
 		@inner(s.Sections)
 		@coffee()
 	}
@@ -29,6 +29,13 @@ templ Index() {
 templ inner(sections []model.Section) {
 	<div class="centered padded">
 		<div class="content content--narrow">
+			<nav class="nav small">
+				<span>
+					<i>
+						{ fmt.Sprintf("< ") }<a href="http://moreplease.dev">{ fmt.Sprint("all topics") }</a>
+					</i>
+				</span>
+			</nav>
 			<img class="logo--width-full" src="assets/logo.svg"/>
 			<p>
 				Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to 
@@ -37,7 +44,7 @@ templ inner(sections []model.Section) {
 				</span> where the data has well-defined relationships.
 			</p>
 			<p>
-				<em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and some related database concepts. Every SQL statement is run fully in your browser using the
+				<em>More SQL Please</em>&ensp;is designed to be a simple, readable introduction to the SQL language and related database concepts. Every SQL statement is run fully in your browser using the
 				<span>
 					@c.Outlink("https://www.sqlite.org", "SQLite")
 				</span> database engine and 
@@ -51,9 +58,9 @@ templ inner(sections []model.Section) {
 			<p>
 				The topics below are loosely ordered from top to bottom by increasing complexity. Each topic attempts to cover a single keyword or concept but may draw upon previously covered concepts. This is because each is a building block that when combined together show how powerful SQL can be as a data querying and manipulation language.
 			</p>
-			@c.Search()
+			@c.Search("Search More SQL Please")
 			@c.Contents(sections)
-			<small class="footer">
+			<nav class="nav footer__nav small">
 				<span>
 					<i>
 						by
@@ -78,7 +85,7 @@ templ inner(sections []model.Section) {
 						<a href="https://buymeacoffee.com/mikesoikkeli">☕️ Buy me a Coffee!</a>
 					</i>
 				</span>
-			</small>
+			</nav>
 		</div>
 	</div>
 }

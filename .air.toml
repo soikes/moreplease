@@ -3,7 +3,10 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-pre_cmd = ["scripts/prebuild.sh -s sites/sql"]
+pre_cmd = [
+    "scripts/prebuild.sh -s sites/sql",
+    "scripts/prebuild.sh -s sites/index",
+]
 cmd = "go build -o tmp/moreplease"
 bin = "tmp/moreplease"
 args_bin = ["-metrics tmp/metrics.db"]

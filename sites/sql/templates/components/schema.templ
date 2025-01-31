@@ -56,7 +56,7 @@ templ (s *Schema) popoutComponent(tables ...string) {
 			Title: title,
 		}
 	}}
-	@b.Component(HashedImports(assets.Assets)) {
+	@b.Component(c.HashedImports(assets.Assets)) {
 		<div class="padded content">
 			@c.TopicTitle(site.MSP.Title, title)
 			@innerSchema(s.Config, tables...)

@@ -5,7 +5,7 @@ import (
 	"net/url"
 )
 
-templ Search() {
+templ Search(placeholder string) {
 	<div class="search-container search-tile" data-js-required>
 		<input
 			hx-post="/search/"
@@ -17,6 +17,7 @@ templ Search() {
 			spellcheck="false"
 			autocorrect="off"
 			autocapitalize="off"
+			placeholder={ placeholder }
 		/>
 		<div id="search-results"></div>
 	</div>

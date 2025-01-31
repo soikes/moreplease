@@ -1,0 +1,3 @@
+{
+  "extends": ["@efficientcss/stylelint-config-ecss"]
+}

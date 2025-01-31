@@ -1,0 +1,42 @@
+package components
+
+import (
+	"errors"
+	"io/fs"
+	"log"
+	"path"
+	"soikke.li/moreplease/pkg/assets"
+)
+
+var jsImports = templ.NewOnceHandle()
+
+templ HashedImports(fsys fs.FS) {
+	{{
+		src := "assets/app.js"
+		srcHash, err := assets.HashAsset(fsys, path.Base(src))
+		if err != nil {
+			if errors.Is(err, fs.ErrNotExist) {
+				log.Printf("no js file, skipping hash.")
+			} else {
+				panic(err)
+			}
+		}
+		style := "assets/app.css"
+		styleHash, err := assets.HashAsset(fsys, path.Base(style))
+		if err != nil {
+			if errors.Is(err, fs.ErrNotExist) {
+				log.Printf("no css file, skipping hash.")
+			} else {
+				panic(err)
+			}
+		}
+	}}
+	if srcHash != "" {
+		@jsImports.Once() {
+			<script type="text/javascript" src={ src } integrity={ srcHash }></script>
+		}
+	}
+	if styleHash != "" {
+		<link rel="stylesheet" href={ style } integrity={ styleHash }/>
+	}
+}

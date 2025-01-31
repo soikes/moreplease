@@ -31,7 +31,9 @@ while [ $# -gt 0 ]; do
 done
 
 templ generate || exit $?
-pnpm -C "${site}/www" build || exit $?
+if [ -d "${site}/www" ]; then
+    pnpm -C "${site}/www" build || exit $?
+fi
 if [ "$norender" = false ]; then
     go run soikke.li/moreplease/cmd/render -o "${site}/assets" || exit $?
 fi

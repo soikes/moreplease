@@ -71,7 +71,6 @@ const (
 // MSP defines metadata and page order of the More SQL Please site.
 var MSP = model.NewSite(
 	"More SQL Please",
-	model.LanguageSQL,
 	[]model.Section{
 		{
 			Title: "Basics",

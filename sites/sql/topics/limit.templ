@@ -2,7 +2,8 @@ package topics
 
 import (
 	"soikke.li/moreplease/pkg/db"
-	"soikke.li/moreplease/pkg/render"
+	"soikke.li/moreplease/pkg/model"
+	"soikke.li/moreplease/sites/sql/render"
 	"soikke.li/moreplease/sites/sql/site"
 	sqlc "soikke.li/moreplease/sites/sql/templates/components"
 	"soikke.li/moreplease/sites/sql/topics/statements"
@@ -10,7 +11,7 @@ import (
 )
 
 func init() {
-	render.MustRegisterComponent(site.LimitPage.Asset(), Limit())
+	render.Registry.MustRegisterComponent(site.LimitPage.Asset(), Limit())
 }
 
 templ Limit() {
@@ -20,7 +21,8 @@ templ Limit() {
 		SchemaPath: "schema/schema.sql",
 	}
 	e := c.Example{
-		Config: cfg,
+		Language: model.LanguageSQL,
+		Config:   cfg,
 	}
 	p := site.MSP.Page(site.LimitPage)
 	schema := sqlc.Schema{Page: p, Config: cfg}

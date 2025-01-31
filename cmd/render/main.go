@@ -2,30 +2,18 @@ package main
 
 import (
 	"context"
-	"flag"
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 
-	"soikke.li/moreplease/pkg/render"
-	_ "soikke.li/moreplease/sites/sql/topics" // Load pkgs to register them for rendering.
+	indexRender "soikke.li/moreplease/sites/index/render"
+	_ "soikke.li/moreplease/sites/index/templates"    // Load pkg to register for rendering.
+	sqlRender "soikke.li/moreplease/sites/sql/render" // Load pkgs to register them for rendering.
+	_ "soikke.li/moreplease/sites/sql/topics"         // Load pkg to register for rendering.
 )
 
-type config struct {
-	OutPath string
-}
-
+// Renders registered templ components into html assets.
 func main() {
-	var cfg config
-	defaultUsage := flag.Usage
-	flag.Usage = func() {
-		fmt.Println("Renders registered templ components into html assets.")
-		defaultUsage()
-	}
-	flag.StringVar(&cfg.OutPath, "o", ".", "output directory path")
-	flag.Parse()
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
@@ -35,5 +23,7 @@ func main() {
 		<-c
 		cancel()
 	}()
-	render.MustRenderComponents(ctx, cfg.OutPath)
+
+	sqlRender.Registry.MustRenderComponents(ctx, "sites/sql/assets")
+	indexRender.Registry.MustRenderComponents(ctx, "sites/index/assets")
 }

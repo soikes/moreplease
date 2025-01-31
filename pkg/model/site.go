@@ -8,7 +8,6 @@ import (
 
 type Site struct {
 	Title    string
-	Language Language
 	Sections []Section
 }
 
@@ -39,8 +38,8 @@ func (p PageID) Asset() string {
 }
 
 // NewSite returns a Site with Pages that are navigatable to their direct siblings and between Sections.
-func NewSite(title string, language Language, sections []Section) Site {
-	site := Site{Title: title, Language: language}
+func NewSite(title string, sections []Section) Site {
+	site := Site{Title: title}
 	var linkedSections []Section
 	for i, section := range sections {
 		var linkedPages []Page

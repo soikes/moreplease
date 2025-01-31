@@ -8,9 +8,11 @@ import (
 	"soikke.li/moreplease/pkg/metrics"
 	"soikke.li/moreplease/pkg/search"
 	"soikke.li/moreplease/pkg/web"
+	"soikke.li/moreplease/pkg/web/mux/subdomain"
+	idxMux "soikke.li/moreplease/sites/index/mux"
 	sqlAssets "soikke.li/moreplease/sites/sql/assets"
-	"soikke.li/moreplease/sites/sql/mux"
-	"soikke.li/moreplease/sites/sql/site"
+	sqlMux "soikke.li/moreplease/sites/sql/mux"
+	sqlSite "soikke.li/moreplease/sites/sql/site"
 )
 
 func main() {
@@ -29,8 +31,8 @@ func main() {
 		CSPFetchDirectives: fd,
 	}
 	sstore := search.MemoryIndexStorage{}
-	sstore.CreateIndex(site.AssetDocumentProvider{})
-	m := mux.StaticMux{
+	sstore.CreateIndex(sqlSite.AssetDocumentProvider{})
+	m := sqlMux.StaticMux{
 		IndexStorage: &sstore,
 	}
 	mstore, err := metrics.NewStorage(metricsStore)
@@ -42,9 +44,18 @@ func main() {
 		panic(err)
 	}
 	mx := metrics.NewHandler(mstore)
-	handler := mx.Apply(sec.Apply(m.NewMux()))
-	srv.Handler = handler
-	srv.Addr = ":8080"
+	sqlHandler := mx.Apply(sec.Apply(m.NewMux()))
+
+	baseHandler := idxMux.StaticMux{
+		IndexStorage: &sstore,
+	}
+
+	cfg := subdomain.Config{}
+	cfg.Subrouter("", baseHandler.NewMux())
+	cfg.Subrouter("sql", sqlHandler)
+
+	srv.Handler = cfg.NewMux()
+	srv.Addr = "moreplease.localhost:8080"
 	log.Printf("%s site listening on %s\n", desc, srv.Addr)
 	err = srv.ListenAndServe()
 	panic(err)

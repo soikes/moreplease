@@ -10,22 +10,23 @@ import (
 	"github.com/a-h/templ"
 )
 
-// registry maps a pre-render path to a renderable component.
-var registry map[string]templ.Component
-
-func MustRegisterComponent(assetPath string, c templ.Component) {
-	if registry == nil {
-		registry = make(map[string]templ.Component)
-	}
-	if _, exists := registry[assetPath]; exists {
-		panic(fmt.Errorf("pre-render path already registered: %s", assetPath))
-	}
-	registry[assetPath] = c
+type Registry struct {
+	registry map[string]templ.Component // registry maps a pre-render path to a renderable component.
 }
 
-func MustRenderComponents(ctx context.Context, path string) {
+func (r *Registry) MustRegisterComponent(assetPath string, c templ.Component) {
+	if r.registry == nil {
+		r.registry = make(map[string]templ.Component)
+	}
+	if _, exists := r.registry[assetPath]; exists {
+		panic(fmt.Errorf("pre-render path already registered: %s", assetPath))
+	}
+	r.registry[assetPath] = c
+}
+
+func (r *Registry) MustRenderComponents(ctx context.Context, path string) {
 	log.Println("render components")
-	for ap, c := range registry {
+	for ap, c := range r.registry {
 		assetPath := filepath.Join(path, ap)
 		f, err := os.Create(assetPath)
 		if err != nil {

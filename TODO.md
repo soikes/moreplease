@@ -94,6 +94,7 @@
 - [ ] robots.txt
   - for search crawlers
   - ban llm crawlers
+    - May need to add this to the server itself to block based on UA / ASN
 
 # BUGS
 
