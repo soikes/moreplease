@@ -6,11 +6,11 @@ import (
 	"io/fs"
 	"strings"
 
+	"github.com/soikes/moreplease/pkg/html"
+	"github.com/soikes/moreplease/pkg/model"
+	"github.com/soikes/moreplease/pkg/search"
+	"github.com/soikes/moreplease/sites/sql/assets"
 	"golang.org/x/net/html/atom"
-	"soikke.li/moreplease/pkg/html"
-	"soikke.li/moreplease/pkg/model"
-	"soikke.li/moreplease/pkg/search"
-	"soikke.li/moreplease/sites/sql/assets"
 )
 
 const (

@@ -1,7 +1,7 @@
 package site
 
 import (
-	"soikke.li/moreplease/pkg/model"
+	"github.com/soikes/moreplease/pkg/model"
 )
 
 const (

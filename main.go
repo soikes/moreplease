@@ -5,16 +5,16 @@ import (
 	"log"
 	"os"
 
-	"soikke.li/moreplease/pkg/assets"
-	"soikke.li/moreplease/pkg/config"
-	"soikke.li/moreplease/pkg/metrics"
-	"soikke.li/moreplease/pkg/search"
-	"soikke.li/moreplease/pkg/web"
-	"soikke.li/moreplease/pkg/web/mux/subdomain"
-	idxMux "soikke.li/moreplease/sites/index/mux"
-	sqlAssets "soikke.li/moreplease/sites/sql/assets"
-	sqlMux "soikke.li/moreplease/sites/sql/mux"
-	sqlSite "soikke.li/moreplease/sites/sql/site"
+	"github.com/soikes/moreplease/pkg/assets"
+	"github.com/soikes/moreplease/pkg/config"
+	"github.com/soikes/moreplease/pkg/metrics"
+	"github.com/soikes/moreplease/pkg/search"
+	"github.com/soikes/moreplease/pkg/web"
+	"github.com/soikes/moreplease/pkg/web/mux/subdomain"
+	idxMux "github.com/soikes/moreplease/sites/index/mux"
+	sqlAssets "github.com/soikes/moreplease/sites/sql/assets"
+	sqlMux "github.com/soikes/moreplease/sites/sql/mux"
+	sqlSite "github.com/soikes/moreplease/sites/sql/site"
 )
 
 func main() {

@@ -6,10 +6,10 @@ import (
 	"os/signal"
 	"syscall"
 
-	indexRender "soikke.li/moreplease/sites/index/render"
-	_ "soikke.li/moreplease/sites/index/templates"    // Load pkg to register for rendering.
-	sqlRender "soikke.li/moreplease/sites/sql/render" // Load pkgs to register them for rendering.
-	_ "soikke.li/moreplease/sites/sql/topics"         // Load pkg to register for rendering.
+	indexRender "github.com/soikes/moreplease/sites/index/render"
+	_ "github.com/soikes/moreplease/sites/index/templates"    // Load pkg to register for rendering.
+	sqlRender "github.com/soikes/moreplease/sites/sql/render" // Load pkgs to register them for rendering.
+	_ "github.com/soikes/moreplease/sites/sql/topics"         // Load pkg to register for rendering.
 )
 
 // Renders registered templ components into html assets.

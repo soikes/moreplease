@@ -3,10 +3,10 @@ package main
 import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/awslabs/aws-lambda-go-api-proxy/httpadapter"
-	"soikke.li/moreplease/pkg/assets"
-	"soikke.li/moreplease/pkg/web"
-	sqlAssets "soikke.li/moreplease/sites/sql/assets"
-	"soikke.li/moreplease/sites/sql/mux"
+	"github.com/soikes/moreplease/pkg/assets"
+	"github.com/soikes/moreplease/pkg/web"
+	sqlAssets "github.com/soikes/moreplease/sites/sql/assets"
+	"github.com/soikes/moreplease/sites/sql/mux"
 )
 
 // Entrypoint for lambda function.

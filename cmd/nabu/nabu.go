@@ -9,7 +9,7 @@ import (
 	"strings"
 	"syscall"
 
-	"soikke.li/moreplease/pkg/nabu"
+	"github.com/soikes/moreplease/pkg/nabu"
 )
 
 func main() {

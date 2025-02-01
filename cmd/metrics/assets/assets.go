@@ -3,8 +3,8 @@ package assets
 import (
 	"embed"
 
-	"soikke.li/moreplease/pkg/fs"
-	"soikke.li/moreplease/sites/common/assets"
+	"github.com/soikes/moreplease/pkg/fs"
+	"github.com/soikes/moreplease/sites/common/assets"
 )
 
 //go:embed *

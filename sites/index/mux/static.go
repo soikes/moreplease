@@ -4,9 +4,9 @@ import (
 	"io/fs"
 	"net/http"
 
-	"soikke.li/moreplease/pkg/assets"
-	"soikke.li/moreplease/pkg/search"
-	idxAssets "soikke.li/moreplease/sites/index/assets"
+	"github.com/soikes/moreplease/pkg/assets"
+	"github.com/soikes/moreplease/pkg/search"
+	idxAssets "github.com/soikes/moreplease/sites/index/assets"
 )
 
 type FSHandler struct {

@@ -5,9 +5,9 @@ import (
 
 	"github.com/a-h/templ"
 
-	"soikke.li/moreplease/pkg/assets"
-	sqlAssets "soikke.li/moreplease/sites/sql/assets"
-	"soikke.li/moreplease/sites/sql/topics"
+	"github.com/soikes/moreplease/pkg/assets"
+	sqlAssets "github.com/soikes/moreplease/sites/sql/assets"
+	"github.com/soikes/moreplease/sites/sql/topics"
 )
 
 // NewDynamicMux Creates a multiplexer that runs and renders SQLite statements on the *server* on every request.

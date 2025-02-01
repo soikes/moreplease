@@ -4,8 +4,8 @@ import (
 	"flag"
 	"fmt"
 
-	"soikke.li/moreplease/pkg/search"
-	"soikke.li/moreplease/sites/sql/site"
+	"github.com/soikes/moreplease/pkg/search"
+	"github.com/soikes/moreplease/sites/sql/site"
 )
 
 type config struct {

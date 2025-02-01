@@ -1,5 +1,5 @@
 package render
 
-import "soikke.li/moreplease/pkg/render"
+import "github.com/soikes/moreplease/pkg/render"
 
 var Registry render.Registry

@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"time"
 
-	"soikke.li/moreplease/cmd/metrics/templates"
-	"soikke.li/moreplease/pkg/metrics"
+	"github.com/soikes/moreplease/cmd/metrics/templates"
+	"github.com/soikes/moreplease/pkg/metrics"
 )
 
 const defaultPeriod = time.Hour

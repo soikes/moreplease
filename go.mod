@@ -1,4 +1,4 @@
-module soikke.li/moreplease
+module github.com/soikes/moreplease
 
 go 1.23.2
 

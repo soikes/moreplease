@@ -6,10 +6,10 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/soikes/moreplease/pkg/search"
+	"github.com/soikes/moreplease/sites/sql/mux"
+	"github.com/soikes/moreplease/sites/sql/site"
 	"golang.org/x/net/html"
-	"soikke.li/moreplease/pkg/search"
-	"soikke.li/moreplease/sites/sql/mux"
-	"soikke.li/moreplease/sites/sql/site"
 )
 
 // TestDeadlinks crawls a running mux and reports any links that return a non-200 response code.

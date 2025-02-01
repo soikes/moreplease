@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"soikke.li/moreplease/pkg/nabu"
+	"github.com/soikes/moreplease/pkg/nabu"
 )
 
 var r nabu.Runner
@@ -40,11 +40,11 @@ func run() error {
 }
 
 func runLocal() error {
-	return r.Run([]string{"go", "run", "soikke.li/moreplease", "-config", "config/local.json"})
+	return r.Run([]string{"go", "run", "github.com/soikes/moreplease", "-config", "config/local.json"})
 }
 
 func runProd() error {
-	return r.Run([]string{"go", "run", "soikke.li/moreplease", "-config", "config/prod.json"})
+	return r.Run([]string{"go", "run", "github.com/soikes/moreplease", "-config", "config/prod.json"})
 }
 
 func build() error {
@@ -77,7 +77,7 @@ func buildFrontendSQL() error {
 }
 
 func renderAllTemplates() error {
-	return r.Run([]string{"go", "run", "soikke.li/moreplease/cmd/render"})
+	return r.Run([]string{"go", "run", "github.com/soikes/moreplease/cmd/render"})
 }
 
 func buildMetricsLocal() error {
@@ -94,7 +94,7 @@ func runMetricsLocal() error {
 			return err
 		}
 	}
-	return r.Run([]string{"go", "run", "soikke.li/moreplease/cmd/metrics",
+	return r.Run([]string{"go", "run", "github.com/soikes/moreplease/cmd/metrics",
 		"--",
 		"-store", "tmp/metrics.db",
 		"-fakedata",

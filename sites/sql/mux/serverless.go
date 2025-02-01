@@ -3,7 +3,7 @@ package mux
 import (
 	"net/http"
 
-	"soikke.li/moreplease/pkg/search"
+	"github.com/soikes/moreplease/pkg/search"
 )
 
 // NewServerlessMux returns a mux suitable for use in a serverless system e.g. lambda.

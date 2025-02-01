@@ -10,7 +10,7 @@ import (
 	"log"
 
 	"github.com/a-h/templ"
-	"soikke.li/moreplease/templates/components"
+	"github.com/soikes/moreplease/templates/components"
 )
 
 type Handler struct {

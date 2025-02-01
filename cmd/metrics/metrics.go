@@ -5,11 +5,11 @@ import (
 	"log"
 	"net/http"
 
-	massets "soikke.li/moreplease/cmd/metrics/assets"
-	"soikke.li/moreplease/cmd/metrics/handlers"
-	"soikke.li/moreplease/pkg/assets"
-	"soikke.li/moreplease/pkg/metrics"
-	"soikke.li/moreplease/pkg/web"
+	massets "github.com/soikes/moreplease/cmd/metrics/assets"
+	"github.com/soikes/moreplease/cmd/metrics/handlers"
+	"github.com/soikes/moreplease/pkg/assets"
+	"github.com/soikes/moreplease/pkg/metrics"
+	"github.com/soikes/moreplease/pkg/web"
 )
 
 func main() {
