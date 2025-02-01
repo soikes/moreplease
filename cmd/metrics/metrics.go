@@ -15,7 +15,7 @@ import (
 func main() {
 	var storagePath string
 	var fakeData bool
-	flag.StringVar(&storagePath, "metrics", "", "path to metrics storage")
+	flag.StringVar(&storagePath, "store", "", "path to metrics store")
 	flag.BoolVar(&fakeData, "fakedata", false, "seed the database with fake data for testing")
 	flag.Parse()
 	db, err := metrics.NewStorage(storagePath)

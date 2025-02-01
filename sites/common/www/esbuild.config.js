@@ -1,3 +1,5 @@
+// TODO: How to import this in other www directories?
+
 const esbuild = require("esbuild");
 
 esbuild.build({

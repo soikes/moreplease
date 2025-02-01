@@ -1,0 +1,9 @@
+{
+  "server": {
+    "addr": "moreplease.dev",
+    "enable_tls": true
+  },
+  "metrics": {
+    "store": "/tmp/metrics.db"
+  }
+}

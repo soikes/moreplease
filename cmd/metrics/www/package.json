@@ -1,8 +1,8 @@
 {
-  "name": "www",
+  "name": "moreplease-metrics",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "build": "node esbuild.config.js"
   },

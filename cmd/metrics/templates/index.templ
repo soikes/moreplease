@@ -2,7 +2,7 @@ package templates
 
 import (
 	"soikke.li/moreplease/cmd/metrics/assets"
-	"soikke.li/moreplease/sites/sql/templates/components"
+	"soikke.li/moreplease/templates/components"
 )
 
 type Index struct {
@@ -20,19 +20,21 @@ templ (i *Index) Component() {
 			<title>More Please - Metrics</title>
 		</head>
 		<body>
-			<div class="wide content dashboard">
-				<div class="header">
-					<form class="time-picker" hx-get="/partials/scalar" hx-target="#scalar-metrics" hx-trigger="change">
-						<input type="radio" id="hour" name="period" value="1h" checked/>
-						<label for="hour">1h</label>
-						<input type="radio" id="day" name="period" value="24h"/>
-						<label for="day">1d</label>
-						<input type="radio" id="week" name="period" value="168h"/>
-						<label for="week">1w</label>
-					</form>
-				</div>
-				<div id="scalar-metrics" class="small-item-container">
-					@i.ScalarMetrics.Component()
+			<div class="centered padded">
+				<div class="content .content--wide">
+					<div class="header">
+						<form class="time-picker" hx-get="/partials/scalar" hx-target="#scalar-metrics" hx-trigger="change">
+							<input type="radio" id="hour" name="period" value="1h" checked/>
+							<label for="hour">1h</label>
+							<input type="radio" id="day" name="period" value="24h"/>
+							<label for="day">1d</label>
+							<input type="radio" id="week" name="period" value="168h"/>
+							<label for="week">1w</label>
+						</form>
+					</div>
+					<div id="scalar-metrics" class="content__small-items">
+						@i.ScalarMetrics.Component()
+					</div>
 				</div>
 			</div>
 		</body>

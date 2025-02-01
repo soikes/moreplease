@@ -16,7 +16,7 @@ package main
 // func main() {
 // 	defaultUsage := flag.Usage
 // 	flag.Usage = func() {
-// 		fmt.Println("Generates boilerplate for a More {} Please topic within a site.")
+// 		fmt.Println("Generates scaffolding for a More {} Please site or topic within a site.")
 // 		defaultUsage()
 // 	}
 // 	if len(os.Args) < 3 {

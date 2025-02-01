@@ -70,13 +70,13 @@
 
 - [ ] Add caching headers / Etag for assets
 
-- [ ] Add privacy-respecting analytics (integrated with Go?) to get simple site statistics
+- [x] Add privacy-respecting analytics (integrated with Go?) to get simple site statistics
 
 - [x] Make an in-memory cache for the embedded assets
 
-- [ ] Bring back server rendering of SQL as default content so examples can be indexed and searched, also benefits those with JS disabled
+- [x] Bring back server rendering of SQL as default content so examples can be indexed and searched, also benefits those with JS disabled
 
-- [ ] Remove Run and Reset buttons if JS is disabled
+- [x] Remove Run and Reset buttons if JS is disabled
 
 - [ ] Add thumbs down to "Bare column" example and search for other "counter-examples"
 
@@ -87,14 +87,19 @@
   - Other build configs
 - [x] Prepare Go build for prod
 
-- [ ] Add UPSERT
+- [x] Add UPSERT
 
 - [ ] Long tables run off the page in the schema
 
 - [ ] robots.txt
+
   - for search crawlers
   - ban llm crawlers
     - May need to add this to the server itself to block based on UA / ASN
+
+- [ ] Clone to a fresh directory and try the build tools to ensure they work from scratch
+
+- [ ] Manage dependencies (go, templ, node) when inside the repo dir. nix?
 
 # BUGS
 

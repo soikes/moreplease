@@ -3,8 +3,10 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
 
 	"soikke.li/moreplease/pkg/assets"
+	"soikke.li/moreplease/pkg/config"
 	"soikke.li/moreplease/pkg/metrics"
 	"soikke.li/moreplease/pkg/search"
 	"soikke.li/moreplease/pkg/web"
@@ -16,26 +18,49 @@ import (
 )
 
 func main() {
-	var metricsStore string
-	flag.StringVar(&metricsStore, "metrics", "", "path to metrics storage")
+	var cfgPath string
+	flag.StringVar(&cfgPath, "config", "", "path to configuration file")
 	flag.Parse()
-	var desc string
-	desc = "static"
+
+	if cfgPath == "" {
+		flag.Usage()
+		os.Exit(1)
+	}
+	cfg, err := config.Load(cfgPath)
+	if err != nil {
+		panic(err)
+	}
+
 	srv := web.NewServer()
-	// TODO: coffeeHash := `sha256-pyonVwm7hmHrD0g6YG0pCmcbOi3ip98R66NAgqrbTXQ=`
-	fd, err := assets.CSPFetchDirectives(sqlAssets.Assets)
+	srv.Addr = cfg.Server.Addr
+	// TODO: TLS config
+
+	// Setup HTTP security headers
+	fd, err := assets.CSPFetchDirectives(sqlAssets.Assets) // TODO: coffeeHash := `sha256-pyonVwm7hmHrD0g6YG0pCmcbOi3ip98R66NAgqrbTXQ=`
 	if err != nil {
 		panic(err)
 	}
 	sec := web.SecurityHeaders{
 		CSPFetchDirectives: fd,
 	}
+
+	// Setup topic site handlers
 	sstore := search.MemoryIndexStorage{}
 	sstore.CreateIndex(sqlSite.AssetDocumentProvider{})
-	m := sqlMux.StaticMux{
+	sqlHandler := sqlMux.StaticMux{
 		IndexStorage: &sstore,
 	}
-	mstore, err := metrics.NewStorage(metricsStore)
+	baseHandler := idxMux.StaticMux{
+		IndexStorage: &sstore,
+	}
+
+	// Setup subdomain routing for each topic site
+	subcfg := subdomain.Config{}
+	subcfg.Subrouter("", baseHandler.NewMux())
+	subcfg.Subrouter("sql", sqlHandler.NewMux())
+
+	// Setup metrics collection
+	mstore, err := metrics.NewStorage(cfg.Metrics.Store)
 	if err != nil {
 		panic(err)
 	}
@@ -43,20 +68,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	mx := metrics.NewHandler(mstore)
-	sqlHandler := mx.Apply(sec.Apply(m.NewMux()))
+	mh := metrics.NewHandler(mstore)
 
-	baseHandler := idxMux.StaticMux{
-		IndexStorage: &sstore,
-	}
+	// Apply all middlewares
+	h := mh.Apply(sec.Apply(subcfg.NewMux()))
+	srv.Handler = h
 
-	cfg := subdomain.Config{}
-	cfg.Subrouter("", baseHandler.NewMux())
-	cfg.Subrouter("sql", sqlHandler)
-
-	srv.Handler = cfg.NewMux()
-	srv.Addr = "moreplease.localhost:8080"
-	log.Printf("%s site listening on %s\n", desc, srv.Addr)
+	log.Printf("*.%s listening...\n", srv.Addr)
 	err = srv.ListenAndServe()
 	panic(err)
 }

@@ -3,13 +3,9 @@ testdata_dir = "testdata"
 tmp_dir = "tmp"
 
 [build]
-pre_cmd = [
-    "scripts/prebuild.sh -s sites/sql",
-    "scripts/prebuild.sh -s sites/index",
-]
-cmd = "go build -o tmp/moreplease"
-bin = "tmp/moreplease"
-args_bin = ["-metrics tmp/metrics.db"]
+cmd = "bin/nabu build"
+bin = "bin/nabu"
+args_bin = ["run"]
 include_ext = ["sh", "go", "templ", "html", "css", "sql", "xml", "ts"]
 exclude_regex = [
     "_test\\.go",
