@@ -1,15 +1,13 @@
 {
   "name": "moresqlplease",
   "version": "1.0.0",
-  "description": "",
+  "description": "More SQL Please - sql.moreplease.dev",
   "scripts": {
-    "build": "node esbuild.config.js"
+    "build": "bun run bun.config.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Mike Soikkeli",
+  "license": "CC-BY-NC-SA-4.0",
   "devDependencies": {
-    "esbuild": "0.24.0",
     "stylelint": "^16.14.0",
     "stylelint-config-standard": "^37.0.0",
     "typescript": "^5.6.3"

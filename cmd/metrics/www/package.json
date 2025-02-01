@@ -1,17 +1,12 @@
 {
   "name": "moreplease-metrics",
   "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
+  "description": "Metrics dashboard for moreplease.dev",
   "scripts": {
-    "build": "node esbuild.config.js"
+    "build": "bun run bun.config.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "esbuild": "0.24.2"
-  },
+  "author": "Mike Soikkeli",
+  "license": "CC-BY-NC-SA-4.0",
   "dependencies": {
     "d3": "^7.9.0",
     "htmx.org": "2.0.3"

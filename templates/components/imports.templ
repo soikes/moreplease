@@ -33,7 +33,7 @@ templ HashedImports(fsys fs.FS) {
 	}}
 	if srcHash != "" {
 		@jsImports.Once() {
-			<script type="text/javascript" src={ src } integrity={ srcHash }></script>
+			<script type="text/javascript" type="module" src={ src } integrity={ srcHash }></script>
 		}
 	}
 	if styleHash != "" {

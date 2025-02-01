@@ -12,7 +12,6 @@ func init() {
 	nabu.Register(
 		run,
 		build,
-		buildAndRun,
 		generateAllTemplates,
 		buildFrontendIndex,
 		buildFrontendSQL,
@@ -20,17 +19,17 @@ func init() {
 		buildMetricsLocal,
 		runMetricsLocal,
 	)
-	nabu.Default(buildAndRun)
+	nabu.Default(run)
 	r = nabu.Runner{
 		Stdout: os.Stdout,
 		Stderr: os.Stderr,
 	}
 }
 
-func buildAndRun() error {
+func run() error {
 	for _, task := range []nabu.Task{
 		build,
-		run,
+		runLocal,
 	} {
 		err := task()
 		if err != nil {
@@ -38,10 +37,6 @@ func buildAndRun() error {
 		}
 	}
 	return nil
-}
-
-func run() error {
-	return runLocal()
 }
 
 func runLocal() error {
@@ -71,14 +66,14 @@ func generateAllTemplates() error {
 	return r.Run([]string{"templ", "generate"})
 }
 
-var pnpmDir = []string{"pnpm", "--dir"}
+var bunrun = []string{"bun", "run", "--cwd"}
 
 func buildFrontendIndex() error {
-	return r.Run(append(pnpmDir, "sites/index/www", "build"))
+	return r.Run(append(bunrun, "sites/index/www", "build"))
 }
 
 func buildFrontendSQL() error {
-	return r.Run(append(pnpmDir, "sites/sql/www", "build"))
+	return r.Run(append(bunrun, "sites/sql/www", "build"))
 }
 
 func renderAllTemplates() error {
@@ -86,7 +81,7 @@ func renderAllTemplates() error {
 }
 
 func buildMetricsLocal() error {
-	return r.Run(append(pnpmDir, "cmd/metrics/www", "build"))
+	return r.Run(append(bunrun, "cmd/metrics/www", "build"))
 }
 
 func runMetricsLocal() error {
