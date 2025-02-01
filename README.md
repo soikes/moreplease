@@ -6,7 +6,7 @@ This repository contains all of the content and code required to host the site.
 
 ## Dependencies
 
-More { } Please depends on:
+_More { } Please_ depends on:
 
 - Go >= 1.23.5 (https://go.dev/dl/)
 - bun >= 1.2.1 (https://bun.sh)
@@ -15,7 +15,7 @@ If you use [asdf](https://asdf-vm.com) you can install the correct versions by r
 
 ## Building and Running
 
-Run More { } Please and its subdomains locally using a custom task runner `nabu`:
+Run _More { } Please_ and its subdomains locally using a custom task runner `nabu`:
 
 ```
 bin/nabu run
