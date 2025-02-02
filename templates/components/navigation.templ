@@ -3,7 +3,7 @@ package components
 import "github.com/soikes/moreplease/pkg/model"
 
 templ BottomNav(page model.Page) {
-	<small class="footer">
+	<small class="nav nav__footer small">
 		if page.Prev != nil {
 			<span><i><a href={ templ.URL(page.Prev.URL) }>previous: { page.Prev.Title }</a></i></span>
 		}

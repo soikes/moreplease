@@ -1,4 +1,4 @@
-package main
+package tasks
 
 import (
 	"os"
@@ -12,6 +12,7 @@ func init() {
 	nabu.Register(
 		run,
 		build,
+		test,
 		generateAllTemplates,
 		buildFrontendIndex,
 		buildFrontendSQL,
@@ -52,6 +53,24 @@ func build() error {
 		generateAllTemplates,
 		buildFrontendIndex,
 		buildFrontendSQL,
+		renderAllTemplates,
+	} {
+		err := task()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func test() error {
+	return r.Run([]string{"go", "test", "./..."})
+}
+
+// Export for tests.
+func BuildTemplates() error {
+	for _, task := range []nabu.Task{
+		generateAllTemplates,
 		renderAllTemplates,
 	} {
 		err := task()

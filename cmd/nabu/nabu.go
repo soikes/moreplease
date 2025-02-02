@@ -9,6 +9,7 @@ import (
 	"strings"
 	"syscall"
 
+	_ "github.com/soikes/moreplease/cmd/nabu/tasks"
 	"github.com/soikes/moreplease/pkg/nabu"
 )
 
@@ -39,7 +40,7 @@ func main() {
 	for _, task := range tasks {
 		err := nabu.Do(task)
 		if err != nil {
-			fmt.Printf("%s: %s\n", task, err.Error())
+			fmt.Println(err.Error())
 			os.Exit(1)
 		}
 	}

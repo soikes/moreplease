@@ -53,7 +53,7 @@ func Do(name string) error {
 	if task, ok := registeredTasks[name]; ok {
 		return task()
 	}
-	return fmt.Errorf("%s: no matching task", name)
+	return fmt.Errorf("no matching task \"%s\"", name)
 }
 
 func DoDefault() error {

@@ -22,3 +22,7 @@ bin/nabu run
 ```
 
 The tasks that can be run using `bin/nabu` are located in `cmd/nabu/tasks`.
+
+## Contributing
+
+If you have [air](https://github.com/air-verse/air) installed you can run `air` in the root of the repository to run the service and watch for file changes.

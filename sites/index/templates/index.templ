@@ -16,7 +16,7 @@ templ Index() {
 	{{
 		s := site.MP
 		b := c.Base{
-			Title: `Learn Code by Example - ` + s.Title,
+			Title: `Learn Tech by Example - ` + s.Title,
 		}
 	}}
 	@b.Component(c.HashedImports(assets.Assets)) {
@@ -47,9 +47,19 @@ templ inner() {
 				If you enjoyed the content here or found it useful on your learning journey, feel free to 
 				<span>
 					@c.Outlink("https://buymeacoffee.com/mikesoikkeli", "☕️ Buy Me a Coffee!")
-				</span>. Your support means a lot to me.
+				</span>. Thanks for checking out <i>More { fmt.Sprintf("{ }") } Please</i>.
 			</p>
 			@c.Search("Search all topics")
+			<nav class="content centered">
+				<a class="content content--tight no-underline logo--width-75" href="http://sql.moreplease.dev/">
+					<img src="assets/logo-sql.svg"/>
+					<div><p class="nav nav__footer">Examples of the SQL language and related database concepts.</p></div>
+				</a>
+				<a class="content content--tight no-underline logo--width-75 disabled" href="http://git.moreplease.dev/">
+					<img src="assets/logo-git.svg"/>
+					<div><p class="nav nav__footer">Examples of the Git source control system.</p></div>
+				</a>
+			</nav>
 			@c.Footer()
 		</div>
 	</div>

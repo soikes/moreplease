@@ -1,19 +1,30 @@
 package test
 
 import (
+	"log"
 	"net/http"
 	"net/url"
+	"os"
 	"strings"
 	"testing"
 
+	"github.com/soikes/moreplease/cmd/nabu/tasks"
 	"github.com/soikes/moreplease/pkg/search"
 	"github.com/soikes/moreplease/sites/sql/mux"
 	"github.com/soikes/moreplease/sites/sql/site"
 	"golang.org/x/net/html"
 )
 
+func TestMain(m *testing.M) {
+	err := tasks.BuildTemplates()
+	if err != nil {
+		log.Printf("test setup failed: %s", err.Error())
+		os.Exit(1)
+	}
+	os.Exit(m.Run())
+}
+
 // TestDeadlinks crawls a running mux and reports any links that return a non-200 response code.
-// Requires the site to be pre-built using scripts/prebuild.sh first.
 func TestDeadlinks(t *testing.T) {
 	storage := search.MemoryIndexStorage{}
 	storage.CreateIndex(site.AssetDocumentProvider{})
