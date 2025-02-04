@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	"io/fs"
+	"regexp"
 	"strings"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -16,7 +17,7 @@ type Config struct {
 	SchemaPath string
 }
 
-// Query executes the SQL statements in stmts and returns a markdown-formatted table of the final statement to execute.
+// Query executes the SQL statements in stmts and returns a markdown-formatted table of the final statement to execute. If the final statement is a DML query, Query returns a string description of the number of rows modified.
 // Query creates a new temporary database each time it is called to isolate examples from each other.
 // The schema must execute if it exists. If allowErrors is true, statements that cause errors will be allowed to run and the final statement will return any errors as a string.
 // This is to facilitate examples that teach about syntax or execution errors in SQL.
@@ -49,22 +50,38 @@ func (c *Config) Query(ctx context.Context, stmts []string, allowErrors ...bool)
 	}
 	var result string
 	for i, stmt := range stmts {
-		r, err := tx.QueryContext(ctx, stmt)
-		if err != nil {
-			if allowErrs {
-				return err.Error(), nil
+		switch GetStatementType(stmt) {
+		case StatementDML:
+			res, err := tx.ExecContext(ctx, stmt)
+			if err != nil {
+				if allowErrs {
+					return err.Error(), nil
+				}
+				return "", err
 			}
-			return "", err
-		}
-		defer r.Close()
-		cols, rows, err := getRowsWithColumns(r)
-		if err != nil {
-			return "", err
-		}
+			affected, err := res.RowsAffected()
+			if err != nil {
+				return "", err
+			}
+			result = fmt.Sprintf("%d %s affected.", affected, pluralize("row", affected > 1 || affected == 0))
+		default:
+			r, err := tx.QueryContext(ctx, stmt)
+			if err != nil {
+				if allowErrs {
+					return err.Error(), nil
+				}
+				return "", err
+			}
+			defer r.Close()
+			cols, rows, err := getRowsWithColumns(r)
+			if err != nil {
+				return "", err
+			}
 
-		f := MarkdownFormatter{Columns: cols, Rows: rows}
-		if i == len(stmts)-1 {
-			result = fmt.Sprintf("%s", f)
+			f := MarkdownFormatter{Columns: cols, Rows: rows}
+			if i == len(stmts)-1 {
+				result = fmt.Sprintf("%s", f)
+			}
 		}
 	}
 	err = tx.Commit()
@@ -190,4 +207,36 @@ func getRowsWithColumns(r *sql.Rows) ([]string, [][]string, error) {
 		rows = append(rows, stringed)
 	}
 	return cols, rows, nil
+}
+
+type StatementType int
+
+const (
+	StatementDDL StatementType = iota
+	StatementDML
+	StatementDQL
+)
+
+// These regexps are not robust, but good enough for this use case.
+var ddlRegex = regexp.MustCompile(`(CREATE TABLE|ALTER TABLE|DROP TABLE)`)
+var dmlRegex = regexp.MustCompile(`(INSERT|UPDATE|DELETE|MERGE|UPSERT)`)
+var returningRegex = regexp.MustCompile(`RETURNING`)
+var dqlRegex = regexp.MustCompile(`SELECT`)
+
+func GetStatementType(stmt string) StatementType {
+	if dmlRegex.MatchString(stmt) {
+		if returningRegex.MatchString(stmt) {
+			return StatementDQL
+		}
+		return StatementDML
+	}
+	return StatementDQL
+}
+
+// Does not work for all words. Used for the word "row".
+func pluralize(input string, pluralize bool) string {
+	if pluralize {
+		return input + "s"
+	}
+	return input
 }

@@ -2,7 +2,6 @@ package topics
 
 import (
 	"github.com/soikes/moreplease/pkg/db"
-	"github.com/soikes/moreplease/pkg/model"
 	"github.com/soikes/moreplease/sites/sql/render"
 	"github.com/soikes/moreplease/sites/sql/site"
 	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
@@ -11,24 +10,38 @@ import (
 )
 
 func init() {
-	render.Registry.MustRegisterComponent(site.AggregateFunctionsPage.Asset(), AggregateFunctions())
+	p := site.MSP.Page(site.AggregateFunctionsPage)
+	a := AggregateFunctions{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"users", "donations"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), a.TopicView())
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), a.SchemaView())
 }
 
-templ AggregateFunctions() {
+type AggregateFunctions struct {
+	sqlc.Topic
+}
+
+templ (a AggregateFunctions) TopicView() {
 	{{
-	cfg := db.Config{
-		SQLFiles:   statements.MustSub("aggregate_functions"),
-		SchemaPath: "schema/schema.sql",
-	}
-	e := c.Example{
-		Language: model.LanguageSQL,
-		Config:   cfg,
-	}
-	p := site.MSP.Page(site.AggregateFunctionsPage)
-	schema := sqlc.Schema{Page: p, Config: cfg}
+		e := sqlc.Example{
+			Config: a.Config,
+		}
+		schema := sqlc.Schema{
+			Page:       a.Page,
+			Config:     a.Config,
+			TableNames: a.TableNames,
+		}
 	}}
-	@sqlc.Page{Page: p}.Component() {
-		@schema.Component("users", "donations")
+	@sqlc.Topic{Page: a.Page}.Component() {
+		@schema.Component()
 		<article class="content__two-column">
 			<div>
 				<p>
@@ -172,4 +185,15 @@ templ AggregateFunctions() {
 			</div>
 		</article>
 	}
+}
+
+templ (a AggregateFunctions) SchemaView() {
+	{{
+		schema := sqlc.Schema{
+			Page:       a.Page,
+			Config:     a.Config,
+			TableNames: a.TableNames,
+		}
+	}}
+	@schema.StandaloneSchema()
 }

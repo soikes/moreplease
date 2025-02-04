@@ -20,7 +20,7 @@ templ Index() {
 		Title: `Learn SQL by Example - ` + s.Title,
 	}
 	}}
-	@b.Component(c.HashedImports(assets.Assets)) {
+	@b.Component(c.HashedImports(c.DefaultImports(), assets.Assets)...) {
 		@inner(s.Sections)
 	}
 }
@@ -35,7 +35,7 @@ templ inner(sections []model.Section) {
 					</i>
 				</span>
 			</nav>
-			<img class="logo--width-full" src="assets/logo-sql.svg"/>
+			<img class="logo--width-full" src="/assets/logo-sql.svg"/>
 			<p>
 				Structured Query Language (SQL) is used to manage and retrieve data from databases. It is particularly suited to 
 				<span>

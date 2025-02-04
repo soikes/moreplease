@@ -15,8 +15,8 @@ templ (i *Index) Component() {
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="htmx-config" content='{ "includeIndicatorStyles": false }'/>
-			<link rel="icon" type="image/x-icon" href="assets/favicon.ico"/>
-			@components.HashedImports(assets.Assets)
+			<link rel="icon" type="image/x-icon" href="/assets/favicon.ico"/>
+			@templ.Join(components.HashedImports(components.DefaultImports(), assets.Assets)...)
 			<title>More Please - Metrics</title>
 		</head>
 		<body>

@@ -10,13 +10,13 @@ type Page struct {
 	Page model.Page
 }
 
-templ (p Page) Component(hashedImports templ.Component) {
+templ (p Page) Component(hashedImports ...templ.Component) {
 	{{
 		b := Base{
 			Title: fmt.Sprintf("%s: %s", p.Site.Title, p.Page.Title),
 		}
 	}}
-	@b.Component(hashedImports) {
+	@b.Component(hashedImports...) {
 		<div class="centered padded">
 			<div class="content content--wide" data-fade-in>
 				@TopicTitle(p.Site.Title, p.Page.Title)

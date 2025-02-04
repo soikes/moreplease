@@ -40,6 +40,17 @@ func (h *FSHandler) htmlAsset(w http.ResponseWriter, r *http.Request) {
 	http.ServeFileFS(w, r, h.fs, asset)
 }
 
+// htmlSchemaAsset converts a More SQL Please schema topic path segment into its matching html asset in the assets directory.
+func (h *FSHandler) htmlSchemaAsset(w http.ResponseWriter, r *http.Request) {
+	asset := r.PathValue(`topic`)
+	if asset == `` {
+		http.NotFound(w, r)
+		return
+	}
+	asset += `-schema.html`
+	http.ServeFileFS(w, r, h.fs, asset)
+}
+
 type StaticMux struct {
 	IndexStorage search.IndexStorage
 }
@@ -55,6 +66,7 @@ func (m *StaticMux) NewMux() *http.ServeMux {
 
 	f := NewFSHandler()
 	mux.HandleFunc("GET /assets/{asset}", f.asset)
+	mux.HandleFunc("GET /tables/{topic}", f.htmlSchemaAsset)
 	mux.HandleFunc("GET /{topic}", f.htmlAsset)
 	mux.HandleFunc("GET /{$}", f.htmlAsset) // index.html
 	return mux

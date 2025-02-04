@@ -13,6 +13,7 @@ import (
 	"golang.org/x/net/html/atom"
 )
 
+// NOTE: Do not create a page called "tables". This is the path segment used to retrieve standalone tables for a topic.
 const (
 	SelectPage                 model.PageID = `select`
 	WherePage                  model.PageID = `where`

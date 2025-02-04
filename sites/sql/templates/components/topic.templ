@@ -1,24 +1,27 @@
 package components
 
 import (
+	"github.com/soikes/moreplease/pkg/db"
 	"github.com/soikes/moreplease/pkg/model"
 	"github.com/soikes/moreplease/sites/sql/assets"
 	"github.com/soikes/moreplease/sites/sql/site"
 	c "github.com/soikes/moreplease/templates/components"
 )
 
-type Page struct {
-	Page model.Page
+type Topic struct {
+	Page       model.Page
+	Config     db.Config
+	TableNames []string
 }
 
-templ (p Page) Component() {
+templ (p Topic) Component() {
 	{{
 		page := c.Page{
 			Site: site.MSP,
 			Page: p.Page,
 		}
 	}}
-	@page.Component(c.HashedImports(assets.Assets)) {
+	@page.Component(c.HashedImports(c.DefaultImports(), assets.Assets)...) {
 		{ children... }
 	}
 }

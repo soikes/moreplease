@@ -76,11 +76,11 @@
     }
 
     [data-js-required] {
-        display: none;
+        display: none !important;
     }
 
     [data-js-required].visible {
-        display: initial;
+        display: initial !important;
     }
 
     a.no-underline {
@@ -118,6 +118,10 @@
 
     .content__horizontal--tight {
         column-gap: var(--baseline-gap);
+    }
+
+    .content__horizontal--nospace {
+        column-gap: 0;
     }
 
     .content__two-column {

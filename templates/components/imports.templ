@@ -10,33 +10,37 @@ import (
 
 var jsImports = templ.NewOnceHandle()
 
-templ HashedImports(fsys fs.FS) {
-	{{
-		src := "assets/app.js"
-		srcHash, err := assets.HashAsset(fsys, path.Base(src))
+func DefaultImports() []string {
+	return []string{"/assets/app.js", "/assets/app.css"}
+}
+
+func HashedImports(srcs []string, fsys fs.FS) []templ.Component {
+	var imports []templ.Component
+	for _, src := range srcs {
+		hash, err := assets.HashAsset(fsys, path.Base(src))
 		if err != nil {
 			if errors.Is(err, fs.ErrNotExist) {
-				log.Printf("no js file, skipping hash.")
+				log.Printf("%s not found, skipping hash", src)
 			} else {
 				panic(err)
 			}
 		}
-		style := "assets/app.css"
-		styleHash, err := assets.HashAsset(fsys, path.Base(style))
-		if err != nil {
-			if errors.Is(err, fs.ErrNotExist) {
-				log.Printf("no css file, skipping hash.")
-			} else {
-				panic(err)
-			}
-		}
-	}}
-	if srcHash != "" {
-		@jsImports.Once() {
-			<script type="text/javascript" type="module" src={ src } integrity={ srcHash }></script>
+		switch path.Ext(src) {
+		case ".css":
+			imports = append(imports, StylesheetImport(src, hash))
+		case ".js":
+			imports = append(imports, JavascriptModuleImport(src, hash))
 		}
 	}
-	if styleHash != "" {
-		<link rel="stylesheet" href={ style } integrity={ styleHash }/>
+	return imports
+}
+
+templ JavascriptModuleImport(src, hash string) {
+	@jsImports.Once() {
+		<script type="text/javascript" type="module" src={ src } integrity={ hash }></script>
 	}
+}
+
+templ StylesheetImport(href, hash string) {
+	<link rel="stylesheet" href={ href } integrity={ hash }/>
 }

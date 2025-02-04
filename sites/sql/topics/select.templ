@@ -2,7 +2,6 @@ package topics
 
 import (
 	"github.com/soikes/moreplease/pkg/db"
-	"github.com/soikes/moreplease/pkg/model"
 	"github.com/soikes/moreplease/sites/sql/render"
 	"github.com/soikes/moreplease/sites/sql/site"
 	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
@@ -11,27 +10,32 @@ import (
 )
 
 func init() {
-	render.Registry.MustRegisterComponent(site.SelectPage.Asset(), Select())
+	p := site.MSP.Page(site.SelectPage)
+	t := Select{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"users"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), t.TopicView())
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), t.SchemaView())
 }
 
-templ Select() {
+type Select struct {
+	sqlc.Topic
+}
+
+templ (t Select) TopicView() {
 	{{
-		cfg := db.Config{
-			SQLFiles:   statements.MustSub("select"),
-			SchemaPath: "schema/schema.sql",
-		}
-		e := c.Example{
-			Language: model.LanguageSQL,
-			Config:   cfg,
-		}
-		p := site.MSP.Page(site.SelectPage)
-		schema := sqlc.Schema{
-			Page:   p,
-			Config: cfg,
-		}
+		e := sqlc.Example{Config: t.Config}
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
 	}}
-	@sqlc.Page{Page: p}.Component() {
-		@schema.Component("users")
+	@sqlc.Topic{Page: t.Page}.Component() {
+		@schema.Component()
 		<div class="content__two-column" data-fade-in>
 			<div>
 				<p>
@@ -117,4 +121,11 @@ templ Select() {
 			@e.Run("select_computation.sql")
 		</div>
 	}
+}
+
+templ (t Select) SchemaView() {
+	{{
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@schema.StandaloneSchema()
 }

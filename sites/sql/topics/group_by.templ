@@ -2,7 +2,6 @@ package topics
 
 import (
 	"github.com/soikes/moreplease/pkg/db"
-	"github.com/soikes/moreplease/pkg/model"
 	"github.com/soikes/moreplease/sites/sql/render"
 	"github.com/soikes/moreplease/sites/sql/site"
 	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
@@ -11,24 +10,32 @@ import (
 )
 
 func init() {
-	render.Registry.MustRegisterComponent(site.GroupByPage.Asset(), GroupBy())
+	p := site.MSP.Page(site.GroupByPage)
+	t := GroupBy{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"products", "vendors", "orders"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), t.TopicView())
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), t.SchemaView())
 }
 
-templ GroupBy() {
+type GroupBy struct {
+	sqlc.Topic
+}
+
+templ (t GroupBy) TopicView() {
 	{{
-	cfg := db.Config{
-		SQLFiles:   statements.MustSub("group_by"),
-		SchemaPath: "schema/schema.sql",
-	}
-	e := c.Example{
-		Language: model.LanguageSQL,
-		Config:   cfg,
-	}
-	p := site.MSP.Page(site.GroupByPage)
-	schema := sqlc.Schema{Page: p, Config: cfg}
+		e := sqlc.Example{Config: t.Config}
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
 	}}
-	@sqlc.Page{Page: p}.Component() {
-		@schema.Component("products", "vendors", "orders")
+	@sqlc.Topic{Page: t.Page}.Component() {
+		@schema.Component()
 		<div class="content__two-column">
 			<div>
 				<p>
@@ -220,4 +227,11 @@ templ GroupBy() {
 			@e.Run("group_by_invalid.sql")
 		</div>
 	}
+}
+
+templ (t GroupBy) SchemaView() {
+	{{
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@schema.StandaloneSchema()
 }

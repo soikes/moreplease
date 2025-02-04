@@ -37,6 +37,11 @@ func (p PageID) Asset() string {
 	return fmt.Sprintf(`%s.html`, p)
 }
 
+// TODO: Generalize.
+func (p PageID) SchemaAsset() string {
+	return fmt.Sprintf(`%s-schema.html`, p)
+}
+
 // NewSite returns a Site with Pages that are navigatable to their direct siblings and between Sections.
 func NewSite(title string, sections []Section) Site {
 	site := Site{Title: title}

@@ -2,7 +2,6 @@ package topics
 
 import (
 	"github.com/soikes/moreplease/pkg/db"
-	"github.com/soikes/moreplease/pkg/model"
 	"github.com/soikes/moreplease/sites/sql/render"
 	"github.com/soikes/moreplease/sites/sql/site"
 	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
@@ -11,24 +10,32 @@ import (
 )
 
 func init() {
-	render.Registry.MustRegisterComponent(site.InsertPage.Asset(), Insert())
+	p := site.MSP.Page(site.InsertPage)
+	insert := Insert{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"users"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), insert.TopicView())
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), insert.SchemaView())
 }
 
-templ Insert() {
+type Insert struct {
+	sqlc.Topic
+}
+
+templ (i Insert) TopicView() {
 	{{
-		cfg := db.Config{
-			SQLFiles:   statements.MustSub("insert"),
-			SchemaPath: "schema/schema.sql",
-		}
-		e := c.Example{
-			Language: model.LanguageSQL,
-			Config:   cfg,
-		}
-		p := site.MSP.Page(site.InsertPage)
-		schema := sqlc.Schema{Page: p, Config: cfg}
+		e := sqlc.Example{Config: i.Config}
+		schema := sqlc.Schema{Page: i.Page, Config: i.Config, TableNames: i.TableNames}
 	}}
-	@sqlc.Page{Page: p}.Component() {
-		@schema.Component("users")
+	@i.Topic.Component() {
+		@schema.Component()
 		<div class="content__two-column">
 			<div>
 				<p>
@@ -240,4 +247,11 @@ templ Insert() {
 			@e.Run("insert_returning.sql")
 		</div>
 	}
+}
+
+templ (i Insert) SchemaView() {
+	{{
+		schema := sqlc.Schema{Page: i.Page, Config: i.Config, TableNames: i.TableNames}
+	}}
+	@schema.StandaloneSchema()
 }

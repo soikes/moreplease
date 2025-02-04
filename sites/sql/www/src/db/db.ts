@@ -22,7 +22,7 @@ export class Db {
   // PROBLEM: Why do the tables stick around even after you call close() and init() again?
   private async init() {
     if (!Db.SQL) {
-      const cfg = { locateFile: (file) => "assets/sql-wasm.wasm" };
+      const cfg = { locateFile: (file) => "/assets/sql-wasm.wasm" };
       Db.SQL = await initSqlJs(cfg);
     }
     this.db = new Db.SQL.Database();

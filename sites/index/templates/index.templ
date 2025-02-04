@@ -19,7 +19,7 @@ templ Index() {
 			Title: `Learn Tech by Example - ` + s.Title,
 		}
 	}}
-	@b.Component(c.HashedImports(assets.Assets)) {
+	@b.Component(c.HashedImports(c.DefaultImports(), assets.Assets)...) {
 		@inner()
 	}
 }
@@ -27,18 +27,18 @@ templ Index() {
 templ inner() {
 	<div class="centered padded">
 		<div class="content content--narrow">
-			<img class="logo--width-full logo__margin-bottom" src="assets/logo.svg"/>
+			<img class="logo--width-full logo__margin-bottom" src="/assets/logo.svg"/>
 			<p>
 				<i>More { fmt.Sprintf("{ }") } Please</i> is a collection of topics designed to be a simple, readable resource for learning technology by example.
 			</p>
 			<p>
-				Each topic focuses on a particular programming language or technology domain. I think the best way to learn is by doing. Each topic contains hundreds of code examples that are editable and runnable in your browser.
+				Each topic focuses on a particular programming language or technology domain. The best way to learn is by doing, which is why each topic contains hundreds of interactive examples that are editable and runnable in your browser. Enable javascript on this site for the best experience. 
 			</p>
 			<p>
-				I created <i>More { fmt.Sprintf("{ }") } Please</i> as a way to refresh my deep learning skills by researching and creating these examples by hand. The material also tries to bring attention to (sometimes opinionated) best practices if you are brand new to a topic.
+				The material is meant to be suitable for readers from a variety of technical backgrounds. It also tries to bring attention to (sometimes opinionated) best practices if you are brand new to a topic.
 			</p>
 			<p>
-				My goal is to promote learning in a thoughtful, peaceful, distraction-free way. That's why there are no ads and a lot of whitespace. If you have suggestions or find any errors please reach out to me at 
+				<i>More { fmt.Sprintf("{ }") } Please</i> tries to promote learning in a thoughtful, peaceful, distraction-free way. That's why there are no ads and a lot of whitespace. If you have suggestions or find any errors please reach out to me at 
 				<span>
 					@c.Outlink("mailto:mike@moreplease.dev", "my email address")
 				</span>. 
@@ -52,11 +52,11 @@ templ inner() {
 			@c.Search("Search all topics")
 			<nav class="content centered">
 				<a class="content content--tight no-underline logo--width-75" href="http://sql.moreplease.dev/">
-					<img src="assets/logo-sql.svg"/>
+					<img src="/assets/logo-sql.svg"/>
 					<div><p class="nav nav__footer">Examples of the SQL language and related database concepts.</p></div>
 				</a>
 				<a class="content content--tight no-underline logo--width-75 disabled" href="http://git.moreplease.dev/">
-					<img src="assets/logo-git.svg"/>
+					<img src="/assets/logo-git.svg"/>
 					<div><p class="nav nav__footer">Examples of the Git source control system.</p></div>
 				</a>
 			</nav>

@@ -2,7 +2,6 @@ package topics
 
 import (
 	"github.com/soikes/moreplease/pkg/db"
-	"github.com/soikes/moreplease/pkg/model"
 	"github.com/soikes/moreplease/sites/sql/render"
 	"github.com/soikes/moreplease/sites/sql/site"
 	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
@@ -11,24 +10,32 @@ import (
 )
 
 func init() {
-	render.Registry.MustRegisterComponent(site.DataTypesPage.Asset(), DataTypes())
+	p := site.MSP.Page(site.DataTypesPage)
+	t := DataTypes{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"profiles"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), t.TopicView())
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), t.SchemaView())
 }
 
-templ DataTypes() {
+type DataTypes struct {
+	sqlc.Topic
+}
+
+templ (t DataTypes) TopicView() {
 	{{
-		cfg := db.Config{
-			SQLFiles:   statements.MustSub("data_types"),
-			SchemaPath: "schema/schema.sql",
-		}
-		e := c.Example{
-			Language: model.LanguageSQL,
-			Config:   cfg,
-		}
-		p := site.MSP.Page(site.DataTypesPage)
-		schema := sqlc.Schema{Page: p, Config: cfg}
+		e := sqlc.Example{Config: t.Config}
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
 	}}
-	@sqlc.Page{Page: p}.Component() {
-		@schema.Component("profiles")
+	@sqlc.Topic{Page: t.Page}.Component() {
+		@schema.Component()
 		<div class="content__two-column">
 			<div>
 				<p>
@@ -148,7 +155,7 @@ templ DataTypes() {
 					</span> is usually equivalent to a 
 					<span>
 						@c.InlineSQL("FLOAT")
-					</span><span>.</span> Sometimes database vendors use 
+					</span>. Sometimes database vendors use 
 					<span>
 						@c.InlineSQL("FLOAT(n)")
 					</span> where 
@@ -357,4 +364,11 @@ templ DataTypes() {
 			</div>
 		</div>
 	}
+}
+
+templ (t DataTypes) SchemaView() {
+	{{
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@schema.StandaloneSchema()
 }

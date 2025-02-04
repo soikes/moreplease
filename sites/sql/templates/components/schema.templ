@@ -1,7 +1,6 @@
 package components
 
 import (
-	"bytes"
 	"fmt"
 	"github.com/soikes/moreplease/pkg/db"
 	"github.com/soikes/moreplease/pkg/model"
@@ -11,24 +10,13 @@ import (
 )
 
 type Schema struct {
-	Page   model.Page
-	Config db.Config
+	Page       model.Page
+	Config     db.Config
+	TableNames []string
 }
 
-templ (s *Schema) Component(tables ...string) {
-	{{
-		var docBuf bytes.Buffer
-		err := s.popoutComponent(tables...).Render(ctx, &docBuf)
-		if err != nil {
-			panic(err)
-		}
-		var htmlBuf bytes.Buffer
-		err = templ.Raw(docBuf.String()).Render(ctx, &htmlBuf)
-		if err != nil {
-			panic(err)
-		}
-	}}
-	if len(tables) > 0 {
+templ (s *Schema) Component() {
+	if len(s.TableNames) > 0 {
 		<div class="schema">
 			<details class="schema__toggle">
 				<summary
@@ -37,29 +25,27 @@ templ (s *Schema) Component(tables ...string) {
 					data-close="show tables"
 				></summary>
 				<div class="content">
-					<popout-doc data-document={ htmlBuf.String() } class="heading schema__popout">
-						<span>
-							@c.Outlink("#", "pop out tables")
-						</span>
-					</popout-doc>
-					@innerSchema(s.Config, tables...)
+					<span class="heading schema__popout">
+						@c.Outlink(fmt.Sprintf("/tables/%s", s.Page.ID), "pop out tables")
+					</span>
+					@innerSchema(s.Config, s.TableNames...)
 				</div>
 			</details>
 		</div>
 	}
 }
 
-templ (s *Schema) popoutComponent(tables ...string) {
+templ (s *Schema) StandaloneSchema() {
 	{{
 		title := fmt.Sprintf("%s (Tables)", s.Page.Title)
 		b := c.Base{
 			Title: title,
 		}
 	}}
-	@b.Component(c.HashedImports(assets.Assets)) {
+	@b.Component(c.HashedImports(c.DefaultImports(), assets.Assets)...) {
 		<div class="padded content">
 			@c.TopicTitle(site.MSP.Title, title)
-			@innerSchema(s.Config, tables...)
+			@innerSchema(s.Config, s.TableNames...)
 		</div>
 	}
 }

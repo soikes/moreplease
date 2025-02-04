@@ -2,7 +2,6 @@ package topics
 
 import (
 	"github.com/soikes/moreplease/pkg/db"
-	"github.com/soikes/moreplease/pkg/model"
 	"github.com/soikes/moreplease/sites/sql/render"
 	"github.com/soikes/moreplease/sites/sql/site"
 	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
@@ -11,24 +10,38 @@ import (
 )
 
 func init() {
-	render.Registry.MustRegisterComponent(site.CasePage.Asset(), Case())
+	p := site.MSP.Page(site.CasePage)
+	c := Case{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"products", "vendors", "orders"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), c.TopicView())
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), c.SchemaView())
 }
 
-templ Case() {
+type Case struct {
+	sqlc.Topic
+}
+
+templ (t Case) TopicView() {
 	{{
-		cfg := db.Config{
-			SQLFiles:   statements.MustSub("case"),
-			SchemaPath: "schema/schema.sql",
+		e := sqlc.Example{
+			Config: t.Config,
 		}
-		e := c.Example{
-			Language: model.LanguageSQL,
-			Config:   cfg,
+		schema := sqlc.Schema{
+			Page:       t.Page,
+			Config:     t.Config,
+			TableNames: t.TableNames,
 		}
-		p := site.MSP.Page(site.CasePage)
-		schema := sqlc.Schema{Page: p, Config: cfg}
 	}}
-	@sqlc.Page{Page: p}.Component() {
-		@schema.Component("products", "vendors", "orders")
+	@sqlc.Topic{Page: t.Page}.Component() {
+		@schema.Component()
 		<div class="content__two-column">
 			<div>
 				<p>
@@ -226,4 +239,15 @@ templ Case() {
 			@e.Run("case_restructured.sql")
 		</div>
 	}
+}
+
+templ (t Case) SchemaView() {
+	{{
+		schema := sqlc.Schema{
+			Page:       t.Page,
+			Config:     t.Config,
+			TableNames: t.TableNames,
+		}
+	}}
+	@schema.StandaloneSchema()
 }

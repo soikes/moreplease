@@ -2,7 +2,6 @@ package topics
 
 import (
 	"github.com/soikes/moreplease/pkg/db"
-	"github.com/soikes/moreplease/pkg/model"
 	"github.com/soikes/moreplease/sites/sql/render"
 	"github.com/soikes/moreplease/sites/sql/site"
 	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
@@ -11,24 +10,32 @@ import (
 )
 
 func init() {
-	render.Registry.MustRegisterComponent(site.OrderByPage.Asset(), OrderBy())
+	p := site.MSP.Page(site.OrderByPage)
+	t := OrderBy{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"users"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), t.TopicView())
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), t.SchemaView())
 }
 
-templ OrderBy() {
+type OrderBy struct {
+	sqlc.Topic
+}
+
+templ (t OrderBy) TopicView() {
 	{{
-	cfg := db.Config{
-		SQLFiles:   statements.MustSub("order_by"),
-		SchemaPath: "schema/schema.sql",
-	}
-	e := c.Example{
-		Language: model.LanguageSQL,
-		Config:   cfg,
-	}
-	p := site.MSP.Page(site.OrderByPage)
-	schema := sqlc.Schema{Page: p, Config: cfg}
+		e := sqlc.Example{Config: t.Config}
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
 	}}
-	@sqlc.Page{Page: p}.Component() {
-		@schema.Component("users")
+	@sqlc.Topic{Page: t.Page}.Component() {
+		@schema.Component()
 		<div class="content__two-column">
 			<div>
 				<p>
@@ -212,4 +219,11 @@ templ OrderBy() {
 			@e.Run("order_by_computation.sql")
 		</div>
 	}
+}
+
+templ (t OrderBy) SchemaView() {
+	{{
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@schema.StandaloneSchema()
 }
