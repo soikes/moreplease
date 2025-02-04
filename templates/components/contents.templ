@@ -10,7 +10,7 @@ templ Contents(sections []model.Section) {
 					<h2>{ section.Title }</h2>
 				</li>
 				for _, page := range section.Pages {
-					<li id={ string(page.ID) }>
+					<li class="heading--small" id={ string(page.ID) }>
 						if page.Enabled {
 							<a href={ templ.URL(page.URL) }>{ page.Title }</a>
 						} else {
