@@ -7,6 +7,7 @@ require (
 	github.com/alecthomas/chroma/v2 v2.14.0
 	github.com/aws/aws-lambda-go v1.41.0
 	github.com/awslabs/aws-lambda-go-api-proxy v0.16.2
+	github.com/banviktor/asnlookup v0.1.1
 	github.com/blevesearch/bleve/v2 v2.4.3
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/rs/zerolog v1.33.0
@@ -16,6 +17,7 @@ require (
 
 require (
 	github.com/RoaringBitmap/roaring v1.9.3 // indirect
+	github.com/banviktor/go-mrt v0.0.0-20230515165434-0ce2ad0d8984 // indirect
 	github.com/bits-and-blooms/bitset v1.12.0 // indirect
 	github.com/blevesearch/bleve_index_api v1.1.12 // indirect
 	github.com/blevesearch/geo v0.1.20 // indirect

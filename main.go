@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"net/http"
 	"net/url"
 	"os"
 
@@ -49,6 +50,13 @@ func main() {
 		CSPFetchDirectives: fd,
 	}
 
+	// Setup bad ASN blocking
+	asl, err := web.NewASLookup("etc/bad_asns.json", "etc/asns.db")
+	if err != nil {
+		panic(err)
+	}
+	limiter := web.NewLimiter(web.WithBadASNs(asl, http.StatusForbidden))
+
 	// Setup search indexes
 	sstore := search.MemoryIndexStorage{}
 	sstore.CreateIndex(sqlSearch.AssetDocumentProvider{
@@ -80,7 +88,7 @@ func main() {
 	mh := metrics.NewHandler(mstore)
 
 	// Apply all middlewares
-	h := mh.Apply(sec.Apply(subcfg.NewMux()))
+	h := limiter.Apply(mh.Apply(sec.Apply(subcfg.NewMux())))
 	srv.Handler = h
 
 	log.Printf("*.%s listening...\n", srv.Addr)
