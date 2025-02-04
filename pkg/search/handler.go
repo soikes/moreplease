@@ -52,6 +52,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			Fragment:  result.Fragment,
 			Title:     result.Title,
 			Href:      result.URL,
+			Site:      result.Site,
 		}
 		ri = append(ri, info)
 	}

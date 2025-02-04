@@ -19,7 +19,7 @@ type Section struct {
 type Page struct {
 	ID      PageID
 	Title   string
-	URL     string
+	Path    string
 	Next    *Page
 	Prev    *Page
 	Enabled bool
@@ -29,7 +29,7 @@ type PageOption func(*Page)
 
 type PageID string
 
-func (p PageID) URL() string {
+func (p PageID) Path() string {
 	return fmt.Sprintf(`/%s`, p)
 }
 
@@ -100,7 +100,7 @@ func Enable() PageOption {
 
 func WithURL(url string) PageOption {
 	return func(p *Page) {
-		p.URL = url
+		p.Path = url
 	}
 }
 
@@ -110,7 +110,7 @@ func NewPage(id PageID, title string, opts ...PageOption) Page {
 		Title:   title,
 		Enabled: false,
 	}
-	p.URL = p.ID.URL()
+	p.Path = p.ID.Path()
 
 	for _, opt := range opts {
 		opt(&p)

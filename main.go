@@ -15,7 +15,7 @@ import (
 	idxMux "github.com/soikes/moreplease/sites/index/mux"
 	sqlAssets "github.com/soikes/moreplease/sites/sql/assets"
 	sqlMux "github.com/soikes/moreplease/sites/sql/mux"
-	sqlSite "github.com/soikes/moreplease/sites/sql/site"
+	sqlSearch "github.com/soikes/moreplease/sites/sql/search"
 )
 
 func main() {
@@ -49,9 +49,13 @@ func main() {
 		CSPFetchDirectives: fd,
 	}
 
-	// Setup topic site handlers
+	// Setup search indexes
 	sstore := search.MemoryIndexStorage{}
-	sstore.CreateIndex(sqlSite.AssetDocumentProvider{})
+	sstore.CreateIndex(sqlSearch.AssetDocumentProvider{
+		SiteUrl: mustApplySubdomain(u.String(), "sql"),
+	})
+
+	// Setup topic site handlers
 	sqlHandler := sqlMux.StaticMux{
 		IndexStorage: &sstore,
 	}
@@ -82,4 +86,13 @@ func main() {
 	log.Printf("*.%s listening...\n", srv.Addr)
 	err = srv.ListenAndServe()
 	panic(err)
+}
+
+func mustApplySubdomain(base, sub string) string {
+	u, err := url.Parse(base)
+	if err != nil {
+		panic(err)
+	}
+	u.Host = sub + "." + u.Host
+	return u.String()
 }

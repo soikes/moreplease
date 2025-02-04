@@ -11,7 +11,7 @@ import (
 	"github.com/soikes/moreplease/cmd/nabu/tasks"
 	"github.com/soikes/moreplease/pkg/search"
 	"github.com/soikes/moreplease/sites/sql/mux"
-	"github.com/soikes/moreplease/sites/sql/site"
+	sqlSearch "github.com/soikes/moreplease/sites/sql/search"
 	"golang.org/x/net/html"
 )
 
@@ -27,7 +27,7 @@ func TestMain(m *testing.M) {
 // TestDeadlinks crawls a running mux and reports any links that return a non-200 response code.
 func TestDeadlinks(t *testing.T) {
 	storage := search.MemoryIndexStorage{}
-	storage.CreateIndex(site.AssetDocumentProvider{})
+	storage.CreateIndex(sqlSearch.AssetDocumentProvider{})
 	m := mux.StaticMux{
 		IndexStorage: &storage,
 	}

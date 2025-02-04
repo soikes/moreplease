@@ -3,27 +3,44 @@ package main
 import (
 	"flag"
 	"fmt"
+	"net/url"
+	"os"
 
+	"github.com/soikes/moreplease/pkg/config"
 	"github.com/soikes/moreplease/pkg/search"
-	"github.com/soikes/moreplease/sites/sql/site"
+	sqlSearch "github.com/soikes/moreplease/sites/sql/search"
 )
 
-type config struct {
-	OutPath string
-}
-
 func main() {
-	var cfg config
+	var cfgPath string
+	var outPath string
 	defaultUsage := flag.Usage
 	flag.Usage = func() {
 		fmt.Println("Indexes the content of sites for searching.")
 		defaultUsage()
 	}
-	flag.StringVar(&cfg.OutPath, "o", ".", "output index path")
+	flag.StringVar(&cfgPath, "config", "", "path to configuration file")
+	flag.StringVar(&outPath, "o", ".", "output index path")
 	flag.Parse()
-	documents := site.AssetDocumentProvider{}
-	storage := search.FSIndexStorage{Path: cfg.OutPath}
-	err := storage.CreateIndex(documents)
+
+	if cfgPath == "" || outPath == "" {
+		flag.Usage()
+		os.Exit(1)
+	}
+	cfg, err := config.Load(cfgPath)
+	if err != nil {
+		panic(err)
+	}
+	u, err := url.Parse(cfg.Server.Url)
+	if err != nil {
+		panic(err)
+	}
+
+	documents := sqlSearch.AssetDocumentProvider{
+		SiteUrl: u.String(),
+	}
+	storage := search.FSIndexStorage{Path: outPath}
+	err = storage.CreateIndex(documents)
 	if err != nil {
 		panic(err)
 	}

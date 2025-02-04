@@ -5,11 +5,11 @@ import "github.com/soikes/moreplease/pkg/model"
 templ BottomNav(page model.Page) {
 	<small class="nav nav__footer small">
 		if page.Prev != nil {
-			<span><i><a href={ templ.URL(page.Prev.URL) }>previous: { page.Prev.Title }</a></i></span>
+			<span><i><a href={ templ.URL(page.Prev.Path) }>previous: { page.Prev.Title }</a></i></span>
 		}
 		<span><i><a href="/">home</a></i></span>
 		if page.Next != nil {
-			<span><i><a href={ templ.URL(page.Next.URL) }>next: { page.Next.Title }</a></i></span>
+			<span><i><a href={ templ.URL(page.Next.Path) }>next: { page.Next.Title }</a></i></span>
 		}
 	</small>
 }

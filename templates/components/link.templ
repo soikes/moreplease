@@ -9,7 +9,7 @@ import (
 // The page title is used as the link text.
 templ Link(page model.Page, fragment string) {
 	{{
-	href := page.URL
+	href := page.Path
 	if fragment != `` {
 		href += fmt.Sprintf("#%s", fragment)
 	}
@@ -23,7 +23,7 @@ templ Link(page model.Page, fragment string) {
 // You must specify the link text as a child component.
 templ LinkWithText(page model.Page, fragment string) {
 	{{
-	href := page.URL
+	href := page.Path
 	if fragment != `` {
 		href += fmt.Sprintf("#%s", fragment)
 	}

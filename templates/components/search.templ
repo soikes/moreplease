@@ -29,6 +29,7 @@ type ResultInfo struct {
 	Fragment  string
 	Title     string
 	Href      string
+	Site      string
 }
 
 templ SearchResults(results []ResultInfo) {
@@ -41,7 +42,7 @@ templ SearchResults(results []ResultInfo) {
 				if i > 0 {
 					<hr/>
 				}
-				<h3>{ result.Title }</h3>
+				<h3>{ result.Site }: <b>{ result.Title }</b></h3>
 				<div>
 					<p>
 						@templ.Raw(result.Fragment)

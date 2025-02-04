@@ -14,6 +14,7 @@ type Index struct {
 }
 
 type ResultInfo struct {
+	Site      string
 	Highlight string
 	Fragment  string
 	Title     string
@@ -29,7 +30,7 @@ func (i Index) Query(term string) ([]ResultInfo, error) {
 
 	req := bleve.NewSearchRequest(q)
 	req.Highlight = bleve.NewHighlight()
-	req.Fields = []string{`content`, `title`, `url`}
+	req.Fields = []string{`content`, `title`, `url`, `site`}
 	req.IncludeLocations = true
 	req.Size = 5
 	res, err := i.Index.Search(req)
@@ -49,6 +50,9 @@ func (i Index) Query(term string) ([]ResultInfo, error) {
 			}
 			if url, ok := hit.Fields[`url`]; ok {
 				result.URL = url.(string)
+			}
+			if site, ok := hit.Fields[`site`]; ok {
+				result.Site = site.(string)
 			}
 			break
 		}
@@ -79,6 +83,7 @@ func createIndexMapping() mapping.IndexMapping {
 	documentMapping.AddFieldMappingsAt("title", metadataFieldMapping)
 	documentMapping.AddFieldMappingsAt("url", metadataFieldMapping)
 	documentMapping.AddFieldMappingsAt("id", metadataFieldMapping)
+	documentMapping.AddFieldMappingsAt("site", metadataFieldMapping)
 
 	indexMapping := bleve.NewIndexMapping()
 	indexMapping.DefaultMapping = documentMapping
