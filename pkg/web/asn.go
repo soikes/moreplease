@@ -3,7 +3,6 @@ package web
 import (
 	"encoding/json"
 	"errors"
-	"log"
 	"net"
 	"os"
 
@@ -38,7 +37,6 @@ func NewASLookup(badpath, dbpath string) (ASLookup, error) {
 }
 
 func (a ASLookup) Lookup(ip net.IP) (ASN, error) {
-	log.Printf("lookup ip %s", ip.String())
 	as, err := a.db.Lookup(ip)
 	if err != nil {
 		return 0, err
