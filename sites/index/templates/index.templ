@@ -2,17 +2,38 @@ package topics
 
 import (
 	"fmt"
+	"github.com/soikes/moreplease/pkg/component"
 	"github.com/soikes/moreplease/sites/index/assets"
 	"github.com/soikes/moreplease/sites/index/render"
 	"github.com/soikes/moreplease/sites/index/site"
 	c "github.com/soikes/moreplease/templates/components"
+	"net/url"
 )
 
 func init() {
-	render.Registry.MustRegisterComponent(site.IndexPage.Asset(), Index())
+	idx := Index{}
+	render.Registry.MustRegisterComponent(site.IndexPage.Asset(), func(opts ...component.Option) templ.Component {
+		for _, opt := range opts {
+			opt(&idx.Config)
+		}
+		return idx.View()
+	})
 }
 
-templ Index() {
+type Index struct {
+	component.Config
+}
+
+func mustApplySubdomain(base, sub string) string {
+	u, err := url.Parse(base)
+	if err != nil {
+		panic(err)
+	}
+	u.Host = sub + "." + u.Host
+	return u.String()
+}
+
+templ (t Index) View() {
 	{{
 		s := site.MP
 		b := c.Base{
@@ -20,11 +41,11 @@ templ Index() {
 		}
 	}}
 	@b.Component(c.HashedImports(c.DefaultImports(), assets.Assets)...) {
-		@inner()
+		@inner(t.BaseUrl)
 	}
 }
 
-templ inner() {
+templ inner(address string) {
 	<div class="centered padded">
 		<div class="content content--narrow">
 			<img class="logo--width-full logo__margin-bottom" src="/assets/logo.svg"/>
@@ -50,12 +71,12 @@ templ inner() {
 				</span>. Thanks for checking out <i>More { fmt.Sprintf("{ }") } Please</i>.
 			</p>
 			@c.Search("Search all topics")
-			<nav class="content centered">
-				<a class="content content--tight no-underline logo--width-75" href="http://sql.moreplease.dev/">
+			<nav id="topics" class="content centered">
+				<a class="content content--tight no-underline logo--width-75" href={ templ.SafeURL(mustApplySubdomain(address, "sql")) }>
 					<img src="/assets/logo-sql.svg"/>
 					<div><p class="nav nav__footer">Examples of the SQL language and related database concepts.</p></div>
 				</a>
-				<a class="content content--tight no-underline logo--width-75 disabled" href="http://git.moreplease.dev/">
+				<a class="content content--tight no-underline logo--width-75 disabled" href={ templ.SafeURL(mustApplySubdomain(address, "git")) }>
 					<img src="/assets/logo-git.svg"/>
 					<div><p class="nav nav__footer">Examples of the Git source control system.</p></div>
 				</a>

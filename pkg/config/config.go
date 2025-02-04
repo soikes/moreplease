@@ -7,7 +7,7 @@ import (
 
 type Config struct {
 	Server struct {
-		Addr      string `json:"addr"`
+		Url       string `json:"url"`
 		EnableTLS bool   `json:"enable_tls"`
 	} `json:"server"`
 	Metrics struct {

@@ -1,6 +1,7 @@
 package topics
 
 import (
+	"github.com/soikes/moreplease/pkg/component"
 	"github.com/soikes/moreplease/pkg/db"
 	"github.com/soikes/moreplease/sites/sql/render"
 	"github.com/soikes/moreplease/sites/sql/site"
@@ -21,8 +22,8 @@ func init() {
 			TableNames: []string{"users"},
 		},
 	}
-	render.Registry.MustRegisterComponent(p.ID.Asset(), t.TopicView())
-	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), t.SchemaView())
+	render.Registry.MustRegisterComponent(p.ID.Asset(), component.NoOptions(t.TopicView()))
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), component.NoOptions(t.SchemaView()))
 }
 
 type CreateTable struct {

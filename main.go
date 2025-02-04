@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"log"
+	"net/url"
 	"os"
 
 	"github.com/soikes/moreplease/pkg/assets"
@@ -31,8 +32,12 @@ func main() {
 		panic(err)
 	}
 
+	u, err := url.Parse(cfg.Server.Url)
+	if err != nil {
+		panic(err)
+	}
 	srv := web.NewServer()
-	srv.Addr = cfg.Server.Addr
+	srv.Addr = u.Host
 	// TODO: TLS config
 
 	// Setup HTTP security headers

@@ -13,10 +13,12 @@ func init() {
 		run,
 		build,
 		test,
+		runLocal,
+		runProd,
 		generateAllTemplates,
 		buildFrontendIndex,
 		buildFrontendSQL,
-		renderAllTemplates,
+		renderAllTemplatesLocal,
 		buildMetricsLocal,
 		runMetricsLocal,
 	)
@@ -53,7 +55,7 @@ func build() error {
 		generateAllTemplates,
 		buildFrontendIndex,
 		buildFrontendSQL,
-		renderAllTemplates,
+		renderAllTemplatesLocal,
 	} {
 		err := task()
 		if err != nil {
@@ -71,7 +73,7 @@ func test() error {
 func BuildTemplates() error {
 	for _, task := range []nabu.Task{
 		generateAllTemplates,
-		renderAllTemplates,
+		renderAllTemplatesLocal,
 	} {
 		err := task()
 		if err != nil {
@@ -95,8 +97,12 @@ func buildFrontendSQL() error {
 	return r.Run(append(bunrun, "sites/sql/www", "build"))
 }
 
-func renderAllTemplates() error {
-	return r.Run([]string{"go", "run", "github.com/soikes/moreplease/cmd/render"})
+func renderAllTemplatesLocal() error {
+	return r.Run([]string{"go", "run", "github.com/soikes/moreplease/cmd/render", "-config", "config/local.json"})
+}
+
+func renderAllTemplatesProd() error {
+	return r.Run([]string{"go", "run", "github.com/soikes/moreplease/cmd/render", "-config", "config/prod.json"})
 }
 
 func buildMetricsLocal() error {

@@ -1,6 +1,7 @@
 package topics
 
 import (
+	"github.com/soikes/moreplease/pkg/component"
 	"github.com/soikes/moreplease/pkg/db"
 	"github.com/soikes/moreplease/sites/sql/render"
 	"github.com/soikes/moreplease/sites/sql/site"
@@ -21,8 +22,8 @@ func init() {
 			TableNames: []string{"users", "donations", "charities"},
 		},
 	}
-	render.Registry.MustRegisterComponent(p.ID.Asset(), t.TopicView())
-	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), t.SchemaView())
+	render.Registry.MustRegisterComponent(p.ID.Asset(), component.NoOptions(t.TopicView()))
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), component.NoOptions(t.SchemaView()))
 }
 
 type Join struct {
@@ -54,7 +55,7 @@ templ (t Join) TopicView() {
 					</span>, and 
 					<span>
 						@c.InlineSQL("charities")
-					</span><span>.</span> Notice the donations table has a 
+					</span>. Notice the donations table has a 
 					<span>
 						@c.InlineSQL("user_id")
 					</span> column to indicate which user made that donation.
@@ -102,7 +103,7 @@ templ (t Join) TopicView() {
 					Aliasing is especially useful for long table names or when two tables have the same column name. A column name you will encounter very often is 
 					<span>
 						@c.InlineSQL("id")
-					</span><span>.</span>
+					</span>.
 				</p>
 			</div>
 			@e.Run("join_alias.sql")
@@ -162,7 +163,7 @@ templ (t Join) TopicView() {
 				</span> values from our 
 				<span>
 					@c.InlineSQL("LEFT JOIN")
-				</span><span>.</span>
+				</span>.
 			</div>
 			@e.Run("left_join_where_null.sql")
 			<div>
@@ -184,7 +185,7 @@ templ (t Join) TopicView() {
 						@c.LinkWithText(site.MSP.Page(site.CascadePage), "") {
 							@c.InlineSQL("CASCADE")
 						}
-					</span><span>.</span>
+					</span>.
 				</p>
 			</div>
 			@e.Run("full_join.sql")
@@ -196,7 +197,7 @@ templ (t Join) TopicView() {
 					</span>, also known as a "SELF" 
 					<span>
 						@c.InlineSQL("JOIN")
-					</span><span>.</span>
+					</span>.
 				</p>
 				<p>
 					They are useful when a table has data that has a relationship with other data in the same table. In this example, users of the donation platform can refer other users and get a free credit.
@@ -220,7 +221,7 @@ templ (t Join) TopicView() {
 					This can generate very large amounts of data depending on the size of the input tables so caution is advised when deciding to use a 
 					<span>
 						@c.InlineSQL("CROSS JOIN")
-					</span><span>.</span>
+					</span>.
 				</p>
 				<p>
 					This can be used to generate test data since it allows you to generate every possible scenario between two sets of data.

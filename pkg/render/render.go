@@ -7,26 +7,27 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/a-h/templ"
+	"github.com/soikes/moreplease/pkg/component"
 )
 
 type Registry struct {
-	registry map[string]templ.Component // registry maps a pre-render path to a renderable component.
+	registry map[string]component.ComponentFunc // registry maps a pre-render path to a renderable component.
 }
 
-func (r *Registry) MustRegisterComponent(assetPath string, c templ.Component) {
+func (r *Registry) MustRegisterComponent(assetPath string, cf component.ComponentFunc) {
 	if r.registry == nil {
-		r.registry = make(map[string]templ.Component)
+		r.registry = make(map[string]component.ComponentFunc)
 	}
 	if _, exists := r.registry[assetPath]; exists {
 		panic(fmt.Errorf("pre-render path already registered: %s", assetPath))
 	}
-	r.registry[assetPath] = c
+	r.registry[assetPath] = cf
 }
 
-func (r *Registry) MustRenderComponents(ctx context.Context, path string) {
+func (r *Registry) MustRenderComponents(ctx context.Context, path string, opts ...component.Option) {
 	log.Println("render components")
-	for ap, c := range r.registry {
+	for ap, cf := range r.registry {
+		c := cf(opts...)
 		assetPath := filepath.Join(path, ap)
 		f, err := os.Create(assetPath)
 		if err != nil {

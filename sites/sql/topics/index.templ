@@ -2,6 +2,7 @@ package topics
 
 import (
 	"fmt"
+	"github.com/soikes/moreplease/pkg/component"
 	"github.com/soikes/moreplease/pkg/model"
 	"github.com/soikes/moreplease/sites/sql/assets"
 	"github.com/soikes/moreplease/sites/sql/render"
@@ -10,28 +11,36 @@ import (
 )
 
 func init() {
-	render.Registry.MustRegisterComponent(site.IndexPage.Asset(), Index())
+	idx := Index{}
+	render.Registry.MustRegisterComponent(site.IndexPage.Asset(), func(opts ...component.Option) templ.Component {
+		for _, opt := range opts {
+			opt(&idx.Config)
+		}
+		return idx.View()
+	})
 }
 
-templ Index() {
+type Index struct {
+	component.Config
+}
+
+templ (t Index) View() {
 	{{
-	s := site.MSP
-	b := c.Base{
-		Title: `Learn SQL by Example - ` + s.Title,
-	}
+		s := site.MSP
+		b := c.Base{Title: `Learn SQL by Example - ` + s.Title}
 	}}
 	@b.Component(c.HashedImports(c.DefaultImports(), assets.Assets)...) {
-		@inner(s.Sections)
+		@inner(t.BaseUrl, s.Sections)
 	}
 }
 
-templ inner(sections []model.Section) {
+templ inner(baseurl string, sections []model.Section) {
 	<div class="centered padded">
 		<div class="content content--narrow">
 			<nav class="nav small">
 				<span>
 					<i>
-						{ fmt.Sprintf("< ") }<a href="http://moreplease.dev">{ fmt.Sprint("all topics") }</a>
+						{ fmt.Sprintf("< ") }<a href={ templ.SafeURL(baseurl + "#topics") }>{ fmt.Sprint("all topics") }</a>
 					</i>
 				</span>
 			</nav>

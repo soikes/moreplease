@@ -5,7 +5,7 @@ tmp_dir = "tmp"
 [build]
 cmd = "bin/nabu build"
 bin = "bin/nabu"
-args_bin = ["run"]
+args_bin = ["runLocal"]
 include_ext = ["sh", "go", "templ", "html", "css", "sql", "xml", "ts"]
 exclude_regex = [
     "_test\\.go",

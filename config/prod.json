@@ -1,6 +1,6 @@
 {
   "server": {
-    "addr": "moreplease.dev",
+    "url": "https://moreplease.dev",
     "enable_tls": true
   },
   "metrics": {
