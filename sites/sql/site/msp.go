@@ -21,10 +21,9 @@ const (
 	FunctionsPage              model.PageID = `functions`
 	AggregateFunctionsPage     model.PageID = `aggregate_functions`
 	GroupByPage                model.PageID = `group_by`
+	CommonTableExpressionsPage model.PageID = `common_table_expressions`
 	CasePage                   model.PageID = `case`
 	UnionAndSetOperatorsPage   model.PageID = `union_and_set_operators`
-	StringManipulationPage     model.PageID = `string_manipulation`
-	DateAndTimePage            model.PageID = `date_and_time`
 	CreateTablePage            model.PageID = `create_table`
 	AlterTablePage             model.PageID = `alter_table`
 	DropTablePage              model.PageID = `drop_table`
@@ -34,7 +33,6 @@ const (
 	CascadePage                model.PageID = `cascade`
 	IndexesPage                model.PageID = `indexes`
 	SubqueriesPage             model.PageID = `subqueries`
-	CommonTableExpressionsPage model.PageID = `common_table_expressions`
 	TemporaryTablesPage        model.PageID = `temporary_tables`
 	ViewsPage                  model.PageID = `views`
 	MaterializedViewsPage      model.PageID = `materialized_views`
@@ -89,9 +87,9 @@ var MSP = model.NewSite(
 				model.NewPage(AggregateFunctionsPage, "Aggregate Functions", model.Enable()),
 				model.NewPage(GroupByPage, "GROUP BY", model.Enable()),
 				model.NewPage(UnionAndSetOperatorsPage, "UNION and Set Operators", model.Enable()),
+				model.NewPage(SubqueriesPage, "Subqueries"),
+				model.NewPage(CommonTableExpressionsPage, "Common Table Expressions", model.Enable()),
 				model.NewPage(CasePage, "CASE", model.Enable()),
-				model.NewPage(StringManipulationPage, "String Manipulation"),
-				model.NewPage(DateAndTimePage, "Date and Time"),
 			},
 		},
 		{
@@ -109,12 +107,11 @@ var MSP = model.NewSite(
 		{
 			Title: "Advanced Queries",
 			Pages: []model.Page{
-				model.NewPage(SubqueriesPage, "Subqueries"),
-				model.NewPage(CommonTableExpressionsPage, "Common Table Expressions"),
 				model.NewPage(TemporaryTablesPage, "Temporary Tables"),
 				model.NewPage(ViewsPage, "Views"),
 				model.NewPage(MaterializedViewsPage, "Materialized Views"),
 				model.NewPage(TransactionsPage, "Transactions"),
+				model.NewPage(RecursiveQueriesPage, "Recursive Queries"),
 			},
 		},
 		{
@@ -124,7 +121,6 @@ var MSP = model.NewSite(
 				model.NewPage(RankFunctionsPage, "Rank Functions"),
 				model.NewPage(StoredProceduresPage, "Stored Procedures"),
 				model.NewPage(TriggersPage, "Triggers"),
-				model.NewPage(RecursiveQueriesPage, "Recursive Queries"),
 				model.NewPage(PerformanceAndExplainPage, "Performance and EXPLAIN"),
 				model.NewPage(JSONOperationsPage, "JSON Operations"),
 			},

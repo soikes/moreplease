@@ -1,0 +1,59 @@
+package topics
+
+import (
+	"github.com/soikes/moreplease/pkg/component"
+	"github.com/soikes/moreplease/pkg/db"
+	"github.com/soikes/moreplease/sites/sql/render"
+	"github.com/soikes/moreplease/sites/sql/site"
+	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
+	"github.com/soikes/moreplease/sites/sql/topics/statements"
+	c "github.com/soikes/moreplease/templates/components"
+)
+
+func init() {
+	p := site.MSP.Page(site.CommonTableExpressionsPage)
+	t := CommonTableExpressions{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"orders", "products", "vendors"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), component.NoOptions(t.TopicView()))
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), component.NoOptions(t.SchemaView()))
+}
+
+type CommonTableExpressions struct {
+	sqlc.Topic
+}
+
+templ (t CommonTableExpressions) TopicView() {
+	{{
+		e := sqlc.Example{Config: t.Config}
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@sqlc.Topic{Page: t.Page}.Component() {
+		@schema.Component()
+		<div class="content__two-column">
+			<div>
+				<p>
+					Sometimes it can be useful to construct a particular set of data at the beginning of your SQL statement. Common Table Expressions, or CTEs, allow you to define a temporary table using a 
+					<span>
+						@c.InlineSQL("SELECT")
+					</span> statement that lives for the duration of your query.
+				</p>
+			</div>
+			@e.Run("common_table_expression.sql")
+		</div>
+	}
+}
+
+templ (t CommonTableExpressions) SchemaView() {
+	{{
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@schema.StandaloneSchema()
+}

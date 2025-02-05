@@ -163,7 +163,7 @@ templ (t Join) TopicView() {
 				</span> values from our 
 				<span>
 					@c.InlineSQL("LEFT JOIN")
-				</span>.
+				</span>. This is sometimes also referred to as an "anti-JOIN".
 			</div>
 			@e.Run("left_join_where_null.sql")
 			<div>
@@ -180,7 +180,7 @@ templ (t Join) TopicView() {
 					This query returns users that have donated, users that have not donated, and donations that are not currently associated with a user. The last case is commonly referred to as an "orphaned record", meaning the associated user was deleted at some point without also deleting their donation records. 
 				</p>
 				<p>
-					This is generally considered bad practice in database design. Examples of how to prevent this can be found in 
+					A set of tables that allows orphaned records is generally considered bad practice in database design. Examples of how to prevent this can be found in 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.CascadePage), "") {
 							@c.InlineSQL("CASCADE")
@@ -215,7 +215,7 @@ templ (t Join) TopicView() {
 					</span> returns the 
 					<span>
 						@c.Outlink("https://simple.wikipedia.org/wiki/Cartesian_product", "Cartesian product")
-					</span> of rows from both tables. This means each row from the first table A is combined with each row from the second table B, returning all possible combinations of rows.
+					</span> of rows from both tables. This means each row from the first table is combined with each row from the second table, returning all possible combinations of rows.
 				</p>
 				<p>
 					This can generate very large amounts of data depending on the size of the input tables so caution is advised when deciding to use a 

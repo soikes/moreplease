@@ -1,3 +1,8 @@
+import {
+  startFadeIn,
+  showJSRequiredElements,
+  initFadeIn,
+} from "../../../common/www/src/hooks";
 import { SQLExample } from "./components/example.js";
 import { Popout } from "./components/popout.js";
 import { highlightAll, languages } from "prismjs";
@@ -38,19 +43,12 @@ languages.sql = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("[data-fade-in]").forEach((elem) => {
-    elem.classList.add("fade-init");
-  });
-
-  document.querySelectorAll("[data-js-required]").forEach((elem) => {
-    elem.classList.add("visible");
-  });
+  showJSRequiredElements();
+  initFadeIn();
 
   requestAnimationFrame(() => {
     highlightAll(false, () => {
-      document.querySelectorAll("[data-fade-in]").forEach((elem) => {
-        elem.classList.add("fade-ready");
-      });
+      startFadeIn();
     });
   });
 

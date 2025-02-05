@@ -1,11 +1,12 @@
 import "htmx.org";
+import {
+  initFadeIn,
+  startFadeIn,
+  showJSRequiredElements,
+} from "../../../common/www/src/hooks";
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll("[data-fade-in]").forEach((elem) => {
-    elem.classList.add("fade-init");
-  });
-
-  document.querySelectorAll("[data-js-required]").forEach((elem) => {
-    elem.classList.add("visible");
-  });
+  showJSRequiredElements();
+  initFadeIn();
+  startFadeIn();
 });

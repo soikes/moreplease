@@ -113,14 +113,22 @@ templ (t GroupBy) TopicView() {
 					</span> because vendors might have the same name as one another but they always have a unique id. This ensures that our groups contain the correct order data for each unique vendor.
 				</p>
 				<p>
+					As an aside, this example uses the built-in SQLite function 
 					<span>
-						@c.InlineSQL("julianday()")
-					</span> is a built-in function that helps us perform arithmetic on 
+						@c.InlineSQL("julianday(...)")
+					</span> which is based on the 
 					<span>
-						@c.LinkWithText(site.MSP.Page(site.DateAndTimePage), "") {
-							dates
-						}
-					</span> in SQLite.
+						@c.Outlink("https://en.wikipedia.org/wiki/Julian_day", "Julian day")
+					</span> and helps perform arithmetic on dates. It takes a date as its input and returns the fractional number of days since noon in Greenwich on November 24, 4714 B.C. The difference between two Julian days gives us the elapsed amount of time between two dates. This method of date arithmetic is popular with astronomers.
+				</p>
+				<p>
+					Another similar function you could use here is 
+					<span>
+						@c.InlineSQL("unixepoch(...)")
+					</span> which is based on 
+					<span>
+						@c.Outlink("https://en.wikipedia.org/wiki/Unix_time", "Unix time")
+					</span> and returns the number of seconds since 1970-01-01 00:00:00 UTC (known as the "Unix epoch"). This system is more commonly used for date arithmetic in software engineering.
 				</p>
 			</div>
 			@e.Run("group_by_join.sql")

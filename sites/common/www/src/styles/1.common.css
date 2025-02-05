@@ -66,12 +66,12 @@
         padding-inline-start: 0;
     }
 
-    [data-fade-in].fade-init {
+    [data-fade-in].init-fade {
         opacity: 0;
         transition: opacity 0.5s ease-in;
     }
 
-    [data-fade-in].fade-ready {
+    [data-fade-in].start-fade {
         opacity: 1;
     }
 
@@ -79,9 +79,9 @@
         display: none !important;
     }
 
-    [data-js-required].visible {
-        display: initial !important;
-    }
+    /* [data-js-required].visible {
+        display: inherit !important;
+    } */
 
     a.no-underline {
         text-decoration: none;
