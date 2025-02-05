@@ -1,6 +1,7 @@
 {
   "server": {
     "url": "https://moreplease.dev",
+    "port": "8443",
     "enable_tls": true
   },
   "metrics": {

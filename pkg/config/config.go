@@ -8,6 +8,7 @@ import (
 type Config struct {
 	Server struct {
 		Url       string `json:"url"`
+		Port      string `json:"port"`
 		EnableTLS bool   `json:"enable_tls"`
 	} `json:"server"`
 	Metrics struct {

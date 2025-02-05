@@ -1,0 +1,20 @@
+#toast-notfound {
+    display: none;
+
+    :target {
+        display: block;
+    }
+}
+
+.toast {
+    left: 50%;
+    position: fixed;
+    transform: translate(-50%, 0px);
+    z-index: 9999;
+    max-width: var(--container-narrow);
+}
+
+.toast__fade-out {
+    -webkit-animation: fade-out 0.3s ease-out 2s both;
+    animation: fade-out 0.3s ease-out 2s both;
+}

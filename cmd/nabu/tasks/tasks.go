@@ -11,6 +11,7 @@ var r nabu.Runner
 func init() {
 	nabu.Register(
 		run,
+		prebuild,
 		build,
 		test,
 		runLocal,
@@ -31,7 +32,7 @@ func init() {
 
 func run() error {
 	for _, task := range []nabu.Task{
-		build,
+		prebuild,
 		runLocal,
 	} {
 		err := task()
@@ -50,7 +51,7 @@ func runProd() error {
 	return r.Run([]string{"go", "run", "github.com/soikes/moreplease", "-config", "config/prod.json"})
 }
 
-func build() error {
+func prebuild() error {
 	for _, task := range []nabu.Task{
 		generateAllTemplates,
 		buildFrontendIndex,
@@ -63,6 +64,10 @@ func build() error {
 		}
 	}
 	return nil
+}
+
+func build() error {
+	return r.Run([]string{"go", "build", "-o", "moreplease"})
 }
 
 func test() error {
@@ -111,7 +116,7 @@ func buildMetricsLocal() error {
 
 func runMetricsLocal() error {
 	for _, task := range []nabu.Task{
-		build,
+		prebuild,
 		buildMetricsLocal,
 	} {
 		err := task()

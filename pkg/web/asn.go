@@ -3,8 +3,8 @@ package web
 import (
 	"encoding/json"
 	"errors"
+	"io/fs"
 	"net"
-	"os"
 
 	"github.com/banviktor/asnlookup/pkg/database"
 )
@@ -21,14 +21,14 @@ type AS struct {
 }
 type asMap map[ASN]string
 
-func NewASLookup(badpath, dbpath string) (ASLookup, error) {
+func NewASLookup(fsys fs.ReadFileFS, badpath, dbpath string) (ASLookup, error) {
 	var a ASLookup
-	m, err := loadmap(badpath)
+	m, err := loadmap(fsys, badpath)
 	if err != nil {
 		return a, err
 	}
 	a.m = m
-	db, err := loaddb(dbpath)
+	db, err := loaddb(fsys, dbpath)
 	if err != nil {
 		return a, err
 	}
@@ -63,8 +63,8 @@ func (a ASLookup) GetBadAS(ip net.IP) (AS, error) {
 	return as, nil
 }
 
-func loadmap(p string) (asMap, error) {
-	buf, err := os.ReadFile(p)
+func loadmap(fsys fs.ReadFileFS, p string) (asMap, error) {
+	buf, err := fsys.ReadFile(p)
 	if err != nil {
 		return nil, err
 	}
@@ -73,9 +73,9 @@ func loadmap(p string) (asMap, error) {
 	return as, err
 }
 
-func loaddb(p string) (database.Database, error) {
+func loaddb(fsys fs.FS, p string) (database.Database, error) {
 	var db database.Database
-	f, err := os.OpenFile(p, os.O_RDONLY, 0)
+	f, err := fsys.Open(p)
 	if err != nil {
 		return db, err
 	}

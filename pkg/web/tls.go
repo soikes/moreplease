@@ -7,8 +7,18 @@ import (
 )
 
 func NewServer() *http.Server {
+	srv := &http.Server{
+		ReadHeaderTimeout: 5 * time.Second,
+		ReadTimeout:       10 * time.Second,
+		WriteTimeout:      10 * time.Second,
+		IdleTimeout:       120 * time.Second,
+	}
+	return srv
+}
+
+func NewTLSConfig() *tls.Config {
 	// https://blog.cloudflare.com/exposing-go-on-the-internet/
-	_ = &tls.Config{
+	return &tls.Config{
 		PreferServerCipherSuites: true,
 		CurvePreferences: []tls.CurveID{
 			tls.CurveP256,
@@ -29,12 +39,4 @@ func NewServer() *http.Server {
 			// tls.TLS_RSA_WITH_AES_128_GCM_SHA256,
 		},
 	}
-	srv := &http.Server{
-		ReadHeaderTimeout: 5 * time.Second,
-		ReadTimeout:       10 * time.Second,
-		WriteTimeout:      10 * time.Second,
-		IdleTimeout:       120 * time.Second,
-		// TLSConfig:         tc,
-	}
-	return srv
 }

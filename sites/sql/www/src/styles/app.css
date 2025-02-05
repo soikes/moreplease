@@ -3,5 +3,6 @@
 @import url("../../../../common/www/src/styles/2.typography.css");
 @import url("../../../../common/www/src/styles/controls/button.css");
 @import url("../../../../common/www/src/styles/controls/search.css");
+@import url("../../../../common/www/src/styles/controls/toast.css");
 @import url("components/sql-example.css");
 @import url("prism.css");

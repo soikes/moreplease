@@ -1,6 +1,7 @@
 {
   "server": {
     "url": "http://moreplease.localhost:8080",
+    "port": "8080",
     "enable_tls": false
   },
   "metrics": {

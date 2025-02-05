@@ -43,6 +43,7 @@ func (p PageID) SchemaAsset() string {
 }
 
 // NewSite returns a Site with Pages that are navigatable to their direct siblings and between Sections.
+// TODO: Exclude pages that are not marked as Enabled (Keep going until Enabled is found.)
 func NewSite(title string, sections []Section) Site {
 	site := Site{Title: title}
 	var linkedSections []Section

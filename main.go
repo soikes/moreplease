@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 
+	"github.com/soikes/moreplease/etc"
 	"github.com/soikes/moreplease/pkg/assets"
 	"github.com/soikes/moreplease/pkg/config"
 	"github.com/soikes/moreplease/pkg/metrics"
@@ -32,14 +33,17 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 	u, err := url.Parse(cfg.Server.Url)
 	if err != nil {
 		panic(err)
 	}
+
+	// Setup webserver and TLS configuration
 	srv := web.NewServer()
-	srv.Addr = u.Host
-	// TODO: TLS config
+	srv.Addr = ":" + cfg.Server.Port
+	if cfg.Server.EnableTLS {
+		srv.TLSConfig = web.NewTLSConfig()
+	}
 
 	// Setup HTTP security headers
 	fd, err := assets.CSPFetchDirectives(sqlAssets.Assets) // TODO: coffeeHash := `sha256-pyonVwm7hmHrD0g6YG0pCmcbOi3ip98R66NAgqrbTXQ=`
@@ -51,7 +55,7 @@ func main() {
 	}
 
 	// Setup bad ASN blocking
-	asl, err := web.NewASLookup("etc/bad_asns.json", "etc/asns.db")
+	asl, err := web.NewASLookup(etc.Assets, "bad_asns.json", "asns.db")
 	if err != nil {
 		panic(err)
 	}
