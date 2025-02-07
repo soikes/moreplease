@@ -1,0 +1,283 @@
+package topics
+
+import (
+	"github.com/soikes/moreplease/pkg/component"
+	"github.com/soikes/moreplease/pkg/db"
+	"github.com/soikes/moreplease/sites/sql/render"
+	"github.com/soikes/moreplease/sites/sql/site"
+	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
+	"github.com/soikes/moreplease/sites/sql/topics/statements"
+	c "github.com/soikes/moreplease/templates/components"
+)
+
+func init() {
+	p := site.MSP.Page(site.SubqueriesPage)
+	t := Subqueries{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"orders", "products", "vendors"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), component.NoOptions(t.TopicView()))
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), component.NoOptions(t.SchemaView()))
+}
+
+type Subqueries struct {
+	sqlc.Topic
+}
+
+templ (t Subqueries) TopicView() {
+	{{
+		e := sqlc.Example{Config: t.Config}
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@sqlc.Topic{Page: t.Page}.Component() {
+		@schema.Component()
+		<div class="content__two-column">
+			<div>
+				<p>
+					SQL provides the ability to perform a 
+					<span>
+						@c.InlineSQL("SELECT")
+					</span> statement inside of another statement. This is what is known as a subquery. Subqueries can help you structure each part of your query into its own isolated statement. 
+				</p>
+				<p>
+					Think of a subquery as a way to create an ad hoc table of data on the fly. Each subquery must be surrounded by parentheses.
+				</p>
+				<p>
+					Like any query, subqueries can return a <em>scalar</em> (a single value), a <em>column</em>, a <em>row</em>, or an entire <em>table</em> (rows of multiple columns).
+				</p>
+				<p>
+					The outputs of a subquery must match the inputs being requested from the outer query. In this case, a scalar is returned and our 
+					<span>
+						@c.InlineSQL("WHERE")
+					</span> clause performs a comparison against that value for each row. 
+				</p>
+				<p>
+					Subqueries are often used when you want to filter your data using criteria that requires additional computation, for example the result of an aggregate function.
+				</p>
+				<p>
+					In this example the subquery calculates the average price of a product and returns it as a scalar, then the outer query filters for products that are more expensive than the average. This is an example of a comparison that can't be done with a join.
+				</p>
+			</div>
+			@e.Run("subquery.sql")
+			<div>
+				<p>
+					When a subquery returns a single column of values the results can be used with the
+					<span>
+						@c.InlineSQL("IN")
+					</span> or 
+					<span>
+						@c.InlineSQL("NOT IN")
+					</span>&ensp;operator. This operator checks whether the value from the outer query is present in the results of the subquery and returns 
+					<span>
+						@c.InlineSQL("TRUE")
+					</span> or 
+					<span>
+						@c.InlineSQL("FALSE")
+					</span>. 
+					<p>
+						Note however that in the case where your subquery results contain 
+						<span>
+							@c.InlineSQL("NULL")
+						</span>, 
+						<span>
+							@c.InlineSQL("IN")
+						</span> and 
+						<span>
+							@c.InlineSQL("NOT IN")
+						</span> will also return 
+						<span>
+							@c.InlineSQL("NULL")
+						</span>!
+					</p>
+				</p>
+				<p>
+					Note also that a subquery can be used to retrieve data from the same table as its outer query or a different table altogether, as in this example.
+				</p>
+				<p>
+					In this example we find products that have never been ordered. The subquery finds any products that are associated with an order and then the outer query ensures we filter those products out.
+				</p>
+				<p>
+					Note that this example could be rewritten to use a 
+					<span>
+						@c.InlineSQL("LEFT JOIN")
+					</span> instead. Go back to 
+					<span>
+						@c.Link(site.MSP.Page(site.JoinPage), "")
+					</span> to see the technique for an "anti-JOIN".
+				</p>
+				<p>
+					The choice of whether to use a subquery or a 
+					<span>
+						@c.InlineSQL("JOIN")
+					</span> depends on a number of factors and there is usually not an absolute reason to pick one over the other. However for tasks where you need to combine and return data from multiple tables, 
+					<span>
+						@c.InlineSQL("JOIN")
+					</span>s generally perform better most of the time.
+				</p>
+				<p>
+					On the other hand, you may find subqueries to be more readable if they logically align better with your specific task.
+				</p>
+			</div>
+			@e.Run("subquery_column.sql")
+			<div>
+				<p>
+					Subqueries allow you to reference tables selected outside of the scope of the subquery.
+				</p>
+				<p>
+					This is known as a <em>correlated subquery</em> and it can cause the inner query to be executed for each row processed by the outer query instead of just once. This can have performance considerations so be mindful if you need to process a lot of data.
+				</p>
+				<p>
+					This example finds the most expensive product in each category. The subquery references the table of the outer query to correlate the category of each set of products. This effectively "groups" the data by category in the subquery allowing it to find the maximum price in each category.
+				</p>
+				<p>
+					Notice how this example could be rewritten using a 
+					<span>
+						@c.InlineSQL("GROUP BY")
+					</span>. Try to see if you can replicate the results using this method. Again, determining when to use which strategy has a number of factors and you may find cases where only one strategy may work.
+				</p>
+			</div>
+			@e.Run("correlated_subquery.sql")
+			<div>
+				<p>
+					You can perform comparisons using subqueries that return more than one column of information.
+				</p>
+				<p>
+					In this example we find products that cost between $5-$15 and have between 10-20 remaining stock.
+				</p>
+				<p>
+					Subqueries that return multiple values can utilize operators like 
+					<span>
+						@c.InlineSQL("IN")
+					</span>, 
+					<span>
+						@c.InlineSQL("BETWEEN ... AND")
+					</span> and even 
+					<span>
+						@c.InlineSQL("=")
+					</span> or 
+					<span>
+						@c.InlineSQL(">")
+					</span>.
+				</p>
+				<p>
+					Comparison operators can accept these multi-column values which are known as "row values" since they represent a row of data. They are also sometimes called "tuples".
+				</p>
+				<p>
+					Database engines may have their own rules for how to compare row values with each other. See 
+					<span>
+						@c.Outlink("https://www.sqlite.org/rowvalue.html", "Row Values")
+					</span><span>for</span> SQLite's documentation on how it deals with using and comparing row values.
+				</p>
+			</div>
+			@e.Run("subquery_row.sql")
+			<div>
+				<p>
+					So far we've seen subqueries used as part of filtering a query. Subqueries are versatile and because they can return tables of data they can be used anywhere an entire table would normally be used.
+				</p>
+				<p>
+					This technique is called a "derived table" and it can be used to logically separate parts of your query, or perform pre-computations on data before incorporating it into the outer query.
+				</p>
+				<p>
+					This example shows how we can track products that we are low in stock of alongside how much new stock we are expecting to receive from our pending orders.
+				</p>
+			</div>
+			@e.Run("derived_table.sql")
+			<div>
+				<p>
+					You can check to see if a subquery returned any results at all by using the
+					<span>
+						@c.InlineSQL("EXISTS (...)")
+					</span> or 
+					<span>
+						@c.InlineSQL("NOT EXISTS (...)")
+					</span>&ensp;operators.
+				</p>
+				<p>
+					This is similar to 
+					<span>
+						@c.InlineSQL("IN")
+					</span> except instead of checking whether a value is present in a result, it checks whether any results exist at all and only returns either 
+					<span>
+						@c.InlineSQL("TRUE")
+					</span> or 
+					<span>
+						@c.InlineSQL("FALSE")
+					</span>. This can be useful when the result you are checking may contain 
+					<span>
+						@c.InlineSQL("NULL")
+					</span> values.
+				</p>
+				<p>
+					In this example we find the name of any products that were ordered in the past month. The subquery finds any orders from the past month that match the product id supplied in the outer query.
+				</p>
+				<p>
+					Since we only care about the product names and not about any information about the orders themselves, 
+					<span>
+						@c.InlineSQL("EXISTS")
+					</span> is a good choice because it discards the results of the subquery and only returns a boolean value. Most database engines optimize the subquery so it doesn't matter if you use 
+					<span>
+						@c.InlineSQL("SELECT *")
+					</span>, 
+					<span>
+						@c.InlineSQL("SELECT 1")
+					</span>, etc.
+				</p>
+				<p>
+					<span>
+						@c.InlineSQL("EXISTS")
+					</span> can be useful when working with large datasets because it allows the subquery to return as soon as the first result comes back from the subquery, making it faster than 
+					<span>
+						@c.InlineSQL("IN")
+					</span> in some cases.
+				</p>
+				<p>
+					When deciding how to design a query to solve a problem, be mindful of performance but ensure that your query returns the correct data first. See 
+					<span>
+						@c.Link(site.MSP.Page(site.PerformanceAndExplainPage), "")
+					</span> for more guidance on how to analyze your queries for performance.
+				</p>
+			</div>
+			@e.Run("subquery_exists.sql")
+			<div>
+				<b>TODO: Subqueries with INSERT etc.</b>
+			</div>
+			@e.Run("subquery_insert.sql")
+			<div>
+				<p>
+					Subqueries can be nested multiple times. There is no standard limit for the number of subqueries you can nest but be mindful that the query becomes harder to understand with each level of nesting.
+				</p>
+				<p>
+					If you find yourself nesting queries deeply, try to spot the pattern you are using that requires nesting and see if there is an alternative query possible. 
+				</p>
+				<p>
+					An example of this is seen here with multiple correlated queries that could be rewritten with multiple joins instead.
+				</p>
+				<p>
+					In cases where you want to arbitrarily nest a query whose input depends on its own output, SQL offers the ability to create 
+					<span>
+						@c.Outlink("https://en.wikipedia.org/wiki/Recursion", "recursive queries")
+					</span> using the 
+					<span>
+						@c.LinkWithText(site.MSP.Page(site.CommonTableExpressionsPage), "recursion") {
+							@c.InlineSQL("WITH RECURSIVE")
+						}
+					</span> expression.
+				</p>
+			</div>
+			@e.Run("subquery_nested.sql")
+		</div>
+	}
+}
+
+templ (t Subqueries) SchemaView() {
+	{{
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@schema.StandaloneSchema()
+}

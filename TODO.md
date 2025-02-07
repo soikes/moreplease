@@ -41,6 +41,8 @@
 
 - [ ] Add thumbs down to "Bare column" example and search for other "counter-examples"
 
+  - [ ] Correlated subqueries
+
 - [x] Minify and bundle all js dependencies (alpine, prism)
 
 - [ ] Prepare JS build for prod
@@ -56,12 +58,25 @@
 
   - for search crawlers
   - ban llm crawlers
-    - May need to add this to the server itself to block based on UA / ASN
+    - [x] May need to add this to the server itself to block based on UA / ASN
 
 - [ ] Clone to a fresh directory and try the build tools to ensure they work from scratch
 
 - [x] Manage dependencies (go, templ, node) when inside the repo dir. nix?
+
   - DONE: Using asdf for now.
+
+- [ ] Accessibility
+
+  - [ ] are there tools to scan my site for accessibility score
+  - [ ] test with screen readers
+  - [ ] ARIA attributes
+  - [ ] color schemes / color blindness testing
+  - [ ] Tab inside text editor - capture the tab event to cause a tab indent but must not interfere with screen readers. (WCAG 2.1.2: if [tabbing off the object] requires more than unmodified arrow or tab keys or other standard exit methods, the user is advised of the method for moving focus away.)
+
+- [ ] Tab inside text editor
+
+- [ ] Convert all dates in schemas to relative dates e.g. date('now()', '-22 days', ...)
 
 # BUGS
 
@@ -76,7 +91,11 @@
 
 - [ ] The search page links use the input text as the text fragment "#:~:" and it doesn't always match the search results, so the highlighting doesn't highlight the text on the destination page. See if there's a way to use the bleve matches as the fragment. I looked it up and couldn't find a way to do this, Fragments seems to return the full HTML snippet of the result. You could also parse the result as HTML and extract the content in the "mark" tags, then combine them to form the fragment string.
 
+  - [ ] Related: text fragments stopped matching inline code - I am guessing this is because I changed the highlight code to run after DOMContentLoaded to prevent race conditions and it causes the styling the browser applies to highlighted text to be blown away by prism.js (because prism changes the html structure to tokenize and highlight the code.)
+
 - [ ] Some of the example code editor/runner content shows up in the search index, e.g. the "Run Reset" text from the buttons. Find a way to keep any unwanted text out of the content using CSS and including/excluding in htmlToText(). This should be handled by using "ExcludeTags" in the documentprovider but not working for some reason
+
+- [ ] "Error: ESCAPE expression must be a single character" error in like_escape.sql
 
 # CONTENT
 
@@ -118,3 +137,9 @@
   ```
 
   - [ ] Put CTEs before UNION because we use that in an example...
+
+- [ ] add group_concat as an example in group by?
+  - SELECT vendor_id, count(id) AS products_sold, group_concat(DISTINCT category) as categories
+    FROM products
+    GROUP BY vendor_id
+    ORDER BY products_sold DESC;

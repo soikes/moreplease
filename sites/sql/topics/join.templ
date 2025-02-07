@@ -114,13 +114,49 @@ templ (t Join) TopicView() {
 			</div>
 			@e.Run("join_all_tables.sql")
 			<div>
-				A 
-				<span>
-					@c.InlineSQL("JOIN")
-				</span> can be combined with a 
-				<span>
-					@c.InlineSQL("WHERE")
-				</span> clause to further narrow down the set of rows returned.
+				<p>
+					A 
+					<span>
+						@c.InlineSQL("JOIN")
+					</span> can be combined with a 
+					<span>
+						@c.InlineSQL("WHERE")
+					</span> clause to further narrow down the set of rows returned.
+				</p>
+				<p>
+					Note that 
+					<span>
+						@c.InlineSQL("ON")
+					</span> and 
+					<span>
+						@c.InlineSQL("WHERE")
+					</span> seem similar but they serve different purposes. 
+				</p>
+				<p>
+					<span>
+						@c.InlineSQL("ON")
+					</span> is part of the 
+					<span>
+						@c.InlineSQL("JOIN")
+					</span> operation and determines how rows are matched between tables. 
+					<span>
+						@c.InlineSQL("WHERE")
+					</span> is applied after the 
+					<span>
+						@c.InlineSQL("JOIN")
+					</span> and filters records out based on a condition.
+				</p>
+				<p>
+					<span>
+						@c.InlineSQL("ON")
+					</span> and 
+					<span>
+						@c.InlineSQL("WHERE")
+					</span> effectively behave the same during an 
+					<span>
+						@c.InlineSQL("INNER JOIN")
+					</span> but other types of joins seen below demonstrate how they are not interchangeable.
+				</p>
 			</div>
 			@e.Run("join_where.sql")
 			<div>
@@ -154,16 +190,39 @@ templ (t Join) TopicView() {
 			</div>
 			@e.Run("left_join.sql")
 			<div>
-				If we wanted to find only the people who have not donated, we can use a 
-				<span>
-					@c.InlineSQL("WHERE")
-				</span> clause to find the 
-				<span>
-					@c.InlineSQL("NULL")
-				</span> values from our 
-				<span>
-					@c.InlineSQL("LEFT JOIN")
-				</span>. This is sometimes also referred to as an "anti-JOIN".
+				<p>
+					If we wanted to find only the people who have not donated, we can use a 
+					<span>
+						@c.InlineSQL("WHERE")
+					</span> clause to find the 
+					<span>
+						@c.InlineSQL("NULL")
+					</span> values from our 
+					<span>
+						@c.InlineSQL("LEFT JOIN")
+					</span>. This is sometimes also referred to as an "anti-JOIN".
+				</p>
+				<p>
+					Also recall how the 
+					<span>
+						@c.InlineSQL("ON")
+					</span> and 
+					<span>
+						@c.InlineSQL("WHERE")
+					</span> clauses serve different purposes. Try removing the 
+					<span>
+						@c.InlineSQL("WHERE")
+					</span> clause and make the condition part of the 
+					<span>
+						@c.InlineSQL("ON")
+					</span> clause using the 
+					<span>
+						@c.InlineSQL("AND")
+					</span> operator.
+				</p>
+				<p>
+					Notice how the result set is completely different. Now both conditions effectively cancel each other out because the join can't satisfy both constraints at the same time: a donation matching a user and also not having an associated user.
+				</p>
 			</div>
 			@e.Run("left_join_where_null.sql")
 			<div>
@@ -194,7 +253,7 @@ templ (t Join) TopicView() {
 					A table can be referred to itself with a 
 					<span>
 						@c.InlineSQL("JOIN")
-					</span>, also known as a "SELF" 
+					</span>, also known as a "self" 
 					<span>
 						@c.InlineSQL("JOIN")
 					</span>.

@@ -325,8 +325,11 @@ templ (t DataTypes) TopicView() {
 					<i><b>Other types:</b></i>
 					<p>
 						<span>
+							@c.InlineSQL("...[]")
+						</span> <span>for</span> array types. 
+						<span>
 							@c.InlineSQL("TEXT[]")
-						</span> is an example of an array of text data. Array types allow you to store lists of items together in a single row. SQLite does not support array data types but other database engines such as PostgreSQL support arrays for any valid type, like
+						</span> is an example of an array of text data. Array types allow you to store lists of items together in a single column. SQLite does not support array data types but other database engines such as PostgreSQL support arrays for any valid type, like
 						<span>
 							@c.InlineSQL("TIMESTAMP[]")
 						</span> and 

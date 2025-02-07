@@ -257,40 +257,37 @@ templ (t Operators) TopicView() {
 			<div>
 				<p>
 					<span>
-						@c.InlineSQL("... IN (1,2,3)")
-					</span>&ensp;Match based on any value in a 
+						@c.InlineSQL("... IN (...)")
+					</span> or 
 					<span>
-						@c.Outlink("https://www.sqlite.org/rowvalue.html", "\"Row Value\"")
-					</span> or a 
+						@c.InlineSQL("... NOT IN (...)")
+					</span>&ensp;Match if the input matches any value in a list of values or a 
 					<span>
 						@c.LinkWithText(site.MSP.Page(site.SubqueriesPage), "") {
 							Subquery
 						}
-					</span><span>.</span>
+					</span>.
 				</p>
 				<p>
-					A "row value" is just an ordered list of two or more values. Row values in SQL allow you to be able to provide lists of values to operators such as
+					See 
 					<span>
-						@c.InlineSQL("WHERE ... IN")
-					</span><span>.</span>
-				</p>
-				<p>
-					Note that row values are not the same as array data types as seen in 
+						@c.Link(site.MSP.Page(site.SubqueriesPage), "")
+					</span> <span>for</span> more complex usage of the 
 					<span>
-						@c.Link(site.MSP.Page(site.DataTypesPage), "")
-					</span> (e.g. 
+						@c.InlineSQL("IN")
+					</span> operator and three related operators that work with subqueries: 
 					<span>
-						@c.InlineSQL("TEXT[]")
-					</span>). Row values represent a row of data from two or more columns, whereas array data types contain a list of values inside a single column.
+						@c.InlineSQL("ALL")
+					</span>, 
+					<span>
+						@c.InlineSQL("ANY")
+					</span> and
+					<span>
+						@c.InlineSQL("EXISTS")
+					</span>.
 				</p>
 			</div>
 			@e.Run("where_in.sql")
-			<div>
-				<p>
-					Row values are also comparable themselves using comparison operators.
-				</p>
-			</div>
-			@e.Run("row_value_comparison.sql")
 			<div>
 				<p>
 					<i><b>Bitwise Operators:</b></i>

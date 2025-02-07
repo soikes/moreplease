@@ -56,6 +56,7 @@ const (
 	ExpertCookbookPage         model.PageID = `expert_cookbook`
 	TipsAndTricksPage          model.PageID = `tips_and_tricks`
 	GlossaryPage               model.PageID = `glossary`
+	NullHandlingPage           model.PageID = `null_handling`
 	IndexPage                  model.PageID = `index`
 )
 
@@ -87,7 +88,7 @@ var MSP = model.NewSite(
 				model.NewPage(AggregateFunctionsPage, "Aggregate Functions", model.Enable()),
 				model.NewPage(GroupByPage, "GROUP BY", model.Enable()),
 				model.NewPage(UnionAndSetOperatorsPage, "UNION and Set Operators", model.Enable()),
-				model.NewPage(SubqueriesPage, "Subqueries"),
+				model.NewPage(SubqueriesPage, "Subqueries", model.Enable()),
 				model.NewPage(CommonTableExpressionsPage, "Common Table Expressions", model.Enable()),
 				model.NewPage(CasePage, "CASE", model.Enable()),
 			},
@@ -144,6 +145,7 @@ var MSP = model.NewSite(
 			Pages: []model.Page{
 				model.NewPage(ExpertCookbookPage, "Expert Cookbook"),
 				model.NewPage(TipsAndTricksPage, "Tips and Tricks"),
+				model.NewPage(NullHandlingPage, "NULL Handling"),
 				model.NewPage(GlossaryPage, "Glossary"),
 			},
 		},
