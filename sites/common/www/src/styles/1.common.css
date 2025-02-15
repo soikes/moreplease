@@ -147,6 +147,12 @@
         max-width: var(--container-wide);
     }
 
+    .disabled--link {
+        pointer-events: none;
+        cursor: default;
+        color: lightgrey;
+    }
+
     .disabled {
         pointer-events: none;
         cursor: default;
@@ -263,6 +269,13 @@
 
     .sticky-container {
         justify-self: start;
+    }
+
+    .stmt--static {
+        border: 1px solid black;
+        border-radius: 0.5rem;
+        padding: 1rem;
+        background-color: white;
     }
 
     .tile {

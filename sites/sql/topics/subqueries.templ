@@ -55,10 +55,10 @@ templ (t Subqueries) TopicView() {
 					The outputs of a subquery must match the inputs being requested from the outer query. In this case, a scalar is returned and our 
 					<span>
 						@c.InlineSQL("WHERE")
-					</span> clause performs a comparison against that value for each row. 
+					</span> clause performs a comparison against that value as if it was a constant number. 
 				</p>
 				<p>
-					Subqueries are often used when you want to filter your data using criteria that requires additional computation, for example the result of an aggregate function.
+					Subqueries are often used when you want to filter your data using criteria that requires computation on the entire data set, for example the result of an aggregate function.
 				</p>
 				<p>
 					In this example the subquery calculates the average price of a product and returns it as a scalar, then the outer query filters for products that are more expensive than the average. This is an example of a comparison that can't be done with a join.
@@ -84,7 +84,7 @@ templ (t Subqueries) TopicView() {
 						Note however that in the case where your subquery results contain 
 						<span>
 							@c.InlineSQL("NULL")
-						</span>, 
+						</span> values, 
 						<span>
 							@c.InlineSQL("IN")
 						</span> and 
@@ -145,51 +145,6 @@ templ (t Subqueries) TopicView() {
 			@e.Run("correlated_subquery.sql")
 			<div>
 				<p>
-					You can perform comparisons using subqueries that return more than one column of information.
-				</p>
-				<p>
-					In this example we find products that cost between $5-$15 and have between 10-20 remaining stock.
-				</p>
-				<p>
-					Subqueries that return multiple values can utilize operators like 
-					<span>
-						@c.InlineSQL("IN")
-					</span>, 
-					<span>
-						@c.InlineSQL("BETWEEN ... AND")
-					</span> and even 
-					<span>
-						@c.InlineSQL("=")
-					</span> or 
-					<span>
-						@c.InlineSQL(">")
-					</span>.
-				</p>
-				<p>
-					Comparison operators can accept these multi-column values which are known as "row values" since they represent a row of data. They are also sometimes called "tuples".
-				</p>
-				<p>
-					Database engines may have their own rules for how to compare row values with each other. See 
-					<span>
-						@c.Outlink("https://www.sqlite.org/rowvalue.html", "Row Values")
-					</span><span>for</span> SQLite's documentation on how it deals with using and comparing row values.
-				</p>
-			</div>
-			@e.Run("subquery_row.sql")
-			<div>
-				<p>
-					So far we've seen subqueries used as part of filtering a query. Subqueries are versatile and because they can return tables of data they can be used anywhere an entire table would normally be used.
-				</p>
-				<p>
-					This technique is called a "derived table" and it can be used to logically separate parts of your query, or perform pre-computations on data before incorporating it into the outer query.
-				</p>
-				<p>
-					This example shows how we can track products that we are low in stock of alongside how much new stock we are expecting to receive from our pending orders.
-				</p>
-			</div>
-			@e.Run("derived_table.sql")
-			<div>
-				<p>
 					You can check to see if a subquery returned any results at all by using the
 					<span>
 						@c.InlineSQL("EXISTS (...)")
@@ -229,15 +184,13 @@ templ (t Subqueries) TopicView() {
 					</span>, etc.
 				</p>
 				<p>
+					When deciding whether to use 
 					<span>
 						@c.InlineSQL("EXISTS")
-					</span> can be useful when working with large datasets because it allows the subquery to return as soon as the first result comes back from the subquery, making it faster than 
+					</span>, 
 					<span>
 						@c.InlineSQL("IN")
-					</span> in some cases.
-				</p>
-				<p>
-					When deciding how to design a query to solve a problem, be mindful of performance but ensure that your query returns the correct data first. See 
+					</span> or other operators to solve your problem, there can be differences in performance. Be mindful of performance but ensure that your query is returning the correct data first. See 
 					<span>
 						@c.Link(site.MSP.Page(site.PerformanceAndExplainPage), "")
 					</span> for more guidance on how to analyze your queries for performance.
@@ -245,12 +198,53 @@ templ (t Subqueries) TopicView() {
 			</div>
 			@e.Run("subquery_exists.sql")
 			<div>
-				<b>TODO: Subqueries with INSERT etc.</b>
+				<p>
+					You can perform comparisons using subqueries that return more than one column of information.
+				</p>
+				<p>
+					In this example we find repeat orders of a particular order we made.
+				</p>
+				<p>
+					Subqueries that return multiple values can utilize operators like 
+					<span>
+						@c.InlineSQL("IN")
+					</span>, 
+					<span>
+						@c.InlineSQL("BETWEEN ... AND")
+					</span> and even 
+					<span>
+						@c.InlineSQL("=")
+					</span> or 
+					<span>
+						@c.InlineSQL(">")
+					</span>.
+				</p>
+				<p>
+					Comparison operators can accept these multi-column values which are known as "row values" since they represent a row of data. They are also sometimes called "tuples".
+				</p>
+				<p>
+					Database engines may have their own rules for how to compare row values with each other. See 
+					<span>
+						@c.Outlink("https://www.sqlite.org/rowvalue.html", "Row Values")
+					</span><span>for</span> SQLite's documentation on how it deals with using and comparing row values.
+				</p>
 			</div>
-			@e.Run("subquery_insert.sql")
+			@e.Run("subquery_row.sql")
 			<div>
 				<p>
-					Subqueries can be nested multiple times. There is no standard limit for the number of subqueries you can nest but be mindful that the query becomes harder to understand with each level of nesting.
+					So far we've seen subqueries used as part of filtering a query. Subqueries can return entire tables of data so they can be used anywhere a table would normally be used.
+				</p>
+				<p>
+					This example uses a technique called a "derived table" and it can be used to logically separate parts of your query, or perform pre-computations on data before incorporating it into the outer query.
+				</p>
+				<p>
+					This example shows how we can track products that are low in stock alongside how much new stock we are expecting to receive from our pending orders.
+				</p>
+			</div>
+			@e.Run("derived_table.sql")
+			<div>
+				<p>
+					Subqueries can be nested multiple times. There is no standard limit for the number of subqueries you can nest but be mindful that the query can become harder to read with each level of nesting.
 				</p>
 				<p>
 					If you find yourself nesting queries deeply, try to spot the pattern you are using that requires nesting and see if there is an alternative query possible. 

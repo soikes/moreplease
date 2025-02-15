@@ -61,10 +61,10 @@ templ (t Case) TopicView() {
 					Most database engines allow a 
 					<span>
 						@c.InlineSQL("CASE")
-					</span> expression to return any data type but each 
+					</span> expression to return any data type (text, numbers, etc.) but each 
 					<span>
 						@c.InlineSQL("WHEN")
-					</span> "branch" of the statement must return the same type. In SQLite any type can be returned but these examples will return the same type from all branches.
+					</span> "branch" of the statement must return the same type as each other. SQLite allows any type to be returned but for compatibility, these examples will return the same type from all branches.
 				</p>
 				<p>
 					This example shows a common use case where we want to create custom groups or "buckets" for the data that are not part of the database schema.

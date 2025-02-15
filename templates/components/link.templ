@@ -19,6 +19,20 @@ templ Link(page model.Page, fragment string) {
 	</a>
 }
 
+templ LinkUnderConstruction(page model.Page, fragment string) {
+	{{
+	href := page.Path
+	if fragment != `` {
+		href += fmt.Sprintf("#%s", fragment)
+	}
+	}}
+	<span>
+		<a class="disabled--link" title="This topic is under construction." href={ templ.URL(href) }>
+			{ page.Title }
+		</a>
+	</span>
+}
+
 // LinkWithText links to an internal page on the site.
 // You must specify the link text as a child component.
 templ LinkWithText(page model.Page, fragment string) {
@@ -31,4 +45,18 @@ templ LinkWithText(page model.Page, fragment string) {
 	<a href={ templ.URL(href) }>
 		{ children... }
 	</a>
+}
+
+templ LinkWithTextUnderConstruction(page model.Page, fragment string) {
+	{{
+	href := page.Path
+	if fragment != `` {
+		href += fmt.Sprintf("#%s", fragment)
+	}
+	}}
+	<span>
+		<a class="disabled--link" title="This topic is under construction." href={ templ.URL(href) }>
+			{ children... }
+		</a>
+	</span>
 }

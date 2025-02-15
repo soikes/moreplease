@@ -56,7 +56,7 @@ templ (e *Example) Display(path string) {
 			{{
 				stmt := e.Config.MustReadFile(path)
 			}}
-			<div class="stmt">
+			<div class="stmt--static">
 				<pre>
 					<code class={ model.LanguageSQL.CSSClass() } x-text="stmt" x-ref="codeBlock">{ stmt }</code>
 				</pre>

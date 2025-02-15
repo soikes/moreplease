@@ -1,6 +1,6 @@
 SELECT 
-    vendor_sales.name,
-    printf('$%.2f', round(vendor_sales.total_spend, 2)) AS total_2mo_spend
+    vendor_sales.name AS vendor,
+    round(vendor_sales.total_spend, 2) AS total_2mo_spend
 FROM (
     SELECT 
         v.name,
@@ -21,12 +21,13 @@ FROM (
     ) product_orders
     ON v.id = product_orders.vendor_id
     GROUP BY v.name
-) AS vendor_sales;
+) AS vendor_sales
+ORDER BY total_2mo_spend DESC;
 
 -- Equivalent:
 /* 
-SELECT v.name, 
-    printf('$%.2f', round(sum(o.quantity * p.price), 2)) AS total_2mo_spend
+SELECT v.name AS vendor, 
+    round(sum(o.quantity * p.price), 2) AS total_2mo_spend
 FROM vendors v
 INNER JOIN products p
     ON v.id = p.vendor_id
@@ -35,5 +36,6 @@ INNER JOIN orders o
 WHERE o.date_ordered BETWEEN 
     date('now', '-2 month') 
     AND date('now')
-GROUP BY v.name;
+GROUP BY v.name
+ORDER BY total_2mo_spend DESC;
 */

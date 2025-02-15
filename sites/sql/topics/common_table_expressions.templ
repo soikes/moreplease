@@ -43,10 +43,54 @@ templ (t CommonTableExpressions) TopicView() {
 					Sometimes it can be useful to construct a particular set of data at the beginning of your SQL statement. Common Table Expressions, or CTEs, allow you to define a temporary table using a 
 					<span>
 						@c.InlineSQL("SELECT")
-					</span> statement that lives for the duration of your query.
+					</span> statement that lives only for the duration of your query.
+				</p>
+				<p>
+					CTEs have similar use cases as subqueries. For instance, they can make queries more readable by separating pre-computations from your main query. They can also help with visualizing the "chunks" piece by piece to better understand the intent behind the query. You can also use a CTE instead of a subquery when you need to refer to the data more than once later on in the query.
+				</p>
+				<p>
+					This example shows the use of a CTE to compute average order size then compare our current stock levels to the average order size. This might be a more reliable way to determine which products need to be restocked than looking at the remaining stock alone.
 				</p>
 			</div>
 			@e.Run("common_table_expression.sql")
+			<div>
+				<p>
+					You can define as many CTEs as you want in your statement. CTEs can also use values from other CTEs that were defined before themselves. You can also join CTEs together just like a regular table.
+				</p>
+				<p>
+					Suppose we want to find out which products we are overstocked in and how much extra cash we could have if we managed our orders better.
+				</p>
+				<p>
+					In this example our first CTE finds the average total retail value of orders for each product. The second CTE finds the total retail value of all the products we have in stock. Then our statement joins these CTEs together and finds the difference between the totals to find out how much retail value is sitting in our overstocked products.
+				</p>
+				<p>
+					Even though this example is large, CTEs allow us to break up the problem into smaller pieces. Using descriptive aliases can help readers of this query better understand the intent of each CTE and ultimately the intent of the entire query.
+				</p>
+				<p>
+					If you need to create several complex CTEs for your query consider creating 
+					<span>
+						@c.LinkUnderConstruction(site.MSP.Page(site.TemporaryTablesPage), "")
+					</span> instead. This technique to setup some transformed data first in temporary tables can be referred to as "staging".
+				</p>
+			</div>
+			@e.Run("cte_multiple.sql")
+			<div>
+				<p>
+					CTEs can be useful if you need to pre-compute data once and then reference it multiple times later on.
+				</p>
+				<p>
+					In this example we pre-calculate the average cost of products across each category. Then we use that value twice; once to display it and once to calculate the difference between the average and the price of an individual product.
+				</p>
+				<p>
+					You could rewrite this query by using a subquery directly in the 
+					<span>
+						@c.InlineSQL("JOIN")
+					</span>, but defining the CTE at the beginning tends to make your code more organized and readable. This is especially true if you use multiple CTEs in a single query.
+				</p>
+			</div>
+			@e.Run("cte_reference.sql")
+			// TODO: CTE Ordered update i.e. INSERT with SELECT with ORDER BY - can't do without CTE in some Dbs
+			// TODO: CTE Recursive Query
 		</div>
 	}
 }

@@ -55,6 +55,15 @@ templ (i Insert) TopicView() {
 					</span>
 				</p>
 				<p>
+					Alternatively, see the bottom of this topic for an example of the 
+					<span>
+						@c.InlineSQL("RETURNING")
+					</span> clause used to return the contents of an 
+					<span>
+						@c.InlineSQL("INSERT")
+					</span>.
+				</p>
+				<p>
 					The "reset" button will revert any changes to the table in that example and re-run the original statement from the example.
 				</p>
 				<p>
@@ -132,7 +141,7 @@ templ (i Insert) TopicView() {
 						@c.InlineSQL("PRIMARY KEY")
 					</span>, which requires a unique value for every row. Uniqueness is a common 
 					<span>
-						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "uniqueness") {
+						@c.LinkWithTextUnderConstruction(site.MSP.Page(site.ConstraintsPage), "uniqueness") {
 							constraint
 						}
 					</span> in relational databases.
