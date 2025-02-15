@@ -1,8 +1,8 @@
 {
   "server": {
     "url": "https://moreplease.dev",
-    "port": "8443",
-    "enable_tls": true
+    "port": "8080",
+    "enable_tls": false
   },
   "metrics": {
     "store": "/tmp/metrics.db"
