@@ -6,7 +6,7 @@
     "build": "bun run bun.config.js"
   },
   "author": "Mike Soikkeli",
-  "license": "CC-BY-NC-SA-4.0",
+  "license": "MIT",
   "devDependencies": {
     "stylelint": "^16.14.0",
     "stylelint-config-standard": "^37.0.0",

@@ -25,6 +25,7 @@ func (m *MergeFS) AddFS(fsys fs.FS) {
 	m.fss = append(m.fss, fsys)
 }
 
+// For debugging.
 func printFS(fsys fs.FS) error {
 	return fs.WalkDir(fsys, ".", func(path string, d fs.DirEntry, err error) error {
 		if err != nil {

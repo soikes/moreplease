@@ -1,6 +1,7 @@
 package subdomain
 
 import (
+	"log"
 	"net/http"
 	"strings"
 )
@@ -32,6 +33,7 @@ func (c *Config) handleRequest(w http.ResponseWriter, r *http.Request) {
 
 	mux, ok := c.subrouters[subdomain]
 	if !ok {
+		log.Printf("invalid subdomain: %s", subdomain)
 		http.NotFound(w, r)
 		return
 	}

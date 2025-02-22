@@ -12,6 +12,7 @@ func init() {
 	nabu.Register(
 		run,
 		prebuild,
+		prebuildProd,
 		build,
 		test,
 		runLocal,
@@ -57,6 +58,21 @@ func prebuild() error {
 		buildFrontendIndex,
 		buildFrontendSQL,
 		renderAllTemplatesLocal,
+	} {
+		err := task()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func prebuildProd() error {
+	for _, task := range []nabu.Task{
+		generateAllTemplates,
+		buildFrontendIndex,
+		buildFrontendSQL,
+		renderAllTemplatesProd,
 	} {
 		err := task()
 		if err != nil {
