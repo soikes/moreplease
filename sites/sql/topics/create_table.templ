@@ -50,7 +50,7 @@ templ (t CreateTable) TopicView() {
 				<p>
 					A table needs to be created before any data can be inserted into or queried from it. When a table is created it will persist until it is deleted using a 
 					<span>
-						@c.LinkWithText(site.MSP.Page(site.DropTablePage), "") {
+						@c.LinkWithTextUnderConstruction(site.MSP.Page(site.DropTablePage), "") {
 							@c.InlineSQL("DROP TABLE")
 						}
 					</span> statement. This example shows how to create a table 
@@ -114,10 +114,10 @@ templ (t CreateTable) TopicView() {
 						@c.Link(site.MSP.Page(site.JoinPage), "")
 					</span>, 
 					<span>
-						@c.Link(site.MSP.Page(site.ForeignKeyPage), "")
+						@c.LinkUnderConstruction(site.MSP.Page(site.ForeignKeyPage), "")
 					</span>, and
 					<span>
-						@c.Link(site.MSP.Page(site.SchemaDesignPage), "")
+						@c.LinkUnderConstruction(site.MSP.Page(site.SchemaDesignPage), "")
 					</span>.
 				</p>
 				<p id="primary_key">
@@ -132,12 +132,12 @@ templ (t CreateTable) TopicView() {
 						@c.InlineSQL("PRIMARY KEY")
 					</span><span>.</span> This is what is known as a 
 					<span>
-						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "") {
+						@c.LinkWithTextUnderConstruction(site.MSP.Page(site.ConstraintsPage), "") {
 							Constraint
 						}
 					</span> and it tells the database it must enforce uniqueness of this column. It is not required to delcare a primary key but it is considered best practice for various reasons including data integrity and performance. See more about primary keys in 
 					<span>
-						@c.Link(site.MSP.Page(site.PrimaryKeyPage), "")
+						@c.LinkUnderConstruction(site.MSP.Page(site.PrimaryKeyPage), "")
 					</span>.
 				</p>
 			</div>
@@ -208,7 +208,7 @@ templ (t CreateTable) TopicView() {
 						@c.InlineSQL("CREATE TABLE ... AS")
 					</span> will not copy table constraints, indexes, table permissions and other metadata that a database might associate with a table. See 
 					<span>
-						@c.Link(site.MSP.Page(site.BackupAndRecoveryPage), "")
+						@c.LinkUnderConstruction(site.MSP.Page(site.BackupAndRecoveryPage), "")
 					</span> <span>for</span> details on recommended techniques for backing up data in relational databases.
 				</p>
 			</div>

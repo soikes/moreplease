@@ -109,10 +109,10 @@ templ (t Delete) TopicView() {
 				<p>
 					Remember that when you create a table you can define 
 					<span>
-						@c.Link(site.MSP.Page(site.ConstraintsPage), "")
+						@c.LinkUnderConstruction(site.MSP.Page(site.ConstraintsPage), "")
 					</span> that will tell the database to enforce certain rules on a column. In this example we defined a 
 					<span>
-						@c.LinkWithText(site.MSP.Page(site.PrimaryKeyPage), "") {
+						@c.LinkWithTextUnderConstruction(site.MSP.Page(site.PrimaryKeyPage), "") {
 							<span>
 								@c.InlineSQL("PRIMARY KEY")
 							</span>
@@ -125,7 +125,7 @@ templ (t Delete) TopicView() {
 						@c.InlineSQL("users")
 					</span> table and a 
 					<span>
-						@c.LinkWithText(site.MSP.Page(site.ForeignKeyPage), "") {
+						@c.LinkWithTextUnderConstruction(site.MSP.Page(site.ForeignKeyPage), "") {
 							<span>
 								@c.InlineSQL("FOREIGN KEY")
 							</span>
@@ -144,7 +144,7 @@ templ (t Delete) TopicView() {
 				<p>
 					When we try to delete a user that still has posts in the database, the deletion fails because of this constraint we added. This prevents the database from having posts that are no longer associated with a user, also known as "orphaned" records. See more in 
 					<span>
-						@c.Link(site.MSP.Page(site.SchemaDesignPage), "")
+						@c.LinkUnderConstruction(site.MSP.Page(site.SchemaDesignPage), "")
 					</span>.
 				</p>
 			</div>

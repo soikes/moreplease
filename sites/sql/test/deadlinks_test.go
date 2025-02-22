@@ -1,12 +1,15 @@
 package test
 
 import (
+	"errors"
 	"log"
 	"net/http"
 	"net/url"
 	"os"
 	"strings"
+	"syscall"
 	"testing"
+	"time"
 
 	"github.com/soikes/moreplease/cmd/nabu/tasks"
 	"github.com/soikes/moreplease/pkg/search"
@@ -38,6 +41,19 @@ func TestDeadlinks(t *testing.T) {
 			t.Log(err)
 		}
 	}(t)
+	for {
+		_, err := http.Get(`http://` + addr)
+		if err != nil {
+			if errors.Is(err, syscall.ECONNREFUSED) {
+				time.Sleep(time.Millisecond * 100)
+				continue
+			} else {
+				t.Log(err)
+				t.FailNow()
+			}
+		}
+		break
+	}
 	crawl(t, addr)
 }
 

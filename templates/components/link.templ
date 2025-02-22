@@ -20,14 +20,8 @@ templ Link(page model.Page, fragment string) {
 }
 
 templ LinkUnderConstruction(page model.Page, fragment string) {
-	{{
-	href := page.Path
-	if fragment != `` {
-		href += fmt.Sprintf("#%s", fragment)
-	}
-	}}
 	<span>
-		<a class="disabled--link" title="This topic is under construction." href={ templ.URL(href) }>
+		<a class="disabled--link" title="This topic is under construction." href="#">
 			{ page.Title }
 		</a>
 	</span>
@@ -48,14 +42,8 @@ templ LinkWithText(page model.Page, fragment string) {
 }
 
 templ LinkWithTextUnderConstruction(page model.Page, fragment string) {
-	{{
-	href := page.Path
-	if fragment != `` {
-		href += fmt.Sprintf("#%s", fragment)
-	}
-	}}
 	<span>
-		<a class="disabled--link" title="This topic is under construction." href={ templ.URL(href) }>
+		<a class="disabled--link" title="This topic is under construction." href="#">
 			{ children... }
 		</a>
 	</span>

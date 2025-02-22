@@ -8,7 +8,7 @@ templ BottomNav(page model.Page) {
 			<span><i><a href={ templ.URL(page.Prev.Path) }>previous: { page.Prev.Title }</a></i></span>
 		}
 		<span><i><a href="/">home</a></i></span>
-		if page.Next != nil {
+		if page.Next != nil && page.Next.Enabled {
 			<span><i><a href={ templ.URL(page.Next.Path) }>next: { page.Next.Title }</a></i></span>
 		}
 	</small>

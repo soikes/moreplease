@@ -84,7 +84,7 @@ templ (i Insert) TopicView() {
 						@c.InlineSQL("INSERT")
 					</span> statement. This is because we are taking advantage of a SQLite feature where the column specified as the 
 					<span>
-						@c.LinkWithText(site.MSP.Page(site.CreateTablePage), "primary_key") {
+						@c.LinkWithTextUnderConstruction(site.MSP.Page(site.CreateTablePage), "primary_key") {
 							@c.InlineSQL("PRIMARY KEY")
 						}
 					</span> (
@@ -152,7 +152,7 @@ templ (i Insert) TopicView() {
 				<p>
 					Columns can have 
 					<span>
-						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "default_values") {
+						@c.LinkWithTextUnderConstruction(site.MSP.Page(site.ConstraintsPage), "default_values") {
 							default values
 						}
 					</span> that you specify at the time of table creation. If you omit a column in an 
@@ -163,7 +163,7 @@ templ (i Insert) TopicView() {
 						@c.InlineSQL("NULL")
 					</span> value is inserted for that column. If the column 
 					<span>
-						@c.LinkWithText(site.MSP.Page(site.ConstraintsPage), "null_values") {
+						@c.LinkWithTextUnderConstruction(site.MSP.Page(site.ConstraintsPage), "null_values") {
 							disallows 
 							<span>
 								@c.InlineSQL("NULL")

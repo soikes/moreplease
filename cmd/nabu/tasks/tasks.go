@@ -2,8 +2,10 @@ package tasks
 
 import (
 	"os"
+	"path/filepath"
 
 	"github.com/soikes/moreplease/pkg/nabu"
+	"github.com/soikes/moreplease/pkg/repopath"
 )
 
 var r nabu.Runner
@@ -119,11 +121,19 @@ func buildFrontendSQL() error {
 }
 
 func renderAllTemplatesLocal() error {
-	return r.Run([]string{"go", "run", "github.com/soikes/moreplease/cmd/render", "-config", "config/local.json"})
+	root, err := repopath.GetRepoRoot()
+	if err != nil {
+		return err
+	}
+	return r.Run([]string{"go", "run", "github.com/soikes/moreplease/cmd/render", "-config", filepath.Join(root, "config/local.json")})
 }
 
 func renderAllTemplatesProd() error {
-	return r.Run([]string{"go", "run", "github.com/soikes/moreplease/cmd/render", "-config", "config/prod.json"})
+	root, err := repopath.GetRepoRoot()
+	if err != nil {
+		return err
+	}
+	return r.Run([]string{"go", "run", "github.com/soikes/moreplease/cmd/render", "-config", filepath.Join(root, "config/prod.json")})
 }
 
 func buildMetricsLocal() error {
