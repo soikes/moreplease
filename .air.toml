@@ -4,7 +4,7 @@ tmp_dir = "tmp"
 
 [build]
 cmd = "bin/nabu prebuild"
-bin = "bin/nabu"
+full_bin = ". .env && bin/nabu"
 args_bin = ["runLocal"]
 include_ext = ["sh", "go", "templ", "html", "css", "sql", "xml", "ts"]
 exclude_regex = [

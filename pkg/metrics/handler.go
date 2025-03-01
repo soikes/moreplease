@@ -82,7 +82,7 @@ func (h Handler) Apply(next http.Handler) http.Handler {
 		// Referer
 		mr.Referer = r.Header.Get(`Referer`)
 
-		// Request without port
+		// Host without port
 		if host, _, err := net.SplitHostPort(r.Host); err == nil {
 			mr.Host = host
 		}

@@ -10,7 +10,7 @@ import (
 	"github.com/soikes/moreplease/etc"
 	"github.com/soikes/moreplease/pkg/assets"
 	"github.com/soikes/moreplease/pkg/config"
-	"github.com/soikes/moreplease/pkg/metrics"
+	"github.com/soikes/moreplease/pkg/goatcounter"
 	"github.com/soikes/moreplease/pkg/search"
 	"github.com/soikes/moreplease/pkg/web"
 	"github.com/soikes/moreplease/pkg/web/mux/subdomain"
@@ -80,19 +80,30 @@ func main() {
 	subcfg.Subrouter("", baseHandler.NewMux())
 	subcfg.Subrouter("sql", sqlHandler.NewMux())
 
-	// Setup metrics collection
-	mstore, err := metrics.NewStorage(cfg.Metrics.Store)
-	if err != nil {
-		panic(err)
+	// Setup metrics collection: See below, using GoatCounter for now.
+	// mstore, err := metrics.NewStorage(cfg.Metrics.Store)
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// err = mstore.InitSchema()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// mh := metrics.NewHandler(mstore)
+
+	ep, ok := os.LookupEnv(`goatcounter_endpoint`)
+	if !ok {
+		panic(`goatcounter_endpoint unset`)
 	}
-	err = mstore.InitSchema()
-	if err != nil {
-		panic(err)
+	tkn, ok := os.LookupEnv(`goatcounter_token`)
+	if !ok {
+		panic(`goatcounter_token unset`)
 	}
-	mh := metrics.NewHandler(mstore)
+	// Use GoatCounter metrics for now.
+	goatcfg := goatcounter.NewConfig(ep, tkn)
 
 	// Apply all middlewares
-	h := limiter.Apply(mh.Apply(sec.Apply(subcfg.NewMux())))
+	h := limiter.Apply(goatcfg.Apply(sec.Apply(subcfg.NewMux())))
 	srv.Handler = h
 
 	log.Printf("*.%s listening...\n", srv.Addr)

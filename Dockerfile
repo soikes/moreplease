@@ -9,6 +9,7 @@ COPY . .
 RUN go build -v -o /moreplease .
 
 FROM debian:bookworm
+RUN apt update && apt install -y ca-certificates
 RUN mkdir -p etc
 COPY config/prod.json /usr/local/etc/moreplease-config.json
 

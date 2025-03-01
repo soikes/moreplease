@@ -7,3 +7,4 @@
 **/assets/*.html
 **/assets/*.css
 **/*_templ.go
+.env
