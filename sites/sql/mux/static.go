@@ -51,6 +51,11 @@ func (h *FSHandler) htmlSchemaAsset(w http.ResponseWriter, r *http.Request) {
 	http.ServeFileFS(w, r, h.fs, asset)
 }
 
+// robots returns the site robots.txt from assets.
+func (h *FSHandler) robots(w http.ResponseWriter, r *http.Request) {
+	http.ServeFileFS(w, r, h.fs, `robots.txt`)
+}
+
 type StaticMux struct {
 	IndexStorage search.IndexStorage
 }
@@ -68,6 +73,7 @@ func (m *StaticMux) NewMux() *http.ServeMux {
 	mux.HandleFunc("GET /assets/{asset}", f.asset)
 	mux.HandleFunc("GET /tables/{topic}", f.htmlSchemaAsset)
 	mux.HandleFunc("GET /{topic}", f.htmlAsset)
+	mux.HandleFunc("GET /robots.txt", f.robots)
 	mux.HandleFunc("GET /{$}", f.htmlAsset) // index.html
 	return mux
 }

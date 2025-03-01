@@ -40,6 +40,11 @@ func (h *FSHandler) htmlAsset(w http.ResponseWriter, r *http.Request) {
 	http.ServeFileFS(w, r, h.fs, asset)
 }
 
+// robots returns the site robots.txt from assets.
+func (h *FSHandler) robots(w http.ResponseWriter, r *http.Request) {
+	http.ServeFileFS(w, r, h.fs, `robots.txt`)
+}
+
 type StaticMux struct {
 	IndexStorage search.IndexStorage // TODO: Need to amalgamate all indexed content into one here...
 }
@@ -56,6 +61,7 @@ func (m *StaticMux) NewMux() *http.ServeMux {
 	f := NewFSHandler()
 	mux.HandleFunc("GET /assets/{asset}", f.asset)
 	mux.HandleFunc("GET /{topic}", f.htmlAsset)
+	mux.HandleFunc("GET /robots.txt", f.robots)
 	mux.HandleFunc("GET /{$}", f.htmlAsset) // index.html
 	return mux
 }
