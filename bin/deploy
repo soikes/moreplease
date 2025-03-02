@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+
+bin/nabu prebuildProd && fly deploy

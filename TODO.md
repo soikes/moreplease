@@ -31,6 +31,10 @@
 
 - [ ] Add caching headers / Etag for assets
 
+  - [ ] CSS
+  - [ ] JS
+  - [ ] Images
+
 - [x] Add privacy-respecting analytics (integrated with Go?) to get simple site statistics
 
 - [x] Make an in-memory cache for the embedded assets
@@ -39,13 +43,13 @@
 
 - [x] Remove Run and Reset buttons if JS is disabled
 
-- [ ] Add thumbs down to "Bare column" example and search for other "counter-examples"
+- [x] Add thumbs down to "Bare column" example and search for other "counter-examples" DONE WONTFIX
 
-  - [ ] Correlated subqueries
+  - [x] Correlated subqueries
 
 - [x] Minify and bundle all js dependencies (alpine, prism)
 
-- [ ] Prepare JS build for prod
+- [x] Prepare JS build for prod
   - Remove source maps
   - Other build configs
 - [x] Prepare Go build for prod
@@ -54,7 +58,7 @@
 
 - [x] Long tables run off the page in the schema
 
-- [ ] robots.txt
+- [x] robots.txt
 
   - for search crawlers
   - ban llm crawlers
@@ -77,6 +81,10 @@
 - [ ] Tab inside text editor
 
 - [ ] Convert all dates in schemas to relative dates e.g. date('now()', '-22 days', ...)
+
+- [ ] Custom 404 page
+
+- [ ] Mobile responsive topic pages that resize the code editor properly
 
 # BUGS
 

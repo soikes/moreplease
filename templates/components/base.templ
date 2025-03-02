@@ -10,6 +10,11 @@ templ (b *Base) Component(hashedImports ...templ.Component) {
 		<head>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta name="description" content="A collection of topics designed to be a simple, readable resource for learning technology by example. Learn SQL, Git and more."/>
+			<meta property="og:title" content="More { } Please"/>
+			<meta property="og:description" content="A collection of topics designed to be a simple, readable resource for learning technology by example. Learn SQL, Git and more."/>
+			<meta property="og:image" content="https://moreplease.dev/assets/logo.svg"/>
+			<meta property="og:url" content="https://moreplease.dev"/>
 			<meta name="htmx-config" content='{ "includeIndicatorStyles": false }'/>
 			// <meta http-equiv="Content-Security-Policy" content={ web.CSPString(false) }/>
 			@templ.Join(hashedImports...)
