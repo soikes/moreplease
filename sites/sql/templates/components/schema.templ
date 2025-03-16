@@ -51,7 +51,7 @@ templ (s *Schema) StandaloneSchema() {
 }
 
 templ innerSchema(cfg db.Config, tables ...string) {
-	<div class="content content__horizontal">
+	<div class="padded-v content content__horizontal">
 		for _, table := range tables {
 			<div class="tile">
 				<h3 class="heading--small">

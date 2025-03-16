@@ -37,7 +37,7 @@ templ (t Where) TopicView() {
 	}}
 	@sqlc.Topic{Page: t.Page}.Component() {
 		@schema.Component()
-		<div class="content__two-column">
+		<article class="content content__inner" data-fade-in>
 			<div>
 				<p>
 					A 
@@ -168,7 +168,7 @@ templ (t Where) TopicView() {
 				</p>
 			</div>
 			@e.Run("where_and.sql")
-		</div>
+		</article>
 	}
 }
 

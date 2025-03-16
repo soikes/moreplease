@@ -37,7 +37,7 @@ templ (t DataTypes) TopicView() {
 	}}
 	@sqlc.Topic{Page: t.Page}.Component() {
 		@schema.Component()
-		<div class="content__two-column">
+		<div class="content content__inner">
 			<div>
 				<p>
 					Relational databases typically require you to define which type of data you would like to store in each column. This is done at the time of table creation.

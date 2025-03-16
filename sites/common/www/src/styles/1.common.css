@@ -92,17 +92,53 @@
         cursor: pointer;
     }
 
-    .content {
+    .centered--narrow {
         display: flex;
-        flex-direction: column;
-        align-items: start;
-        row-gap: calc(var(--baseline-gap) * 2);
+        justify-content: center;
     }
 
-    .centered {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    @media screen and (min-width: 64rem) {
+        .centered {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    .container {
+        > *:first-child {
+            margin-top: calc(var(--baseline-gap) * 2);
+        }
+        > * {
+            margin-bottom: calc(var(--baseline-gap) * 2);
+        }
+    }
+
+    .content {
+        /* Sort of a hack. Don't want to add "content" class to every div in topics. */
+        p + p {
+            margin-top: calc(var(--baseline-gap) * 2);
+        }
+    }
+
+    @media screen and (max-width: 60rem) {
+        .content__inner {
+            > * {
+                margin-bottom: calc(var(--baseline-gap) * 2);
+            }
+
+            > *:nth-child(2n) {
+                margin-bottom: calc(var(--baseline-gap) * 8);
+            }
+        }
+    }
+
+    @media screen and (min-width: 64rem) {
+        .content__inner {
+            display: grid;
+            grid-template-columns: 30rem minmax(30rem, auto);
+            row-gap: calc(var(--baseline-gap) * 8);
+            column-gap: calc(var(--baseline-gap) * 4);
+        }
     }
 
     .content--tight {
@@ -113,7 +149,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
-        column-gap: calc(var(--baseline-gap) * 2);
+        gap: calc(var(--baseline-gap) * 2);
     }
 
     .content__horizontal--tight {
@@ -122,21 +158,6 @@
 
     .content__horizontal--nospace {
         column-gap: 0;
-    }
-
-    .content__two-column {
-        display: grid;
-        grid-template-columns: repeat(
-            auto-fit,
-            minmax(var(--content-width-text), 1fr)
-        );
-        row-gap: calc(var(--baseline-gap) * 8);
-        column-gap: calc(var(--baseline-gap) * 4);
-
-        /* Sort of a hack. Don't want to add "content" class to every div in topics. */
-        p + p {
-            margin-top: calc(var(--baseline-gap) * 2);
-        }
     }
 
     .content--narrow {
@@ -165,6 +186,10 @@
             color: lightgrey;
             filter: grayscale(100%) opacity(50%);
         }
+    }
+
+    .example {
+        display: inline-block;
     }
 
     .nav {
@@ -223,7 +248,7 @@
     }
 
     .logo__margin-bottom {
-        margin-bottom: calc(var(--baseline-gap));
+        margin-bottom: calc(var(--baseline-gap) * 2);
     }
 
     .logo--width-full {
@@ -243,11 +268,18 @@
     }
 
     .padded {
-        padding: clamp(
-            var(--baseline-gap),
-            10vw,
-            calc(var(--baseline-gap) * 4)
-        );
+        padding: var(--baseline-gap);
+    }
+
+    @media screen and (min-width: 64rem) {
+        .padded {
+            padding: calc(var(--baseline-gap) * 2);
+        }
+    }
+
+    .padded-v {
+        padding-top: var(--baseline-gap);
+        padding-bottom: var(--baseline-gap);
     }
 
     .schema__toggle summary::after {
@@ -284,6 +316,10 @@
         padding: var(--baseline-gap);
         background-color: var(--color-secondary-light);
         box-shadow: var(--drop-shadow-tile);
+    }
+
+    .overflow-x {
+        overflow-x: visible;
     }
 
     .coffee {

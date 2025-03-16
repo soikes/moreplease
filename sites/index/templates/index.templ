@@ -46,8 +46,8 @@ templ (t Index) View() {
 }
 
 templ inner(address string) {
-	<div class="centered padded">
-		<div class="content content--narrow">
+	<div class="centered--narrow padded">
+		<div class="container content content--narrow">
 			<img class="logo--width-full logo__margin-bottom" src="/assets/logo.svg" alt="More { } Please Logo"/>
 			<p>
 				<i>More { fmt.Sprintf("{ }") } Please</i> is a collection of topics designed to be a simple, readable resource for learning technology by example.
@@ -71,16 +71,19 @@ templ inner(address string) {
 				</span>. Your support is used to maintain the site and add new content. Thanks for checking out <i>More { fmt.Sprintf("{ }") } Please</i>.
 			</p>
 			@c.Search("Search all topics")
-			<nav id="topics" class="content centered">
-				<a class="content content--tight no-underline logo--width-75" href={ templ.SafeURL(mustApplySubdomain(address, "sql")) }>
-					<img src="/assets/logo-sql.svg" alt="More SQL Please Logo"/>
-					<div><p class="nav nav__footer">Examples of the SQL language and related database concepts.</p></div>
-				</a>
-				<a class="content content--tight no-underline logo--width-75 disabled" href={ templ.SafeURL(mustApplySubdomain(address, "git")) }>
-					<img src="/assets/logo-git.svg" alt="More Git Please Logo"/>
-					<div><p class="nav nav__footer">Examples of the Git source control system.</p></div>
-				</a>
-			</nav>
+			<div class="centered">
+				<nav id="topics" class="content">
+					<a class="content--tight no-underline logo--width-75" href={ templ.SafeURL(mustApplySubdomain(address, "sql")) }>
+						<img src="/assets/logo-sql.svg" alt="More SQL Please Logo"/>
+						<div><p class="nav nav__footer">Examples of the SQL language and related database concepts.</p></div>
+					</a>
+					<a class="content--tight no-underline logo--width-75 disabled">
+						// href={ templ.SafeURL(mustApplySubdomain(address, "git")) }
+						<img src="/assets/logo-git.svg" alt="More Git Please Logo"/>
+						<div><p class="nav nav__footer">[Coming Soon] Examples of the Git source control system.</p></div>
+					</a>
+				</nav>
+			</div>
 			@c.Footer()
 		</div>
 	</div>

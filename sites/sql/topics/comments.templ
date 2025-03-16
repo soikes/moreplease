@@ -43,7 +43,7 @@ templ (t Comments) TopicView() {
 	}}
 	@sqlc.Topic{Page: t.Page}.Component() {
 		@schema.Component()
-		<div class="content__two-column">
+		<div class="content content__inner">
 			<div>
 				<p>
 					Comments can be added to SQL and will not be evaluated as part of the statement. To add a single line comment, prefix the line with two dashes. 

@@ -35,7 +35,6 @@ const (
 	SubqueriesPage             model.PageID = `subqueries`
 	TemporaryTablesPage        model.PageID = `temporary_tables`
 	ViewsPage                  model.PageID = `views`
-	MaterializedViewsPage      model.PageID = `materialized_views`
 	TransactionsPage           model.PageID = `transactions`
 	WindowFunctionsPage        model.PageID = `window_functions`
 	RankFunctionsPage          model.PageID = `rank_functions`
@@ -110,7 +109,6 @@ var MSP = model.NewSite(
 			Pages: []model.Page{
 				model.NewPage(TemporaryTablesPage, "Temporary Tables"),
 				model.NewPage(ViewsPage, "Views"),
-				model.NewPage(MaterializedViewsPage, "Materialized Views"),
 				model.NewPage(TransactionsPage, "Transactions"),
 				model.NewPage(RecursiveQueriesPage, "Recursive Queries"),
 			},

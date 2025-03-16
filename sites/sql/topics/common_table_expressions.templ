@@ -37,7 +37,7 @@ templ (t CommonTableExpressions) TopicView() {
 	}}
 	@sqlc.Topic{Page: t.Page}.Component() {
 		@schema.Component()
-		<div class="content__two-column">
+		<div class="content content__inner">
 			<div>
 				<p>
 					Sometimes it can be useful to construct a particular set of data at the beginning of your SQL statement. Common Table Expressions, or CTEs, allow you to define a temporary table using a 
