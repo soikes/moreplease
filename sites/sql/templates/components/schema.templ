@@ -53,12 +53,14 @@ templ (s *Schema) StandaloneSchema() {
 templ innerSchema(cfg db.Config, tables ...string) {
 	<div class="padded-v content content__horizontal">
 		for _, table := range tables {
-			<div class="tile">
-				<h3 class="heading--small">
-					{ table }
-				</h3>
-				<div class="table result">
-					{ cfg.MustQueryFile(ctx, fmt.Sprintf("schema/dump_%s.sql", table)) }
+			<div class="example-container tile">
+				<div class="example">
+					<h3 class="heading--small">
+						{ table }
+					</h3>
+					<div class="table result">
+						{ cfg.MustQueryFile(ctx, fmt.Sprintf("schema/dump_%s.sql", table)) }
+					</div>
 				</div>
 			</div>
 		}

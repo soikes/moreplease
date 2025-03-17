@@ -97,7 +97,7 @@
         justify-content: center;
     }
 
-    @media screen and (min-width: 64rem) {
+    @media screen and (min-width: 60rem) {
         .centered {
             display: flex;
             justify-content: center;
@@ -132,10 +132,10 @@
         }
     }
 
-    @media screen and (min-width: 64rem) {
+    @media screen and (min-width: 60rem) {
         .content__inner {
             display: grid;
-            grid-template-columns: 30rem minmax(30rem, auto);
+            grid-template-columns: 30rem auto;
             row-gap: calc(var(--baseline-gap) * 8);
             column-gap: calc(var(--baseline-gap) * 4);
         }
@@ -172,6 +172,7 @@
         pointer-events: none;
         cursor: default;
         color: lightgrey;
+        text-decoration: none;
     }
 
     .disabled {
@@ -188,33 +189,55 @@
         }
     }
 
+    .example-container {
+        max-width: 100vw;
+        overflow-x: auto;
+        height: fit-content;
+    }
+
     .example {
         display: inline-block;
+        width: 100%;
     }
 
     .nav {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
         color: gray;
         font-family: "DM Mono";
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        row-gap: 1rem;
     }
 
-    .nav__footer {
-        > * {
-            flex-grow: 1;
+    @media screen and (min-width: 60rem) {
+        .nav {
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            width: 100%;
         }
 
-        > *:first-child {
-            text-align: start;
-        }
+        .nav__footer {
+            > *:not(:last-child)::after {
+                border-right: 1px solid black;
+            }
 
-        > *:not(:first-child):not(:last-child) {
-            text-align: center;
-        }
+            > * {
+                flex-grow: 1;
+            }
 
-        > *:last-child {
-            text-align: end;
+            > *:first-child {
+                text-align: start;
+            }
+
+            > *:not(:first-child):not(:last-child) {
+                text-align: center;
+            }
+
+            > *:last-child {
+                text-align: end;
+            }
         }
     }
 

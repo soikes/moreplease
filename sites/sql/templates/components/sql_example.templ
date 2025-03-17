@@ -10,42 +10,44 @@ type Example struct {
 }
 
 templ (e *Example) Run(path string) {
-	<div class="example sticky-container">
-		<div class="tile sticky">
-			{{
+	<div class="sticky-container">
+		<div class="example-container tile sticky">
+			<div class="example">
+				{{
 				stmt := e.Config.MustReadFile(path)
 				schema := e.Config.MustReadFile(e.Config.SchemaPath)
 				result := e.Config.MustQueryFile(ctx, path)
-			}}
-			<sql-example data-schema={ schema } data-stmt={ stmt }>
-				<div class="stmt">
-					<textarea
-						spellcheck="false"
-						autocorrect="off"
-						autocapitalize="off"
-						placeholder="Enter a SQL statement"
-						data-js-required
-					></textarea>
-					<pre>
-						<code class={ model.LanguageSQL.CSSClass() }>
-							{ stmt }
-						</code>
-					</pre>
-				</div>
-				<div class="content__horizontal content__horizontal--tight">
-					<button id="run" class="run" data-js-required>
-						<img src="/assets/run.svg" alt="Run"/>
-						run
-					</button>
-					<button id="reset" class="run" data-js-required>
-						<img src="/assets/reset.svg" alt="Reset"/>
-						reset
-					</button>
-				</div>
-				<div id="result" class="result">
-					{ result }
-				</div>
-			</sql-example>
+				}}
+				<sql-example data-schema={ schema } data-stmt={ stmt }>
+					<div class="stmt">
+						<textarea
+							spellcheck="false"
+							autocorrect="off"
+							autocapitalize="off"
+							placeholder="Enter a SQL statement"
+							data-js-required
+						></textarea>
+						<pre>
+							<code class={ model.LanguageSQL.CSSClass() }>
+								{ stmt }
+							</code>
+						</pre>
+					</div>
+					<div class="content__horizontal content__horizontal--tight">
+						<button id="run" class="run" data-js-required>
+							<img src="/assets/run.svg" alt="Run"/>
+							run
+						</button>
+						<button id="reset" class="run" data-js-required>
+							<img src="/assets/reset.svg" alt="Reset"/>
+							reset
+						</button>
+					</div>
+					<div id="result" class="result">
+						{ result }
+					</div>
+				</sql-example>
+			</div>
 		</div>
 	</div>
 }

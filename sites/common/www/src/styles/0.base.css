@@ -36,9 +36,13 @@
         padding-left: var(--bullet-padding, 1.1em);
     }
 
-    /* Better line heights */
+    /* Better line heights, and don't adjust text size because we are responsive already. */
     html {
         line-height: 1.4;
+        text-size-adjust: none;
+        -webkit-text-size-adjust: none;
+        -moz-text-size-adjust: none;
+        -ms-text-size-adjust: none;
     }
 
     h1,

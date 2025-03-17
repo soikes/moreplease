@@ -2,6 +2,9 @@ sql-example {
     pre {
         /* TODO: Needed because the code syntax highlighter renders <pre> tags with no class by default. */
         margin-top: 0;
+
+        -webkit-text-size-adjust: none;
+        text-size-adjust: none;
     }
 
     pre code {
@@ -22,6 +25,8 @@ sql-example {
 
         font-family: "DM Mono", monospace;
         font-size: 1rem;
+        -webkit-text-size-adjust: none;
+        text-size-adjust: none;
         text-align: left;
         white-space: pre;
         word-break: normal;
@@ -44,6 +49,10 @@ sql-example {
         border-radius: 0.5rem;
         padding: 1rem;
         grid-area: 1 / 1 / 2 / 2;
+    }
+
+    .stmt > pre {
+        background-color: white;
     }
 
     .stmt {
@@ -102,8 +111,11 @@ sql-example {
 
 .result,
 #schema .table {
+    display: inline-block;
     font-family: "DM Mono", monospace;
     font-size: 0.9rem;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
     text-align: left;
     white-space: pre;
     word-break: normal;
