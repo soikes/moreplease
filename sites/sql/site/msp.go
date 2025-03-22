@@ -109,15 +109,15 @@ var MSP = model.NewSite(
 			Pages: []model.Page{
 				model.NewPage(TemporaryTablesPage, "Temporary Tables"),
 				model.NewPage(ViewsPage, "Views"),
-				model.NewPage(TransactionsPage, "Transactions"),
+				model.NewPage(WindowFunctionsPage, "Window Functions", model.Enable()),
+				model.NewPage(RankFunctionsPage, "Rank Functions"),
 				model.NewPage(RecursiveQueriesPage, "Recursive Queries"),
 			},
 		},
 		{
 			Title: "Advanced Features",
 			Pages: []model.Page{
-				model.NewPage(WindowFunctionsPage, "Window Functions"),
-				model.NewPage(RankFunctionsPage, "Rank Functions"),
+				model.NewPage(TransactionsPage, "Transactions"),
 				model.NewPage(StoredProceduresPage, "Stored Procedures"),
 				model.NewPage(TriggersPage, "Triggers"),
 				model.NewPage(PerformanceAndExplainPage, "Performance and EXPLAIN"),

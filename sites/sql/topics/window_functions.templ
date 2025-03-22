@@ -1,0 +1,176 @@
+package topics
+
+import (
+	"github.com/soikes/moreplease/pkg/component"
+	"github.com/soikes/moreplease/pkg/db"
+	"github.com/soikes/moreplease/sites/sql/render"
+	"github.com/soikes/moreplease/sites/sql/site"
+	sqlc "github.com/soikes/moreplease/sites/sql/templates/components"
+	"github.com/soikes/moreplease/sites/sql/topics/statements"
+	c "github.com/soikes/moreplease/templates/components"
+)
+
+func init() {
+	p := site.MSP.Page(site.WindowFunctionsPage)
+	t := WindowFunctions{
+		Topic: sqlc.Topic{
+			Page: p,
+			Config: db.Config{
+				SQLFiles:   statements.MustSub(string(p.ID)),
+				SchemaPath: "schema/schema.sql",
+			},
+			TableNames: []string{"shows", "episodes"},
+		},
+	}
+	render.Registry.MustRegisterComponent(p.ID.Asset(), component.NoOptions(t.TopicView()))
+	render.Registry.MustRegisterComponent(p.ID.SchemaAsset(), component.NoOptions(t.SchemaView()))
+}
+
+type WindowFunctions struct {
+	sqlc.Topic
+}
+
+templ (t WindowFunctions) TopicView() {
+	{{
+		e := sqlc.Example{Config: t.Config}
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@sqlc.Topic{Page: t.Page}.Component() {
+		@schema.Component()
+		<div class="content content__inner">
+			<div>
+				<p>
+					Window functions are functions that can perform calculations on a set of rows related to the current row. Imagine that as your query processes each row, you have also defined a sliding "window" of rows that moves alongside it and can be fed into a function for processing.
+				</p>
+				<p>
+					Window functions are useful when you want to compare rows with nearby rows, calculate running totals, or compare/rank a row with a group it is in.
+				</p>
+				<p>
+					There are several types of window functions that can help you perform different calculations on these "windows" of data. One such type is aggregate window functions. These are just 
+					<span>
+						@c.Link(site.MSP.Page(site.AggregateFunctionsPage), "")
+					</span> that can accept a window of data instead of accepting an entire table or collapsing the data into groups using 
+					<span>
+						@c.InlineSQL("GROUP BY")
+					</span>. This allows you to display row data alongside aggregated data.
+				</p>
+				<p>
+					This topic uses a set of popular television shows and some of their episodes. In this example use the aggregate function 
+					<span>
+						@c.InlineSQL("avg()")
+					</span> to calculate the average rating of a show based on its episodes and compare them side by side in a single query.
+				</p>
+				<p>
+					Window functions require you to use the 
+					<span>
+						@c.InlineSQL("OVER")
+					</span> clause after the function call. This clause tells the window function how you want to create the window that it uses.
+				</p>
+				<p>
+					In the 
+					<span>
+						@c.InlineSQL("OVER")
+					</span> clause we use a clause called 
+					<span>
+						@c.InlineSQL("PARTITION BY")
+					</span> to indicate that we want to create a unique window of episodes for each show. This is similar to a 
+					<span>
+						@c.InlineSQL("GROUP BY")
+					</span> clause except we aren't actually collapsing the data into groups.
+				</p>
+				<p>
+					To reiterate, in this query the "window" is defined to be the <b>set of episodes that belong to a single show</b>. For each episode, the average 
+					<span>
+						@c.InlineSQL("show_rating")
+					</span> is calculated based on all the episodes of the show that episode belongs to.
+				</p>
+			</div>
+			@e.Run("window_function.sql")
+			<div>
+				<p>
+					Many window function operations can theoretically be implemented using conventional techniques such as 
+					<span>
+						@c.InlineSQL("JOIN")
+					</span>s or 
+					<span>
+						@c.Link(site.MSP.Page(site.SubqueriesPage), "")
+					</span>. However window functions often provide better performance, they are generally easier to read and they can solve more complex problems that are not possible with conventional techniques.
+				</p>
+				<p>
+					This example shows how we need to use 
+					<span>
+						@c.InlineSQL("JOIN")
+					</span>s, 
+					<span>
+						@c.InlineSQL("GROUP BY")
+					</span> and a subquery to replicate the result above.
+				</p>
+			</div>
+			@e.Run("window_function_subquery_alternative.sql")
+			<div>
+				<p>
+					Because window functions preserve data from the original row, you may find it useful to perform further computations using the window function result and the original row data. To use the results of a window function for further computation you can use 
+					<span>
+						@c.Link(site.MSP.Page(site.CommonTableExpressionsPage), "")
+					</span>.
+				</p>
+				<p>
+					In this example we use the 
+					<span>
+						@c.InlineSQL("show_rating")
+					</span> computation from above to calculate an "episode strength" score that compares the rating of the episode to the overall rating of the show to see how comparitively good the episode is.
+				</p>
+				<p>
+					This technique also allows us to order the rows based on our computed episode strength value so we can identify possibly outstanding episodes.
+				</p>
+			</div>
+			@e.Run("window_function_cte.sql")
+			<div>
+				<p>
+					Window functions are useful for calculating running totals across a set of data. A running total is a sum of all of the previous data so far as we iterate through the data.
+				</p>
+				<p>
+					In this example we find rolling totals based on episode air date for budgets as well as viewers in the drama genre. This is a small amount of data so the insights are not realistic but with more data we may be able to see trends emerge in the relationship between total amount of money spent on television episodes versus the total amount of people that have ended up watching the shows.
+				</p>
+				<p>
+					Rolling totals are typically calcluated using the 
+					<span>
+						@c.InlineSQL("sum()")
+					</span> aggregate function and a window that orders all of the data by a certain column. As the rows of data are processed, each new row with a budget and viewers adds to a running total that is captured in the 
+					<span>
+						@c.InlineSQL("cumulative_budget")
+					</span> and 
+					<span>
+						@c.InlineSQL("cumulative_viewers")
+					</span> columns.
+				</p>
+				<p>
+					Note that we don't need to use a 
+					<span>
+						@c.InlineSQL("PARTITION BY")
+					</span> clause here because we filtered our data to only include dramatic shows using our 
+					<span>
+						@c.InlineSQL("WHERE")
+					</span> clause. How would you change the query if you wanted to find rolling totals across all the different genres? A hint is that you would need to add a 
+					<span>
+						@c.InlineSQL("PARTITION BY")
+					</span> clause before the 
+					<span>
+						@c.InlineSQL("ORDER BY")
+					</span> clause inside the 
+					<span>
+						@c.InlineSQL("OVER")
+					</span> clause.
+				</p>
+			</div>
+			@e.Run("window_function_running_total.sql")
+		</div>
+	}
+}
+
+templ (t WindowFunctions) SchemaView() {
+	{{
+		schema := sqlc.Schema{Page: t.Page, Config: t.Config, TableNames: t.TableNames}
+	}}
+	@schema.StandaloneSchema()
+}
