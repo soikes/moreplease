@@ -84,7 +84,9 @@
 
 - [ ] Custom 404 page
 
-- [ ] Mobile responsive topic pages that resize the code editor properly
+- [x] Mobile responsive topic pages that resize the code editor properly
+
+- [ ] Enhance the bottom-of-page navigation to allow pages to be created out of order - in other words, keep looking through the site model pages and sections until we find a page that is enabled.
 
 # BUGS
 
