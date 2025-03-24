@@ -109,7 +109,7 @@ var MSP = model.NewSite(
 			Pages: []model.Page{
 				model.NewPage(TemporaryTablesPage, "Temporary Tables"),
 				model.NewPage(ViewsPage, "Views"),
-				model.NewPage(WindowFunctionsPage, "Window Functions", model.Enable()),
+				model.NewPage(WindowFunctionsPage, "Window Functions"),
 				model.NewPage(RankFunctionsPage, "Rank Functions"),
 				model.NewPage(RecursiveQueriesPage, "Recursive Queries"),
 			},
