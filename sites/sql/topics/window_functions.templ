@@ -40,10 +40,10 @@ templ (t WindowFunctions) TopicView() {
 		<div class="content content__inner">
 			<div>
 				<p>
-					Window functions are functions that can perform calculations on a set of rows related to the current row. Imagine that as your query processes each row, you have also defined a sliding "window" of rows that moves alongside it and can be fed into a function for processing.
-				</p>
-				<p>
-					Window functions are useful when you want to compare rows with nearby rows, calculate running totals, or compare/rank a row with a group it is in.
+					Window functions can perform calculations on a set of rows while maintaining individual row results. Think of a window function as similar to a 
+					<span>
+						@c.InlineSQL("GROUP BY")
+					</span> except instead of collapsing groups into a single row, each row is retained and you have a reference to the group, or <i>window</i>, alongside the row.
 				</p>
 				<p>
 					There are several types of window functions that can help you perform different calculations on these "windows" of data. One such type is aggregate window functions. These are just 
@@ -55,7 +55,7 @@ templ (t WindowFunctions) TopicView() {
 					</span>. This allows you to display row data alongside aggregated data.
 				</p>
 				<p>
-					This topic uses a set of popular television shows and some of their episodes. In this example use the aggregate function 
+					This topic uses a set of popular television shows and some of their episodes. In this example we use the aggregate function 
 					<span>
 						@c.InlineSQL("avg()")
 					</span> to calculate the average rating of a show based on its episodes and compare them side by side in a single query.
@@ -79,7 +79,7 @@ templ (t WindowFunctions) TopicView() {
 					</span> clause except we aren't actually collapsing the data into groups.
 				</p>
 				<p>
-					To reiterate, in this query the "window" is defined to be the <b>set of episodes that belong to a single show</b>. For each episode, the average 
+					To reiterate, in this query the <i>window</i> (or <i>partition</i>) is defined to be the <b>set of episodes that belong to a single show</b>. For each episode, the average 
 					<span>
 						@c.InlineSQL("show_rating")
 					</span> is calculated based on all the episodes of the show that episode belongs to.
@@ -133,7 +133,7 @@ templ (t WindowFunctions) TopicView() {
 					In this example we find rolling totals based on episode air date for budgets as well as viewers in the drama genre. This is a small amount of data so the insights are not realistic but with more data we may be able to see trends emerge in the relationship between total amount of money spent on television episodes versus the total amount of people that have ended up watching the shows.
 				</p>
 				<p>
-					Rolling totals are typically calcluated using the 
+					Rolling totals can be calcluated using the 
 					<span>
 						@c.InlineSQL("sum()")
 					</span> aggregate function and a window that orders all of the data by a certain column. As the rows of data are processed, each new row with a budget and viewers adds to a running total that is captured in the 
